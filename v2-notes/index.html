@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Renter V2 — SEO Regression Notes</title>
+<style>
+  :root {
+    --bg: #0b1020;
+    --panel: #131a30;
+    --panel-2: #182142;
+    --ink: #e7ecf5;
+    --muted: #9aa3b8;
+    --line: #232c4a;
+    --accent: #5b8cff;
+    --ok: #20c997;
+    --warn: #ffc107;
+    --bad: #ff5e6c;
+    --crit: #ff3b3b;
+    --code-bg: #0e1530;
+    --code-ink: #d4dcf5;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.55;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 32px 22px 80px; }
+  header.hero {
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 22px;
+    margin-bottom: 28px;
+  }
+  .eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 12px;
+    color: var(--muted);
+    font-weight: 600;
+  }
+  h1 { font-size: 30px; line-height: 1.2; margin: 6px 0 10px; }
+  h2 { font-size: 22px; margin: 36px 0 12px; padding-top: 8px; border-top: 1px solid var(--line); }
+  h2:first-of-type { border-top: 0; padding-top: 0; }
+  h3 { font-size: 17px; margin: 20px 0 8px; color: #cfd6ea; }
+  p, li { color: var(--ink); }
+  .meta { color: var(--muted); font-size: 14px; }
+  .meta strong { color: var(--ink); }
+
+  .grid-tldr {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+    margin: 18px 0 8px;
+  }
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 14px 16px;
+  }
+  .card .num { font-size: 26px; font-weight: 700; line-height: 1; }
+  .card .lbl { color: var(--muted); font-size: 13px; margin-top: 4px; }
+
+  .badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 3px 8px;
+    border-radius: 999px;
+    border: 1px solid transparent;
+    white-space: nowrap;
+  }
+  .badge.crit { background: rgba(255,59,59,0.12); color: #ff8888; border-color: rgba(255,59,59,0.5); }
+  .badge.bad  { background: rgba(255,94,108,0.12); color: #ff95a0; border-color: rgba(255,94,108,0.45); }
+  .badge.warn { background: rgba(255,193,7,0.12); color: #ffd766; border-color: rgba(255,193,7,0.4); }
+  .badge.ok   { background: rgba(32,201,151,0.12); color: #6be3bb; border-color: rgba(32,201,151,0.4); }
+  .badge.open { background: rgba(155,165,191,0.12); color: #b6bdd0; border-color: rgba(155,165,191,0.35); }
+
+  .callout {
+    border-left: 4px solid var(--crit);
+    background: rgba(255,59,59,0.06);
+    padding: 14px 16px;
+    border-radius: 6px;
+    margin: 14px 0 22px;
+  }
+  .callout.warn { border-left-color: var(--warn); background: rgba(255,193,7,0.06); }
+  .callout.info { border-left-color: var(--accent); background: rgba(91,140,255,0.07); }
+  .callout strong { color: #ff9a9a; }
+  .callout.warn strong { color: #ffd766; }
+  .callout.info strong { color: #9bbcff; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0 22px;
+    font-size: 14.5px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  th, td {
+    text-align: left;
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+  }
+  th { background: var(--panel-2); color: #cfd6ea; font-size: 13px; text-transform: uppercase; letter-spacing: 0.04em; }
+  tr:last-child td { border-bottom: 0; }
+  td.id { color: var(--muted); font-variant-numeric: tabular-nums; width: 36px; }
+  td.status { white-space: nowrap; }
+
+  pre, code {
+    font-family: "SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace;
+  }
+  pre {
+    background: var(--code-bg);
+    color: var(--code-ink);
+    border: 1px solid var(--line);
+    padding: 12px 14px;
+    border-radius: 8px;
+    overflow-x: auto;
+    font-size: 13.5px;
+    line-height: 1.5;
+  }
+  code {
+    background: rgba(91,140,255,0.10);
+    color: #cad6ff;
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-size: 13.5px;
+  }
+  pre code { background: transparent; padding: 0; color: inherit; font-size: inherit; }
+
+  ul, ol { padding-left: 22px; }
+  li { margin: 4px 0; }
+
+  .toc {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin: 18px 0 26px;
+  }
+  .toc ol { margin: 6px 0 0; padding-left: 22px; }
+  .toc li { margin: 3px 0; }
+
+  details {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin: 8px 0;
+  }
+  details summary { cursor: pointer; color: #cfd6ea; font-weight: 600; }
+  details[open] { background: var(--panel-2); }
+
+  footer.foot {
+    margin-top: 40px;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 13px;
+  }
+  .pillrow { display: flex; gap: 8px; flex-wrap: wrap; margin: 8px 0 0; }
+  .anchor { color: var(--muted); text-decoration: none; margin-left: 8px; font-weight: 400; }
+  h2:hover .anchor, h3:hover .anchor { color: var(--accent); }
+
+  @media (max-width: 640px) {
+    h1 { font-size: 24px; }
+    h2 { font-size: 19px; }
+    table { font-size: 13.5px; }
+    th, td { padding: 8px 9px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="hero">
+  <div class="eyebrow">Renter · Internal SEO Brief · For dev + stakeholders</div>
+  <h1>V2 Staging — SEO Regression Notes</h1>
+  <p class="meta">
+    Audit run: <strong>2026-05-06</strong> against <strong>https://v2-staging.renter.net/</strong> ·
+    Authored by <strong>Saiaf (SEO)</strong> ·
+    Compares V2 staging to the V1 punch list we have been tracking since January.
+  </p>
+  <div class="pillrow">
+    <span class="badge crit">Crawler exposure</span>
+    <span class="badge bad">Title/meta regression</span>
+    <span class="badge bad">No canonical / hreflang in HTML</span>
+    <span class="badge warn">Help / About pages missing</span>
+    <span class="badge ok">SSR + trailing slashes OK</span>
+  </div>
+</header>
+
+<div class="callout">
+  <strong>TL;DR.</strong> The V1 SEO work documented in
+  <a href="https://docs.google.com/document/d/1_VHd-kZxpz20El3dTINKBPoI6vi1hQDug6TMg-4VRhs/edit?usp=sharing" target="_blank" rel="noopener">
+    Renter — Needed From Dev Team (V1 punch list)
+  </a>
+  has not been ported to V2. Most line items we closed or partially closed in V1 are
+  not present in V2's server-rendered HTML. In addition, V2 staging is currently
+  <em>not blocked from search engines</em> and is sending hreflang HTTP headers that
+  actively advertise it to Google, which puts V1's existing rankings at risk. This
+  document is the consolidated checklist for the dev team to triage before any
+  production cut-over.
+</div>
+
+<div class="grid-tldr">
+  <div class="card"><div class="num">12</div><div class="lbl">V1 items regressed in V2</div></div>
+  <div class="card"><div class="num">5</div><div class="lbl">V1 items confirmed working in V2</div></div>
+  <div class="card"><div class="num">1</div><div class="lbl">Critical crawler-exposure issue</div></div>
+  <div class="card"><div class="num">6</div><div class="lbl">Legal/info pages missing (KSA blocker)</div></div>
+</div>
+
+<nav class="toc" aria-label="Contents">
+  <div class="eyebrow">Contents</div>
+  <ol>
+    <li><a href="#critical">1. Critical: V2 staging is crawlable</a></li>
+    <li><a href="#retest">2. V1 punch list — retest against V2</a></li>
+    <li><a href="#evidence">3. Evidence (what I checked and what I saw)</a></li>
+    <li><a href="#action">4. Action plan for dev (in priority order)</a></li>
+    <li><a href="#verify">5. How to verify each fix</a></li>
+    <li><a href="#appendix">Appendix A — Non-SEO issues spotted on V2</a></li>
+    <li><a href="#refs">References</a></li>
+  </ol>
+</nav>
+
+
+<h2 id="critical">1. Critical: V2 staging is crawlable <a href="#critical" class="anchor">#</a></h2>
+
+<p>
+  Before any other discussion, this needs to ship today. The Feb 5 staging
+  protection we agreed to is not in effect.
+</p>
+
+<table>
+  <thead><tr><th>Check</th><th>Expected</th><th>Actual on V2 today</th><th>Verdict</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><code>/robots.txt</code> body</td>
+      <td><code>User-agent: * / Disallow: /</code></td>
+      <td>Returns the Next.js SPA shell HTML</td>
+      <td><span class="badge crit">Critical</span></td>
+    </tr>
+    <tr>
+      <td><code>/robots.txt</code> Content-Type</td>
+      <td><code>text/plain</code></td>
+      <td><code>text/html; charset=utf-8</code></td>
+      <td><span class="badge crit">Critical</span></td>
+    </tr>
+    <tr>
+      <td><code>&lt;meta name="robots"&gt;</code> in HTML</td>
+      <td><code>noindex, nofollow</code></td>
+      <td>Missing on every page tested</td>
+      <td><span class="badge bad">Regressed</span></td>
+    </tr>
+    <tr>
+      <td><code>X-Robots-Tag</code> HTTP header</td>
+      <td><code>noindex, nofollow</code> (staging only)</td>
+      <td>Header not present</td>
+      <td><span class="badge bad">Missing</span></td>
+    </tr>
+    <tr>
+      <td><code>Link: rel="alternate" hreflang=…</code> HTTP header</td>
+      <td>Should not be sent on staging</td>
+      <td>Sent on every page, pointing to <code>v2-staging.renter.net</code> URLs</td>
+      <td><span class="badge crit">Active SEO leak</span></td>
+    </tr>
+    <tr>
+      <td>Basic auth or IP allowlist</td>
+      <td>Recommended for non-production</td>
+      <td>None</td>
+      <td><span class="badge warn">Recommended</span></td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="callout warn">
+  <strong>Why this is urgent.</strong> If Google crawls V2 staging before production cut-over,
+  it has two near-identical Renter sites to choose from. The hreflang headers being emitted
+  from staging tell Google these are the canonical international versions of this content,
+  which can cannibalise V1 rankings we have spent months building.
+</div>
+
+
+<h2 id="retest">2. V1 punch list — retest against V2 <a href="#retest" class="anchor">#</a></h2>
+
+<p class="meta">
+  Source of truth for V1 items:
+  <a href="https://docs.google.com/document/d/1_VHd-kZxpz20El3dTINKBPoI6vi1hQDug6TMg-4VRhs/edit?usp=sharing" target="_blank" rel="noopener">
+    "Renter — Needed From Dev Team" (Google Doc)
+  </a>.
+  Each row below maps to a step in that document.
+</p>
+
+<table>
+  <thead><tr><th class="id">#</th><th>V1 punch list item</th><th>V1 status</th><th>V2 status today</th><th class="status">Verdict</th></tr></thead>
+  <tbody>
+    <tr><td class="id">1</td>
+      <td>SSR with content/meta/canonical/hreflang/JSON-LD in initial HTML</td>
+      <td>Partial (prerender)</td>
+      <td>HTML <em>is</em> server-rendered, but the SEO tags inside it are missing or empty</td>
+      <td><span class="badge bad">Regressed</span></td></tr>
+    <tr><td class="id">2</td>
+      <td>Hreflang in server HTML (EN ↔ AR + x-default)</td>
+      <td>Partial</td>
+      <td>Zero <code>&lt;link rel="alternate" hreflang&gt;</code> tags in HTML head on any page tested</td>
+      <td><span class="badge bad">Regressed</span></td></tr>
+    <tr><td class="id">3</td>
+      <td>Self-referencing canonical in HTML head</td>
+      <td>Issue (DOM-only)</td>
+      <td>Zero <code>&lt;link rel="canonical"&gt;</code> tags on any page tested</td>
+      <td><span class="badge bad">Worse than V1</span></td></tr>
+    <tr><td class="id">4</td>
+      <td>Unique <code>&lt;title&gt;</code> per page</td>
+      <td>Pending content</td>
+      <td>Every page tested has identical <code>&lt;title&gt;Renter&lt;/title&gt;</code></td>
+      <td><span class="badge bad">Regressed</span></td></tr>
+    <tr><td class="id">—</td>
+      <td>Unique meta description per page</td>
+      <td>Implied by #1</td>
+      <td>Every page: <code>&lt;meta name="description" content="Renter Description"&gt;</code></td>
+      <td><span class="badge bad">Regressed</span></td></tr>
+    <tr><td class="id">7</td>
+      <td>XML sitemap with resolved URLs, lastmod, sensible priorities</td>
+      <td>Partial</td>
+      <td><code>/sitemap.xml</code> returns the SPA shell, not XML</td>
+      <td><span class="badge bad">Missing</span></td></tr>
+    <tr><td class="id">8</td>
+      <td>Noindex on internal/red pages</td>
+      <td>Done</td>
+      <td>No <code>&lt;meta name="robots"&gt;</code> output anywhere — cannot verify per-page</td>
+      <td><span class="badge open">Need to verify</span></td></tr>
+    <tr><td class="id">10</td>
+      <td>Trailing slash on URLs site-wide</td>
+      <td>Pending</td>
+      <td>Internal links and product URLs end with <code>/</code></td>
+      <td><span class="badge ok">Fixed</span></td></tr>
+    <tr><td class="id">11</td>
+      <td>301 redirects from old URLs to new</td>
+      <td>Pending</td>
+      <td>Cannot verify until cut-over plan exists</td>
+      <td><span class="badge open">Open</span></td></tr>
+    <tr><td class="id">12</td>
+      <td>Categories badge clickable on listing cards</td>
+      <td>Pending</td>
+      <td>Category cards are wrapped in <code>&lt;a&gt;</code> to category page</td>
+      <td><span class="badge ok">Fixed</span></td></tr>
+    <tr><td class="id">13</td>
+      <td>Admin/dev subdomain robots.txt + staging Disallow</td>
+      <td>Backend</td>
+      <td><code>/robots.txt</code> returns SPA HTML — staging is not Disallow-protected</td>
+      <td><span class="badge crit">Urgent regression</span></td></tr>
+    <tr><td class="id">14</td>
+      <td>Help section as <code>/help/</code> subtopic (not subdomain)</td>
+      <td>Saiaf working (V2)</td>
+      <td>Footer "FAQ" link → <code>/en/</code>. No <code>/help/</code> route. Prototype not integrated.</td>
+      <td><span class="badge bad">Not integrated</span></td></tr>
+    <tr><td class="id">15</td>
+      <td>Mobile font ≥ 16px</td>
+      <td>Done in V1</td>
+      <td>Cannot verify from HTML alone — needs CSS check</td>
+      <td><span class="badge open">Open</span></td></tr>
+    <tr><td class="id">16</td>
+      <td>Viewport without <code>maximum-scale</code></td>
+      <td>New</td>
+      <td><code>&lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;</code></td>
+      <td><span class="badge ok">Fixed</span></td></tr>
+    <tr><td class="id">17</td>
+      <td>Internal URLs end with <code>/</code></td>
+      <td>Pending</td>
+      <td>Internal links checked all end with <code>/</code></td>
+      <td><span class="badge ok">Fixed</span></td></tr>
+    <tr><td class="id">19</td>
+      <td>V2 staging robots.txt added (Feb 5 message)</td>
+      <td>Marked done</td>
+      <td>Not active — <code>/robots.txt</code> returns HTML</td>
+      <td><span class="badge crit">Regressed</span></td></tr>
+    <tr><td class="id">21</td>
+      <td>"اتصل لتأكيد السعر" / "Call to inquire about price" badge</td>
+      <td>Pending</td>
+      <td>Not implemented on the product page checked</td>
+      <td><span class="badge open">Open</span></td></tr>
+    <tr><td class="id">22</td>
+      <td>About Us in nav bar</td>
+      <td>Marked done in V1</td>
+      <td>Appears in footer but <code>href="/en/"</code> — broken. Not in nav.</td>
+      <td><span class="badge bad">Regressed</span></td></tr>
+    <tr><td class="id">23</td>
+      <td>Lost photos issue</td>
+      <td>Backend</td>
+      <td>Cannot verify on staging</td>
+      <td><span class="badge open">Open</span></td></tr>
+    <tr><td class="id">24</td>
+      <td>Page weight &lt; 3 MB</td>
+      <td>Marked done?</td>
+      <td>Homepage HTML alone is 589 KB; full page weight not yet measured</td>
+      <td><span class="badge warn">At risk</span></td></tr>
+    <tr><td class="id">25</td>
+      <td>One H1 per page = listing/page title</td>
+      <td>Pending</td>
+      <td>Zero <code>&lt;h1&gt;</code> tags in HTML on any page tested</td>
+      <td><span class="badge bad">Still missing</span></td></tr>
+    <tr><td class="id">26</td>
+      <td>Unique title + meta for listings</td>
+      <td>Pending content</td>
+      <td>All listings inherit the global <code>Renter</code> / <code>Renter Description</code></td>
+      <td><span class="badge bad">Regressed</span></td></tr>
+    <tr><td class="id">27</td>
+      <td>Standards for merchant listing images</td>
+      <td>Marked V2</td>
+      <td>No visible validation on staging</td>
+      <td><span class="badge open">Open</span></td></tr>
+    <tr><td class="id">28–30</td>
+      <td>Migration plan, Figma comments, backlinks sheet</td>
+      <td>Open</td>
+      <td>Out of scope of this audit</td>
+      <td><span class="badge open">Open</span></td></tr>
+  </tbody>
+</table>
+
+<p>
+  Roll-up: <strong>12 V1 items regressed or missing</strong>,
+  <strong>5 confirmed working in V2</strong>,
+  the rest open or unverifiable from outside the codebase.
+</p>
+
+
+<h2 id="evidence">3. Evidence — what I checked and what I saw <a href="#evidence" class="anchor">#</a></h2>
+
+<p class="meta">
+  All checks were run against the public staging site on 2026-05-06. Anyone on the team
+  can re-run them from their terminal.
+</p>
+
+<h3>3.1 SEO meta is empty on every page</h3>
+<p>I fetched the SSR HTML of <code>/en/</code>, <code>/ar/</code>, a product page, and a category page. All four returned:</p>
+<pre><code>&lt;title&gt;Renter&lt;/title&gt;
+&lt;meta name="description" content="Renter Description"&gt;
+&lt;!-- no &lt;link rel="canonical"&gt; --&gt;
+&lt;!-- no &lt;link rel="alternate" hreflang="..."&gt; --&gt;
+&lt;!-- no &lt;meta name="robots"&gt; --&gt;
+&lt;!-- no &lt;script type="application/ld+json"&gt; --&gt;
+&lt;!-- no &lt;h1&gt; tag anywhere in the document --&gt;</code></pre>
+
+<h3>3.2 robots.txt does not exist as a file</h3>
+<pre><code>$ curl -sI https://v2-staging.renter.net/robots.txt
+HTTP/2 200
+content-type: text/html; charset=utf-8
+x-powered-by: Next.js</code></pre>
+<p>
+  The route is being caught by the Next.js SPA fallback. The response body is the
+  homepage HTML, with the funny giveaway that <code>&lt;html lang="robots.txt"&gt;</code> —
+  the path is being passed in as the <code>lang</code> attribute. Same behaviour
+  for <code>/sitemap.xml</code>.
+</p>
+
+<h3>3.3 Hreflang HTTP headers are leaking staging URLs to Google</h3>
+<pre><code>$ curl -sI https://v2-staging.renter.net/en/ | grep -i '^link:'
+link: &lt;https://v2-staging.renter.net/en/&gt;; rel="alternate"; hreflang="en",
+      &lt;https://v2-staging.renter.net/ar/&gt;; rel="alternate"; hreflang="ar",
+      &lt;https://v2-staging.renter.net/&gt;;    rel="alternate"; hreflang="x-default"</code></pre>
+<p>
+  These headers should not be emitted on the staging hostname at all. They tell
+  search engines the staging URLs are valid international alternates of each other.
+</p>
+
+<h3>3.4 What V2 got right</h3>
+<ul>
+  <li><code>&lt;html lang&gt;</code> and <code>dir</code> are correct per locale (<code>en/ltr</code>, <code>ar/rtl</code>).</li>
+  <li>Viewport is set without <code>maximum-scale</code>.</li>
+  <li>Trailing slashes are consistent on internal links and product URLs.</li>
+  <li>Category cards are wrapped in <code>&lt;a&gt;</code> to category pages.</li>
+  <li>SSR is in place — the HTML is being rendered on the server, not by the client.</li>
+</ul>
+
+
+<h2 id="action">4. Action plan for dev (in priority order) <a href="#action" class="anchor">#</a></h2>
+
+<h3>P0 — Block staging from search engines (today)</h3>
+<p>Three small changes; ship all three.</p>
+
+<details open>
+  <summary>P0-1 · Real <code>robots.txt</code> in Next.js</summary>
+  <p>If you are on the App Router, create <code>app/robots.ts</code>:</p>
+<pre><code>import type { MetadataRoute } from 'next'
+
+export default function robots(): MetadataRoute.Robots {
+  return { rules: [{ userAgent: '*', disallow: '/' }] }
+}</code></pre>
+  <p>If on the Pages Router, drop <code>public/robots.txt</code>:</p>
+<pre><code>User-agent: *
+Disallow: /</code></pre>
+  <p>Either way, <code>curl -I /robots.txt</code> should return <code>Content-Type: text/plain</code>.</p>
+</details>
+
+<details open>
+  <summary>P0-2 · nginx <code>X-Robots-Tag</code> header on the staging host (belt-and-suspenders)</summary>
+<pre><code>server {
+  server_name v2-staging.renter.net;
+  ...
+  add_header X-Robots-Tag "noindex, nofollow, noarchive" always;
+}</code></pre>
+  <p>This protects every response — HTML, JSON, images — regardless of whether the app outputs the right meta tag.</p>
+</details>
+
+<details open>
+  <summary>P0-3 · Stop emitting <code>Link: rel="alternate" hreflang"</code> headers on staging</summary>
+  <p>Either gate header emission on environment in the app:</p>
+<pre><code>if (process.env.NEXT_PUBLIC_ENV === 'production') {
+  // emit hreflang Link headers
+}</code></pre>
+  <p>Or strip them at the edge for the staging host:</p>
+<pre><code>server {
+  server_name v2-staging.renter.net;
+  proxy_hide_header Link;
+}</code></pre>
+</details>
+
+<details>
+  <summary>P0-4 · Recommended: HTTP basic auth on staging (nginx)</summary>
+<pre><code>server {
+  server_name v2-staging.renter.net;
+  auth_basic "Renter Staging";
+  auth_basic_user_file /etc/nginx/.htpasswd-staging;
+}</code></pre>
+  <p>Best long-term protection — blocks crawlers, leaks, and casual visitors. Should be added regardless of the three steps above.</p>
+</details>
+
+<h3>P1 — Wire SEO metadata in the Next.js layout / per-route</h3>
+<p>
+  Each route needs unique <code>title</code>, <code>description</code>, <code>canonical</code>,
+  <code>alternate</code> (hreflang), and an <code>h1</code>. In App Router this is the
+  <code>generateMetadata()</code> function plus <code>&lt;h1&gt;</code> in the page component.
+</p>
+<pre><code>// app/[lang]/product/[id]/[slug]/page.tsx
+import type { Metadata } from 'next'
+
+export async function generateMetadata({ params }): Promise&lt;Metadata&gt; {
+  const product = await getProduct(params.id)
+  const path = `/product/${params.id}/${params.slug}/`
+
+  return {
+    title: `${product.name} — Renter`,
+    description: product.shortDescription.slice(0, 155),
+    alternates: {
+      canonical: `https://renter.net/${params.lang}${path}`,
+      languages: {
+        en: `https://renter.net/en${path}`,
+        ar: `https://renter.net/ar${path}`,
+        'x-default': `https://renter.net${path}`,
+      },
+    },
+    openGraph: {
+      title: `${product.name} — Renter`,
+      description: product.shortDescription.slice(0, 155),
+      images: [product.coverImage],
+      locale: params.lang,
+    },
+    robots: { index: true, follow: true },
+  }
+}</code></pre>
+
+<p>
+  Apply the same pattern to homepage, category pages, lessor profiles, and the
+  static info pages once they exist.
+</p>
+
+<h3>P2 — JSON-LD product schema</h3>
+<p>Inject <code>Product</code> + <code>Offer</code> + <code>AggregateRating</code> JSON-LD on each product page (server-rendered, not via client JS).</p>
+<pre><code>&lt;script type="application/ld+json"&gt;
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "Tool Kit",
+  "description": "...",
+  "image": "https://...",
+  "offers": {
+    "@type": "Offer",
+    "priceCurrency": "SAR",
+    "price": "100",
+    "availability": "https://schema.org/InStock"
+  }
+}
+&lt;/script&gt;</code></pre>
+
+<h3>P3 — Real <code>/sitemap.xml</code></h3>
+<p>App Router supports <code>app/sitemap.ts</code> exporting a function that returns the URL list. Should resolve dynamic listing IDs and include <code>lastModified</code> per URL.</p>
+
+<h3>P4 — Restore the legal/info pages and the Help section</h3>
+<ul>
+  <li>Build real routes (not <code>href="/en/"</code> placeholders) for: Contact Us, FAQ, About Us, Terms &amp; Conditions, Cancellation Policy, Privacy Policy.</li>
+  <li>Integrate the Help Center prototype Saiaf shipped on Feb 19 at <code>/help/</code>.</li>
+  <li>Add About Us and Help to the global nav (V1 step 22).</li>
+</ul>
+
+<h3>P5 — Single <code>&lt;h1&gt;</code> per page</h3>
+<p>Convention: <code>h1 = page/listing title</code>. One H1 per page across homepage, category, product, lessor, and info pages.</p>
+
+
+<h2 id="verify">5. How to verify each fix <a href="#verify" class="anchor">#</a></h2>
+
+<p>
+  Once dev says a fix is live, anyone on the team can run these from a terminal.
+  If the output doesn't match, the fix isn't actually live.
+</p>
+
+<h3>5.1 Crawler protection</h3>
+<pre><code># Should print: X-Robots-Tag: noindex, nofollow, noarchive
+curl -sI https://v2-staging.renter.net/en/ | grep -i x-robots-tag
+
+# Content-Type must be text/plain, body must be exactly the Disallow rule
+curl -sI https://v2-staging.renter.net/robots.txt | grep -i content-type
+curl -s  https://v2-staging.renter.net/robots.txt
+
+# Should print NOTHING (Link headers stripped on staging)
+curl -sI https://v2-staging.renter.net/en/ | grep -i '^link:'</code></pre>
+
+<h3>5.2 SEO metadata</h3>
+<pre><code># Each URL should return a different title and description
+for url in /en/ /ar/ /en/properties/ /en/product/2/tool-kit-adh-adwat/ ; do
+  echo "=== $url ==="
+  curl -s "https://v2-staging.renter.net$url" \
+    | grep -oE '&lt;(title|meta name="description"|link rel="canonical"|link rel="alternate")[^&gt;]*&gt;'
+done</code></pre>
+
+<h3>5.3 Structured data</h3>
+<p>Run <a href="https://search.google.com/test/rich-results" target="_blank" rel="noopener">Google Rich Results Test</a> on a staging product page. Should detect <code>Product</code> schema with no errors.</p>
+
+<h3>5.4 Indexing status</h3>
+<p>In Google Search Console, run URL Inspection on:</p>
+<ul>
+  <li><code>https://v2-staging.renter.net/en/</code> — should say "URL is not on Google" once P0 lands.</li>
+  <li>Production V1 URLs — confirm they remain indexed and are not being supplanted by staging URLs in SERPs.</li>
+</ul>
+
+
+<h2 id="appendix">Appendix A — Non-SEO issues spotted on V2 <a href="#appendix" class="anchor">#</a></h2>
+
+<p class="meta">
+  Out of scope for the SEO punch list, but flagged here so they are not lost. These
+  are observations from a 10-minute click-through of staging on 2026-05-06.
+</p>
+
+<h3>A.1 Pages that exist as links but not as pages (KSA legal/UX blocker)</h3>
+<p>Every footer link in <em>Info &amp; Support</em> currently points to <code>/en/</code>:</p>
+<ul>
+  <li>Contact Us</li>
+  <li>Frequently Asked Question</li>
+  <li>About Us</li>
+  <li>Terms and Conditions</li>
+  <li>Cancellation Policy</li>
+  <li>Privacy Policy</li>
+</ul>
+<p>For a Saudi marketplace these are not optional — Terms, Privacy, and Cancellation Policy are regulatory.</p>
+
+<h3>A.2 Test/dummy data is publicly visible</h3>
+<p>The "Popular" carousel on the homepage is rendering obvious test rows that should not ship to production:</p>
+<ul>
+  <li><code>Test</code></li>
+  <li><code>Shy</code></li>
+  <li><code>Test Prod Hourly Daily</code></li>
+  <li><code>Daily + Hourly QTY 1</code></li>
+  <li><code>NDB - Hourly &amp; Daily Only</code></li>
+  <li><code>Product For new Database Design</code></li>
+  <li><code>Kim-Case 17-New</code></li>
+  <li><code>Renter Test Post 2</code></li>
+  <li><code>NewDB Test product</code></li>
+  <li><code>case 8</code>, <code>Drop Off Product</code></li>
+</ul>
+<p>Several listings also have empty price values rendered as <code>/Day</code> with no number.</p>
+
+<h3>A.3 Reviews are placeholder copy from a different template</h3>
+<p>
+  The Tool Kit product page (<code>/en/product/2/tool-kit-adh-adwat/</code>) shows
+  four reviews, all from "Mohamad Adnan" dated 2025-10-05, all describing villas,
+  pools, and Riyadh stays. These appear to be lorem-ipsum review copy from a
+  property-rental template that was never replaced.
+</p>
+
+<h3>A.4 UI bugs and broken links</h3>
+<ul>
+  <li>Product page rating renders <code>4.9 [object Object]</code> — unrendered JS object exposed.</li>
+  <li>Product page map stuck on <em>"Loading map…"</em>.</li>
+  <li><strong>Show All</strong> link → <code>href="#"</code>.</li>
+  <li><strong>Show all reviews</strong> → <code>/en/my-reviews/</code> (the user's own reviews page, not the product reviews).</li>
+  <li>No global header / nav / search / login / signup visible.</li>
+  <li>No date picker on product pages — booking flow can't be exercised.</li>
+</ul>
+
+<h3>A.5 Bilingual data quality</h3>
+<p>Product names mix English and Arabic awkwardly inside a single string:</p>
+<ul>
+  <li><code>Tool kit عدة أدوات</code></li>
+  <li><code>Haam Electric ثلاجة</code></li>
+</ul>
+<p>Should be split into separate <code>name_en</code> / <code>name_ar</code> fields and rendered per locale.</p>
+
+<h3>A.6 Page weight</h3>
+<p>The homepage HTML response alone is <strong>589 KB</strong>. Full page weight (with assets) needs to be measured against the &lt; 3 MB target from V1.</p>
+
+
+<h2 id="refs">References <a href="#refs" class="anchor">#</a></h2>
+<ul>
+  <li>
+    V1 punch list (Google Doc):
+    <a href="https://docs.google.com/document/d/1_VHd-kZxpz20El3dTINKBPoI6vi1hQDug6TMg-4VRhs/edit?usp=sharing" target="_blank" rel="noopener">
+      Renter — Needed From Dev Team
+    </a>
+  </li>
+  <li>V2 staging site: <a href="https://v2-staging.renter.net/" target="_blank" rel="noopener">https://v2-staging.renter.net/</a></li>
+  <li>V1 production site: <a href="https://renter.net/" target="_blank" rel="noopener">https://renter.net/</a></li>
+  <li>Help Center prototype (Feb 19): <a href="https://saiaf25.github.io/TMD/renter-help-section/" target="_blank" rel="noopener">EN</a> · <a href="https://saiaf25.github.io/TMD/renter-help-section/ar/" target="_blank" rel="noopener">AR</a></li>
+  <li>Slack channel: <code>#renter-seo</code> (rentersoftware.slack.com)</li>
+  <li>Google Rich Results Test: <a href="https://search.google.com/test/rich-results" target="_blank" rel="noopener">search.google.com/test/rich-results</a></li>
+</ul>
+
+<footer class="foot">
+  Maintained by Saiaf · Open this page in any browser at
+  <code>https://tmdweb.github.io/renter-seo/v2-notes/</code> · Last audit: 2026-05-06.
+</footer>
+
+</div>
+</body>
+</html>
