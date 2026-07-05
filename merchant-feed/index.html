@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Renter · Dev Ticket · Google Merchant Center Product Feed</title>
+<style>
+  :root {
+    --bg: #efe9e2;
+    --surface: #ffffff;
+    --surface-soft: #f7f2eb;
+    --surface-muted: #f3ede5;
+    --border: rgba(25, 89, 84, 0.10);
+    --primary: #195954;
+    --primary-dark: #0f3835;
+    --secondary: #8b6030;
+    --secondary-dark: #6b4726;
+    --text: #233331;
+    --text-muted: #5f625d;
+    --white: #ffffff;
+    --crit: #b3261e;
+    --crit-soft: #fbe9e7;
+    --warn: #8a5a00;
+    --warn-soft: #fcf3e0;
+    --ok: #1f6b4a;
+    --ok-soft: #e6f4ec;
+    --shadow-lg: 0 24px 60px rgba(15, 56, 53, 0.12);
+    --shadow-md: 0 12px 30px rgba(15, 56, 53, 0.08);
+    --shadow-sm: 0 4px 14px rgba(15, 56, 53, 0.06);
+    --radius-xl: 30px;
+    --radius-lg: 22px;
+    --radius-md: 18px;
+    --radius-sm: 14px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, "Helvetica Neue", Arial, sans-serif;
+    background:
+      radial-gradient(circle at top right, rgba(139, 96, 48, 0.08), transparent 24%),
+      linear-gradient(180deg, #f5f1eb 0%, var(--bg) 100%);
+    padding: 40px 20px 60px;
+    color: var(--text);
+    line-height: 1.65;
+    font-size: 16px;
+  }
+  .container { max-width: 1040px; margin: 0 auto; }
+  a { color: var(--primary); text-decoration: none; border-bottom: 1px solid rgba(25,89,84,0.25); }
+  a:hover { color: var(--primary-dark); border-bottom-color: var(--primary); }
+
+  /* Document shell */
+  .doc {
+    background: var(--surface);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.65);
+    margin-bottom: 30px;
+  }
+
+  /* Header band */
+  .doc-header {
+    background:
+      radial-gradient(circle at top right, rgba(255, 255, 255, 0.10), transparent 28%),
+      linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    padding: 46px 50px 40px;
+    position: relative;
+    overflow: hidden;
+    color: var(--white);
+  }
+  .doc-header::before {
+    content: '';
+    position: absolute;
+    top: -80px; left: -80px;
+    width: 220px; height: 220px;
+    background: rgba(139, 96, 48, 0.16);
+    border-radius: 50%;
+  }
+  .doc-header::after {
+    content: '';
+    position: absolute;
+    bottom: -50px; right: -50px;
+    width: 160px; height: 160px;
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: 50%;
+  }
+  .doc-header-inner { position: relative; z-index: 1; }
+  .section-kicker {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 16px;
+    margin-bottom: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.86);
+    font-size: 0.82em;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .doc-title { color: var(--white); font-size: 2.1em; font-weight: 700; line-height: 1.3; }
+  .doc-subtitle {
+    color: rgba(255, 255, 255, 0.78);
+    font-size: 1em;
+    margin-top: 12px;
+    line-height: 1.7;
+    max-width: 760px;
+  }
+  .doc-subtitle strong { color: var(--white); font-weight: 700; }
+  .doc-subtitle code { background: rgba(255,255,255,0.12); color: var(--white); }
+
+  .pill-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 20px; }
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 0.78em;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    background: rgba(255, 255, 255, 0.12);
+    color: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+  }
+  .pill.ok { background: rgba(31, 107, 74, 0.45); border-color: rgba(255,255,255,0.3); }
+
+  /* Ticket meta strip */
+  .ticket-meta {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 0;
+    background: var(--surface-soft);
+    border-bottom: 1px solid var(--border);
+  }
+  .ticket-meta > div { padding: 16px 22px; border-right: 1px solid var(--border); }
+  .ticket-meta > div:last-child { border-right: 0; }
+  .ticket-meta .k {
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.72em;
+    color: var(--text-muted);
+    font-weight: 700;
+    margin-bottom: 2px;
+  }
+  .ticket-meta .v { font-weight: 700; color: var(--primary-dark); font-size: 0.95em; }
+
+  /* Body */
+  .doc-body { padding: 38px 50px 44px; }
+  .doc-section { margin-top: 36px; }
+  .doc-section:first-child { margin-top: 0; }
+  .doc-section + .doc-section { padding-top: 32px; border-top: 1px solid var(--border); }
+
+  h2 {
+    color: var(--primary);
+    font-size: 1.35em;
+    font-weight: 700;
+    margin-bottom: 14px;
+    line-height: 1.4;
+  }
+  h2 .anchor {
+    color: var(--text-muted);
+    text-decoration: none;
+    border: 0;
+    margin-left: 8px;
+    font-weight: 400;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+  }
+  h2:hover .anchor { opacity: 1; }
+  h3 {
+    color: var(--primary-dark);
+    font-size: 1.05em;
+    font-weight: 700;
+    margin-top: 22px;
+    margin-bottom: 8px;
+    line-height: 1.5;
+  }
+  p { color: var(--text); margin-bottom: 12px; }
+  p.muted, .muted { color: var(--text-muted); font-size: 0.94em; }
+  ul, ol { margin: 8px 0 14px 22px; }
+  li { color: var(--text); margin: 4px 0; }
+
+  /* Stats grid */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 16px;
+    margin: 22px 0 8px;
+  }
+  .stat-card {
+    background: linear-gradient(180deg, var(--surface-soft) 0%, #fcfaf7 100%);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 20px 22px;
+    border-top: 5px solid var(--secondary);
+  }
+  .stat-card.crit { border-top-color: var(--crit); }
+  .stat-card.ok { border-top-color: var(--ok); }
+  .stat-num { font-size: 2em; font-weight: 700; color: var(--primary-dark); line-height: 1; }
+  .stat-lbl { color: var(--text-muted); font-size: 0.9em; margin-top: 6px; }
+
+  /* Callout boxes */
+  .warning-box {
+    background: linear-gradient(135deg, #f8f1e8 0%, #fbf7f1 100%);
+    border: 1px solid rgba(107, 71, 38, 0.20);
+    border-left: 5px solid var(--secondary);
+    border-radius: var(--radius-md);
+    padding: 20px 24px;
+    margin: 16px 0 22px;
+  }
+  .warning-box h4 { color: var(--secondary-dark); font-weight: 700; font-size: 1em; margin-bottom: 6px; }
+  .warning-box p { color: var(--text); font-size: 0.96em; line-height: 1.75; margin-bottom: 0; }
+  .tip-box {
+    background: linear-gradient(135deg, #edf6f4 0%, #f6fbfa 100%);
+    border: 1px solid rgba(25, 89, 84, 0.18);
+    border-left: 5px solid var(--primary);
+    border-radius: var(--radius-md);
+    padding: 20px 24px;
+    margin: 16px 0 22px;
+  }
+  .tip-box h4 { color: var(--primary); font-weight: 700; font-size: 1em; margin-bottom: 6px; }
+  .tip-box p { color: var(--text); font-size: 0.96em; line-height: 1.75; margin-bottom: 0; }
+
+  /* Tables */
+  .table-wrap {
+    background: var(--surface-soft);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    margin: 16px 0 22px;
+  }
+  .table-wrap.scroll { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.93em; }
+  thead { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); }
+  thead th {
+    color: var(--white);
+    text-align: left;
+    padding: 12px 14px;
+    font-weight: 700;
+    font-size: 0.82em;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  tbody td {
+    padding: 11px 14px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+    color: var(--text);
+  }
+  tbody tr:nth-child(even) td { background: rgba(247, 242, 235, 0.5); }
+  tbody tr:last-child td { border-bottom: 0; }
+  td code, p code, li code { font-size: 0.88em; }
+  td .ar { direction: rtl; unicode-bidi: isolate; }
+
+  /* Status badges */
+  .badge {
+    display: inline-block;
+    font-size: 0.74em;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 4px 10px;
+    border-radius: 999px;
+    border: 1px solid transparent;
+    white-space: nowrap;
+  }
+  .badge.crit { background: var(--crit-soft); color: var(--crit); border-color: rgba(179, 38, 30, 0.25); }
+  .badge.warn { background: var(--warn-soft); color: var(--warn); border-color: rgba(138, 90, 0, 0.22); }
+  .badge.ok   { background: var(--ok-soft); color: var(--ok); border-color: rgba(31, 107, 74, 0.22); }
+  .badge.open { background: rgba(95, 98, 93, 0.10); color: var(--text-muted); border-color: rgba(95, 98, 93, 0.22); }
+
+  /* Code */
+  pre, code {
+    font-family: "SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace;
+  }
+  pre {
+    background: #0f3835;
+    color: #e8f4f1;
+    border: 1px solid var(--primary-dark);
+    padding: 16px 18px;
+    border-radius: var(--radius-md);
+    overflow-x: auto;
+    font-size: 0.86em;
+    line-height: 1.6;
+    margin: 10px 0 16px;
+    box-shadow: var(--shadow-sm);
+  }
+  code {
+    background: rgba(25, 89, 84, 0.08);
+    color: var(--primary-dark);
+    padding: 2px 7px;
+    border-radius: 6px;
+    font-size: 0.92em;
+  }
+  pre code { background: transparent; padding: 0; color: inherit; font-size: inherit; }
+
+  /* Acceptance checklist */
+  .ac-list { list-style: none; margin: 14px 0 6px; padding: 0; }
+  .ac-list li {
+    background: var(--surface-soft);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 13px 18px 13px 46px;
+    margin: 8px 0;
+    position: relative;
+    font-size: 0.96em;
+  }
+  .ac-list li::before {
+    content: '';
+    position: absolute;
+    left: 16px; top: 16px;
+    width: 16px; height: 16px;
+    border: 2px solid var(--primary);
+    border-radius: 5px;
+    background: var(--white);
+  }
+
+  /* Footer */
+  .doc-footer {
+    background:
+      linear-gradient(135deg, rgba(255, 255, 255, 0.06), transparent),
+      linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    padding: 22px 32px;
+    color: rgba(255, 255, 255, 0.92);
+    font-size: 0.92em;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    flex-wrap: wrap;
+  }
+  .doc-footer strong { color: #e2c8a3; }
+  .doc-footer .url-pill {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.82em;
+    padding: 8px 14px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.10);
+    font-family: "SFMono-Regular", Menlo, monospace;
+  }
+  .doc-footer a { color: var(--white); border-bottom-color: rgba(255,255,255,0.45); }
+
+  @media (max-width: 820px) {
+    body { padding: 24px 14px 48px; }
+    .doc-header { padding: 34px 24px 28px; }
+    .doc-title { font-size: 1.6em; }
+    .doc-body { padding: 26px 22px 30px; }
+    table { font-size: 0.82em; }
+    thead th, tbody td { padding: 9px 10px; }
+    .doc-footer { flex-direction: column; align-items: flex-start; }
+  }
+  @media (max-width: 560px) {
+    .stats-grid { grid-template-columns: 1fr; }
+    h2 { font-size: 1.18em; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="doc">
+    <div class="doc-header">
+      <div class="doc-header-inner">
+        <span class="section-kicker">Renter SEO · Dev Ticket</span>
+        <div class="doc-title">Google Merchant Center Product Feed</div>
+        <p class="doc-subtitle">
+          One new frontend route that renders an always-fresh XML product feed from the products API,
+          so every active Renter listing appears on <strong>Google Shopping</strong> automatically.
+          Same implementation pattern as the sitemap route that is already live.
+        </p>
+        <div class="pill-row">
+          <span class="pill">Ticket · SEO-FEED-01</span>
+          <span class="pill">Priority · High</span>
+          <span class="pill ok">Status · Ready for development</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="ticket-meta">
+      <div><div class="k">Assignee</div><div class="v">Paulo</div></div>
+      <div><div class="k">Reporter</div><div class="v">Saiaf (TMD)</div></div>
+      <div><div class="k">Created</div><div class="v">2026-07-05</div></div>
+      <div><div class="k">Target</div><div class="v">End of next week</div></div>
+      <div><div class="k">Repo</div><div class="v">renter-frontend-nextjs</div></div>
+    </div>
+
+    <div class="doc-body">
+
+      <div class="doc-section">
+        <h2 id="why">1. Why this ticket exists <a href="#why" class="anchor">#</a></h2>
+        <p>
+          We ran a manual test: a Merchant Center account with only <strong>10 products added by hand</strong>.
+          Result, without any ad spend:
+        </p>
+        <div class="stats-grid">
+          <div class="stat-card ok">
+            <div class="stat-num">79</div>
+            <div class="stat-lbl">Organic clicks from Google Shopping</div>
+          </div>
+          <div class="stat-card ok">
+            <div class="stat-num">7 / 10</div>
+            <div class="stat-lbl">Test products that received clicks</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">938</div>
+            <div class="stat-lbl">Active products live today (per sitemap)</div>
+          </div>
+        </div>
+        <p style="margin-top:14px;">
+          Scaling this to the full catalog needs a <strong>data feed</strong>, not manual entry. This is
+          separate from the XML sitemap: the sitemap tells Google which pages exist, the merchant feed
+          carries structured product data (price, availability, images) for Shopping listings, and later
+          enables paid Shopping campaigns.
+        </p>
+      </div>
+
+      <div class="doc-section">
+        <h2 id="approach">2. Approach <a href="#approach" class="anchor">#</a></h2>
+        <p>
+          Same pattern as the sitemap route: one new App Router route that renders XML straight from the
+          products API.
+        </p>
+        <pre><code>src/app/merchant-feed-ar.xml/route.ts   →   https://renter.net/merchant-feed-ar.xml</code></pre>
+        <ul>
+          <li>Include <strong>all active products</strong>, pulled live from the same data source the sitemap uses.</li>
+          <li>Regenerate automatically on a cache window: a <strong>1 to 6 hour</strong> revalidation (like the sitemap's 6-hour refresh) is fine.</li>
+          <li>Saiaf registers the URL in Merchant Center as a <strong>scheduled daily fetch</strong>. Products added or removed by lessors flow in and out automatically, no manual sync ever.</li>
+          <li>Start with <strong>one Arabic feed</strong> (content language <code>ar</code>, target country <code>SA</code>). An English feed can be added later as a second file.</li>
+        </ul>
+        <div class="tip-box">
+          <h4>Out of scope for this ticket (phase 2)</h4>
+          <p>
+            Real-time push updates via the Content API for Shopping. Not needed for launch, the daily
+            scheduled fetch plus the auto-regenerating feed is the standard setup.
+          </p>
+        </div>
+      </div>
+
+      <div class="doc-section">
+        <h2 id="spec">3. Spec: required fields per product <a href="#spec" class="anchor">#</a></h2>
+        <div class="table-wrap scroll">
+          <table>
+            <thead>
+              <tr><th style="width:220px;">Attribute</th><th>Value for Renter</th><th>Notes</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>g:id</code></td>
+                <td>Numeric product ID, e.g. <code>2213</code></td>
+                <td>Must be stable, never reused</td>
+              </tr>
+              <tr>
+                <td><code>g:title</code></td>
+                <td>Product name (AR)</td>
+                <td>Max 150 characters</td>
+              </tr>
+              <tr>
+                <td><code>g:description</code></td>
+                <td>Product description, plain text</td>
+                <td>Strip HTML</td>
+              </tr>
+              <tr>
+                <td><code>g:link</code></td>
+                <td><code>https://renter.net/ar/product/{id}/{slug}/</code></td>
+                <td><strong>Final URL with trailing slash</strong>, must return 200 directly, no redirect hop</td>
+              </tr>
+              <tr>
+                <td><code>g:image_link</code></td>
+                <td>Main product image URL</td>
+                <td>Min 250x250 px, no watermarks. Extra images via <code>g:additional_image_link</code>, up to 10, one tag each</td>
+              </tr>
+              <tr>
+                <td><code>g:availability</code></td>
+                <td><code>in_stock</code> / <code>out_of_stock</code></td>
+                <td>Drive from real product status</td>
+              </tr>
+              <tr>
+                <td><code>g:price</code></td>
+                <td>e.g. <code>150.00 SAR</code></td>
+                <td>Must match the price shown on the page. Mismatch is the #1 disapproval reason. If price varies by duration, use the base price visible on the landing page</td>
+              </tr>
+              <tr>
+                <td><code>g:condition</code></td>
+                <td><code>used</code></td>
+                <td>Rentals are generally "used", <code>new</code> only where truly new</td>
+              </tr>
+              <tr>
+                <td><code>g:identifier_exists</code></td>
+                <td><code>false</code></td>
+                <td>Rental items have no GTIN/MPN, this prevents disapprovals. <code>g:brand</code> optional when this is false</td>
+              </tr>
+              <tr>
+                <td><code>g:product_type</code></td>
+                <td>Renter category path, e.g. <span class="ar">أزياء وملابس &gt; فساتين</span></td>
+                <td>Helps Google classify the product</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="doc-section">
+        <h2 id="template">4. Feed template (RSS 2.0 with the Google namespace) <a href="#template" class="anchor">#</a></h2>
+        <pre><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;rss version="2.0" xmlns:g="http://base.google.com/ns/1.0"&gt;
+  &lt;channel&gt;
+    &lt;title&gt;Renter&lt;/title&gt;
+    &lt;link&gt;https://renter.net/ar/&lt;/link&gt;
+    &lt;description&gt;Renter product feed&lt;/description&gt;
+
+    &lt;item&gt;
+      &lt;g:id&gt;2213&lt;/g:id&gt;
+      &lt;g:title&gt;فستان ناعم&lt;/g:title&gt;
+      &lt;g:description&gt;فستان ناعم للإيجار، يلبس سمول، بحالة ممتازة.&lt;/g:description&gt;
+      &lt;g:link&gt;https://renter.net/ar/product/2213/fstan-naam/&lt;/g:link&gt;
+      &lt;g:image_link&gt;https://renter.net/images/products/2213/main.jpg&lt;/g:image_link&gt;
+      &lt;g:availability&gt;in_stock&lt;/g:availability&gt;
+      &lt;g:price&gt;150.00 SAR&lt;/g:price&gt;
+      &lt;g:condition&gt;used&lt;/g:condition&gt;
+      &lt;g:identifier_exists&gt;false&lt;/g:identifier_exists&gt;
+      &lt;g:product_type&gt;أزياء وملابس &amp;gt; فساتين&lt;/g:product_type&gt;
+    &lt;/item&gt;
+
+  &lt;/channel&gt;
+&lt;/rss&gt;</code></pre>
+        <p class="muted">One <code>&lt;item&gt;</code> per active product. Escape XML entities in titles and descriptions.</p>
+      </div>
+
+      <div class="doc-section">
+        <h2 id="acceptance">5. Acceptance criteria <a href="#acceptance" class="anchor">#</a></h2>
+        <ul class="ac-list">
+          <li><code>https://renter.net/merchant-feed-ar.xml</code> returns valid XML containing every active product.</li>
+          <li>Every <code>g:link</code> returns <strong>200 directly</strong> (trailing slash included, no redirect hop).</li>
+          <li>A product removed by a lessor disappears from the feed within the refresh window; a newly added product appears within the same window.</li>
+          <li>Prices in the feed match the product pages exactly.</li>
+          <li>Feed validates in Merchant Center's feed upload with zero critical (item-level policy disapprovals are expected and handled by Saiaf).</li>
+        </ul>
+      </div>
+
+      <div class="doc-section">
+        <h2 id="split">6. Split of work <a href="#split" class="anchor">#</a></h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th style="width:120px;">Owner</th><th>Responsibility</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><strong>Paulo</strong></td>
+                <td>Build the <code>/merchant-feed-ar.xml</code> route with the fields in section 3, all active products, auto-refresh.</td>
+              </tr>
+              <tr>
+                <td><strong>Saiaf</strong></td>
+                <td>Merchant Center side: feed registration as scheduled daily fetch, country/language settings, monitoring and resolving disapprovals. Uses the existing account from the 10-product test.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="doc-section">
+        <h2 id="refs">7. Reference documentation <a href="#refs" class="anchor">#</a></h2>
+        <ul>
+          <li>Product data specification (all attributes): <a href="https://support.google.com/merchants/answer/7052112" target="_blank" rel="noopener">support.google.com/merchants/answer/7052112</a></li>
+          <li>XML / RSS 2.0 feed format for Merchant Center: <a href="https://support.google.com/merchants/answer/160589" target="_blank" rel="noopener">support.google.com/merchants/answer/160589</a></li>
+          <li>Content API for Shopping (phase 2, real-time updates, not needed for launch): <a href="https://developers.google.com/shopping-content/guides/quickstart" target="_blank" rel="noopener">developers.google.com/shopping-content/guides/quickstart</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="doc-footer">
+      <div>Prepared by <strong>Saiaf · TMD</strong> for the Renter dev team · July 5, 2026</div>
+      <div class="url-pill">tmdweb.github.io/renter-seo/merchant-feed/</div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
