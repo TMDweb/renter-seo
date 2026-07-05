@@ -415,15 +415,29 @@
           enables paid Shopping campaigns.
         </p>
         <div class="warning-box">
-          <h4>Known policy risk: rentals (read before building)</h4>
+          <h4>Account status (updated 2026-07-05): all products currently disapproved, Misrepresentation</h4>
+          <p>
+            On July 5, 2026 the Renter Merchant Center account (5815335338) received an account-level
+            <a href="https://support.google.com/merchants/answer/6150127" target="_blank" rel="noopener">Misrepresentation</a>
+            disapproval via Google's automated checks: "Prevents all products from showing in Saudi Arabia."
+            The 10 test products are unapproved as a result. This is a business-trust issue, not a product-data
+            issue: Google's own fix list on the diagnostics page asks for business identity transparency
+            (policies, contact options), visible reviews or trust badges, completed business information in
+            Merchant Center settings, and identity verification before requesting a review. Saiaf owns this
+            remediation and the review request. It does not change what Paulo builds: the goal is to have the
+            feed ready by the time the account is reinstated.
+          </p>
+        </div>
+        <div class="warning-box">
+          <h4>Known policy risk: rentals (still open, separate from the above)</h4>
           <p>
             Google's unsupported-content policy for <a href="https://support.google.com/merchants/answer/6150006" target="_blank" rel="noopener">Shopping ads</a> and <a href="https://support.google.com/merchants/answer/12077589" target="_blank" rel="noopener">free listings</a> prohibits
             "Services: labor, time, effort, expertise, or actions, which do not result in ownership of a
             tangible product" (see the "Unsupported Shopping content" section on both pages). Rentals do not transfer ownership, so rental offers sit in a policy grey zone
-            (older versions of this policy named "equipment rentals" explicitly). Our 10-product test
-            surviving so far is <strong>not</strong> a policy clearance. We proceed anyway: item-level or
-            account-level disapprovals are a possible outcome, Saiaf owns monitoring and response, and this
-            risk does not change what Paulo builds.
+            (older versions of this policy named "equipment rentals" explicitly). The current disapproval is
+            Misrepresentation, not this clause, so the rentals question remains untested. Item-level or
+            account-level disapprovals on these grounds stay a possible outcome after reinstatement, Saiaf
+            owns monitoring and response, and this risk does not change what Paulo builds.
           </p>
         </div>
       </div>
@@ -629,7 +643,7 @@
           <li>Spot-check of 20 random <code>g:link</code> URLs: every one returns <strong>200 directly</strong>, trailing slash included, no redirect hop.</li>
           <li>Add/remove test: unpublish a test product, it disappears from the feed within 1 hour (the <code>revalidate</code> window). Google-side propagation of up to a further 24 hours is expected and out of scope.</li>
           <li>Failure drill: with the products API unreachable (or mocked to fail), the route serves the last good feed, never an empty feed or a 500.</li>
-          <li><strong>Saiaf, within 1 business day of deploy:</strong> the first scheduled fetch in Merchant Center completes with zero feed-level (file) errors. Item-level policy disapprovals are expected (see the rentals risk note) and are Saiaf's to handle, they do not fail this ticket.</li>
+          <li><strong>Saiaf, within 1 business day of deploy:</strong> the first scheduled fetch in Merchant Center completes with zero feed-level (file) errors. Feed processing works even while the account-level Misrepresentation disapproval is open; products will not show until the account is reinstated. Item-level and account-level policy disapprovals (see the policy notes in section 1) are Saiaf's to handle, they do not fail this ticket.</li>
         </ul>
       </div>
 
@@ -645,7 +659,7 @@
               </tr>
               <tr>
                 <td><strong>Saiaf</strong></td>
-                <td>Merchant Center side: register the URL as a file data source with a scheduled daily update, country/language settings, verify the first fetches, monitor and resolve disapprovals (including the rentals policy risk). Uses the existing account from the 10-product test.</td>
+                <td>Merchant Center side: resolve the account-level Misrepresentation disapproval (trust fixes, identity verification, review request), register the URL as a file data source with a scheduled daily update, country/language settings, verify the first fetches, monitor and resolve disapprovals (including the rentals policy risk). Uses the existing account from the 10-product test.</td>
               </tr>
             </tbody>
           </table>
