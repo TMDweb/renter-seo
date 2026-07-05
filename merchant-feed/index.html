@@ -365,14 +365,15 @@
         <span class="section-kicker">Renter SEO · Dev Ticket</span>
         <div class="doc-title">Google Merchant Center Product Feed</div>
         <p class="doc-subtitle">
-          One new frontend route that renders an always-fresh XML product feed from the products API,
-          so every active Renter listing appears on <strong>Google Shopping</strong> automatically.
+          One new frontend route that renders an XML product feed from the products API,
+          so every eligible Renter listing is <strong>submitted to Google Shopping</strong> automatically.
           Same implementation pattern as the sitemap route that is already live.
         </p>
         <div class="pill-row">
           <span class="pill">Ticket · SEO-FEED-01</span>
           <span class="pill">Priority · High</span>
           <span class="pill ok">Status · Ready for development</span>
+          <span class="pill">Rev 2 · fact-checked against Google &amp; Next.js docs, 2026-07-05</span>
         </div>
       </div>
     </div>
@@ -381,7 +382,7 @@
       <div><div class="k">Assignee</div><div class="v">Paulo</div></div>
       <div><div class="k">Reporter</div><div class="v">Saiaf (TMD)</div></div>
       <div><div class="k">Created</div><div class="v">2026-07-05</div></div>
-      <div><div class="k">Target</div><div class="v">End of next week</div></div>
+      <div><div class="k">Target</div><div class="v">2026-07-16</div></div>
       <div><div class="k">Repo</div><div class="v">renter-frontend-nextjs</div></div>
     </div>
 
@@ -404,7 +405,7 @@
           </div>
           <div class="stat-card">
             <div class="stat-num">938</div>
-            <div class="stat-lbl">Active products live today (per sitemap)</div>
+            <div class="stat-lbl">Active products at ticket creation (2026-07-05 sitemap count)</div>
           </div>
         </div>
         <p style="margin-top:14px;">
@@ -413,32 +414,106 @@
           carries structured product data (price, availability, images) for Shopping listings, and later
           enables paid Shopping campaigns.
         </p>
-      </div>
-
-      <div class="doc-section">
-        <h2 id="approach">2. Approach <a href="#approach" class="anchor">#</a></h2>
-        <p>
-          Same pattern as the sitemap route: one new App Router route that renders XML straight from the
-          products API.
-        </p>
-        <pre><code>src/app/merchant-feed-ar.xml/route.ts   →   https://renter.net/merchant-feed-ar.xml</code></pre>
-        <ul>
-          <li>Include <strong>all active products</strong>, pulled live from the same data source the sitemap uses.</li>
-          <li>Regenerate automatically on a cache window: a <strong>1 to 6 hour</strong> revalidation (like the sitemap's 6-hour refresh) is fine.</li>
-          <li>Saiaf registers the URL in Merchant Center as a <strong>scheduled daily fetch</strong>. Products added or removed by lessors flow in and out automatically, no manual sync ever.</li>
-          <li>Start with <strong>one Arabic feed</strong> (content language <code>ar</code>, target country <code>SA</code>). An English feed can be added later as a second file.</li>
-        </ul>
-        <div class="tip-box">
-          <h4>Out of scope for this ticket (phase 2)</h4>
+        <div class="warning-box">
+          <h4>Known policy risk: rentals (read before building)</h4>
           <p>
-            Real-time push updates via the Content API for Shopping. Not needed for launch, the daily
-            scheduled fetch plus the auto-regenerating feed is the standard setup.
+            Google's unsupported-content policy for Shopping ads and free listings prohibits
+            "Services: labor, time, effort, expertise, or actions, which do not result in ownership of a
+            tangible product." Rentals do not transfer ownership, so rental offers sit in a policy grey zone
+            (older versions of this policy named "equipment rentals" explicitly). Our 10-product test
+            surviving so far is <strong>not</strong> a policy clearance. We proceed anyway: item-level or
+            account-level disapprovals are a possible outcome, Saiaf owns monitoring and response, and this
+            risk does not change what Paulo builds.
           </p>
         </div>
       </div>
 
       <div class="doc-section">
-        <h2 id="spec">3. Spec: required fields per product <a href="#spec" class="anchor">#</a></h2>
+        <h2 id="approach">2. Approach <a href="#approach" class="anchor">#</a></h2>
+        <p>
+          Same pattern as the sitemap route: one new App Router route handler that renders XML straight
+          from the products API. This is the documented Next.js way to serve a custom <code>.xml</code>
+          URL (see the <code>app/rss.xml/route.ts</code> example in the route handlers reference); product
+          feeds have no built-in metadata-route convention like <code>sitemap.xml</code> does.
+        </p>
+        <pre><code>src/app/merchant-feed-ar.xml/route.ts   →   https://renter.net/merchant-feed-ar.xml</code></pre>
+        <div class="warning-box">
+          <h4>Heads-up: this URL already errors today</h4>
+          <p>
+            <code>https://renter.net/merchant-feed-ar.xml</code> currently returns <strong>HTTP 500</strong>
+            (with <code>text/html</code>), not 404. Check what is intercepting that path before assuming a
+            clean slate.
+          </p>
+        </div>
+        <h3>Implementation requirements</h3>
+        <ul>
+          <li>Include <strong>all eligible products</strong> (definition in section 3), pulled live from the same source the sitemap uses.</li>
+          <li>Caching: add <code>export const revalidate = 3600</code> (a literal number) to the route handler. GET route handlers are <strong>dynamic by default in Next 15+</strong>, so without this export the feed rebuilds on every request. The handler must not read the request object, <code>headers()</code>, or <code>cookies()</code>, or revalidation is silently disabled. (If the project later enables Cache Components in Next 16, this becomes <code>use cache</code> + <code>cacheLife</code>.)</li>
+          <li>Response headers: return the XML with an explicit <code>Content-Type: application/xml; charset=utf-8</code> (matching the live sitemaps). Without it, the body is served as <code>text/plain</code>:
+            <pre><code>return new Response(xml, {
+  headers: { "Content-Type": "application/xml; charset=utf-8" },
+});</code></pre>
+          </li>
+          <li>Verification note: production currently serves <code>cache-control: s-maxage=31536000</code> (one year) on <code>/sitemap.xml</code>, which suggests the sitemap's intended 6-hour revalidation is not reaching the response (fully static route or an nginx override). Confirm the feed's <code>revalidate</code> actually shows up in the response headers, and check the sitemap while you are at it.</li>
+          <li>Merchant Center side: Saiaf registers the URL as a <strong>file data source with a scheduled daily update</strong> (current Merchant Center Next terminology). Google re-downloads the feed every 24 hours.</li>
+          <li>Start with <strong>one Arabic feed</strong> (content language <code>ar</code>, target country <code>SA</code>). An English feed can be added later as a second file.</li>
+        </ul>
+        <div class="tip-box">
+          <h4>Freshness, stated honestly</h4>
+          <p>
+            End-to-end latency for an add, removal, or price change is <strong>up to ~25 hours</strong>:
+            up to 1 hour for the feed cache (<code>revalidate = 3600</code>) plus up to 24 hours until
+            Google's next scheduled fetch. There is no "instant" removal in this architecture; that is
+            normal and accepted. Phase 2 (out of scope): push updates in near real time via the
+            <strong>Merchant API</strong>. Note: the older Content API for Shopping
+            <strong>sunsets on August 18, 2026</strong>, do not build anything on it.
+          </p>
+        </div>
+      </div>
+
+      <div class="doc-section">
+        <h2 id="rules">3. Data rules (resolve ambiguity before coding) <a href="#rules" class="anchor">#</a></h2>
+        <div class="table-wrap scroll">
+          <table>
+            <thead>
+              <tr><th style="width:210px;">Question</th><th>Rule</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>What is an "eligible product"?</strong></td>
+                <td>A listing that is currently published and publicly visible on the site (same source and filter as the sitemap's product list). Products that are unavailable but still published stay in the feed with <code>g:availability</code> = <code>out_of_stock</code>. Unpublished or lessor-deleted products drop out entirely.</td>
+              </tr>
+              <tr>
+                <td><strong>Missing image or price</strong></td>
+                <td>Skip the product (Google rejects items without <code>image_link</code> or <code>price</code>) and count it. The route should expose the skip count in an XML comment at the top of the feed, e.g. <code>&lt;!-- items: 912, skipped: 26 --&gt;</code>, so Saiaf can see coverage at a glance.</td>
+              </tr>
+              <tr>
+                <td><strong>Long titles / empty descriptions</strong></td>
+                <td>Truncate titles longer than 150 characters at 147 + "...". If the description is empty, fall back to the title. Escape XML entities in all text fields.</td>
+              </tr>
+              <tr>
+                <td><strong>Which price for multi-duration rentals?</strong></td>
+                <td>Emit the <strong>per-day price</strong>. If a product has no per-day price, emit the lowest-duration price displayed on the product page. Confirm the exact API field with the backend at kickoff. Transient feed-vs-page mismatches within the 1-hour cache window after a price edit are expected and excluded from acceptance.</td>
+              </tr>
+              <tr>
+                <td><strong>Which slug?</strong></td>
+                <td>The same slug field the sitemap and product links use. Open question for Paulo to answer in this ticket: when a lessor edits a title, does the slug change, and does the old URL 301? (A stale feed may carry old slugs for up to ~25 hours.)</td>
+              </tr>
+              <tr>
+                <td><strong>ID stability</strong></td>
+                <td>Assumption to confirm with the backend team: product IDs are never reused after deletion. Google permanently associates <code>g:id</code> with an item's history. If IDs can be recycled, flag it before launch.</td>
+              </tr>
+              <tr>
+                <td><strong>Source of g:product_type</strong></td>
+                <td>Arabic category and subcategory names from the products API, joined as <code>category &gt; subcategory</code> (separator: space, greater-than, space). Confirm the API exposes both names; if only IDs, join against the category tree.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="doc-section">
+        <h2 id="spec">4. Spec: fields per product <a href="#spec" class="anchor">#</a></h2>
         <div class="table-wrap scroll">
           <table>
             <thead>
@@ -448,17 +523,17 @@
               <tr>
                 <td><code>g:id</code></td>
                 <td>Numeric product ID, e.g. <code>2213</code></td>
-                <td>Must be stable, never reused</td>
+                <td>Stable, never reused (see section 3)</td>
               </tr>
               <tr>
                 <td><code>g:title</code></td>
                 <td>Product name (AR)</td>
-                <td>Max 150 characters</td>
+                <td>Max 150 chars, truncation rule in section 3</td>
               </tr>
               <tr>
                 <td><code>g:description</code></td>
                 <td>Product description, plain text</td>
-                <td>Strip HTML</td>
+                <td>Strip HTML, fallback rule in section 3</td>
               </tr>
               <tr>
                 <td><code>g:link</code></td>
@@ -468,7 +543,7 @@
               <tr>
                 <td><code>g:image_link</code></td>
                 <td>Main product image URL</td>
-                <td>Min 250x250 px, no watermarks. Extra images via <code>g:additional_image_link</code>, up to 10, one tag each</td>
+                <td><strong>Min 500x500 px</strong> (Google enforces 500x500 for all products from Jan 31, 2027; the old 250x250 apparel minimum is gone, do not ship smaller). Recommend ~1500x1500. No watermarks or logo overlays. Extra images via <code>g:additional_image_link</code>, up to 10, one tag each</td>
               </tr>
               <tr>
                 <td><code>g:availability</code></td>
@@ -478,22 +553,22 @@
               <tr>
                 <td><code>g:price</code></td>
                 <td>e.g. <code>150.00 SAR</code></td>
-                <td>Must match the price shown on the page. Mismatch is the #1 disapproval reason. If price varies by duration, use the base price visible on the landing page</td>
+                <td>Number + ISO 4217 code. Must match the page per the pricing rule in section 3. Mismatch is the #1 disapproval reason</td>
               </tr>
               <tr>
                 <td><code>g:condition</code></td>
                 <td><code>used</code></td>
-                <td>Rentals are generally "used", <code>new</code> only where truly new</td>
+                <td>Allowed values are new / refurbished / used; rentals are generally "used", <code>new</code> only where truly new</td>
               </tr>
               <tr>
-                <td><code>g:identifier_exists</code></td>
-                <td><code>false</code></td>
-                <td>Rental items have no GTIN/MPN, this prevents disapprovals. <code>g:brand</code> optional when this is false</td>
+                <td><code>g:brand</code> + <code>g:identifier_exists</code></td>
+                <td>Brand when known; <code>identifier_exists</code> = <code>false</code> only when the item truly has no GTIN/MPN/brand</td>
+                <td>Brand is optional here because the items are <em>used</em> (brand is required only for new products). Do NOT blanket-set <code>identifier_exists=false</code> on visibly branded items (designer dresses, Sony/Zeiss gear): Google issues warnings when it detects identifiers that were declared absent. If the API has a brand field, emit it</td>
               </tr>
               <tr>
                 <td><code>g:product_type</code></td>
                 <td>Renter category path, e.g. <span class="ar">أزياء وملابس &gt; فساتين</span></td>
-                <td>Helps Google classify the product</td>
+                <td>Optional but helps Google classify; source rule in section 3</td>
               </tr>
             </tbody>
           </table>
@@ -501,7 +576,14 @@
       </div>
 
       <div class="doc-section">
-        <h2 id="template">4. Feed template (RSS 2.0 with the Google namespace) <a href="#template" class="anchor">#</a></h2>
+        <h2 id="template">5. Feed template (RSS 2.0 with the Google namespace) <a href="#template" class="anchor">#</a></h2>
+        <p class="muted">
+          Matches Google's current RSS 2.0 sample: <code>g:</code>-prefixed attributes at item level, plain
+          <code>title</code>/<code>link</code>/<code>description</code> only at channel level. Bidi warning:
+          Arabic inside this LTR code block can <em>display</em> visually reordered around the
+          <code>&amp;gt;</code> separator. The logical byte order is category first, then subcategory. Trust
+          the template text, not how it looks on screen.
+        </p>
         <pre><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
 &lt;rss version="2.0" xmlns:g="http://base.google.com/ns/1.0"&gt;
   &lt;channel&gt;
@@ -511,46 +593,59 @@
 
     &lt;item&gt;
       &lt;g:id&gt;2213&lt;/g:id&gt;
-      &lt;g:title&gt;فستان ناعم&lt;/g:title&gt;
-      &lt;g:description&gt;فستان ناعم للإيجار، يلبس سمول، بحالة ممتازة.&lt;/g:description&gt;
+      &lt;g:title&gt;<bdi>فستان ناعم</bdi>&lt;/g:title&gt;
+      &lt;g:description&gt;<bdi>فستان ناعم للإيجار، يلبس سمول، بحالة ممتازة.</bdi>&lt;/g:description&gt;
       &lt;g:link&gt;https://renter.net/ar/product/2213/fstan-naam/&lt;/g:link&gt;
       &lt;g:image_link&gt;https://renter.net/images/products/2213/main.jpg&lt;/g:image_link&gt;
       &lt;g:availability&gt;in_stock&lt;/g:availability&gt;
       &lt;g:price&gt;150.00 SAR&lt;/g:price&gt;
       &lt;g:condition&gt;used&lt;/g:condition&gt;
       &lt;g:identifier_exists&gt;false&lt;/g:identifier_exists&gt;
-      &lt;g:product_type&gt;أزياء وملابس &amp;gt; فساتين&lt;/g:product_type&gt;
+      &lt;g:product_type&gt;<bdi>أزياء وملابس</bdi> &amp;gt; <bdi>فساتين</bdi>&lt;/g:product_type&gt;
     &lt;/item&gt;
 
   &lt;/channel&gt;
 &lt;/rss&gt;</code></pre>
-        <p class="muted">One <code>&lt;item&gt;</code> per active product. Escape XML entities in titles and descriptions.</p>
+        <p class="muted">One <code>&lt;item&gt;</code> per eligible product. This example item has no brand; branded items add <code>&lt;g:brand&gt;</code> and drop <code>identifier_exists</code>.</p>
       </div>
 
       <div class="doc-section">
-        <h2 id="acceptance">5. Acceptance criteria <a href="#acceptance" class="anchor">#</a></h2>
-        <ul class="ac-list">
-          <li><code>https://renter.net/merchant-feed-ar.xml</code> returns valid XML containing every active product.</li>
-          <li>Every <code>g:link</code> returns <strong>200 directly</strong> (trailing slash included, no redirect hop).</li>
-          <li>A product removed by a lessor disappears from the feed within the refresh window; a newly added product appears within the same window.</li>
-          <li>Prices in the feed match the product pages exactly.</li>
-          <li>Feed validates in Merchant Center's feed upload with zero critical (item-level policy disapprovals are expected and handled by Saiaf).</li>
+        <h2 id="resilience">6. Failure behavior and monitoring <a href="#resilience" class="anchor">#</a></h2>
+        <p>
+          A broken feed at Google's fetch time can drop the entire catalog from Shopping. Two rules:
+        </p>
+        <ul>
+          <li><strong>Never serve an empty or error feed.</strong> If the products API is down, times out, or returns drastically fewer items than the previous render (sanity check: less than 50% of the last count), serve the last good render instead and log the incident. A stale feed is harmless; an empty one deletes all listings.</li>
+          <li><strong>Monitoring split:</strong> Saiaf checks the data source's fetch status in Merchant Center after each of the first 3 scheduled fetches, then weekly. Paulo makes route errors visible in whatever logging the app already has, so a persistent 500 is noticed within a day, not a month.</li>
         </ul>
       </div>
 
       <div class="doc-section">
-        <h2 id="split">6. Split of work <a href="#split" class="anchor">#</a></h2>
+        <h2 id="acceptance">7. Acceptance criteria <a href="#acceptance" class="anchor">#</a></h2>
+        <p class="muted">1 to 5 are verifiable by Paulo alone; 6 is Saiaf's check with a committed turnaround.</p>
+        <ul class="ac-list">
+          <li><code>https://renter.net/merchant-feed-ar.xml</code> returns HTTP 200 with <code>Content-Type: application/xml; charset=utf-8</code> and well-formed XML (passes an XML validator).</li>
+          <li>Item count equals the number of eligible products that meet minimum data requirements, and the skip count appears in the feed comment (section 3 rules).</li>
+          <li>Spot-check of 20 random <code>g:link</code> URLs: every one returns <strong>200 directly</strong>, trailing slash included, no redirect hop.</li>
+          <li>Add/remove test: unpublish a test product, it disappears from the feed within 1 hour (the <code>revalidate</code> window). Google-side propagation of up to a further 24 hours is expected and out of scope.</li>
+          <li>Failure drill: with the products API unreachable (or mocked to fail), the route serves the last good feed, never an empty feed or a 500.</li>
+          <li><strong>Saiaf, within 1 business day of deploy:</strong> the first scheduled fetch in Merchant Center completes with zero feed-level (file) errors. Item-level policy disapprovals are expected (see the rentals risk note) and are Saiaf's to handle, they do not fail this ticket.</li>
+        </ul>
+      </div>
+
+      <div class="doc-section">
+        <h2 id="split">8. Split of work <a href="#split" class="anchor">#</a></h2>
         <div class="table-wrap">
           <table>
             <thead><tr><th style="width:120px;">Owner</th><th>Responsibility</th></tr></thead>
             <tbody>
               <tr>
                 <td><strong>Paulo</strong></td>
-                <td>Build the <code>/merchant-feed-ar.xml</code> route with the fields in section 3, all active products, auto-refresh.</td>
+                <td>Build the <code>/merchant-feed-ar.xml</code> route per sections 2 to 6, answer the two open questions in section 3 (slug behavior, ID reuse), surface route errors in app logging.</td>
               </tr>
               <tr>
                 <td><strong>Saiaf</strong></td>
-                <td>Merchant Center side: feed registration as scheduled daily fetch, country/language settings, monitoring and resolving disapprovals. Uses the existing account from the 10-product test.</td>
+                <td>Merchant Center side: register the URL as a file data source with a scheduled daily update, country/language settings, verify the first fetches, monitor and resolve disapprovals (including the rentals policy risk). Uses the existing account from the 10-product test.</td>
               </tr>
             </tbody>
           </table>
@@ -558,18 +653,23 @@
       </div>
 
       <div class="doc-section">
-        <h2 id="refs">7. Reference documentation <a href="#refs" class="anchor">#</a></h2>
+        <h2 id="refs">9. Reference documentation <a href="#refs" class="anchor">#</a></h2>
         <ul>
           <li>Product data specification (all attributes): <a href="https://support.google.com/merchants/answer/7052112" target="_blank" rel="noopener">support.google.com/merchants/answer/7052112</a></li>
           <li>XML / RSS 2.0 feed format for Merchant Center: <a href="https://support.google.com/merchants/answer/160589" target="_blank" rel="noopener">support.google.com/merchants/answer/160589</a></li>
-          <li>Content API for Shopping (phase 2, real-time updates, not needed for launch): <a href="https://developers.google.com/shopping-content/guides/quickstart" target="_blank" rel="noopener">developers.google.com/shopping-content/guides/quickstart</a></li>
+          <li>Image requirements (500x500 minimum, enforced from 2027-01-31): <a href="https://support.google.com/merchants/answer/6324350" target="_blank" rel="noopener">support.google.com/merchants/answer/6324350</a></li>
+          <li>identifier_exists attribute: <a href="https://support.google.com/merchants/answer/6324478" target="_blank" rel="noopener">support.google.com/merchants/answer/6324478</a></li>
+          <li>Scheduled data source updates in Merchant Center Next: <a href="https://support.google.com/merchants/answer/14991445" target="_blank" rel="noopener">support.google.com/merchants/answer/14991445</a></li>
+          <li>Unsupported content policy (the "Services" clause behind the rentals risk): <a href="https://support.google.com/merchants/answer/6150006" target="_blank" rel="noopener">support.google.com/merchants/answer/6150006</a></li>
+          <li>Merchant API (phase 2, real-time updates; successor to the Content API which sunsets 2026-08-18): <a href="https://developers.google.com/merchant/api" target="_blank" rel="noopener">developers.google.com/merchant/api</a></li>
+          <li>Next.js route handlers, non-UI responses (the <code>rss.xml/route.ts</code> example): <a href="https://nextjs.org/docs/app/api-reference/file-conventions/route#non-ui-responses" target="_blank" rel="noopener">nextjs.org/docs/app/api-reference/file-conventions/route</a></li>
         </ul>
       </div>
 
     </div>
 
     <div class="doc-footer">
-      <div>Prepared by <strong>Saiaf · TMD</strong> for the Renter dev team · July 5, 2026</div>
+      <div>Prepared by <strong>Saiaf · TMD</strong> for the Renter dev team · July 5, 2026 · Rev 2 (adversarially reviewed same day)</div>
       <div class="url-pill">tmdweb.github.io/renter-seo/merchant-feed/</div>
     </div>
   </div>
