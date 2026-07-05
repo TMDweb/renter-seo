@@ -417,9 +417,9 @@
         <div class="warning-box">
           <h4>Known policy risk: rentals (read before building)</h4>
           <p>
-            Google's unsupported-content policy for Shopping ads and free listings prohibits
+            Google's unsupported-content policy for <a href="https://support.google.com/merchants/answer/6150006" target="_blank" rel="noopener">Shopping ads</a> and <a href="https://support.google.com/merchants/answer/12077589" target="_blank" rel="noopener">free listings</a> prohibits
             "Services: labor, time, effort, expertise, or actions, which do not result in ownership of a
-            tangible product." Rentals do not transfer ownership, so rental offers sit in a policy grey zone
+            tangible product" (see the "Unsupported Shopping content" section on both pages). Rentals do not transfer ownership, so rental offers sit in a policy grey zone
             (older versions of this policy named "equipment rentals" explicitly). Our 10-product test
             surviving so far is <strong>not</strong> a policy clearance. We proceed anyway: item-level or
             account-level disapprovals are a possible outcome, Saiaf owns monitoring and response, and this
@@ -432,9 +432,9 @@
         <h2 id="approach">2. Approach <a href="#approach" class="anchor">#</a></h2>
         <p>
           Same pattern as the sitemap route: one new App Router route handler that renders XML straight
-          from the products API. This is the documented Next.js way to serve a custom <code>.xml</code>
-          URL (see the <code>app/rss.xml/route.ts</code> example in the route handlers reference); product
-          feeds have no built-in metadata-route convention like <code>sitemap.xml</code> does.
+          from the products API. This is <a href="https://nextjs.org/docs/app/api-reference/file-conventions/route#non-ui-responses" target="_blank" rel="noopener">the documented Next.js way to serve a custom <code>.xml</code> URL</a>
+          (the <code>app/rss.xml/route.ts</code> example under "Non-UI Responses" in the route handlers
+          reference); product feeds have no built-in metadata-route convention like <code>sitemap.xml</code> does.
         </p>
         <pre><code>src/app/merchant-feed-ar.xml/route.ts   →   https://renter.net/merchant-feed-ar.xml</code></pre>
         <div class="warning-box">
@@ -448,14 +448,14 @@
         <h3>Implementation requirements</h3>
         <ul>
           <li>Include <strong>all eligible products</strong> (definition in section 3), pulled live from the same source the sitemap uses.</li>
-          <li>Caching: add <code>export const revalidate = 3600</code> (a literal number) to the route handler. GET route handlers are <strong>dynamic by default in Next 15+</strong>, so without this export the feed rebuilds on every request. The handler must not read the request object, <code>headers()</code>, or <code>cookies()</code>, or revalidation is silently disabled. (If the project later enables Cache Components in Next 16, this becomes <code>use cache</code> + <code>cacheLife</code>.)</li>
-          <li>Response headers: return the XML with an explicit <code>Content-Type: application/xml; charset=utf-8</code> (matching the live sitemaps). Without it, the body is served as <code>text/plain</code>:
+          <li>Caching: add <a href="https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config#:~:text=export%20const%20revalidate" target="_blank" rel="noopener"><code>export const revalidate = 3600</code></a> (a literal number, computed values like <code>60 * 60</code> are not statically analyzable) to the route handler. GET route handlers are <a href="https://nextjs.org/docs/app/api-reference/file-conventions/route#version-history" target="_blank" rel="noopener"><strong>dynamic by default in Next 15+</strong></a> (see the v15.0.0-RC entry in the version history), so without this export the feed rebuilds on every request. The handler <a href="https://nextjs.org/docs/app/guides/caching-without-cache-components" target="_blank" rel="noopener">must not read the request object, <code>headers()</code>, or <code>cookies()</code></a>, or revalidation is silently disabled. (If the project later enables Cache Components in Next 16, this becomes <a href="https://nextjs.org/docs/app/api-reference/directives/use-cache" target="_blank" rel="noopener"><code>use cache</code></a> + <code>cacheLife</code>; the <code>revalidate</code> segment config is removed in that mode per the <a href="https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config" target="_blank" rel="noopener">segment config reference</a>.)</li>
+          <li>Response headers: return the XML with an explicit <code>Content-Type: application/xml; charset=utf-8</code> (matching the live sitemaps). Without it, the body is served as <code>text/plain</code>; <a href="https://nextjs.org/docs/app/api-reference/file-conventions/route#non-ui-responses" target="_blank" rel="noopener">Next.js's own <code>rss.xml</code> example sets this header explicitly</a>:
             <pre><code>return new Response(xml, {
   headers: { "Content-Type": "application/xml; charset=utf-8" },
 });</code></pre>
           </li>
           <li>Verification note: production currently serves <code>cache-control: s-maxage=31536000</code> (one year) on <code>/sitemap.xml</code>, which suggests the sitemap's intended 6-hour revalidation is not reaching the response (fully static route or an nginx override). Confirm the feed's <code>revalidate</code> actually shows up in the response headers, and check the sitemap while you are at it.</li>
-          <li>Merchant Center side: Saiaf registers the URL as a <strong>file data source with a scheduled daily update</strong> (current Merchant Center Next terminology). Google re-downloads the feed every 24 hours.</li>
+          <li>Merchant Center side: Saiaf registers the URL as a <a href="https://support.google.com/merchants/answer/14991445" target="_blank" rel="noopener"><strong>file data source with a scheduled daily update</strong></a> (current Merchant Center Next terminology, see "Update your product data source on a schedule"). Google re-downloads the feed every 24 hours by default.</li>
           <li>Start with <strong>one Arabic feed</strong> (content language <code>ar</code>, target country <code>SA</code>). An English feed can be added later as a second file.</li>
         </ul>
         <div class="tip-box">
@@ -465,8 +465,8 @@
             up to 1 hour for the feed cache (<code>revalidate = 3600</code>) plus up to 24 hours until
             Google's next scheduled fetch. There is no "instant" removal in this architecture; that is
             normal and accepted. Phase 2 (out of scope): push updates in near real time via the
-            <strong>Merchant API</strong>. Note: the older Content API for Shopping
-            <strong>sunsets on August 18, 2026</strong>, do not build anything on it.
+            <a href="https://developers.google.com/merchant/api" target="_blank" rel="noopener"><strong>Merchant API</strong></a>. Note: the older Content API for Shopping
+            <a href="https://developers.google.com/shopping-content/guides/quickstart" target="_blank" rel="noopener"><strong>sunsets on August 18, 2026</strong></a> (see the deprecation banner on its own quickstart page), do not build anything on it.
           </p>
         </div>
       </div>
@@ -485,7 +485,7 @@
               </tr>
               <tr>
                 <td><strong>Missing image or price</strong></td>
-                <td>Skip the product (Google rejects items without <code>image_link</code> or <code>price</code>) and count it. The route should expose the skip count in an XML comment at the top of the feed, e.g. <code>&lt;!-- items: 912, skipped: 26 --&gt;</code>, so Saiaf can see coverage at a glance.</td>
+                <td>Skip the product (<a href="https://support.google.com/merchants/answer/7052112" target="_blank" rel="noopener">image_link and price are required attributes for every product</a>, per the product data spec) and count it. The route should expose the skip count in an XML comment at the top of the feed, e.g. <code>&lt;!-- items: 912, skipped: 26 --&gt;</code>, so Saiaf can see coverage at a glance.</td>
               </tr>
               <tr>
                 <td><strong>Long titles / empty descriptions</strong></td>
@@ -528,7 +528,7 @@
               <tr>
                 <td><code>g:title</code></td>
                 <td>Product name (AR)</td>
-                <td>Max 150 chars, truncation rule in section 3</td>
+                <td><a href="https://support.google.com/merchants/answer/7052112" target="_blank" rel="noopener">Max 150 chars</a> (product data spec, title attribute), truncation rule in section 3</td>
               </tr>
               <tr>
                 <td><code>g:description</code></td>
@@ -543,27 +543,27 @@
               <tr>
                 <td><code>g:image_link</code></td>
                 <td>Main product image URL</td>
-                <td><strong>Min 500x500 px</strong> (Google enforces 500x500 for all products from Jan 31, 2027; the old 250x250 apparel minimum is gone, do not ship smaller). Recommend ~1500x1500. No watermarks or logo overlays. Extra images via <code>g:additional_image_link</code>, up to 10, one tag each</td>
+                <td><a href="https://support.google.com/merchants/answer/6324350" target="_blank" rel="noopener"><strong>Min 500x500 px</strong></a> (per the image_link doc's "Meet these image size requirements" section: Google enforces 500x500 for all products from Jan 31, 2027; the old 250x250 apparel minimum is gone, do not ship smaller). Recommend ~1500x1500. <a href="https://support.google.com/merchants/answer/6324350" target="_blank" rel="noopener">No watermarks or logo overlays</a> (same doc, promotional-overlay rule). Extra images via <code>g:additional_image_link</code>, up to 10, one tag each</td>
               </tr>
               <tr>
                 <td><code>g:availability</code></td>
                 <td><code>in_stock</code> / <code>out_of_stock</code></td>
-                <td>Drive from real product status</td>
+                <td>Drive from real product status; <a href="https://support.google.com/merchants/answer/7052112" target="_blank" rel="noopener">valid values per the availability section of the product data spec</a> (preorder/backorder also exist, unused here)</td>
               </tr>
               <tr>
                 <td><code>g:price</code></td>
                 <td>e.g. <code>150.00 SAR</code></td>
-                <td>Number + ISO 4217 code. Must match the page per the pricing rule in section 3. Mismatch is the #1 disapproval reason</td>
+                <td><a href="https://support.google.com/merchants/answer/160589" target="_blank" rel="noopener">Number + ISO 4217 code</a> (format matches Google's RSS sample, e.g. <code>49.99 USD</code>). <a href="https://support.google.com/merchants/answer/160637" target="_blank" rel="noopener">SAR / Saudi Arabia is a supported currency-country pair</a>. Must match the page per the pricing rule in section 3. Mismatch is the #1 disapproval reason</td>
               </tr>
               <tr>
                 <td><code>g:condition</code></td>
                 <td><code>used</code></td>
-                <td>Allowed values are new / refurbished / used; rentals are generally "used", <code>new</code> only where truly new</td>
+                <td><a href="https://support.google.com/merchants/answer/6324469" target="_blank" rel="noopener">Allowed values are new / refurbished / used</a> (condition attribute doc); rentals are generally "used", <code>new</code> only where truly new</td>
               </tr>
               <tr>
                 <td><code>g:brand</code> + <code>g:identifier_exists</code></td>
                 <td>Brand when known; <code>identifier_exists</code> = <code>false</code> only when the item truly has no GTIN/MPN/brand</td>
-                <td>Brand is optional here because the items are <em>used</em> (brand is required only for new products). Do NOT blanket-set <code>identifier_exists=false</code> on visibly branded items (designer dresses, Sony/Zeiss gear): Google issues warnings when it detects identifiers that were declared absent. If the API has a brand field, emit it</td>
+                <td>Brand is optional here because the items are <em>used</em> (<a href="https://support.google.com/merchants/answer/7052112" target="_blank" rel="noopener">brand is required only for new products</a>, per the product data spec's brand section). Do NOT blanket-set <code>identifier_exists=false</code> on visibly branded items (designer dresses, Sony/Zeiss gear): <a href="https://support.google.com/merchants/answer/6324478" target="_blank" rel="noopener">Google issues warnings when it detects identifiers that were declared absent</a> (identifier_exists doc, warnings section). If the API has a brand field, emit it</td>
               </tr>
               <tr>
                 <td><code>g:product_type</code></td>
@@ -578,8 +578,8 @@
       <div class="doc-section">
         <h2 id="template">5. Feed template (RSS 2.0 with the Google namespace) <a href="#template" class="anchor">#</a></h2>
         <p class="muted">
-          Matches Google's current RSS 2.0 sample: <code>g:</code>-prefixed attributes at item level, plain
-          <code>title</code>/<code>link</code>/<code>description</code> only at channel level. Bidi warning:
+          Matches <a href="https://support.google.com/merchants/answer/160589" target="_blank" rel="noopener">Google's current RSS 2.0 sample</a> ("Example of an RSS 2.0 product feed" on that page): <code>g:</code>-prefixed attributes at item level, plain
+          <code>title</code>/<code>link</code>/<code>description</code> only at channel level, and the doc states the <code>g:</code> prefix is required or the attributes are ignored. Bidi warning:
           Arabic inside this LTR code block can <em>display</em> visually reordered around the
           <code>&amp;gt;</code> separator. The logical byte order is category first, then subcategory. Trust
           the template text, not how it looks on screen.
