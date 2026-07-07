@@ -1,0 +1,677 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Renter XML Sitemap Structure - Paulo Handoff</title>
+  <link rel="icon" href="logo.d03bc2bd.svg" type="image/svg+xml">
+  <style>
+    :root {
+      --blue: #1036ce;
+      --orange: #ff5833;
+      --ink: #111827;
+      --muted: #5b6472;
+      --line: #d9dee8;
+      --soft: #f6f8fb;
+      --paper: #ffffff;
+      --good: #117a55;
+      --warn: #9a5b00;
+      --warn-bg: #fff7e8;
+      --good-bg: #edf8f3;
+      --code-bg: #101828;
+      --code-line: #263247;
+      --shadow: 0 14px 34px rgba(16, 24, 40, 0.08);
+      --radius: 8px;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: linear-gradient(180deg, #ffffff 0%, #f3f6fb 100%);
+      font-size: 16px;
+      line-height: 1.55;
+    }
+
+    a {
+      color: var(--blue);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .page {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 28px 22px 56px;
+    }
+
+    header {
+      display: grid;
+      grid-template-columns: 112px 1fr;
+      gap: 24px;
+      align-items: center;
+      padding: 26px 0 22px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .logo-wrap {
+      width: 112px;
+      height: 70px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--paper);
+    }
+
+    .logo-wrap img {
+      width: 86px;
+      height: auto;
+      display: block;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: clamp(32px, 5vw, 56px);
+      line-height: 1.02;
+      font-weight: 800;
+      color: #0b1220;
+    }
+
+    .subhead {
+      margin: 0;
+      max-width: 820px;
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 34px;
+      padding: 6px 10px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--paper);
+      color: #2f3747;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    main {
+      display: grid;
+      gap: 26px;
+      margin-top: 28px;
+    }
+
+    section {
+      padding: 28px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--paper);
+      box-shadow: var(--shadow);
+    }
+
+    h2 {
+      margin: 0 0 14px;
+      font-size: 25px;
+      line-height: 1.15;
+    }
+
+    h3 {
+      margin: 0 0 10px;
+      font-size: 17px;
+      line-height: 1.25;
+    }
+
+    p {
+      margin: 0 0 14px;
+    }
+
+    .lead {
+      max-width: 900px;
+      color: var(--muted);
+      font-size: 17px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .metric {
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--soft);
+    }
+
+    .metric strong {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 28px;
+      line-height: 1;
+      color: var(--blue);
+    }
+
+    .metric span {
+      display: block;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .callout {
+      padding: 16px 18px;
+      border-radius: var(--radius);
+      border: 1px solid #efd49c;
+      background: var(--warn-bg);
+      color: #573a05;
+    }
+
+    .callout strong {
+      color: var(--warn);
+    }
+
+    .success {
+      border-color: #b8dfcf;
+      background: var(--good-bg);
+      color: #123f2f;
+    }
+
+    .success strong {
+      color: var(--good);
+    }
+
+    .tree {
+      display: grid;
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .tree-row {
+      display: grid;
+      grid-template-columns: 210px 1fr;
+      gap: 16px;
+      align-items: stretch;
+    }
+
+    .node {
+      min-height: 52px;
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      word-break: break-word;
+    }
+
+    .node.root {
+      border-color: rgba(16, 54, 206, 0.35);
+      background: #eef2ff;
+      color: var(--blue);
+      font-weight: 800;
+    }
+
+    .node.lang-ar {
+      border-color: rgba(255, 88, 51, 0.38);
+      background: #fff1ed;
+      color: #96351e;
+      font-weight: 800;
+    }
+
+    .node.lang-en {
+      border-color: rgba(16, 54, 206, 0.28);
+      background: #f0f5ff;
+      color: #102c9f;
+      font-weight: 800;
+    }
+
+    .children {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .arrow-label {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .rules {
+      display: grid;
+      gap: 12px;
+      margin: 16px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .rules li {
+      display: grid;
+      grid-template-columns: 28px 1fr;
+      gap: 12px;
+      align-items: start;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--soft);
+    }
+
+    .num {
+      width: 28px;
+      height: 28px;
+      display: grid;
+      place-items: center;
+      border-radius: var(--radius);
+      background: var(--blue);
+      color: white;
+      font-weight: 800;
+      font-size: 13px;
+    }
+
+    .code-card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: var(--code-bg);
+    }
+
+    .code-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      min-height: 44px;
+      padding: 8px 12px 8px 16px;
+      border-bottom: 1px solid var(--code-line);
+      color: #d8e0f0;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .copy {
+      border: 1px solid #4a5875;
+      border-radius: 6px;
+      background: transparent;
+      color: #e9eef8;
+      min-height: 30px;
+      padding: 5px 10px;
+      font: inherit;
+      cursor: pointer;
+    }
+
+    .copy:hover {
+      border-color: #95a6c8;
+      background: #17233a;
+    }
+
+    pre {
+      margin: 0;
+      padding: 18px;
+      overflow-x: auto;
+      color: #e6edf7;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size: 13px;
+      line-height: 1.6;
+      white-space: pre;
+    }
+
+    code .muted {
+      color: #95a3bb;
+    }
+
+    .inline-code {
+      padding: 2px 5px;
+      border-radius: 4px;
+      background: #eef2ff;
+      color: #1735a8;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size: 0.92em;
+    }
+
+    .compare {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-top: 18px;
+    }
+
+    .compare-box {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 18px;
+      background: var(--soft);
+    }
+
+    .compare-box ul {
+      margin: 12px 0 0;
+      padding-left: 20px;
+    }
+
+    .compare-box li {
+      margin: 7px 0;
+    }
+
+    .bad {
+      border-color: #f2b9a9;
+      background: #fff2ef;
+    }
+
+    .good {
+      border-color: #b8dfcf;
+      background: #eff9f4;
+    }
+
+    .source-list {
+      margin: 10px 0 0;
+      padding-left: 20px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    @media (max-width: 920px) {
+      .grid-2,
+      .grid-3,
+      .compare,
+      .tree-row {
+        grid-template-columns: 1fr;
+      }
+
+      .children {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 620px) {
+      .page {
+        padding: 18px 14px 38px;
+      }
+
+      header {
+        grid-template-columns: 1fr;
+      }
+
+      section {
+        padding: 20px;
+      }
+
+      h1 {
+        font-size: 34px;
+      }
+
+      .children {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="logo-wrap">
+        <img src="logo.d03bc2bd.svg" alt="Renter">
+      </div>
+      <div>
+        <h1>Renter XML Sitemap Structure</h1>
+        <p class="subhead">A concise handoff for Paulo: publish one root sitemap index for renter.net, then split the final URL-list XML files by language and URL type.</p>
+        <div class="meta-row" aria-label="handoff metadata">
+          <span class="tag">Target: live renter.net sitemap</span>
+          <span class="tag">Checked: 2026-07-07</span>
+          <span class="tag">Production URL: https://renter.net/sitemap.xml</span>
+          <span class="tag">Test URL: https://v2-staging.renter.net/sitemap.xml</span>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section>
+        <h2>Structure To Implement</h2>
+        <p class="lead">For the live renter.net site, <span class="inline-code">/sitemap.xml</span> should be the only sitemap index. It should list these eight final URL-list XML files directly.</p>
+
+        <div class="tree">
+          <div class="tree-row">
+            <div class="node root">/sitemap.xml</div>
+            <div class="children">
+              <div class="node lang-ar">/sitemap/ar/products.xml</div>
+              <div class="node lang-ar">/sitemap/ar/pages.xml</div>
+              <div class="node lang-ar">/sitemap/ar/product-categories.xml</div>
+              <div class="node lang-ar">/sitemap/ar/product-subcategories.xml</div>
+              <div class="node lang-en">/sitemap/en/pages.xml</div>
+              <div class="node lang-en">/sitemap/en/products.xml</div>
+              <div class="node lang-en">/sitemap/en/product-subcategories.xml</div>
+              <div class="node lang-en">/sitemap/en/product-categories.xml</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Root Sitemap</h2>
+        <div class="callout">
+          <p><strong><span class="inline-code">/sitemap.xml</span> is a sitemap index.</strong> It contains only <span class="inline-code">&lt;sitemap&gt;</span> entries that point to the eight XML files. It does not contain page URLs directly.</p>
+          <p>The eight child XML files are the URL-list files. Each one uses <span class="inline-code">&lt;urlset&gt;</span> and contains the canonical URLs for one language and one URL type.</p>
+        </div>
+      </section>
+
+      <section>
+        <h2>Language Split</h2>
+        <p class="lead">Keep Arabic and English clearly separated in the file paths.</p>
+
+        <div class="tree">
+          <div class="arrow-label">Arabic URL-list files</div>
+          <div class="tree-row">
+            <div class="node root">/sitemap.xml</div>
+            <div class="children">
+              <div class="node lang-ar">/sitemap/ar/products.xml</div>
+              <div class="node lang-ar">/sitemap/ar/pages.xml</div>
+              <div class="node lang-ar">/sitemap/ar/product-categories.xml</div>
+              <div class="node lang-ar">/sitemap/ar/product-subcategories.xml</div>
+            </div>
+          </div>
+          <div class="arrow-label">English URL-list files</div>
+          <div class="tree-row">
+            <div class="node root">/sitemap.xml</div>
+            <div class="children">
+              <div class="node lang-en">/sitemap/en/pages.xml</div>
+              <div class="node lang-en">/sitemap/en/products.xml</div>
+              <div class="node lang-en">/sitemap/en/product-subcategories.xml</div>
+              <div class="node lang-en">/sitemap/en/product-categories.xml</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>File Naming</h2>
+        <div class="compare">
+          <div class="compare-box good">
+            <h3>Arabic Files</h3>
+            <p>Arabic sitemap files live under <span class="inline-code">/sitemap/ar/</span>.</p>
+            <ul>
+              <li><span class="inline-code">/sitemap/ar/products.xml</span></li>
+              <li><span class="inline-code">/sitemap/ar/pages.xml</span></li>
+              <li><span class="inline-code">/sitemap/ar/product-categories.xml</span></li>
+              <li><span class="inline-code">/sitemap/ar/product-subcategories.xml</span></li>
+            </ul>
+          </div>
+          <div class="compare-box good">
+            <h3>English Files</h3>
+            <p>English sitemap files live under <span class="inline-code">/sitemap/en/</span>.</p>
+            <ul>
+              <li><span class="inline-code">/sitemap/en/pages.xml</span></li>
+              <li><span class="inline-code">/sitemap/en/products.xml</span></li>
+              <li><span class="inline-code">/sitemap/en/product-subcategories.xml</span></li>
+              <li><span class="inline-code">/sitemap/en/product-categories.xml</span></li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>XML Examples</h2>
+        <div class="code-card">
+          <div class="code-head">
+            <span>/sitemap.xml lists all final URL-list XMLs</span>
+            <button class="copy" type="button" data-copy="root-flat">Copy</button>
+          </div>
+          <pre id="root-flat"><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"&gt;
+  &lt;sitemap&gt;&lt;loc&gt;https://renter.net/sitemap/ar/products.xml&lt;/loc&gt;&lt;/sitemap&gt;
+  &lt;sitemap&gt;&lt;loc&gt;https://renter.net/sitemap/ar/pages.xml&lt;/loc&gt;&lt;/sitemap&gt;
+  &lt;sitemap&gt;&lt;loc&gt;https://renter.net/sitemap/ar/product-categories.xml&lt;/loc&gt;&lt;/sitemap&gt;
+  &lt;sitemap&gt;&lt;loc&gt;https://renter.net/sitemap/ar/product-subcategories.xml&lt;/loc&gt;&lt;/sitemap&gt;
+  &lt;sitemap&gt;&lt;loc&gt;https://renter.net/sitemap/en/pages.xml&lt;/loc&gt;&lt;/sitemap&gt;
+  &lt;sitemap&gt;&lt;loc&gt;https://renter.net/sitemap/en/products.xml&lt;/loc&gt;&lt;/sitemap&gt;
+  &lt;sitemap&gt;&lt;loc&gt;https://renter.net/sitemap/en/product-subcategories.xml&lt;/loc&gt;&lt;/sitemap&gt;
+  &lt;sitemap&gt;&lt;loc&gt;https://renter.net/sitemap/en/product-categories.xml&lt;/loc&gt;&lt;/sitemap&gt;
+&lt;/sitemapindex&gt;</code></pre>
+        </div>
+
+        <div class="grid-2" style="margin-top:18px">
+          <div class="code-card">
+            <div class="code-head">
+              <span>Arabic URL-list file: /sitemap/ar/products.xml</span>
+              <button class="copy" type="button" data-copy="ar-urlset">Copy</button>
+            </div>
+            <pre id="ar-urlset"><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;urlset
+  xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml"&gt;
+  &lt;url&gt;
+    &lt;loc&gt;https://renter.net/ar/product/465/mantly-test-3-quan&lt;/loc&gt;
+    &lt;lastmod&gt;2026-07-03T00:14:45+03:00&lt;/lastmod&gt;
+    &lt;xhtml:link rel="alternate" hreflang="ar" href="https://renter.net/ar/product/465/mantly-test-3-quan"/&gt;
+    &lt;xhtml:link rel="alternate" hreflang="en" href="https://renter.net/en/product/465/mantly-test-3-quan"/&gt;
+  &lt;/url&gt;
+&lt;/urlset&gt;</code></pre>
+          </div>
+
+          <div class="code-card">
+            <div class="code-head">
+              <span>English URL-list file: /sitemap/en/products.xml</span>
+              <button class="copy" type="button" data-copy="en-urlset">Copy</button>
+            </div>
+            <pre id="en-urlset"><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;urlset
+  xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml"&gt;
+  &lt;url&gt;
+    &lt;loc&gt;https://renter.net/en/product/465/mantly-test-3-quan&lt;/loc&gt;
+    &lt;lastmod&gt;2026-07-03T00:14:45+03:00&lt;/lastmod&gt;
+    &lt;xhtml:link rel="alternate" hreflang="ar" href="https://renter.net/ar/product/465/mantly-test-3-quan"/&gt;
+    &lt;xhtml:link rel="alternate" hreflang="en" href="https://renter.net/en/product/465/mantly-test-3-quan"/&gt;
+  &lt;/url&gt;
+&lt;/urlset&gt;</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>What Goes In Each File</h2>
+        <ul class="rules">
+          <li>
+            <span class="num">1</span>
+            <div><strong>Products:</strong> public product detail URLs only, such as <span class="inline-code">/ar/product/{id}/{slug}</span> and <span class="inline-code">/en/product/{id}/{slug}</span>.</div>
+          </li>
+          <li>
+            <span class="num">2</span>
+            <div><strong>Pages:</strong> public static pages, such as home, about, FAQ, contact, privacy, terms, cancellation policy, and help information pages if they are intended to rank.</div>
+          </li>
+          <li>
+            <span class="num">3</span>
+            <div><strong>Product categories:</strong> top-level public category landing pages, such as <span class="inline-code">/ar/properties/</span> and <span class="inline-code">/en/cars-and-vehicles/</span>.</div>
+          </li>
+          <li>
+            <span class="num">4</span>
+            <div><strong>Product subcategories:</strong> public category child pages, such as <span class="inline-code">/ar/properties/apartments/</span> and <span class="inline-code">/en/equipment-and-tools/generators/</span>.</div>
+          </li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Implementation Checklist</h2>
+        <ul class="rules">
+          <li>
+            <span class="num">1</span>
+            <div>Every XML URL returns <span class="inline-code">200</span> with <span class="inline-code">Content-Type: application/xml</span>.</div>
+          </li>
+          <li>
+            <span class="num">2</span>
+            <div>A <span class="inline-code">sitemapindex</span> file contains only sitemap XML links. A <span class="inline-code">urlset</span> file contains only page URLs.</div>
+          </li>
+          <li>
+            <span class="num">3</span>
+            <div>Use absolute canonical URLs in <span class="inline-code">&lt;loc&gt;</span>. Production files should use <span class="inline-code">https://renter.net/</span>; staging should stay blocked or clearly test-only.</div>
+          </li>
+          <li>
+            <span class="num">4</span>
+            <div>Do not include private, account, booking, payment, chat, search-result, item-management, or edit-product URLs.</div>
+          </li>
+          <li>
+            <span class="num">5</span>
+            <div>Use W3C date or datetime for <span class="inline-code">&lt;lastmod&gt;</span>, for example <span class="inline-code">2026-07-03</span> or <span class="inline-code">2026-07-03T00:14:45+03:00</span>. Omit it if it is not reliable.</div>
+          </li>
+          <li>
+            <span class="num">6</span>
+            <div>Each AR/EN URL pair should include reciprocal hreflang alternates, including a self-reference.</div>
+          </li>
+          <li>
+            <span class="num">7</span>
+            <div>If any URL-list file exceeds 50,000 URLs or 50 MB uncompressed, split that one file into paginated URL-list files and list those final files directly in the relevant index.</div>
+          </li>
+        </ul>
+      </section>
+
+    </main>
+  </div>
+
+  <script>
+    const buttons = document.querySelectorAll("[data-copy]");
+    buttons.forEach((button) => {
+      button.addEventListener("click", async () => {
+        const id = button.getAttribute("data-copy");
+        const el = document.getElementById(id);
+        if (!el) return;
+        const text = el.innerText;
+        try {
+          await navigator.clipboard.writeText(text);
+          const old = button.textContent;
+          button.textContent = "Copied";
+          setTimeout(() => {
+            button.textContent = old;
+          }, 1400);
+        } catch {
+          button.textContent = "Select text";
+        }
+      });
+    });
+  </script>
+</body>
+</html>
