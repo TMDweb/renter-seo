@@ -561,14 +561,10 @@
               <button class="copy" type="button" data-copy="ar-urlset">Copy</button>
             </div>
             <pre id="ar-urlset"><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;urlset
-  xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-  xmlns:xhtml="http://www.w3.org/1999/xhtml"&gt;
+&lt;urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"&gt;
   &lt;url&gt;
     &lt;loc&gt;https://renter.net/ar/product/465/mantly-test-3-quan&lt;/loc&gt;
     &lt;lastmod&gt;2026-07-04T05:34:25Z&lt;/lastmod&gt;
-    &lt;xhtml:link rel="alternate" hreflang="ar" href="https://renter.net/ar/product/465/mantly-test-3-quan"/&gt;
-    &lt;xhtml:link rel="alternate" hreflang="en" href="https://renter.net/en/product/465/mantly-test-3-quan"/&gt;
   &lt;/url&gt;
 &lt;/urlset&gt;</code></pre>
           </div>
@@ -579,14 +575,10 @@
               <button class="copy" type="button" data-copy="en-urlset">Copy</button>
             </div>
             <pre id="en-urlset"><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;urlset
-  xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-  xmlns:xhtml="http://www.w3.org/1999/xhtml"&gt;
+&lt;urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"&gt;
   &lt;url&gt;
     &lt;loc&gt;https://renter.net/en/product/465/mantly-test-3-quan&lt;/loc&gt;
     &lt;lastmod&gt;2026-07-04T05:34:25Z&lt;/lastmod&gt;
-    &lt;xhtml:link rel="alternate" hreflang="ar" href="https://renter.net/ar/product/465/mantly-test-3-quan"/&gt;
-    &lt;xhtml:link rel="alternate" hreflang="en" href="https://renter.net/en/product/465/mantly-test-3-quan"/&gt;
   &lt;/url&gt;
 &lt;/urlset&gt;</code></pre>
           </div>
@@ -640,7 +632,7 @@
           </li>
           <li>
             <span class="num">6</span>
-            <div>Each AR/EN URL pair should include reciprocal hreflang alternates, including a self-reference.</div>
+            <div>Do not add hreflang alternates inside these XML sitemaps for this task. Renter already sends hreflang through HTTP <span class="inline-code">Link</span> headers.</div>
           </li>
           <li>
             <span class="num">7</span>
