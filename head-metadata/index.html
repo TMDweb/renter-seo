@@ -130,9 +130,9 @@
 <div class="container">
   <div class="doc">
     <div class="doc-header">
-      <span class="section-kicker">Renter × TMD · Dev Ticket · July 26, 2026</span>
-      <h1 class="doc-title">Head metadata layer: no Open Graph, no Twitter Cards, no structured data, and relative canonical / hreflang URLs</h1>
-      <p class="doc-subtitle">Five systemic issues in the shared <code>&lt;head&gt;</code> template. Each one is a single fix that applies to every page on the site, unlike the per-URL content fixes sent separately in the three issue sheets. Verified on 12 live URLs covering every page type on Jul 26.</p>
+      <span class="section-kicker">Renter × TMD · Dev Ticket · July 26, 2026 · updated August 5, 2026</span>
+      <h1 class="doc-title">Head metadata layer: no Open Graph, no Twitter Cards, no structured data, relative canonical URLs, and temporary redirects carrying 57% of search clicks</h1>
+      <p class="doc-subtitle">Five systemic issues in the shared <code>&lt;head&gt;</code> template and routing layer. Each one is a single fix that applies to every page on the site, unlike the per-URL content fixes sent separately in the three issue sheets. Verified on 12 live URLs covering every page type on Jul 26, and re-verified on the same 12 on Aug 5. The hreflang item has been fixed since the first version and is marked as done below.</p>
       <div class="pill-row">
         <span class="pill crit">Priority: High (SEO + social)</span>
         <span class="pill">Area: Next.js metadata / head template, middleware</span>
@@ -200,7 +200,7 @@ $ curl -sL -A "Mozilla/5.0" https://renter.net/ar/properties/apartments/ \
 0</pre>
 
       <div class="callout ok">
-        <strong>Note on hreflang, so it is not misread as missing.</strong> The hreflang tags <em>are</em> present. They are emitted as <code>hrefLang</code> in camelCase, which HTML parses correctly, so the tags themselves are fine. The problem is only that their <code>href</code> values are relative. A naive grep for lowercase <code>hreflang</code> returns zero and looks alarming; it is not the issue.
+        <strong>Note on hreflang, so the counts are not misread.</strong> On every page except the two home pages the tags <em>are</em> present and their <code>href</code> values are now absolute, so that item is closed. They are emitted as <code>hrefLang</code> in camelCase, which HTML parses correctly, so the tags themselves are fine. Worth knowing when checking: a naive grep for lowercase <code>hreflang</code> is case-sensitive and returns zero on pages that do carry the tags, which looks alarming and is not the issue. Use <code>grep -i</code>. The zero on <code>/ar/</code> and <code>/en/</code> in the table above is real and was confirmed case-insensitively.
       </div>
 
       <span class="section-kicker">04</span>
