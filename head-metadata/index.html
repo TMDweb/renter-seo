@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Renter · Dev Ticket · Head Metadata: Open Graph, Structured Data, Canonical &amp; hreflang</title>
+<style>
+  :root {
+    --bg: #efe9e2;
+    --surface: #ffffff;
+    --surface-soft: #f7f2eb;
+    --border: rgba(25, 89, 84, 0.10);
+    --primary: #195954;
+    --primary-dark: #0f3835;
+    --secondary: #8b6030;
+    --text: #233331;
+    --text-muted: #5f625d;
+    --white: #ffffff;
+    --crit: #b3261e;
+    --crit-soft: #fbe9e7;
+    --warn: #8a5a00;
+    --warn-soft: #fcf3e0;
+    --ok: #1f6b4a;
+    --ok-soft: #e6f4ec;
+    --shadow-lg: 0 24px 60px rgba(15, 56, 53, 0.12);
+    --shadow-sm: 0 4px 14px rgba(15, 56, 53, 0.06);
+    --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, "Helvetica Neue", Arial, sans-serif;
+    background:
+      radial-gradient(circle at top right, rgba(139, 96, 48, 0.08), transparent 24%),
+      linear-gradient(180deg, #f5f1eb 0%, var(--bg) 100%);
+    padding: 40px 20px 60px;
+    color: var(--text);
+    line-height: 1.65;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+  }
+  .container { max-width: 980px; margin: 0 auto; }
+  a { color: var(--primary); text-decoration: none; border-bottom: 1px solid rgba(25,89,84,0.25); }
+  a:hover { color: var(--primary-dark); border-bottom-color: var(--primary); }
+
+  .doc {
+    background: var(--surface);
+    border-radius: 28px;
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.65);
+  }
+  .doc-header {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    padding: 46px 50px 40px;
+    color: var(--white);
+  }
+  .section-kicker {
+    display: inline-flex;
+    padding: 8px 16px;
+    margin-bottom: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.86);
+    font-size: 0.82em;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .doc-title { font-size: 1.9em; font-weight: 700; line-height: 1.3; text-wrap: balance; }
+  .doc-subtitle { color: rgba(255, 255, 255, 0.78); margin-top: 12px; max-width: 760px; }
+  .pill-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 20px; }
+  .pill {
+    display: inline-flex; align-items: center;
+    padding: 6px 14px; border-radius: 999px;
+    font-size: 0.78em; font-weight: 600;
+    background: rgba(255,255,255,0.10); color: var(--white);
+    border: 1px solid rgba(255,255,255,0.18);
+  }
+  .pill.crit { background: rgba(255, 205, 196, 0.22); border-color: rgba(255, 205, 196, 0.4); }
+
+  .doc-body { padding: 40px 50px 50px; }
+  section { margin-bottom: 40px; }
+  h2 { color: var(--primary-dark); font-size: 1.25em; margin-bottom: 12px; display: flex; align-items: baseline; gap: 10px; }
+  h2 .num { font-family: var(--mono); font-size: 0.72em; color: var(--secondary); font-weight: 600; }
+  p { margin-bottom: 10px; max-width: 78ch; }
+  ul, ol { margin: 8px 0 10px 22px; max-width: 78ch; }
+  li { margin: 5px 0; }
+  strong { color: var(--primary-dark); }
+
+  code {
+    font-family: var(--mono); font-size: 0.88em;
+    background: var(--surface-soft); border: 1px solid var(--border);
+    border-radius: 5px; padding: 1px 6px; color: var(--primary-dark);
+  }
+  pre {
+    background: #14211f; color: #e8e6da;
+    font-family: var(--mono); font-size: 12.5px; line-height: 1.55;
+    padding: 18px 20px; border-radius: 14px;
+    overflow-x: auto; margin: 12px 0;
+    direction: ltr; text-align: left;
+  }
+  pre code { background: none; border: none; padding: 0; color: inherit; font-size: inherit; }
+  pre .cmd { color: #f0c36a; }
+  pre .cm { color: #8fa39b; }
+  pre .hit { color: #f2a69b; }
+  pre .good { color: #8fd0a9; }
+
+  .callout {
+    border-radius: 16px; padding: 18px 22px; margin: 14px 0;
+    border: 1px solid var(--border); background: var(--surface-soft);
+  }
+  .callout.crit { background: var(--crit-soft); border-color: rgba(179,38,30,0.18); }
+  .callout.crit strong { color: var(--crit); }
+  .callout.ok { background: var(--ok-soft); border-color: rgba(31,107,74,0.18); }
+  .callout h3 { font-size: 1em; margin-bottom: 6px; color: var(--primary-dark); }
+
+  table { border-collapse: collapse; width: 100%; font-size: 0.92em; margin: 12px 0; }
+  .tablebox { border: 1px solid var(--border); border-radius: 14px; overflow-x: auto; background: var(--surface); box-shadow: var(--shadow-sm); }
+  th { font-size: 0.78em; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); text-align: left; padding: 12px 16px; border-bottom: 1px solid var(--border); background: var(--surface-soft); white-space: nowrap; }
+  td { padding: 11px 16px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  td.mono { font-family: var(--mono); font-size: 0.85em; white-space: nowrap; }
+
+  .footer-note { text-align: center; color: var(--text-muted); font-size: 0.85em; margin-top: 26px; }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="doc">
+    <div class="doc-header">
+      <span class="section-kicker">Renter × TMD · Dev Ticket · July 26, 2026</span>
+      <h1 class="doc-title">Head metadata layer: no Open Graph, no Twitter Cards, no structured data, and relative canonical / hreflang URLs</h1>
+      <p class="doc-subtitle">Five systemic issues in the shared <code>&lt;head&gt;</code> template. Each one is a single fix that applies to every page on the site, unlike the per-URL content fixes sent separately in the three issue sheets. Verified on 12 live URLs covering every page type on Jul 26.</p>
+      <div class="pill-row">
+        <span class="pill crit">Priority: High (SEO + social)</span>
+        <span class="pill">Area: Next.js metadata / head template, middleware</span>
+        <span class="pill">Status: Open</span>
+        <span class="pill">Reported: Jul 26, 2026</span>
+      </div>
+    </div>
+
+    <div class="doc-body">
+
+      <span class="section-kicker">01</span>
+      <h2>Summary</h2>
+      <p>Every page on renter.net renders a <code>&lt;head&gt;</code> with a title, a meta description, a canonical and hreflang. What it never renders is Open Graph, Twitter Card, or structured data, and the canonical URL it does render is relative rather than absolute. Locale-less paths also redirect with a temporary status instead of a permanent one.</p>
+      <div class="callout"><strong>Updated Aug 5.</strong> This ticket was written on Jul 26 and every item was re-checked against production on Aug 5 before sending. One item has since been fixed and is marked as such: hreflang URLs are now absolute. Two items were added: the two home pages emit no hreflang at all, and Search Console now shows how much traffic the 307 redirects are holding up.</div>
+      <p>These are template-level, so each is one code change that fixes the whole site at once. That is the reason they are grouped in a single ticket rather than filed per URL.</p>
+
+      <div class="callout crit">
+        <strong>The five issues</strong>
+        <ol>
+          <li><strong>No Open Graph tags</strong> anywhere, so shared links render with no image, title or description.</li>
+          <li><strong>No Twitter Card tags</strong> anywhere.</li>
+          <li><strong>No structured data</strong> (zero JSON-LD blocks), so no product rich results are possible.</li>
+          <li><strong>Canonical uses relative URLs</strong>, and the two home pages emit no hreflang at all. (The hreflang URLs elsewhere were made absolute after Jul 26 and are now correct.)</li>
+          <li><strong>Locale-less URLs redirect 307 (temporary)</strong> instead of 301, so ranking signals are not consolidated. This one now carries 57% of the site's search clicks, see section 07.</li>
+        </ol>
+      </div>
+
+      <span class="section-kicker">02</span>
+      <h2>Why this matters</h2>
+      <p><strong>Sharing is the most visible one.</strong> Renter's growth motion is WhatsApp and social. Right now every shared listing link appears as a bare URL with no preview image or text, which measurably lowers click-through compared with a card that shows the item and its price. This affects the Haraj and WhatsApp outreach directly.</p>
+      <p><strong>Structured data is the missed opportunity.</strong> A rental marketplace with no <code>Product</code> or <code>Offer</code> schema cannot show price or availability in search results, and cannot be read reliably by AI search surfaces. 1,036 products are already in the Merchant Center feed as of Aug 5, so the data needed to emit schema already exists in the page.</p>
+      <p><strong>The redirects are the biggest one by traffic.</strong> 57% of every search click the site earns lands on a locale-less address that answers 307. Until that is 301, the ranking credit those addresses have built stays parked on a URL Google treats as provisional instead of consolidating onto the Arabic and English pages that actually serve the content.</p>
+      <p><strong>Canonical needs the same absolute treatment hreflang just got.</strong> Google's documentation asks for fully-qualified URLs, and the hreflang side of this was fixed after Jul 26. Canonical was not, so the two are now inconsistent within the same <code>&lt;head&gt;</code>.</p>
+
+      <span class="section-kicker">03</span>
+      <h2>Evidence, captured Jul 26 and re-verified against production on Aug 5</h2>
+      <p>Twelve URLs spanning every page type. Counts are tags found in the served HTML. The <strong>hreflang column changed between the two runs</strong>: those URLs were made absolute after Jul 26 and that part of fix 4 is now done. Everything else is unchanged.</p>
+      <div class="tablebox">
+      <table>
+        <thead><tr><th>URL</th><th>og:</th><th>twitter:</th><th>JSON-LD</th><th>canonical</th><th>hreflang</th></tr></thead>
+        <tbody>
+          <tr><td><code>/ar/</code> (home)</td><td>0</td><td>0</td><td>0</td><td>relative</td><td><strong>none at all</strong></td></tr>
+          <tr><td><code>/en/</code> (home)</td><td>0</td><td>0</td><td>0</td><td>relative</td><td><strong>none at all</strong></td></tr>
+          <tr><td><code>/ar/properties/</code> (category)</td><td>0</td><td>0</td><td>0</td><td>relative</td><td>absolute <span style="opacity:.7">(fixed)</span></td></tr>
+          <tr><td><code>/ar/properties/apartments/</code></td><td>0</td><td>0</td><td>0</td><td>relative</td><td>absolute <span style="opacity:.7">(fixed)</span></td></tr>
+          <tr><td><code>/en/properties/apartments/</code></td><td>0</td><td>0</td><td>0</td><td>relative</td><td>absolute <span style="opacity:.7">(fixed)</span></td></tr>
+          <tr><td><code>/ar/cars-and-vehicles/cars/</code></td><td>0</td><td>0</td><td>0</td><td>relative</td><td>absolute <span style="opacity:.7">(fixed)</span></td></tr>
+          <tr><td><code>/ar/services/home-services/</code></td><td>0</td><td>0</td><td>0</td><td>relative</td><td>absolute <span style="opacity:.7">(fixed)</span></td></tr>
+          <tr><td><code>/ar/product/1306/twywta-kamry-2026/</code></td><td>0</td><td>0</td><td>0</td><td>relative</td><td>absolute <span style="opacity:.7">(fixed)</span></td></tr>
+          <tr><td><code>/en/product/2097/10-ton-forklift/</code></td><td>0</td><td>0</td><td>0</td><td>relative</td><td>absolute <span style="opacity:.7">(fixed)</span></td></tr>
+          <tr><td><code>/ar/aboutus/</code></td><td>0</td><td>0</td><td>0</td><td>relative</td><td>absolute <span style="opacity:.7">(fixed)</span></td></tr>
+          <tr><td><code>/en/faq/</code></td><td>0</td><td>0</td><td>0</td><td>relative</td><td>absolute <span style="opacity:.7">(fixed)</span></td></tr>
+          <tr><td><code>/ar/courts-and-arenas/volleyball-courts/</code></td><td>0</td><td>0</td><td>0</td><td>relative</td><td>absolute <span style="opacity:.7">(fixed)</span></td></tr>
+          <tr><td><strong>Total, 12 pages</strong></td><td><strong>0</strong></td><td><strong>0</strong></td><td><strong>0</strong></td><td></td><td></td></tr>
+        </tbody>
+      </table>
+      </div>
+      <p>Reproduce with:</p>
+      <pre>$ curl -sL -A "Mozilla/5.0" https://renter.net/ar/properties/apartments/ \
+  | grep -c 'property="og:'
+0
+
+$ curl -sL -A "Mozilla/5.0" https://renter.net/ar/properties/apartments/ \
+  | grep -c 'application/ld+json'
+0</pre>
+
+      <div class="callout ok">
+        <strong>Note on hreflang, so it is not misread as missing.</strong> The hreflang tags <em>are</em> present. They are emitted as <code>hrefLang</code> in camelCase, which HTML parses correctly, so the tags themselves are fine. The problem is only that their <code>href</code> values are relative. A naive grep for lowercase <code>hreflang</code> returns zero and looks alarming; it is not the issue.
+      </div>
+
+      <span class="section-kicker">04</span>
+      <h2>Fix 1 and 2: Open Graph and Twitter Card tags</h2>
+      <p>Add to the shared metadata for every route, populated from data the page already has. In Next.js App Router this is the <code>openGraph</code> and <code>twitter</code> keys of the <code>Metadata</code> object, so it can be done once in the root layout and overridden per route.</p>
+      <p>Product pages, using existing listing fields:</p>
+      <pre>&lt;meta property="og:type"        content="product" /&gt;
+&lt;meta property="og:site_name"   content="Renter" /&gt;
+&lt;meta property="og:locale"      content="ar_SA" /&gt;   &lt;!-- en_US on /en/ --&gt;
+&lt;meta property="og:title"       content="{page title}" /&gt;
+&lt;meta property="og:description" content="{meta description}" /&gt;
+&lt;meta property="og:url"         content="https://renter.net{path}" /&gt;
+&lt;meta property="og:image"       content="https://renter.net{first listing image}" /&gt;
+&lt;meta property="og:image:width"  content="1200" /&gt;
+&lt;meta property="og:image:height" content="630" /&gt;
+
+&lt;meta name="twitter:card"        content="summary_large_image" /&gt;
+&lt;meta name="twitter:title"       content="{page title}" /&gt;
+&lt;meta name="twitter:description" content="{meta description}" /&gt;
+&lt;meta name="twitter:image"       content="https://renter.net{first listing image}" /&gt;</pre>
+      <p>Notes that matter for rendering:</p>
+      <ul>
+        <li><code>og:image</code> must be an <strong>absolute</strong> URL. WhatsApp and Facebook will not resolve a relative path.</li>
+        <li>Use a site-wide fallback image for pages with no photo (info pages, categories, and the roughly 67 older listings with broken images) so no share renders blank.</li>
+        <li>Images should be at least 1200x630. WhatsApp additionally prefers files under about 300 KB, otherwise it often skips the preview.</li>
+      </ul>
+
+      <span class="section-kicker">05</span>
+      <h2>Fix 3: structured data (JSON-LD)</h2>
+      <p>Zero JSON-LD blocks exist today. Minimum useful set:</p>
+      <ul>
+        <li><strong>Product pages:</strong> <code>Product</code> with a nested <code>Offer</code> carrying <code>price</code>, <code>priceCurrency: "SAR"</code>, <code>availability</code> and <code>url</code>.</li>
+        <li><strong>Home page:</strong> <code>Organization</code> (legal name, logo, contact) plus <code>WebSite</code> with <code>SearchAction</code>.</li>
+        <li><strong>Category and subcategory pages:</strong> <code>BreadcrumbList</code>.</li>
+        <li><strong>FAQ page:</strong> <code>FAQPage</code>.</li>
+      </ul>
+      <pre>&lt;script type="application/ld+json"&gt;
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "{listing title}",
+  "description": "{meta description}",
+  "image": ["https://renter.net{listing image}"],
+  "url": "https://renter.net{path}",
+  "offers": {
+    "@type": "Offer",
+    "price": "{price}",
+    "priceCurrency": "SAR",
+    "availability": "https://schema.org/InStock",
+    "url": "https://renter.net{path}"
+  }
+}
+&lt;/script&gt;</pre>
+      <p>One caution: only emit <code>price</code> when a real price exists. Some listings currently carry 0 SAR or a placeholder 1 SAR, and publishing those as schema prices would misrepresent the offer. Omit the <code>Offer</code> block rather than emit a placeholder.</p>
+
+      <span class="section-kicker">06</span>
+      <h2>Fix 4: absolute canonical URLs, and the two home pages have lost hreflang entirely</h2>
+      <p><strong>The hreflang half of this is already done, thank you.</strong> As of Aug 5 the alternate URLs are absolute on every page checked, so no further work is needed there. Two things in this section are still open.</p>
+
+      <p><strong>4a. Canonical is still relative on all 12 pages.</strong> Currently served on <code>/ar/properties/apartments/</code>:</p>
+      <pre>&lt;link rel="canonical" href="/ar/properties/apartments/"/&gt;      &lt;!-- still relative --&gt;
+&lt;link rel="alternate" hrefLang="ar" href="https://renter.net/ar/properties/apartments/"/&gt;  &lt;!-- fixed --&gt;</pre>
+      <p>Should be:</p>
+      <pre>&lt;link rel="canonical" href="https://renter.net/ar/properties/apartments/"/&gt;</pre>
+      <p>In Next.js this is what <code>metadataBase</code> is for: set it once to <code>https://renter.net</code> and the framework will emit absolute canonical URLs alongside the alternates it is already emitting correctly.</p>
+
+      <p><strong>4b. New since Jul 26: <code>/ar/</code> and <code>/en/</code> emit no hreflang tags at all.</strong> Every other page on the site carries its three alternates (<code>ar</code>, <code>en</code>, <code>x-default</code>). The two home pages carry none. Verified Aug 5:</p>
+      <pre>$ curl -s https://renter.net/ar/ | grep -c -i 'hreflang'
+0
+$ curl -s https://renter.net/en/ | grep -c -i 'hreflang'
+0
+$ curl -s https://renter.net/ar/aboutus/ | grep -c -i 'hreflang'
+3</pre>
+      <p>These are the two highest-traffic pages on the site, so they are the ones that most need the language pairing declared. Worth checking whether the home route bypasses the shared metadata helper that the other routes use.</p>
+      <p>Please re-run Ahrefs after the change to confirm the <code>hreflang_issues</code> flags are gone.</p>
+
+      <span class="section-kicker">07</span>
+      <h2>Fix 5: locale-less redirects should be 301, not 307</h2>
+      <p>Locale-less paths currently redirect with a temporary status:</p>
+      <div class="tablebox">
+      <table>
+        <thead><tr><th>Request</th><th>Status now</th><th>Location</th><th>Should be</th></tr></thead>
+        <tbody>
+          <tr><td><code>https://renter.net/</code></td><td>307</td><td><code>/ar/</code></td><td>301</td></tr>
+          <tr><td><code>https://renter.net/faq/</code></td><td>307</td><td><code>/ar/faq/</code></td><td>301</td></tr>
+          <tr><td><code>https://renter.net/properties/apartments/</code></td><td>307</td><td><code>/ar/properties/apartments/</code></td><td>301</td></tr>
+          <tr><td><code>https://renter.net/product/2097/10-ton-forklift/</code></td><td>307</td><td><code>/ar/product/2097/...</code></td><td>301</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <p>A 307 tells Google the move is temporary, so it keeps the locale-less URL in its index and does not pass consolidated signals to the locale version. These are permanent routing decisions, so they should be 301. Note <code>/ar</code> and <code>/en</code> without the trailing slash already return 308 correctly, so this is specific to the locale-prefix redirect in middleware.</p>
+      <p><strong>Scale of this one, measured in Search Console on Aug 5.</strong> Across every page that earned a click in the last 28 days, the locale-less addresses account for <strong>261 of 457 clicks (57%)</strong> and 40% of impressions. The top two pages on the whole site by clicks, <code>renter.net/</code> with 93 and <code>/product/1228/myny-bystwn-ayjar-ywmy-wasbway/</code> with 62, are both on this path. That makes this the single highest-value item in the ticket: more than half the site's search traffic is currently landing on an address whose ranking credit is being held in limbo rather than passed to the page that actually serves it.</p>
+
+      <span class="section-kicker">08</span>
+      <h2>Bonus, same template layer: meta descriptions are double-encoded</h2>
+      <p>HTML entities are being escaped twice, so the entity text renders literally inside the tag instead of the character it represents:</p>
+      <pre># /en/product/2168/sony-fx30/
+&lt;meta name="description" content="كميرا سوني fx30&amp;amp;nbsp;"&gt;
+                                                  ^^^^^^^^^^ renders as literal "&amp;nbsp;"
+
+# /en/product/1560/kryn50tn/  → &amp;amp;quot; instead of a quote mark</pre>
+      <p>Encode once. This is also why some descriptions look padded with stray characters in search results.</p>
+
+      <span class="section-kicker">09</span>
+      <h2>Acceptance criteria</h2>
+      <ol>
+        <li>Every page returns a complete Open Graph set (<code>og:title</code>, <code>og:description</code>, <code>og:image</code>, <code>og:url</code>, <code>og:type</code>, <code>og:site_name</code>, <code>og:locale</code>) with an absolute <code>og:image</code>.</li>
+        <li>Every page returns <code>twitter:card</code>, <code>twitter:title</code>, <code>twitter:description</code> and <code>twitter:image</code>.</li>
+        <li>Pasting any product URL into WhatsApp renders a preview card with image and title.</li>
+        <li>Product pages emit valid <code>Product</code> and <code>Offer</code> JSON-LD, passing Google's Rich Results Test with no errors, and no <code>Offer</code> is emitted for listings without a real price.</li>
+        <li>Canonical <code>href</code> values are absolute and start with <code>https://renter.net</code> (the hreflang <code>href</code> values already are).</li>
+        <li><code>/ar/</code> and <code>/en/</code> each emit the same three hreflang alternates every other page emits.</li>
+        <li>Ahrefs reports no <code>hreflang_issues</code> on the pages listed in section 03.</li>
+        <li><code>curl -I</code> on the locale-less URLs in section 07 returns <code>301</code>.</li>
+        <li>No meta description contains <code>&amp;amp;</code> followed by an entity name.</li>
+      </ol>
+
+      <span class="section-kicker">10</span>
+      <h2>Deliberately not in this ticket</h2>
+      <p>Sent separately on Jul 26 as three sheets with per-URL suggested copy: pages with a missing or empty title, pages with duplicated meta description tags, and pages with multiple H1 tags or a wrong-language title and H1. Those need content decisions per URL, so they are tracked there rather than here. The two template bugs behind them, the page title being rendered as an extra H1 and the missing space in <code>{name}للايجار بالسعودية</code>, are noted in that handoff.</p>
+      <p>Also observed but not filed, since they are content quality rather than template defects: meta descriptions shorter than recommended on 354 pages, titles over the display limit on 12 pages (one at 266 characters), and 19 orphan pages with no incoming internal links.</p>
+
+      <p class="footer-note">Prepared by TMD (Saiaf) · verified against production renter.net on Jul 26, 2026 · Ahrefs Site Audit crawl of Jul 26, 2026, project Renter (health score 64)</p>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
