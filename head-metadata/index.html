@@ -122,6 +122,12 @@
   tr:last-child td { border-bottom: none; }
   td.mono { font-family: var(--mono); font-size: 0.85em; white-space: nowrap; }
 
+  .scope {
+    background: var(--crit-soft); border: 1px solid rgba(179,38,30,0.18);
+    border-radius: 12px; padding: 12px 16px; margin: 10px 0 14px;
+    font-size: 0.94em; color: var(--crit); font-weight: 600; max-width: 78ch;
+  }
+  .scope strong { color: var(--crit); }
   .footer-note { text-align: center; color: var(--text-muted); font-size: 0.85em; margin-top: 26px; }
 </style>
 </head>
@@ -148,6 +154,7 @@
       <p>Each page on renter.net has a <code>&lt;head&gt;</code> with a title, a meta description, a canonical URL and hreflang tags. But no page has Open Graph tags, Twitter Card tags or structured data. Also, each canonical URL is relative. It must be absolute. URLs with no language prefix redirect with a temporary status. They must redirect with a permanent status.</p>
       <div class="callout"><strong>Update of Aug 5.</strong> TMD wrote this ticket on Jul 26. TMD tested each item again on the live site on Aug 5. One item is now correct: the hreflang URLs are absolute. This ticket shows that item as done. TMD added two new items. First, the two home pages have no hreflang tags. Second, Google Search Console shows the quantity of traffic that the 307 redirects stop.</div>
       <p>All these faults are in the templates. Thus each fault needs one code change only. That change corrects all the pages. This is why TMD put the faults in one ticket. TMD did not make one ticket for each URL.</p>
+      <div class="scope"><strong>SCOPE. Read this before you start.</strong> The URL lists in this ticket are examples only. They are not the full list of pages to correct. TMD gives one or two URLs of each page type. Use them to test your change. Correct each fault on all the affected pages. Each fix below gives its own scope. The sitemap has 2,280 pages: 2,072 product pages, 194 category and subcategory pages, and 14 information pages.</div>
 
       <div class="callout crit">
         <strong>The five issues</strong>
@@ -169,7 +176,7 @@
 
       <span class="section-kicker">03</span>
       <h2 id="testdata">Test data. TMD measured it on Jul 26 and again on Aug 5</h2>
-      <p>TMD tested 12 URLs. They include each page type. The numbers show the tags in the HTML that the server sends. <strong>Only the hreflang column changed between the two tests.</strong> Those URLs are now absolute. That part of fix 4 is done. All the other columns are the same.</p>
+      <p><strong>These 12 URLs are examples. They are not the full list of pages to correct.</strong> TMD tested 12 URLs. They include each page type. The numbers show the tags in the HTML that the server sends. <strong>Only the hreflang column changed between the two tests.</strong> Those URLs are now absolute. That part of fix 4 is done. All the other columns are the same.</p>
       <div class="tablebox">
       <table>
         <thead><tr><th>URL</th><th>og:</th><th>twitter:</th><th>JSON-LD</th><th>canonical</th><th>hreflang</th></tr></thead>
@@ -205,6 +212,7 @@ $ curl -sL -A "Mozilla/5.0" https://renter.net/ar/properties/apartments/ \
 
       <span class="section-kicker">04</span>
       <h2 id="fix1-2">Fix 1 and 2: Open Graph and Twitter Card tags</h2>
+      <div class="scope"><strong>Scope: all 2,280 pages.</strong> Zero pages have these tags now. One template change corrects all the pages.</div>
       <p>Add these tags to the shared metadata of each route. Use the data that the page has already. In the Next.js App Router, use the <code>openGraph</code> key and the <code>twitter</code> key of the <code>Metadata</code> object. You can set them one time in the root layout. Then you can change them for each route.</p>
       <p>Product pages, using existing listing fields:</p>
       <pre>&lt;meta property="og:type"        content="product" /&gt;
@@ -230,6 +238,7 @@ $ curl -sL -A "Mozilla/5.0" https://renter.net/ar/properties/apartments/ \
 
       <span class="section-kicker">05</span>
       <h2 id="fix3">Fix 3: structured data (JSON-LD)</h2>
+      <div class="scope"><strong>Scope: all 2,280 pages.</strong> Add Product and Offer to the 2,072 product pages. Add Organization and WebSite to the 2 home pages. Add BreadcrumbList to the 194 category and subcategory pages.</div>
       <p>Zero JSON-LD blocks exist today. Minimum useful set:</p>
       <ul>
         <li><strong>Product pages:</strong> add <code>Product</code>. Put an <code>Offer</code> in it. The <code>Offer</code> must have <code>price</code>, <code>priceCurrency: "SAR"</code>, <code>availability</code> and <code>url</code>.</li>
@@ -258,6 +267,7 @@ $ curl -sL -A "Mozilla/5.0" https://renter.net/ar/properties/apartments/ \
 
       <span class="section-kicker">06</span>
       <h2 id="fix4">Fix 4: Make each canonical URL absolute. Add hreflang tags to the two home pages.</h2>
+      <div class="scope"><strong>Scope 4a, canonical: all 2,280 pages.</strong> Each canonical URL on the site is relative. The 12 URLs in section 03 are examples only.<br><strong>Scope 4b, hreflang: 2 pages only, <code>/ar/</code> and <code>/en/</code>.</strong> This is a complete list, not an example. All the other pages are correct.</div>
       <p><strong>You did the hreflang part of this fix already. Thank you.</strong> On Aug 5 the alternate URLs were absolute on each page that TMD tested. Do not do that work again. But two items in this section are not correct.</p>
 
       <p><strong>4a. Each of the 12 canonical URLs is relative.</strong> The server sends this on <code>/ar/properties/apartments/</code>:</p>
@@ -279,6 +289,7 @@ $ curl -s https://renter.net/ar/aboutus/ | grep -c -i 'hreflang'
 
       <span class="section-kicker">07</span>
       <h2 id="fix5">Fix 5: Change the redirects from 307 to 301. Do this fix first.</h2>
+      <div class="scope"><strong>Scope: all URLs that have no language prefix. There are approximately 1,140.</strong> That is one URL for each page in the sitemap. The URLs in the table below and the 45 URLs in the sheet are examples only. They are the URLs that got clicks, thus they show the value of this fix. One change in the middleware corrects all of them.</div>
       <p>The URLs with no language prefix redirect with a temporary status:</p>
       <div class="tablebox">
       <table>
@@ -296,6 +307,7 @@ $ curl -s https://renter.net/ar/aboutus/ | grep -c -i 'hreflang'
 
       <span class="section-kicker">08</span>
       <h2 id="bonus">Bonus fix, in the same template: the meta descriptions have two encodings</h2>
+      <div class="scope"><strong>Scope: approximately 800 product pages.</strong> TMD tested a random sample of 60 product pages on Aug 5. 24 of the 60 have this fault. This is 40%. The site has 2,072 product pages. The examples in the sheet are 24 URLs only. One template change corrects all the pages.</div>
       <p>The template encodes the HTML entities two times. Thus the entity text shows in the tag. The character does not show. Example:</p>
       <pre># /en/product/2168/sony-fx30/
 &lt;meta name="description" content="كميرا سوني fx30&amp;amp;nbsp;"&gt;
