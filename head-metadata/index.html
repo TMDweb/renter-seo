@@ -429,8 +429,9 @@ $ curl -sL -A "Mozilla/5.0" https://renter.net/ar/properties/apartments/ \
 }
 &lt;/script&gt;</pre>
 
-      <h3>3e. Category page: one block</h3>
-      <p>Rendered for <a href="https://renter.net/ar/cars-and-vehicles/">/ar/cars-and-vehicles/</a>. For the other categories, change the second <code>name</code> using the table below. The last item has no <code>item</code> URL; Google permits that for the current page. English pages: <code>"name": "Home"</code>, <code>"item": "https://renter.net/en/"</code>, then the English navigation label.</p>
+      <h3>3e. Category and subcategory pages: one category rendered complete</h3>
+      <p>Every page under <strong>سيارات ومركبات</strong>, rendered: the category page and its 13 subcategory pages, one block each, paste as is. The last item has no <code>item</code> URL; Google permits that for the current page. For the other 9 categories, repeat exactly this pattern with the names from the table in 3f.</p>
+      <p>Category page <a href="https://renter.net/ar/cars-and-vehicles/">/ar/cars-and-vehicles/</a>:</p>
       <pre>&lt;script type="application/ld+json"&gt;
 {
   "@context": "https://schema.org",
@@ -450,26 +451,111 @@ $ curl -sL -A "Mozilla/5.0" https://renter.net/ar/properties/apartments/ \
   ]
 }
 &lt;/script&gt;</pre>
-      <div class="tablebox">
-      <table>
-        <thead><tr><th>Path</th><th>Breadcrumb name</th></tr></thead>
-        <tbody>
-          <tr><td><code>/ar/properties/</code></td><td>عقارات</td></tr>
-          <tr><td><code>/ar/cars-and-vehicles/</code></td><td>سيارات ومركبات</td></tr>
-          <tr><td><code>/ar/occasions-and-entertainment/</code></td><td>ترفيه ومناسبات</td></tr>
-          <tr><td><code>/ar/services/</code></td><td>خدمات</td></tr>
-          <tr><td><code>/ar/devices-and-appliances/</code></td><td>أجهزة وإلكترونيات</td></tr>
-          <tr><td><code>/ar/equipment-and-tools/</code></td><td>آلات ومعدات</td></tr>
-          <tr><td><code>/ar/courts-and-arenas/</code></td><td>صالات وملاعب</td></tr>
-          <tr><td><code>/ar/furniture-and-accessories/</code></td><td>أثاث ومستلزمات</td></tr>
-          <tr><td><code>/ar/fashion-and-clothes/</code></td><td>أزياء وملابس</td></tr>
-          <tr><td><code>/ar/other/</code></td><td>أخرى</td></tr>
-        </tbody>
-      </table>
-      </div>
-
-      <h3>3f. Subcategory page: one block</h3>
-      <p>Rendered for <a href="https://renter.net/ar/cars-and-vehicles/cars/">/ar/cars-and-vehicles/cars/</a>. For the other 86 subcategories, the last <code>name</code> is the label the category page shows for that subcategory link.</p>
+      <p>Subcategory page <code>/ar/cars-and-vehicles/aircraft/</code>:</p>
+      <pre>&lt;script type="application/ld+json"&gt;
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "الرئيسية",
+      "item": "https://renter.net/ar/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "سيارات ومركبات",
+      "item": "https://renter.net/ar/cars-and-vehicles/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "طائرات"
+    }
+  ]
+}
+&lt;/script&gt;</pre>
+      <p>Subcategory page <code>/ar/cars-and-vehicles/bicycles-and-scooters/</code>:</p>
+      <pre>&lt;script type="application/ld+json"&gt;
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "الرئيسية",
+      "item": "https://renter.net/ar/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "سيارات ومركبات",
+      "item": "https://renter.net/ar/cars-and-vehicles/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "سياكل و سكوترات"
+    }
+  ]
+}
+&lt;/script&gt;</pre>
+      <p>Subcategory page <code>/ar/cars-and-vehicles/buggies-and-carts/</code>:</p>
+      <pre>&lt;script type="application/ld+json"&gt;
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "الرئيسية",
+      "item": "https://renter.net/ar/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "سيارات ومركبات",
+      "item": "https://renter.net/ar/cars-and-vehicles/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "بقي وعربات"
+    }
+  ]
+}
+&lt;/script&gt;</pre>
+      <p>Subcategory page <code>/ar/cars-and-vehicles/buses/</code>:</p>
+      <pre>&lt;script type="application/ld+json"&gt;
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "الرئيسية",
+      "item": "https://renter.net/ar/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "سيارات ومركبات",
+      "item": "https://renter.net/ar/cars-and-vehicles/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "حافلات"
+    }
+  ]
+}
+&lt;/script&gt;</pre>
+      <p>Subcategory page <code>/ar/cars-and-vehicles/cars/</code>:</p>
       <pre>&lt;script type="application/ld+json"&gt;
 {
   "@context": "https://schema.org",
@@ -495,6 +581,368 @@ $ curl -sL -A "Mozilla/5.0" https://renter.net/ar/properties/apartments/ \
   ]
 }
 &lt;/script&gt;</pre>
+      <p>Subcategory page <code>/ar/cars-and-vehicles/flatbed/</code>:</p>
+      <pre>&lt;script type="application/ld+json"&gt;
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "الرئيسية",
+      "item": "https://renter.net/ar/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "سيارات ومركبات",
+      "item": "https://renter.net/ar/cars-and-vehicles/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "سطحة"
+    }
+  ]
+}
+&lt;/script&gt;</pre>
+      <p>Subcategory page <code>/ar/cars-and-vehicles/heavy-transport/</code>:</p>
+      <pre>&lt;script type="application/ld+json"&gt;
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "الرئيسية",
+      "item": "https://renter.net/ar/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "سيارات ومركبات",
+      "item": "https://renter.net/ar/cars-and-vehicles/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "النقل الثقيل"
+    }
+  ]
+}
+&lt;/script&gt;</pre>
+      <p>Subcategory page <code>/ar/cars-and-vehicles/light-transport/</code>:</p>
+      <pre>&lt;script type="application/ld+json"&gt;
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "الرئيسية",
+      "item": "https://renter.net/ar/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "سيارات ومركبات",
+      "item": "https://renter.net/ar/cars-and-vehicles/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "نقل خفيف"
+    }
+  ]
+}
+&lt;/script&gt;</pre>
+      <p>Subcategory page <code>/ar/cars-and-vehicles/marine-boats/</code>:</p>
+      <pre>&lt;script type="application/ld+json"&gt;
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "الرئيسية",
+      "item": "https://renter.net/ar/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "سيارات ومركبات",
+      "item": "https://renter.net/ar/cars-and-vehicles/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "قوارب بحرية"
+    }
+  ]
+}
+&lt;/script&gt;</pre>
+      <p>Subcategory page <code>/ar/cars-and-vehicles/motorcycles/</code>:</p>
+      <pre>&lt;script type="application/ld+json"&gt;
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "الرئيسية",
+      "item": "https://renter.net/ar/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "سيارات ومركبات",
+      "item": "https://renter.net/ar/cars-and-vehicles/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "دبابات"
+    }
+  ]
+}
+&lt;/script&gt;</pre>
+      <p>Subcategory page <code>/ar/cars-and-vehicles/other/</code>:</p>
+      <pre>&lt;script type="application/ld+json"&gt;
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "الرئيسية",
+      "item": "https://renter.net/ar/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "سيارات ومركبات",
+      "item": "https://renter.net/ar/cars-and-vehicles/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "أخرى"
+    }
+  ]
+}
+&lt;/script&gt;</pre>
+      <p>Subcategory page <code>/ar/cars-and-vehicles/watercraft/</code>:</p>
+      <pre>&lt;script type="application/ld+json"&gt;
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "الرئيسية",
+      "item": "https://renter.net/ar/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "سيارات ومركبات",
+      "item": "https://renter.net/ar/cars-and-vehicles/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "مركبة مائية"
+    }
+  ]
+}
+&lt;/script&gt;</pre>
+      <p>Subcategory page <code>/ar/cars-and-vehicles/yachts/</code>:</p>
+      <pre>&lt;script type="application/ld+json"&gt;
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "الرئيسية",
+      "item": "https://renter.net/ar/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "سيارات ومركبات",
+      "item": "https://renter.net/ar/cars-and-vehicles/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "يخت"
+    }
+  ]
+}
+&lt;/script&gt;</pre>
+
+      <h3>3f. The English pages, and every name for the rest of the site</h3>
+      <p>English pages use the same pattern with <code>"name": "Home"</code>, <code>"item": "https://renter.net/en/"</code> and the English names. The same two pages rendered:</p>
+      <p>Category page <a href="https://renter.net/en/cars-and-vehicles/">/en/cars-and-vehicles/</a>:</p>
+      <pre>&lt;script type="application/ld+json"&gt;
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://renter.net/en/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Cars &amp; Vehicles"
+    }
+  ]
+}
+&lt;/script&gt;</pre>
+      <p>Subcategory page <code>/en/cars-and-vehicles/aircraft/</code>:</p>
+      <pre>&lt;script type="application/ld+json"&gt;
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://renter.net/en/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Cars &amp; Vehicles",
+      "item": "https://renter.net/en/cars-and-vehicles/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Aircraft"
+    }
+  ]
+}
+&lt;/script&gt;</pre>
+      <p>All names for all 10 categories and 87 subcategories, taken from the live navigation on Aug 10. Replace <code>{lang}</code> with <code>ar</code> or <code>en</code> and use the matching column:</p>
+      <div class="tablebox">
+      <table>
+        <thead><tr><th>Path</th><th>Arabic name</th><th>English name</th></tr></thead>
+        <tbody>
+          <tr><td><code>/{lang}/properties/</code></td><td>عقارات</td><td>Properties</td></tr>
+          <tr><td><code>/{lang}/properties/apartments/</code></td><td>شقق</td><td>Apartments</td></tr>
+          <tr><td><code>/{lang}/properties/camps/</code></td><td>مخيمات</td><td>Camps</td></tr>
+          <tr><td><code>/{lang}/properties/chalets/</code></td><td>شاليهات</td><td>Chalets</td></tr>
+          <tr><td><code>/{lang}/properties/commercial-offices/</code></td><td>مكاتب تجارية</td><td>Commercial Offices</td></tr>
+          <tr><td><code>/{lang}/properties/farms/</code></td><td>مزارع</td><td>Farms</td></tr>
+          <tr><td><code>/{lang}/properties/floor-through/</code></td><td>أدوار</td><td>Floor Through</td></tr>
+          <tr><td><code>/{lang}/properties/furnished-apartments/</code></td><td>شقق مفروشة</td><td>Furnished Apartments</td></tr>
+          <tr><td><code>/{lang}/properties/halls/</code></td><td>قاعات مناسبات</td><td>Halls</td></tr>
+          <tr><td><code>/{lang}/properties/land/</code></td><td>أراضي</td><td>Land</td></tr>
+          <tr><td><code>/{lang}/properties/mobile-offices/</code></td><td>مكاتب متنقلة</td><td>Mobile Offices</td></tr>
+          <tr><td><code>/{lang}/properties/other/</code></td><td>أخرى</td><td>Other</td></tr>
+          <tr><td><code>/{lang}/properties/parking-spaces/</code></td><td>مواقف سيارات</td><td>Parking Spaces</td></tr>
+          <tr><td><code>/{lang}/properties/resorts/</code></td><td>استراحات</td><td>Resorts</td></tr>
+          <tr><td><code>/{lang}/properties/rooms/</code></td><td>غرف</td><td>Rooms</td></tr>
+          <tr><td><code>/{lang}/properties/shops/</code></td><td>محلات</td><td>Shops</td></tr>
+          <tr><td><code>/{lang}/properties/villas/</code></td><td>فلل</td><td>Villas</td></tr>
+          <tr><td><code>/{lang}/properties/warehouses/</code></td><td>مستودعات</td><td>Warehouses</td></tr>
+          <tr><td><code>/{lang}/properties/work-offices/</code></td><td>مكاتب عمل</td><td>Work Offices</td></tr>
+          <tr><td><code>/{lang}/cars-and-vehicles/</code></td><td>سيارات ومركبات</td><td>Cars & Vehicles</td></tr>
+          <tr><td><code>/{lang}/cars-and-vehicles/aircraft/</code></td><td>طائرات</td><td>Aircraft</td></tr>
+          <tr><td><code>/{lang}/cars-and-vehicles/bicycles-and-scooters/</code></td><td>سياكل و سكوترات</td><td>Bicycles & Scooters</td></tr>
+          <tr><td><code>/{lang}/cars-and-vehicles/buggies-and-carts/</code></td><td>بقي وعربات</td><td>Buggies & Carts</td></tr>
+          <tr><td><code>/{lang}/cars-and-vehicles/buses/</code></td><td>حافلات</td><td>Buses</td></tr>
+          <tr><td><code>/{lang}/cars-and-vehicles/cars/</code></td><td>سيارات</td><td>Cars</td></tr>
+          <tr><td><code>/{lang}/cars-and-vehicles/flatbed/</code></td><td>سطحة</td><td>Flatbed</td></tr>
+          <tr><td><code>/{lang}/cars-and-vehicles/heavy-transport/</code></td><td>النقل الثقيل</td><td>Heavy Transport</td></tr>
+          <tr><td><code>/{lang}/cars-and-vehicles/light-transport/</code></td><td>نقل خفيف</td><td>Light Transport</td></tr>
+          <tr><td><code>/{lang}/cars-and-vehicles/marine-boats/</code></td><td>قوارب بحرية</td><td>Marine Boats</td></tr>
+          <tr><td><code>/{lang}/cars-and-vehicles/motorcycles/</code></td><td>دبابات</td><td>Motorcycles</td></tr>
+          <tr><td><code>/{lang}/cars-and-vehicles/other/</code></td><td>أخرى</td><td>Other</td></tr>
+          <tr><td><code>/{lang}/cars-and-vehicles/watercraft/</code></td><td>مركبة مائية</td><td>Watercraft</td></tr>
+          <tr><td><code>/{lang}/cars-and-vehicles/yachts/</code></td><td>يخت</td><td>Yachts</td></tr>
+          <tr><td><code>/{lang}/occasions-and-entertainment/</code></td><td>ترفيه ومناسبات</td><td>Occasions & Entertainment</td></tr>
+          <tr><td><code>/{lang}/occasions-and-entertainment/carts/</code></td><td>عربات</td><td>Carts</td></tr>
+          <tr><td><code>/{lang}/occasions-and-entertainment/decorations/</code></td><td>ديكورات</td><td>Decorations</td></tr>
+          <tr><td><code>/{lang}/occasions-and-entertainment/djs/</code></td><td>دي جي</td><td>DJs</td></tr>
+          <tr><td><code>/{lang}/occasions-and-entertainment/electronic-games/</code></td><td>ألعاب إلكترونية</td><td>Electronic Games</td></tr>
+          <tr><td><code>/{lang}/occasions-and-entertainment/food-machines/</code></td><td>مكاين وآلات</td><td>Food Machines</td></tr>
+          <tr><td><code>/{lang}/occasions-and-entertainment/lighting/</code></td><td>إضاءات</td><td>Lighting</td></tr>
+          <tr><td><code>/{lang}/occasions-and-entertainment/musical-instrument/</code></td><td>آلة موسيقية</td><td>Musical Instrument</td></tr>
+          <tr><td><code>/{lang}/occasions-and-entertainment/other/</code></td><td>أخرى</td><td>Other</td></tr>
+          <tr><td><code>/{lang}/occasions-and-entertainment/outdoor-activities/</code></td><td>ألعاب مناطق خارجية</td><td>Outdoor Activities</td></tr>
+          <tr><td><code>/{lang}/occasions-and-entertainment/sculptures/</code></td><td>مجسمات</td><td>Sculptures</td></tr>
+          <tr><td><code>/{lang}/occasions-and-entertainment/seaters/</code></td><td>جلسات</td><td>Seaters</td></tr>
+          <tr><td><code>/{lang}/occasions-and-entertainment/sound-systems/</code></td><td>سماعات</td><td>Sound Systems</td></tr>
+          <tr><td><code>/{lang}/occasions-and-entertainment/stages/</code></td><td>مسارح</td><td>Stages</td></tr>
+          <tr><td><code>/{lang}/occasions-and-entertainment/water-activities/</code></td><td>ألعاب ماﯨٔية</td><td>Water Activities</td></tr>
+          <tr><td><code>/{lang}/services/</code></td><td>خدمات</td><td>Services</td></tr>
+          <tr><td><code>/{lang}/services/creative-services/</code></td><td>الخدمات الإبداعية</td><td>Creative Services</td></tr>
+          <tr><td><code>/{lang}/services/home-services/</code></td><td>خدمات المنزل</td><td>Home Services</td></tr>
+          <tr><td><code>/{lang}/services/other/</code></td><td>أخرى</td><td>Other</td></tr>
+          <tr><td><code>/{lang}/services/professional-services/</code></td><td>الخدمات المهنية</td><td>Professional Services</td></tr>
+          <tr><td><code>/{lang}/services/transportation-services/</code></td><td>خدمات النقل</td><td>Transportation Services</td></tr>
+          <tr><td><code>/{lang}/devices-and-appliances/</code></td><td>أجهزة وإلكترونيات</td><td>Devices & Appliances</td></tr>
+          <tr><td><code>/{lang}/devices-and-appliances/home-appliances/</code></td><td>أجهزة منزلية</td><td>Home Appliances</td></tr>
+          <tr><td><code>/{lang}/devices-and-appliances/large-devices/</code></td><td>أجهزة كبيرة</td><td>Large Devices</td></tr>
+          <tr><td><code>/{lang}/devices-and-appliances/other/</code></td><td>أخرى</td><td>Other</td></tr>
+          <tr><td><code>/{lang}/devices-and-appliances/small-devices/</code></td><td>أجهزة صغيرة</td><td>Small Devices</td></tr>
+          <tr><td><code>/{lang}/equipment-and-tools/</code></td><td>آلات ومعدات</td><td>Equipment & Tools</td></tr>
+          <tr><td><code>/{lang}/equipment-and-tools/camping-equipment/</code></td><td>معدات تخييم</td><td>Camping Equipment</td></tr>
+          <tr><td><code>/{lang}/equipment-and-tools/construction-equipment/</code></td><td>معدات بناء</td><td>Construction Equipment</td></tr>
+          <tr><td><code>/{lang}/equipment-and-tools/hand-tools/</code></td><td>أدوات يدوية</td><td>Hand Tools</td></tr>
+          <tr><td><code>/{lang}/equipment-and-tools/heavy-equipment/</code></td><td>معدات ثقيلة</td><td>Heavy Equipment</td></tr>
+          <tr><td><code>/{lang}/equipment-and-tools/light-equipment/</code></td><td>معدات خفيفة</td><td>Light Equipment</td></tr>
+          <tr><td><code>/{lang}/equipment-and-tools/other/</code></td><td>أخرى</td><td>Other</td></tr>
+          <tr><td><code>/{lang}/equipment-and-tools/sports-equipment/</code></td><td>معدات رياضية</td><td>Sports Equipment</td></tr>
+          <tr><td><code>/{lang}/courts-and-arenas/</code></td><td>صالات وملاعب</td><td>Courts & Arenas</td></tr>
+          <tr><td><code>/{lang}/courts-and-arenas/basketball-courts/</code></td><td>ملاعب سلة</td><td>Basketball Courts</td></tr>
+          <tr><td><code>/{lang}/courts-and-arenas/football-courts/</code></td><td>ملاعب كورة</td><td>Football Courts</td></tr>
+          <tr><td><code>/{lang}/courts-and-arenas/other/</code></td><td>أخرى</td><td>Other</td></tr>
+          <tr><td><code>/{lang}/courts-and-arenas/padel-courts/</code></td><td>ملاعب بادل</td><td>Padel Courts</td></tr>
+          <tr><td><code>/{lang}/courts-and-arenas/squash-courts/</code></td><td>ملاعب اسكواش</td><td>Squash Courts</td></tr>
+          <tr><td><code>/{lang}/courts-and-arenas/swimming-pools/</code></td><td>مسابح</td><td>Swimming Pools</td></tr>
+          <tr><td><code>/{lang}/courts-and-arenas/tennis-courts/</code></td><td>ملاعب تنس</td><td>Tennis Courts</td></tr>
+          <tr><td><code>/{lang}/courts-and-arenas/volleyball-courts/</code></td><td>ملاعب كرة طاﯨٔرة</td><td>Volleyball Courts</td></tr>
+          <tr><td><code>/{lang}/furniture-and-accessories/</code></td><td>أثاث ومستلزمات</td><td>Furniture & Accessories</td></tr>
+          <tr><td><code>/{lang}/furniture-and-accessories/antiques-and-decorations/</code></td><td>تحف وديكور</td><td>Antiques & Decorations</td></tr>
+          <tr><td><code>/{lang}/furniture-and-accessories/beds/</code></td><td>سراير</td><td>Beds</td></tr>
+          <tr><td><code>/{lang}/furniture-and-accessories/carpets/</code></td><td>مفروشات</td><td>Carpets</td></tr>
+          <tr><td><code>/{lang}/furniture-and-accessories/closets-and-wardrobe/</code></td><td>خزاﯨٔن ودواليب</td><td>Closets & Wardrobe</td></tr>
+          <tr><td><code>/{lang}/furniture-and-accessories/home-accessories/</code></td><td>إكسسوارات منزلية</td><td>Home Accessories</td></tr>
+          <tr><td><code>/{lang}/furniture-and-accessories/offices/</code></td><td>مكاتب</td><td>Offices</td></tr>
+          <tr><td><code>/{lang}/furniture-and-accessories/other/</code></td><td>أخرى</td><td>Other</td></tr>
+          <tr><td><code>/{lang}/furniture-and-accessories/outdoor-seating/</code></td><td>جلسات خارجية</td><td>Outdoor Seating</td></tr>
+          <tr><td><code>/{lang}/furniture-and-accessories/sofas/</code></td><td>كنب</td><td>Sofas</td></tr>
+          <tr><td><code>/{lang}/furniture-and-accessories/tables/</code></td><td>طاولات</td><td>Tables</td></tr>
+          <tr><td><code>/{lang}/furniture-and-accessories/utensils/</code></td><td>أواني</td><td>Utensils</td></tr>
+          <tr><td><code>/{lang}/fashion-and-clothes/</code></td><td>أزياء وملابس</td><td>Fashion & Clothes</td></tr>
+          <tr><td><code>/{lang}/fashion-and-clothes/accessories/</code></td><td>إكسسوارات</td><td>Accessories</td></tr>
+          <tr><td><code>/{lang}/fashion-and-clothes/dresses/</code></td><td>فساتين</td><td>Dresses</td></tr>
+          <tr><td><code>/{lang}/fashion-and-clothes/mens-fashion/</code></td><td>أزياء رجالية</td><td>Men's Fashion</td></tr>
+          <tr><td><code>/{lang}/fashion-and-clothes/other/</code></td><td>أخرى</td><td>Other</td></tr>
+          <tr><td><code>/{lang}/fashion-and-clothes/shoes/</code></td><td>أحذية</td><td>Shoes</td></tr>
+          <tr><td><code>/{lang}/fashion-and-clothes/womens-fashion/</code></td><td>أزياء نسائية</td><td>Women's Fashion</td></tr>
+          <tr><td><code>/{lang}/other/</code></td><td>أخرى</td><td>Other</td></tr>
+          <tr><td><code>/{lang}/other/all/</code></td><td>All</td><td>All</td></tr>
+        </tbody>
+      </table>
+      </div>
 
       <h3>3g. FAQ page /ar/faq/: one block, paste as is</h3>
       <p>The text is the complete live FAQ content. If the FAQ text changes, this block must change with it. Same for 3h.</p>
