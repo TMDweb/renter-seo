@@ -254,7 +254,24 @@ $ curl -sL -A "Mozilla/5.0" https://renter.net/ar/properties/apartments/ \
       </div>
 
       <h3>3b. Product page: one block</h3>
-      <p>UPPERCASE values come from the API. Rules:</p>
+      <p>UPPERCASE values map to these fields, verified in the page's own data payload on Aug 10:</p>
+      <div class="tablebox">
+      <table>
+        <thead><tr><th>Token</th><th>Field</th></tr></thead>
+        <tbody>
+          <tr><td><code>PRODUCT_TITLE</code></td><td><code>title</code></td></tr>
+          <tr><td><code>PLAIN_TEXT_DESCRIPTION</code></td><td><code>description</code>, tags stripped, entities decoded</td></tr>
+          <tr><td><code>ABSOLUTE_IMAGE_URLS</code></td><td><code>post_images[].image</code></td></tr>
+          <tr><td><code>LISTING_ID</code></td><td><code>id</code></td></tr>
+          <tr><td><code>FULL_LISTING_URL</code></td><td>the page's canonical URL (id + slug)</td></tr>
+          <tr><td><code>PRICE_NUMBER</code></td><td><code>post_lease_terms[].price</code>, as a number. If the listing has more than one lease term, use the one the page shows as its price</td></tr>
+          <tr><td><code>RENTAL_UNIT</code></td><td><code>post_lease_terms[].lease_term</code> → <code>daily</code> = <code>"DAY"</code> (verified), hourly = <code>"HUR"</code>, weekly = <code>"WEE"</code>, monthly = <code>"MON"</code></td></tr>
+          <tr><td><code>AVERAGE_RATING</code> / <code>REVIEW_COUNT</code></td><td><code>review_summary.review_average</code> / <code>review_summary.review_count</code></td></tr>
+          <tr><td><code>REVIEWER_NAME</code>, <code>REVIEW_DATE_YYYY_MM_DD</code>, <code>REVIEW_STARS</code>, <code>REVIEW_TEXT</code></td><td>not verified: every sampled product has <code>review_count: 0</code>, so the single-review object never appears in the payload. Map these from the reviews API</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <p>Rules:</p>
       <ul>
         <li><code>availability</code>: API <code>AVAILABLE</code> → <code>https://schema.org/InStock</code>. Any other value → remove <code>offers</code>.</li>
         <li><code>RENTAL_UNIT</code> from the listing's rental period: hour <code>"HUR"</code>, day <code>"DAY"</code>, week <code>"WEE"</code>, month <code>"MON"</code>.</li>
