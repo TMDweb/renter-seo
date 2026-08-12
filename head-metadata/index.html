@@ -317,6 +317,7 @@ $ curl -sL -A "Mozilla/5.0" https://renter.net/ar/properties/apartments/ \
         <li><code>RENTAL_UNIT</code> from the listing's rental period: hour <code>"HUR"</code>, day <code>"DAY"</code>, week <code>"WEE"</code>, month <code>"MON"</code>.</li>
         <li>Price 0 or 1 SAR is a placeholder → remove <code>offers</code>.</li>
         <li>Zero reviews → remove <code>aggregateRating</code> and <code>review</code>. One real review is enough to keep them (agreed Aug 10). Never invent a review. List every review in the array.</li>
+        <li>No <code>hasMerchantReturnPolicy</code>: Google requires it nowhere and recommends it only for purchase listings. Rentals end with the item coming back; Renter has a cancellation policy, and Google has no product field for that. Omit it.</li>
       </ul>
       <pre>&lt;script type="application/ld+json"&gt;
 {
