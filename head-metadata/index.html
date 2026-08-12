@@ -374,6 +374,7 @@ $ curl -sL -A "Mozilla/5.0" https://renter.net/ar/properties/apartments/ \
 &lt;/script&gt;</pre>
 
       <h3>3d. English home page /en/: one block, paste as is</h3>
+      <p><code>Organization.url</code> is <code>/ar/</code> here on purpose: both pages describe one entity with one <code>@id</code>, and <code>/ar/</code> is the site's default home (the root redirects there). Two different URLs for the same <code>@id</code> would conflict. The <code>WebSite</code> object carries the English URL and search action.</p>
       <pre>&lt;script type="application/ld+json"&gt;
 {
   "@context": "https://schema.org",
