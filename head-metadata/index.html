@@ -138,7 +138,7 @@
     <div class="doc-header">
       <span class="section-kicker">Renter × TMD · Dev Ticket · July 26, 2026 · updated August 10, 2026</span>
       <h1 class="doc-title">Head template and redirects: five faults. No Open Graph tags, no Twitter Card tags, no structured data, relative canonical URLs, and 307 redirects on 57% of the clicks from search.</h1>
-      <p class="doc-subtitle">This ticket has five faults. They are in the shared <code>&lt;head&gt;</code> template and in the routing layer. Each fault needs one change only. That change corrects all the pages. The three issue sheets are different: they list content faults page by page. TMD tested 12 live URLs on Jul 26. TMD tested the same 12 URLs again on Aug 5. You corrected the hreflang fault after Jul 26. This ticket shows that item as done.</p>
+      <p class="doc-subtitle">Five faults in the shared <code>&lt;head&gt;</code> template and the routing layer. Each fault is one change that corrects all pages. Measured on the same 12 live URLs on Jul 26, Aug 5 and Aug 10.</p>
       <div class="pill-row">
         <span class="pill crit">Priority: High (SEO + social)</span>
         <span class="pill">Area: Next.js metadata / head template, middleware</span>
@@ -151,32 +151,33 @@
 
       <span class="section-kicker">01</span>
       <h2 id="summary">Summary</h2>
-      <p>Each page on renter.net has a <code>&lt;head&gt;</code> with a title, a meta description, a canonical URL and hreflang tags. But no page has Open Graph tags, Twitter Card tags or structured data. Also, each canonical URL is relative. It must be absolute. URLs with no language prefix redirect with a temporary status. They must redirect with a permanent status.</p>
-      <div class="callout"><strong>Update of Aug 10.</strong> Much of this ticket shipped between Aug 5 and Aug 10. TMD measured the live site on the evening of Aug 10: the Open Graph tags, the Twitter Card tags and the hreflang tags on the two home pages are live on all 12 test pages. The double encoding fell from 40% of sampled product pages to 2%. The <code>Product</code> block is live on product pages with three faults; Fix 3 shows them and gives the corrected block. Still open: the canonical URLs (7 of the 12 test pages are still relative), the 307 redirects (now 59.4% of all clicks from search), and the blocks in Fix 3c to 3f. Fix 3 is current as of Aug 10 and contains paste-ready code. The other sections show the Aug 5 measurements.</div>
-      <p>All these faults are in the templates. Thus each fault needs one code change only. That change corrects all the pages. This is why TMD put the faults in one ticket. TMD did not make one ticket for each URL.</p>
-      <div class="scope"><strong>SCOPE. Read this before you start.</strong> The URL lists in this ticket are examples only. They are not the full list of pages to correct. TMD gives one or two URLs of each page type. Use them to test your change. Correct each fault on all the affected pages. Each fix below gives its own scope. The sitemap has 2,280 pages: 2,072 product pages, 194 category and subcategory pages, and 14 information pages.</div>
+      <p>Status, measured Aug 10: Open Graph, Twitter Cards and the home-page hreflang are <strong>done</strong>. The double encoding is nearly done (40% → 2% of sampled product pages). <strong>Open:</strong> the product JSON-LD has three faults (Fix 3), the other page types have no JSON-LD (Fix 3), canonical URLs are still relative on 7 of 12 test pages (Fix 4), and the redirects still return 307 and now carry 59.4% of all search clicks (Fix 5).</p>
+            <p>All faults are template-level: one change corrects all pages, so they are grouped in one ticket.</p>
+      <div class="scope"><strong>SCOPE.</strong> The URL lists in this ticket are test samples, not the full list. Each fix states its own scope. The sitemap has 2,280 pages: 2,072 product, 194 category and subcategory, 14 information.</div>
 
       <div class="callout crit">
-        <strong>The five issues</strong>
+        <strong>The five faults, status Aug 10</strong>
         <ol>
-          <li><strong>No page has Open Graph tags.</strong> Thus a link that a user shares shows no image, no title and no description.</li>
-          <li><strong>No page has Twitter Card tags.</strong></li>
-          <li><strong>No page has structured data.</strong> There are zero JSON-LD blocks. Thus Google cannot show rich results for the products.</li>
-          <li><strong>Each canonical URL is relative.</strong> Also, the two home pages have no hreflang tags. The hreflang URLs on the other pages are absolute and correct. You corrected them after Jul 26.</li>
-          <li><strong>URLs with no language prefix return 307 (temporary).</strong> They must return 301 (permanent). Thus Google does not move the ranking signals to the correct page. These URLs get 57% of the clicks from search. See section 07.</li>
+          <li>No Open Graph tags — <strong>done</strong>.</li>
+          <li>No Twitter Card tags — <strong>done</strong>.</li>
+          <li>Structured data: <code>Product</code> live with three faults; other page types have none — <strong>open</strong>, see Fix 3.</li>
+          <li>Relative canonical URLs (home-page hreflang: done) — <strong>open</strong>, see Fix 4.</li>
+          <li>307 redirects, 59.4% of search clicks — <strong>open</strong>, see Fix 5. Do this first.</li>
         </ol>
       </div>
 
       <span class="section-kicker">02</span>
       <h2 id="why">Why these faults are important</h2>
-      <p><strong>Users see the Open Graph fault most frequently.</strong> Renter gets new users from WhatsApp and from social media. At this time, a shared link shows only the URL. It shows no image and no text. A card with the item and the price gets more clicks than a plain URL. This fault has a direct effect on the Haraj and WhatsApp work.</p>
-      <p><strong>Structured data gives results that Renter does not get now.</strong> The site has no <code>Product</code> schema and no <code>Offer</code> schema. Thus Google cannot show the price or the availability in the search results. AI search tools also cannot read the data correctly. On Aug 5 the Merchant Center feed had 1,036 products. Thus the page has the data that the schema needs.</p>
-      <p><strong>The redirect fault has an effect on the most traffic.</strong> 57% of the clicks from search go to a URL with no language prefix. Each of these URLs returns 307. A 307 tells Google that the change is temporary. Thus Google keeps the ranking signals on that URL. Google does not move them to the Arabic page or to the English page that shows the content. Change the status to 301 and Google will move the signals.</p>
-      <p><strong>Make the canonical URL absolute, as you did for hreflang.</strong> The Google documentation asks for full URLs. You made the hreflang URLs absolute after Jul 26. The canonical URL is still relative. Thus the two types of URL in the same <code>&lt;head&gt;</code> are not the same.</p>
+      <ul>
+        <li><strong>Redirects (biggest):</strong> 59.4% of all search clicks land on a 307 URL, so Google holds the ranking signals there instead of passing them to the real page.</li>
+        <li><strong>Open Graph:</strong> without it a shared link shows no image and no title. Renter grows through WhatsApp and social. <em>Done Aug 10.</em></li>
+        <li><strong>Structured data:</strong> without it Google cannot show price or availability, and AI search tools cannot read the products.</li>
+        <li><strong>Canonical:</strong> Google asks for absolute URLs. hreflang is absolute; canonical in the same <code>&lt;head&gt;</code> is not.</li>
+      </ul>
 
       <span class="section-kicker">03</span>
-      <h2 id="testdata">Test data. TMD measured it on Jul 26 and again on Aug 5</h2>
-      <p><strong>These 12 URLs are examples. They are not the full list of pages to correct.</strong> TMD tested 12 URLs. They include each page type. The numbers show the tags in the HTML that the server sends. <strong>Only the hreflang column changed between the two tests.</strong> Those URLs are now absolute. That part of fix 4 is done. All the other columns are the same.</p>
+      <h2 id="testdata">Test data: the 12 URLs</h2>
+      <p>12 test URLs, one or two per page type. Counts are tags in the served HTML (Aug 5 run; Fixes 1 and 2 shipped since, see Summary).</p>
       <div class="tablebox">
       <table>
         <thead><tr><th>URL</th><th>og:</th><th>twitter:</th><th>JSON-LD</th><th>canonical</th><th>hreflang</th></tr></thead>
@@ -207,12 +208,12 @@ $ curl -sL -A "Mozilla/5.0" https://renter.net/ar/properties/apartments/ \
 0</pre>
 
       <div class="callout ok">
-        <strong>Note about the hreflang column.</strong> All the pages have hreflang tags, but the two home pages do not. The <code>href</code> values are absolute. Thus that item is correct and closed. The template writes the attribute as <code>hrefLang</code> in camelCase. HTML reads this correctly, thus the tags are correct. Be careful when you test: <code>grep</code> is case-sensitive. The command <code>grep hreflang</code> returns 0 on a page that has the tags. Use <code>grep -i</code>. TMD used <code>grep -i</code> for the table above. Thus the 0 on <code>/ar/</code> and <code>/en/</code> is correct.
+        <strong>Note:</strong> the attribute is camelCase <code>hrefLang</code>, so test with <code>grep -i</code>. The 0 on <code>/ar/</code> and <code>/en/</code> was real on Aug 5 and is fixed since Aug 10.
       </div>
 
       <span class="section-kicker">04</span>
       <h2 id="fix1-2">Fix 1 and 2: Open Graph and Twitter Card tags</h2>
-      <div class="scope"><strong>Scope: all 2,280 pages.</strong> Zero pages have these tags now. One template change corrects all the pages.</div>
+      <div class="scope"><strong>Done Aug 10.</strong> Verified on all 12 test pages, with absolute image URLs. Kept for reference.</div>
       <p>Add these tags to the shared metadata of each route. Use the data that the page has already. In the Next.js App Router, use the <code>openGraph</code> key and the <code>twitter</code> key of the <code>Metadata</code> object. You can set them one time in the root layout. Then you can change them for each route.</p>
       <p>Product pages, using existing listing fields:</p>
       <pre>&lt;meta property="og:type"        content="product" /&gt;
@@ -237,116 +238,70 @@ $ curl -sL -A "Mozilla/5.0" https://renter.net/ar/properties/apartments/ \
       </ul>
 
       <span class="section-kicker">05</span>
-      <h2 id="fix3">Fix 3: structured data (JSON-LD), paste-ready for each page type</h2>
-      <div class="scope"><strong>Scope: all 2,280 pages.</strong> Product pages: correct the block that is live. Home pages, category pages, subcategory pages and the FAQ pages: add the blocks below. They have no JSON-LD today.</div>
-      <div class="callout"><strong>Update of Aug 10.</strong> The <code>Product</code> block went live on the product pages today, with the <code>name</code> field corrected during the meeting. Good progress. TMD measured the live block the same evening and found three faults. Section 3a shows them. The blocks in 3c to 3f are complete and paste-ready. They contain real site data, not placeholders. Copy them as they are.</div>
+      <h2 id="fix3">Fix 3: structured data (JSON-LD). One block per page type.</h2>
+      <div class="scope"><strong>Scope: all 2,280 pages.</strong> The <code>Product</code> block is live on product pages since Aug 10, with three faults. All other page types have no JSON-LD.</div>
 
-      <h3>3a. Product pages: correct these three faults in the live block</h3>
+      <h3>3a. The three faults in the live product block</h3>
       <div class="tablebox">
       <table>
-        <thead><tr><th>The live block sends</th><th>The fault</th><th>Send instead</th></tr></thead>
+        <thead><tr><th>Live now</th><th>Fault</th><th>Correct</th></tr></thead>
         <tbody>
           <tr><td><code>"availability": "AVAILABLE"</code></td><td>Not a schema.org value. Google rejects the offer.</td><td><code>"https://schema.org/InStock"</code></td></tr>
-          <tr><td><code>"url": "https://renter.net/ar/product/4000d"</code></td><td>This short URL opens an empty page (no title, no content). Google follows it and finds nothing.</td><td>The full listing URL: <code>https://renter.net/ar/product/2545/kamyra-kanwn-4000d/</code></td></tr>
-          <tr><td><code>"description": "&lt;p&gt;…&amp;nbsp;&lt;/p&gt;"</code></td><td>Raw HTML in a plain-text field.</td><td>The text only. Strip the tags. Decode the entities.</td></tr>
+          <tr><td><code>"url": "https://renter.net/ar/product/4000d"</code></td><td>Opens an empty page.</td><td>The full listing URL: <code>/ar/product/2545/kamyra-kanwn-4000d/</code></td></tr>
+          <tr><td><code>"description": "&lt;p&gt;…&amp;nbsp;&lt;/p&gt;"</code></td><td>HTML in a plain-text field.</td><td>Text only. Strip tags, decode entities.</td></tr>
         </tbody>
       </table>
       </div>
-      <p><strong>Availability mapping.</strong> The API value <code>AVAILABLE</code> becomes <code>https://schema.org/InStock</code>. Any other value: do not send the <code>offers</code> block.</p>
-      <p><strong>Rental unit mapping</strong> for <code>unitCode</code>, from the listing's rental period: hour = <code>HUR</code>, day = <code>DAY</code>, week = <code>WEE</code>, month = <code>MON</code>. This tells Google that 200 SAR is a price per day, not a sale price.</p>
-      <p>The full corrected template. The UPPERCASE names are the dynamic fields. Everything else stays as written:</p>
+
+      <h3>3b. Product page: one block</h3>
+      <p>UPPERCASE values come from the API. Rules:</p>
+      <ul>
+        <li><code>availability</code>: API <code>AVAILABLE</code> → <code>https://schema.org/InStock</code>. Any other value → remove <code>offers</code>.</li>
+        <li><code>RENTAL_UNIT</code> from the listing's rental period: hour <code>"HUR"</code>, day <code>"DAY"</code>, week <code>"WEE"</code>, month <code>"MON"</code>.</li>
+        <li>Price 0 or 1 SAR is a placeholder → remove <code>offers</code>.</li>
+        <li>Zero reviews → remove <code>aggregateRating</code> and <code>review</code>. One real review is enough to keep them (agreed Aug 10). Never invent a review. List every review in the array.</li>
+      </ul>
       <pre>&lt;script type="application/ld+json"&gt;
 {
   "@context": "https://schema.org",
   "@type": "Product",
-  "name": PRODUCT_TITLE,                      // the API field `title`, plain text
-  "description": PLAIN_TEXT_DESCRIPTION,      // strip the HTML tags, decode the entities
-  "image": [ ABSOLUTE_IMAGE_URLS ],           // every listing photo, absolute URLs
-  "sku": LISTING_ID,                          // example: "2545"
-  "url": CANONICAL_LISTING_URL,               // the full listing URL with the id and the slug
+  "name": PRODUCT_TITLE,
+  "description": PLAIN_TEXT_DESCRIPTION,
+  "image": [ ABSOLUTE_IMAGE_URLS ],
+  "sku": LISTING_ID,
+  "url": FULL_LISTING_URL,
   "offers": {
     "@type": "Offer",
-    "url": CANONICAL_LISTING_URL,             // the SAME full URL, not a short form
+    "url": FULL_LISTING_URL,
     "priceCurrency": "SAR",
     "price": PRICE_NUMBER,
-    "availability": "https://schema.org/InStock",   // see the mapping table below
+    "availability": "https://schema.org/InStock",
     "priceSpecification": {
       "@type": "UnitPriceSpecification",
       "price": PRICE_NUMBER,
       "priceCurrency": "SAR",
-      "referenceQuantity": {
-        "@type": "QuantitativeValue",
-        "value": 1,
-        "unitCode": RENTAL_UNIT               // see the mapping table below
-      }
+      "referenceQuantity": { "@type": "QuantitativeValue", "value": 1, "unitCode": RENTAL_UNIT }
     }
-  }
-}
-&lt;/script&gt;</pre>
-      <p>The same template rendered for the live listing <a href="https://renter.net/ar/product/2545/kamyra-kanwn-4000d/">/ar/product/2545/</a>, to compare against your output. The <code>unitCode</code> value comes from the listing's rental-period field; take it from the API, do not hard-code it:</p>
-      <pre>&lt;script type="application/ld+json"&gt;
-{
-  "@context": "https://schema.org",
-  "@type": "Product",
-  "name": "كاميرا كانون 4000d",
-  "description": "4000d كاميرة كانون 18 - 55 مع عدسة بدون ذاكرة",
-  "image": [
-    "https://admin-production.renter.net/storage/a3b484b0-3e33-49d1-b716-fa9aefe53606.jpg"
-  ],
-  "sku": "2545",
-  "url": "https://renter.net/ar/product/2545/kamyra-kanwn-4000d/",
-  "offers": {
-    "@type": "Offer",
-    "url": "https://renter.net/ar/product/2545/kamyra-kanwn-4000d/",
-    "priceCurrency": "SAR",
-    "price": 200,
-    "availability": "https://schema.org/InStock",
-    "priceSpecification": {
-      "@type": "UnitPriceSpecification",
-      "price": 200,
-      "priceCurrency": "SAR",
-      "referenceQuantity": {
-        "@type": "QuantitativeValue",
-        "value": 1,
-        "unitCode": "DAY"
-      }
-    }
-  }
-}
-&lt;/script&gt;</pre>
-      <p><strong>Caution, unchanged from the first version.</strong> Add <code>price</code> only if the product has a true price. Some listings have 0 SAR or 1 SAR. These are not true prices. If there is no true price, do not add the <code>offers</code> block.</p>
-
-      <h3>3b. Product pages: rating and review, agreed in the Aug 10 meeting</h3>
-      <p>Add these two keys inside the <code>Product</code> object <strong>only when the product has at least one real review</strong>. One review is enough (agreed Aug 10). Never send this block for a product with zero reviews, and never invent a review: Google removes rich results for fabricated review markup, site-wide.</p>
-      <p>The three UPPERCASE values and the two rating numbers come from the real review data. <code>ratingValue</code> in <code>aggregateRating</code> is the average of all the product's reviews; <code>ratingCount</code> is how many there are:</p>
-      <pre>{
+  },
   "aggregateRating": {
     "@type": "AggregateRating",
-    "ratingValue": 5,
+    "ratingValue": AVERAGE_RATING,
     "bestRating": 5,
-    "ratingCount": 1
+    "ratingCount": REVIEW_COUNT
   },
   "review": [
     {
       "@type": "Review",
-      "author": {
-        "@type": "Person",
-        "name": "REVIEWER_NAME"
-      },
-      "datePublished": "REVIEW_DATE",
-      "reviewRating": {
-        "@type": "Rating",
-        "ratingValue": 5,
-        "bestRating": 5
-      },
-      "reviewBody": "REVIEW_TEXT"
+      "author": { "@type": "Person", "name": REVIEWER_NAME },
+      "datePublished": REVIEW_DATE_YYYY_MM_DD,
+      "reviewRating": { "@type": "Rating", "ratingValue": REVIEW_STARS, "bestRating": 5 },
+      "reviewBody": REVIEW_TEXT
     }
   ]
-}</pre>
-      <p><code>REVIEW_DATE</code> uses the format <code>YYYY-MM-DD</code>. List every review the product has in the <code>review</code> array, not only the first.</p>
+}
+&lt;/script&gt;</pre>
 
-      <h3>3c. Arabic home page /ar/: copy this block as it is</h3>
-      <p>One block, two objects: <code>Organization</code> and <code>WebSite</code> with the search action. All values are real and verified: the logo answers 200, the four profiles are Renter's, the search URL returns results, the phone is the one on the contact page. The legal name is the one on the commercial registration; if the CR shows a different name, use the CR name:</p>
+      <h3>3c. Arabic home page /ar/: one block, paste as is</h3>
       <pre>&lt;script type="application/ld+json"&gt;
 {
   "@context": "https://schema.org",
@@ -401,7 +356,7 @@ $ curl -sL -A "Mozilla/5.0" https://renter.net/ar/properties/apartments/ \
 }
 &lt;/script&gt;</pre>
 
-      <h3>3d. English home page /en/: copy this block as it is</h3>
+      <h3>3d. English home page /en/: one block, paste as is</h3>
       <pre>&lt;script type="application/ld+json"&gt;
 {
   "@context": "https://schema.org",
@@ -456,9 +411,8 @@ $ curl -sL -A "Mozilla/5.0" https://renter.net/ar/properties/apartments/ \
 }
 &lt;/script&gt;</pre>
 
-      <h3>3e. Category and subcategory pages: BreadcrumbList</h3>
-      <p>The <code>name</code> values must be the same labels the site's own navigation uses, not the long page titles. The last item has no <code>item</code> URL: that is correct, Google permits it for the current page.</p>
-      <p>A category page. This is the rendered block for <a href="https://renter.net/ar/cars-and-vehicles/">/ar/cars-and-vehicles/</a>:</p>
+      <h3>3e. Category page: one block</h3>
+      <p>Rendered for <a href="https://renter.net/ar/cars-and-vehicles/">/ar/cars-and-vehicles/</a>. For the other categories, change the second <code>name</code> using the table below. The last item has no <code>item</code> URL; Google permits that for the current page. English pages: <code>"name": "Home"</code>, <code>"item": "https://renter.net/en/"</code>, then the English navigation label.</p>
       <pre>&lt;script type="application/ld+json"&gt;
 {
   "@context": "https://schema.org",
@@ -478,7 +432,26 @@ $ curl -sL -A "Mozilla/5.0" https://renter.net/ar/properties/apartments/ \
   ]
 }
 &lt;/script&gt;</pre>
-      <p>A subcategory page. This is the rendered block for <a href="https://renter.net/ar/cars-and-vehicles/cars/">/ar/cars-and-vehicles/cars/</a>:</p>
+      <div class="tablebox">
+      <table>
+        <thead><tr><th>Path</th><th>Breadcrumb name</th></tr></thead>
+        <tbody>
+          <tr><td><code>/ar/properties/</code></td><td>عقارات</td></tr>
+          <tr><td><code>/ar/cars-and-vehicles/</code></td><td>سيارات ومركبات</td></tr>
+          <tr><td><code>/ar/occasions-and-entertainment/</code></td><td>ترفيه ومناسبات</td></tr>
+          <tr><td><code>/ar/services/</code></td><td>خدمات</td></tr>
+          <tr><td><code>/ar/devices-and-appliances/</code></td><td>أجهزة وإلكترونيات</td></tr>
+          <tr><td><code>/ar/equipment-and-tools/</code></td><td>آلات ومعدات</td></tr>
+          <tr><td><code>/ar/courts-and-arenas/</code></td><td>صالات وملاعب</td></tr>
+          <tr><td><code>/ar/furniture-and-accessories/</code></td><td>أثاث ومستلزمات</td></tr>
+          <tr><td><code>/ar/fashion-and-clothes/</code></td><td>أزياء وملابس</td></tr>
+          <tr><td><code>/ar/other/</code></td><td>أخرى</td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <h3>3f. Subcategory page: one block</h3>
+      <p>Rendered for <a href="https://renter.net/ar/cars-and-vehicles/cars/">/ar/cars-and-vehicles/cars/</a>. For the other 86 subcategories, the last <code>name</code> is the label the category page shows for that subcategory link.</p>
       <pre>&lt;script type="application/ld+json"&gt;
 {
   "@context": "https://schema.org",
@@ -504,29 +477,9 @@ $ curl -sL -A "Mozilla/5.0" https://renter.net/ar/properties/apartments/ \
   ]
 }
 &lt;/script&gt;</pre>
-      <p>The navigation labels for all 10 categories, taken from the live site:</p>
-      <div class="tablebox">
-      <table>
-        <thead><tr><th>Path</th><th>Breadcrumb name</th></tr></thead>
-        <tbody>
-          <tr><td><code>/ar/properties/</code></td><td>عقارات</td></tr>
-          <tr><td><code>/ar/cars-and-vehicles/</code></td><td>سيارات ومركبات</td></tr>
-          <tr><td><code>/ar/occasions-and-entertainment/</code></td><td>ترفيه ومناسبات</td></tr>
-          <tr><td><code>/ar/services/</code></td><td>خدمات</td></tr>
-          <tr><td><code>/ar/devices-and-appliances/</code></td><td>أجهزة وإلكترونيات</td></tr>
-          <tr><td><code>/ar/equipment-and-tools/</code></td><td>آلات ومعدات</td></tr>
-          <tr><td><code>/ar/courts-and-arenas/</code></td><td>صالات وملاعب</td></tr>
-          <tr><td><code>/ar/furniture-and-accessories/</code></td><td>أثاث ومستلزمات</td></tr>
-          <tr><td><code>/ar/fashion-and-clothes/</code></td><td>أزياء وملابس</td></tr>
-          <tr><td><code>/ar/other/</code></td><td>أخرى</td></tr>
-        </tbody>
-      </table>
-      </div>
-      <p>For the 87 subcategories, use the label that the category page itself shows for each subcategory link. The English pages use the same structure with the English navigation labels, and <code>"name": "Home"</code> with <code>"item": "https://renter.net/en/"</code> as the first element.</p>
 
-      <h3>3f. FAQ pages: copy these blocks as they are</h3>
-      <p>Every question and answer below is the real text from the live pages, complete. One note on value: Google now shows FAQ rich results only for a small set of government and health sites, so do not expect a visual change in the results. The markup still helps AI search tools read the page, which is the surface the Aug 10 meeting prioritised. If the FAQ text on the site changes, this block must change with it.</p>
-      <p>For <a href="https://renter.net/ar/faq/">/ar/faq/</a>:</p>
+      <h3>3g. FAQ page /ar/faq/: one block, paste as is</h3>
+      <p>The text is the complete live FAQ content. If the FAQ text changes, this block must change with it. Same for 3h.</p>
       <pre>&lt;script type="application/ld+json"&gt;
 {
   "@context": "https://schema.org",
@@ -607,7 +560,8 @@ $ curl -sL -A "Mozilla/5.0" https://renter.net/ar/properties/apartments/ \
   ]
 }
 &lt;/script&gt;</pre>
-      <p>For <a href="https://renter.net/en/faq/">/en/faq/</a>:</p>
+
+      <h3>3h. FAQ page /en/faq/: one block, paste as is</h3>
       <pre>&lt;script type="application/ld+json"&gt;
 {
   "@context": "https://schema.org",
@@ -688,12 +642,13 @@ $ curl -sL -A "Mozilla/5.0" https://renter.net/ar/properties/apartments/ \
   ]
 }
 &lt;/script&gt;</pre>
-      <p><strong>How to test all of Fix 3:</strong> put one URL of each page type into the Google Rich Results Test and into the Schema.org validator. Both must show no errors. For the product pages, also make sure the <code>offers.url</code> opens the real listing.</p>
+
+      <p><strong>Test:</strong> one URL of each page type in the Google Rich Results Test and the Schema.org validator, zero errors. On a product page, <code>offers.url</code> must open the real listing.</p>
 
       <span class="section-kicker">06</span>
-      <h2 id="fix4">Fix 4: Make each canonical URL absolute. Add hreflang tags to the two home pages.</h2>
+      <h2 id="fix4">Fix 4: Make each canonical URL absolute</h2>
       <div class="scope"><strong>Scope 4a, canonical: all 2,280 pages.</strong> Each canonical URL on the site is relative. The 12 URLs in section 03 are examples only.<br><strong>Scope 4b, hreflang: 2 pages only, <code>/ar/</code> and <code>/en/</code>.</strong> This is a complete list, not an example. All the other pages are correct.</div>
-      <p><strong>You did the hreflang part of this fix already. Thank you.</strong> On Aug 5 the alternate URLs were absolute on each page that TMD tested. Do not do that work again. But two items in this section are not correct.</p>
+      <p>The hreflang part is done; do not redo it. Open: 4a canonical (7 of 12 test pages still relative on Aug 10), and 4b was fixed Aug 10.</p>
 
       <p><strong>4a. Each of the 12 canonical URLs is relative.</strong> The server sends this on <code>/ar/properties/apartments/</code>:</p>
       <pre>&lt;link rel="canonical" href="/ar/properties/apartments/"/&gt;      &lt;!-- still relative --&gt;
@@ -709,7 +664,7 @@ $ curl -s https://renter.net/en/ | grep -c -i 'hreflang'
 0
 $ curl -s https://renter.net/ar/aboutus/ | grep -c -i 'hreflang'
 3</pre>
-      <p>These two pages get more traffic than all the other pages. Thus they need the language tags most. Check the home route. Possibly it does not use the shared metadata helper that the other routes use.</p>
+      <p><em>Fixed Aug 10: both home pages now return 3 hreflang tags.</em></p>
       <p>After you make the change, run Ahrefs again. Make sure that the <code>hreflang_issues</code> flags are not there.</p>
 
       <span class="section-kicker">07</span>
@@ -727,19 +682,19 @@ $ curl -s https://renter.net/ar/aboutus/ | grep -c -i 'hreflang'
         </tbody>
       </table>
       </div>
-      <p>A 307 status tells Google that the change is temporary. Thus Google keeps the URL with no language prefix in its index. Google does not move the signals to the language page. These redirects are permanent. Thus they must return 301. Note: <code>/ar</code> and <code>/en</code> without the last slash return 308. That is correct. Change only the language-prefix redirect in the middleware.</p>
-      <p><strong>The size of this fault. TMD measured it in Google Search Console on Aug 5.</strong> TMD examined each page that got a click in the last 28 days. The URLs with no language prefix got <strong>270 of 476 clicks. This is 57%.</strong> They also got 36% of the times that Google showed a page. 45 of these URLs got a click. All 45 return 307. There are no exceptions. The two pages with the most clicks on the site are on this path: <code>renter.net/</code> with 97 clicks and <code>/product/1228/myny-bystwn-ayjar-ywmy-wasbway/</code> with 63 clicks. Thus this fix is the most important one in the ticket. More than half of the traffic from search goes to a URL that keeps its ranking signals. Google does not move those signals to the page that shows the content.</p>
+      <p>A 307 is temporary, so Google keeps the signals on the redirecting URL instead of the language page. These redirects are permanent decisions: return <code>301</code>. One change in the language-prefix middleware. <code>/ar</code> and <code>/en</code> without the last slash already return 308 correctly; leave them.</p>
+      <p><strong>Size, re-measured Aug 10:</strong> 318 of 535 search clicks (59.4%) land on these URLs, including the two top pages of the site (<code>renter.net/</code>, 97 clicks, and <code>/product/1228/…</code>, 63). All 45 click-earning URLs answer 307, no exceptions.</p>
 
       <span class="section-kicker">08</span>
       <h2 id="bonus">Bonus fix, in the same template: the meta descriptions have two encodings</h2>
-      <div class="scope"><strong>Scope: approximately 800 product pages.</strong> TMD tested a random sample of 60 product pages on Aug 5. 24 of the 60 have this fault. This is 40%. The site has 2,072 product pages. The examples in the sheet are 24 URLs only. One template change corrects all the pages.</div>
+      <div class="scope"><strong>Nearly done.</strong> Aug 5: 24 of a random 60-page sample (40%). Aug 10, same sample: 1 page (2%). Finish the tail.</div>
       <p>The template encodes the HTML entities two times. Thus the entity text shows in the tag. The character does not show. Example:</p>
       <pre># /en/product/2168/sony-fx30/
 &lt;meta name="description" content="كميرا سوني fx30&amp;amp;nbsp;"&gt;
                                                   ^^^^^^^^^^ renders as literal "&amp;nbsp;"
 
 # /en/product/1560/kryn50tn/  → &amp;amp;quot; instead of a quote mark</pre>
-      <p>Encode the entity one time only. This fault is also the cause of the unwanted characters in some descriptions in the search results.</p>
+      <p>Encode once.</p>
 
       <span class="section-kicker">09</span>
       <h2 id="complete">How to know that the work is complete</h2>
@@ -766,7 +721,7 @@ $ curl -s https://renter.net/ar/aboutus/ | grep -c -i 'hreflang'
       <p>Each of those URLs needs a content decision. Thus TMD tracks them in those sheets, not in this ticket. Two template faults cause them. First, the template writes the page title as an extra H1. Second, there is no space in <code>{name}للايجار بالسعودية</code>. TMD put both faults in that handoff.</p>
       <p>TMD found three more items but did not make tickets for them. They are content faults, not template faults. First, 354 pages have a meta description that is too short. Second, 12 pages have a title that is too long for the search results. One title has 266 characters. Third, 19 pages have no internal links to them.</p>
 
-      <p class="footer-note">TMD (Saiaf) prepared this ticket. TMD tested it on the live renter.net on Jul 26, 2026 and again on Aug 5, 2026. Ahrefs Site Audit crawl of Jul 26, 2026, project Renter, health score 64. This ticket uses Simplified Technical English (ASD-STE100).</p>
+      <p class="footer-note">TMD (Saiaf) · measured against production renter.net on Jul 26, Aug 5 and Aug 10, 2026 · Ahrefs Site Audit crawl Jul 26, project Renter.</p>
     </div>
   </div>
 </div>
