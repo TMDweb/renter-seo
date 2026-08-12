@@ -81,6 +81,7 @@
 
   .doc-body { padding: 40px 50px 50px; }
   section { margin-bottom: 40px; }
+  h3 { scroll-margin-top: 20px; }
   h2 { scroll-margin-top: 20px; color: var(--primary-dark); font-size: 1.25em; margin-bottom: 12px; display: flex; align-items: baseline; gap: 10px; }
   h2 .num { font-family: var(--mono); font-size: 0.72em; color: var(--secondary); font-weight: 600; }
   p { margin-bottom: 10px; max-width: 78ch; }
@@ -128,6 +129,15 @@
     font-size: 0.94em; color: var(--crit); font-weight: 600; max-width: 78ch;
   }
   .scope strong { color: var(--crit); }
+  .toc {
+    background: var(--surface-soft); border: 1px solid var(--border);
+    border-radius: 16px; padding: 16px 22px; margin-bottom: 28px;
+    font-size: 0.92em;
+  }
+  .toc ol { margin: 0 0 0 20px; }
+  .toc li { margin: 4px 0; }
+  .toc .sub { font-size: 0.92em; color: var(--text-muted); }
+  .toc .sub a { margin-right: 2px; }
   .footer-note { text-align: center; color: var(--text-muted); font-size: 0.85em; margin-top: 26px; }
 </style>
 </head>
@@ -148,6 +158,23 @@
     </div>
 
     <div class="doc-body">
+
+      <nav class="toc" aria-label="Contents">
+        <strong>Contents</strong>
+        <ol>
+          <li><a href="#summary">Summary and status</a></li>
+          <li><a href="#why">Why these faults are important</a></li>
+          <li><a href="#testdata">Test data: the 12 URLs</a></li>
+          <li><a href="#fix1-2">Fix 1 and 2: Open Graph and Twitter Cards (done)</a></li>
+          <li><a href="#fix3">Fix 3: structured data, one block per page type</a>
+            <div class="sub"><a href="#fix3a">3a faults</a> · <a href="#fix3b">3b product</a> · <a href="#fix3c">3c home ar</a> · <a href="#fix3d">3d home en</a> · <a href="#fix3e">3e categories</a> · <a href="#fix3f">3f names table</a> · <a href="#fix3g">3g faq ar</a> · <a href="#fix3h">3h faq en</a></div></li>
+          <li><a href="#fix4">Fix 4: absolute canonical URLs</a></li>
+          <li><a href="#fix5">Fix 5: 307 to 301 redirects (do first)</a></li>
+          <li><a href="#bonus">Bonus: double-encoded descriptions (nearly done)</a></li>
+          <li><a href="#complete">How to know the work is complete</a></li>
+          <li><a href="#scope">Items not in this ticket</a></li>
+        </ol>
+      </nav>
 
       <span class="section-kicker">01</span>
       <h2 id="summary">Summary</h2>
@@ -241,7 +268,7 @@ $ curl -sL -A "Mozilla/5.0" https://renter.net/ar/properties/apartments/ \
       <h2 id="fix3">Fix 3: structured data (JSON-LD). One block per page type.</h2>
       <div class="scope"><strong>Scope: all 2,280 pages.</strong> The <code>Product</code> block is live on product pages since Aug 10, with three faults. All other page types have no JSON-LD.</div>
 
-      <h3>3a. The three faults in the live product block</h3>
+      <h3 id="fix3a">3a. The three faults in the live product block</h3>
       <div class="tablebox">
       <table>
         <thead><tr><th>Live now</th><th>Fault</th><th>Correct</th></tr></thead>
@@ -253,7 +280,7 @@ $ curl -sL -A "Mozilla/5.0" https://renter.net/ar/properties/apartments/ \
       </table>
       </div>
 
-      <h3>3b. Product page: one block</h3>
+      <h3 id="fix3b">3b. Product page: one block</h3>
       <p>UPPERCASE values map to these fields, verified in the page's own data payload on Aug 10:</p>
       <div class="tablebox">
       <table>
@@ -318,7 +345,7 @@ $ curl -sL -A "Mozilla/5.0" https://renter.net/ar/properties/apartments/ \
 }
 &lt;/script&gt;</pre>
 
-      <h3>3c. Arabic home page /ar/: one block, paste as is</h3>
+      <h3 id="fix3c">3c. Arabic home page /ar/: one block, paste as is</h3>
       <pre>&lt;script type="application/ld+json"&gt;
 {
   "@context": "https://schema.org",
@@ -373,7 +400,7 @@ $ curl -sL -A "Mozilla/5.0" https://renter.net/ar/properties/apartments/ \
 }
 &lt;/script&gt;</pre>
 
-      <h3>3d. English home page /en/: one block, paste as is</h3>
+      <h3 id="fix3d">3d. English home page /en/: one block, paste as is</h3>
       <p><code>Organization.url</code> is <code>/ar/</code> here on purpose: both pages describe one entity with one <code>@id</code>, and <code>/ar/</code> is the site's default home (the root redirects there). Two different URLs for the same <code>@id</code> would conflict. The <code>WebSite</code> object carries the English URL and search action.</p>
       <pre>&lt;script type="application/ld+json"&gt;
 {
@@ -429,7 +456,7 @@ $ curl -sL -A "Mozilla/5.0" https://renter.net/ar/properties/apartments/ \
 }
 &lt;/script&gt;</pre>
 
-      <h3>3e. Category and subcategory pages: one category rendered complete</h3>
+      <h3 id="fix3e">3e. Category and subcategory pages: one category rendered complete</h3>
       <p>Every page under <strong>سيارات ومركبات</strong>, rendered: the category page and its 13 subcategory pages, one block each, paste as is. The last item has no <code>item</code> URL; Google permits that for the current page. For the other 9 categories, repeat exactly this pattern with the names from the table in 3f.</p>
       <p>Category page <a href="https://renter.net/ar/cars-and-vehicles/">/ar/cars-and-vehicles/</a>:</p>
       <pre>&lt;script type="application/ld+json"&gt;
@@ -790,7 +817,7 @@ $ curl -sL -A "Mozilla/5.0" https://renter.net/ar/properties/apartments/ \
 }
 &lt;/script&gt;</pre>
 
-      <h3>3f. The English pages, and every name for the rest of the site</h3>
+      <h3 id="fix3f">3f. The English pages, and every name for the rest of the site</h3>
       <p>English pages use the same pattern with <code>"name": "Home"</code>, <code>"item": "https://renter.net/en/"</code> and the English names. The same two pages rendered:</p>
       <p>Category page <a href="https://renter.net/en/cars-and-vehicles/">/en/cars-and-vehicles/</a>:</p>
       <pre>&lt;script type="application/ld+json"&gt;
@@ -944,7 +971,7 @@ $ curl -sL -A "Mozilla/5.0" https://renter.net/ar/properties/apartments/ \
       </table>
       </div>
 
-      <h3>3g. FAQ page /ar/faq/: one block, paste as is</h3>
+      <h3 id="fix3g">3g. FAQ page /ar/faq/: one block, paste as is</h3>
       <p>The text is the complete live FAQ content. If the FAQ text changes, this block must change with it. Same for 3h.</p>
       <pre>&lt;script type="application/ld+json"&gt;
 {
@@ -1027,7 +1054,7 @@ $ curl -sL -A "Mozilla/5.0" https://renter.net/ar/properties/apartments/ \
 }
 &lt;/script&gt;</pre>
 
-      <h3>3h. FAQ page /en/faq/: one block, paste as is</h3>
+      <h3 id="fix3h">3h. FAQ page /en/faq/: one block, paste as is</h3>
       <pre>&lt;script type="application/ld+json"&gt;
 {
   "@context": "https://schema.org",
