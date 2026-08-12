@@ -138,6 +138,19 @@
   .toc li { margin: 4px 0; }
   .toc .sub { font-size: 0.92em; color: var(--text-muted); }
   .toc .sub a { margin-right: 2px; }
+  .codewrap { position: relative; margin: 12px 0; }
+  .codewrap pre { margin: 0; }
+  .copybtn {
+    position: absolute; top: 10px; right: 10px;
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.22);
+    background: rgba(255,255,255,0.10); color: #e8e6da;
+    font: 600 12px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    cursor: pointer; user-select: none; transition: background .15s;
+  }
+  .copybtn:hover { background: rgba(255,255,255,0.22); }
+  .copybtn.ok { background: rgba(143,208,169,0.25); border-color: rgba(143,208,169,0.5); color: #8fd0a9; }
+  .copybtn svg { width: 14px; height: 14px; }
   .footer-note { text-align: center; color: var(--text-muted); font-size: 0.85em; margin-top: 26px; }
 </style>
 </head>
@@ -1219,5 +1232,47 @@ $ curl -s https://renter.net/ar/aboutus/ | grep -c -i 'hreflang'
   </div>
 </div>
 
+<script>
+(function () {
+  var COPY = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5.5" y="5.5" width="9" height="9" rx="1.5"/><path d="M10.5 5.5v-3a1 1 0 0 0-1-1h-7a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h3"/></svg>';
+  var OK = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M2.5 8.5l4 4 7-8"/></svg>';
+  document.querySelectorAll('pre').forEach(function (pre) {
+    var text = pre.innerText;
+    var wrap = document.createElement('div');
+    wrap.className = 'codewrap';
+    pre.parentNode.insertBefore(wrap, pre);
+    wrap.appendChild(pre);
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'copybtn';
+    btn.setAttribute('aria-label', 'Copy code');
+    btn.innerHTML = COPY + '<span>Copy</span>';
+    btn.addEventListener('click', function () {
+      function done(okFlag) {
+        btn.innerHTML = (okFlag ? OK : COPY) + '<span>' + (okFlag ? 'Copied' : 'Failed') + '</span>';
+        if (okFlag) btn.classList.add('ok');
+        setTimeout(function () {
+          btn.classList.remove('ok');
+          btn.innerHTML = COPY + '<span>Copy</span>';
+        }, 1600);
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function () { done(true); }, function () { fallback(); });
+      } else { fallback(); }
+      function fallback() {
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed'; ta.style.opacity = '0';
+        document.body.appendChild(ta); ta.select();
+        var okFlag = false;
+        try { okFlag = document.execCommand('copy'); } catch (e) {}
+        document.body.removeChild(ta);
+        done(okFlag);
+      }
+    });
+    wrap.appendChild(btn);
+  });
+})();
+</script>
 </body>
 </html>
