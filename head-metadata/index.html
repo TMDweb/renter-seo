@@ -136,7 +136,7 @@
 <div class="container">
   <div class="doc">
     <div class="doc-header">
-      <span class="section-kicker">Renter × TMD · Dev Ticket · July 26, 2026 · updated August 5, 2026</span>
+      <span class="section-kicker">Renter × TMD · Dev Ticket · July 26, 2026 · updated August 10, 2026</span>
       <h1 class="doc-title">Head template and redirects: five faults. No Open Graph tags, no Twitter Card tags, no structured data, relative canonical URLs, and 307 redirects on 57% of the clicks from search.</h1>
       <p class="doc-subtitle">This ticket has five faults. They are in the shared <code>&lt;head&gt;</code> template and in the routing layer. Each fault needs one change only. That change corrects all the pages. The three issue sheets are different: they list content faults page by page. TMD tested 12 live URLs on Jul 26. TMD tested the same 12 URLs again on Aug 5. You corrected the hreflang fault after Jul 26. This ticket shows that item as done.</p>
       <div class="pill-row">
@@ -152,7 +152,7 @@
       <span class="section-kicker">01</span>
       <h2 id="summary">Summary</h2>
       <p>Each page on renter.net has a <code>&lt;head&gt;</code> with a title, a meta description, a canonical URL and hreflang tags. But no page has Open Graph tags, Twitter Card tags or structured data. Also, each canonical URL is relative. It must be absolute. URLs with no language prefix redirect with a temporary status. They must redirect with a permanent status.</p>
-      <div class="callout"><strong>Update of Aug 5.</strong> TMD wrote this ticket on Jul 26. TMD tested each item again on the live site on Aug 5. One item is now correct: the hreflang URLs are absolute. This ticket shows that item as done. TMD added two new items. First, the two home pages have no hreflang tags. Second, Google Search Console shows the quantity of traffic that the 307 redirects stop.</div>
+      <div class="callout"><strong>Update of Aug 10.</strong> Much of this ticket shipped between Aug 5 and Aug 10. TMD measured the live site on the evening of Aug 10: the Open Graph tags, the Twitter Card tags and the hreflang tags on the two home pages are live on all 12 test pages. The double encoding fell from 40% of sampled product pages to 2%. The <code>Product</code> block is live on product pages with three faults; Fix 3 shows them and gives the corrected block. Still open: the canonical URLs (7 of the 12 test pages are still relative), the 307 redirects (now 59.4% of all clicks from search), and the blocks in Fix 3c to 3f. Fix 3 is current as of Aug 10 and contains paste-ready code. The other sections show the Aug 5 measurements.</div>
       <p>All these faults are in the templates. Thus each fault needs one code change only. That change corrects all the pages. This is why TMD put the faults in one ticket. TMD did not make one ticket for each URL.</p>
       <div class="scope"><strong>SCOPE. Read this before you start.</strong> The URL lists in this ticket are examples only. They are not the full list of pages to correct. TMD gives one or two URLs of each page type. Use them to test your change. Correct each fault on all the affected pages. Each fix below gives its own scope. The sitemap has 2,280 pages: 2,072 product pages, 194 category and subcategory pages, and 14 information pages.</div>
 
@@ -237,33 +237,458 @@ $ curl -sL -A "Mozilla/5.0" https://renter.net/ar/properties/apartments/ \
       </ul>
 
       <span class="section-kicker">05</span>
-      <h2 id="fix3">Fix 3: structured data (JSON-LD)</h2>
-      <div class="scope"><strong>Scope: all 2,280 pages.</strong> Add Product and Offer to the 2,072 product pages. Add Organization and WebSite to the 2 home pages. Add BreadcrumbList to the 194 category and subcategory pages.</div>
-      <p>Zero JSON-LD blocks exist today. Minimum useful set:</p>
-      <ul>
-        <li><strong>Product pages:</strong> add <code>Product</code>. Put an <code>Offer</code> in it. The <code>Offer</code> must have <code>price</code>, <code>priceCurrency: "SAR"</code>, <code>availability</code> and <code>url</code>.</li>
-        <li><strong>Home page:</strong> add <code>Organization</code> with the legal name, the logo and the contact data. Also add <code>WebSite</code> with <code>SearchAction</code>.</li>
-        <li><strong>Category pages and subcategory pages:</strong> add <code>BreadcrumbList</code>.</li>
-        <li><strong>FAQ page:</strong> <code>FAQPage</code>.</li>
-      </ul>
+      <h2 id="fix3">Fix 3: structured data (JSON-LD), paste-ready for each page type</h2>
+      <div class="scope"><strong>Scope: all 2,280 pages.</strong> Product pages: correct the block that is live. Home pages, category pages, subcategory pages and the FAQ pages: add the blocks below. They have no JSON-LD today.</div>
+      <div class="callout"><strong>Update of Aug 10.</strong> The <code>Product</code> block went live on the product pages today, with the <code>name</code> field corrected during the meeting. Good progress. TMD measured the live block the same evening and found three faults. Section 3a shows them. The blocks in 3c to 3f are complete and paste-ready. They contain real site data, not placeholders. Copy them as they are.</div>
+
+      <h3>3a. Product pages: correct these three faults in the live block</h3>
+      <div class="tablebox">
+      <table>
+        <thead><tr><th>The live block sends</th><th>The fault</th><th>Send instead</th></tr></thead>
+        <tbody>
+          <tr><td><code>"availability": "AVAILABLE"</code></td><td>Not a schema.org value. Google rejects the offer.</td><td><code>"https://schema.org/InStock"</code></td></tr>
+          <tr><td><code>"url": "https://renter.net/ar/product/4000d"</code></td><td>This short URL opens an empty page (no title, no content). Google follows it and finds nothing.</td><td>The full listing URL: <code>https://renter.net/ar/product/2545/kamyra-kanwn-4000d/</code></td></tr>
+          <tr><td><code>"description": "&lt;p&gt;…&amp;nbsp;&lt;/p&gt;"</code></td><td>Raw HTML in a plain-text field.</td><td>The text only. Strip the tags. Decode the entities.</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <p><strong>Availability mapping.</strong> The API value <code>AVAILABLE</code> becomes <code>https://schema.org/InStock</code>. Any other value: do not send the <code>offers</code> block.</p>
+      <p><strong>Rental unit mapping</strong> for <code>unitCode</code>, from the listing's rental period: hour = <code>HUR</code>, day = <code>DAY</code>, week = <code>WEE</code>, month = <code>MON</code>. This tells Google that 200 SAR is a price per day, not a sale price.</p>
+      <p>The full corrected template. The UPPERCASE names are the dynamic fields. Everything else stays as written:</p>
       <pre>&lt;script type="application/ld+json"&gt;
 {
   "@context": "https://schema.org",
   "@type": "Product",
-  "name": "{listing title}",
-  "description": "{meta description}",
-  "image": ["https://renter.net{listing image}"],
-  "url": "https://renter.net{path}",
+  "name": PRODUCT_TITLE,                      // the API field `title`, plain text
+  "description": PLAIN_TEXT_DESCRIPTION,      // strip the HTML tags, decode the entities
+  "image": [ ABSOLUTE_IMAGE_URLS ],           // every listing photo, absolute URLs
+  "sku": LISTING_ID,                          // example: "2545"
+  "url": CANONICAL_LISTING_URL,               // the full listing URL with the id and the slug
   "offers": {
     "@type": "Offer",
-    "price": "{price}",
+    "url": CANONICAL_LISTING_URL,             // the SAME full URL, not a short form
     "priceCurrency": "SAR",
-    "availability": "https://schema.org/InStock",
-    "url": "https://renter.net{path}"
+    "price": PRICE_NUMBER,
+    "availability": "https://schema.org/InStock",   // see the mapping table below
+    "priceSpecification": {
+      "@type": "UnitPriceSpecification",
+      "price": PRICE_NUMBER,
+      "priceCurrency": "SAR",
+      "referenceQuantity": {
+        "@type": "QuantitativeValue",
+        "value": 1,
+        "unitCode": RENTAL_UNIT               // see the mapping table below
+      }
+    }
   }
 }
 &lt;/script&gt;</pre>
-      <p><strong>Caution.</strong> Add <code>price</code> only if the product has a true price. Some listings have 0 SAR or 1 SAR. These are not true prices. Do not put these values in the schema. If there is no true price, do not add the <code>Offer</code> block.</p>
+      <p>The same template rendered for the live listing <a href="https://renter.net/ar/product/2545/kamyra-kanwn-4000d/">/ar/product/2545/</a>, to compare against your output. The <code>unitCode</code> value comes from the listing's rental-period field; take it from the API, do not hard-code it:</p>
+      <pre>&lt;script type="application/ld+json"&gt;
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "كاميرا كانون 4000d",
+  "description": "4000d كاميرة كانون 18 - 55 مع عدسة بدون ذاكرة",
+  "image": [
+    "https://admin-production.renter.net/storage/a3b484b0-3e33-49d1-b716-fa9aefe53606.jpg"
+  ],
+  "sku": "2545",
+  "url": "https://renter.net/ar/product/2545/kamyra-kanwn-4000d/",
+  "offers": {
+    "@type": "Offer",
+    "url": "https://renter.net/ar/product/2545/kamyra-kanwn-4000d/",
+    "priceCurrency": "SAR",
+    "price": 200,
+    "availability": "https://schema.org/InStock",
+    "priceSpecification": {
+      "@type": "UnitPriceSpecification",
+      "price": 200,
+      "priceCurrency": "SAR",
+      "referenceQuantity": {
+        "@type": "QuantitativeValue",
+        "value": 1,
+        "unitCode": "DAY"
+      }
+    }
+  }
+}
+&lt;/script&gt;</pre>
+      <p><strong>Caution, unchanged from the first version.</strong> Add <code>price</code> only if the product has a true price. Some listings have 0 SAR or 1 SAR. These are not true prices. If there is no true price, do not add the <code>offers</code> block.</p>
+
+      <h3>3b. Product pages: rating and review, agreed in the Aug 10 meeting</h3>
+      <p>Add these two keys inside the <code>Product</code> object <strong>only when the product has at least one real review</strong>. One review is enough (agreed Aug 10). Never send this block for a product with zero reviews, and never invent a review: Google removes rich results for fabricated review markup, site-wide.</p>
+      <p>The three UPPERCASE values and the two rating numbers come from the real review data. <code>ratingValue</code> in <code>aggregateRating</code> is the average of all the product's reviews; <code>ratingCount</code> is how many there are:</p>
+      <pre>{
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": 5,
+    "bestRating": 5,
+    "ratingCount": 1
+  },
+  "review": [
+    {
+      "@type": "Review",
+      "author": {
+        "@type": "Person",
+        "name": "REVIEWER_NAME"
+      },
+      "datePublished": "REVIEW_DATE",
+      "reviewRating": {
+        "@type": "Rating",
+        "ratingValue": 5,
+        "bestRating": 5
+      },
+      "reviewBody": "REVIEW_TEXT"
+    }
+  ]
+}</pre>
+      <p><code>REVIEW_DATE</code> uses the format <code>YYYY-MM-DD</code>. List every review the product has in the <code>review</code> array, not only the first.</p>
+
+      <h3>3c. Arabic home page /ar/: copy this block as it is</h3>
+      <p>One block, two objects: <code>Organization</code> and <code>WebSite</code> with the search action. All values are real and verified: the logo answers 200, the four profiles are Renter's, the search URL returns results, the phone is the one on the contact page. The legal name is the one on the commercial registration; if the CR shows a different name, use the CR name:</p>
+      <pre>&lt;script type="application/ld+json"&gt;
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://renter.net/#organization",
+      "name": "Renter | رينتر",
+      "legalName": "شركة المؤجر الذكي للتسويق",
+      "url": "https://renter.net/ar/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://renter.net/renterlogo.png"
+      },
+      "sameAs": [
+        "https://x.com/rentersoftware",
+        "https://instagram.com/rentersoftware",
+        "https://www.linkedin.com/company/rentersoftware/",
+        "https://www.youtube.com/@Rentersoftware"
+      ],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "customer support",
+        "telephone": "+966115003615",
+        "email": "support@renter.net",
+        "areaServed": "SA",
+        "availableLanguage": [
+          "ar",
+          "en"
+        ]
+      }
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://renter.net/ar/#website",
+      "url": "https://renter.net/ar/",
+      "name": "رينتر",
+      "inLanguage": "ar",
+      "publisher": {
+        "@id": "https://renter.net/#organization"
+      },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://renter.net/ar/search/?q={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      }
+    }
+  ]
+}
+&lt;/script&gt;</pre>
+
+      <h3>3d. English home page /en/: copy this block as it is</h3>
+      <pre>&lt;script type="application/ld+json"&gt;
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://renter.net/#organization",
+      "name": "Renter | رينتر",
+      "legalName": "شركة المؤجر الذكي للتسويق",
+      "url": "https://renter.net/ar/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://renter.net/renterlogo.png"
+      },
+      "sameAs": [
+        "https://x.com/rentersoftware",
+        "https://instagram.com/rentersoftware",
+        "https://www.linkedin.com/company/rentersoftware/",
+        "https://www.youtube.com/@Rentersoftware"
+      ],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "customer support",
+        "telephone": "+966115003615",
+        "email": "support@renter.net",
+        "areaServed": "SA",
+        "availableLanguage": [
+          "ar",
+          "en"
+        ]
+      }
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://renter.net/en/#website",
+      "url": "https://renter.net/en/",
+      "name": "Renter",
+      "inLanguage": "en",
+      "publisher": {
+        "@id": "https://renter.net/#organization"
+      },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://renter.net/en/search/?q={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      }
+    }
+  ]
+}
+&lt;/script&gt;</pre>
+
+      <h3>3e. Category and subcategory pages: BreadcrumbList</h3>
+      <p>The <code>name</code> values must be the same labels the site's own navigation uses, not the long page titles. The last item has no <code>item</code> URL: that is correct, Google permits it for the current page.</p>
+      <p>A category page. This is the rendered block for <a href="https://renter.net/ar/cars-and-vehicles/">/ar/cars-and-vehicles/</a>:</p>
+      <pre>&lt;script type="application/ld+json"&gt;
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "الرئيسية",
+      "item": "https://renter.net/ar/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "سيارات ومركبات"
+    }
+  ]
+}
+&lt;/script&gt;</pre>
+      <p>A subcategory page. This is the rendered block for <a href="https://renter.net/ar/cars-and-vehicles/cars/">/ar/cars-and-vehicles/cars/</a>:</p>
+      <pre>&lt;script type="application/ld+json"&gt;
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "الرئيسية",
+      "item": "https://renter.net/ar/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "سيارات ومركبات",
+      "item": "https://renter.net/ar/cars-and-vehicles/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "سيارات"
+    }
+  ]
+}
+&lt;/script&gt;</pre>
+      <p>The navigation labels for all 10 categories, taken from the live site:</p>
+      <div class="tablebox">
+      <table>
+        <thead><tr><th>Path</th><th>Breadcrumb name</th></tr></thead>
+        <tbody>
+          <tr><td><code>/ar/properties/</code></td><td>عقارات</td></tr>
+          <tr><td><code>/ar/cars-and-vehicles/</code></td><td>سيارات ومركبات</td></tr>
+          <tr><td><code>/ar/occasions-and-entertainment/</code></td><td>ترفيه ومناسبات</td></tr>
+          <tr><td><code>/ar/services/</code></td><td>خدمات</td></tr>
+          <tr><td><code>/ar/devices-and-appliances/</code></td><td>أجهزة وإلكترونيات</td></tr>
+          <tr><td><code>/ar/equipment-and-tools/</code></td><td>آلات ومعدات</td></tr>
+          <tr><td><code>/ar/courts-and-arenas/</code></td><td>صالات وملاعب</td></tr>
+          <tr><td><code>/ar/furniture-and-accessories/</code></td><td>أثاث ومستلزمات</td></tr>
+          <tr><td><code>/ar/fashion-and-clothes/</code></td><td>أزياء وملابس</td></tr>
+          <tr><td><code>/ar/other/</code></td><td>أخرى</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <p>For the 87 subcategories, use the label that the category page itself shows for each subcategory link. The English pages use the same structure with the English navigation labels, and <code>"name": "Home"</code> with <code>"item": "https://renter.net/en/"</code> as the first element.</p>
+
+      <h3>3f. FAQ pages: copy these blocks as they are</h3>
+      <p>Every question and answer below is the real text from the live pages, complete. One note on value: Google now shows FAQ rich results only for a small set of government and health sites, so do not expect a visual change in the results. The markup still helps AI search tools read the page, which is the surface the Aug 10 meeting prioritised. If the FAQ text on the site changes, this block must change with it.</p>
+      <p>For <a href="https://renter.net/ar/faq/">/ar/faq/</a>:</p>
+      <pre>&lt;script type="application/ld+json"&gt;
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "كيف يعمل Renter ويضمن أمان المعاملات؟",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "يقوم المؤجرون بإدراج منتجاتهم على المنصة، مما يتيح للمستأجرين تصفح المنتجات واستئجارها للفترات المتاحة. يسهل رينتر عملية الإيجار من خلال أنظمة دفع آمنة وأدوات لإدارة الحجوزات وميزات للتحقق من المستخدمين. تتم معالجة المدفوعات عبر مزودي خدمات دفع آمنين وباستخدام معايير أمنية تساعد على حماية معلومات المستخدمين والمعاملات."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "ما هي أنواع المنتجات التي يمكنني إدراجها في Renter؟",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "يمكنك إدراج مجموعة متنوعة من العناصر المناسبة للتأجير، طالما أنها تتوافق مع إرشادات الإدراج الخاصة بنا."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "ما هي قواعد الإلغاء و التأمين على منصة Renter؟",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "يمكن إلغاء الحجز في أي وقت قبل تاريخ ووقت بدء الإيجار. يتم إعادة مبلغ التأمين إلى المستأجر بعد قيام المؤجر بمراجعة حالة المنتج والتأكد من إعادته بالحالة المتفق عليها. وفي حال عدم إعادة المنتج بشكل صحيح، فقد يتم تحويل مبلغ التأمين إلى المؤجر بعد المراجعة ووفقاً لشروط الحجز. ملاحظة: تخضع خدمة سريع (SAREI) لفترة إيقاف يومية من الساعة 2:00 مساءً حتى 8:00 صباحاً بتوقيت المملكة العربية السعودية، كما أنها لا تعمل خلال عطلات نهاية الأسبوع والعطل الرسمية."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "متى يتم تحويل المدفوعات للمؤجرين وما هي رسوم منصة Renter؟",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "يتم بدء معالجة المدفوعات لجميع أنواع الإيجارات عند بداية مدة الإيجار. وعادةً ما يتم تحويل المبالغ إلى المؤجر خلال 24 ساعة عمل من بدء معالجة الدفع. على سبيل المثال، إذا بدأ الإيجار يوم الأحد، فستبدأ معالجة الدفع يوم الأحد، ومن المتوقع وصول المبلغ خلال يوم العمل التالي. تبلغ رسوم رينتر 3.5%، وتشمل رسوم معالجة المدفوعات ورسوم التحويلات البنكية. ملاحظة: تخضع خدمة سريع (SAREI) لفترة إيقاف يومية من الساعة 2:00 مساءً حتى 8:00 صباحاً بتوقيت المملكة العربية السعودية، كما أنها لا تعمل خلال عطلات نهاية الأسبوع والعطل الرسمية، مما قد يؤثر على مدة التحويل."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "ماذا أفعل إذا واجهت مشكلة في أحد الحجوزات؟",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "إذا واجهت أي مشكلة تتعلق بحجزك، يمكنك استخدام خيار التواصل مع الدعم الموجود في صفحة تفاصيل الإيجار. يتيح لك هذا الخيار إرسال طلب دعم مباشرة إلى فريق Renter. بعد استلام الطلب، سيقوم فريقنا بمراجعته واتخاذ الإجراءات المناسبة في أسرع وقت ممكن."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "ماذا يحدث إذا تعرض المنتج للفقدان أو التلف؟",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "إذا تعرض المنتج للفقدان أو التلف أثناء فترة الإيجار، يرجى التواصل مع فريق Renter عبر قنوات الدعم المتاحة في أقرب وقت ممكن. سيقوم فريق Renter بمراجعة الحالة وجمع المعلومات اللازمة من الأطراف المعنية والمساعدة في الوصول إلى حل مناسب بناءً على ظروف عملية الإيجار."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "هل يمكن للشركات استخدام Renter؟",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "نعم. يرحب Renter بالشركات، وهي تمثل أحد أهم الفئات المستهدفة على المنصة. تم تصميم Renter لدعم الأفراد والشركات من خلال توفير أدوات تساعد على تبسيط عمليات الإيجار، وزيادة الوصول للعملاء، وإدارة الأنشطة التأجيرية بكفاءة أكبر."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "كيف يمكنني التواصل مع دعم Renter؟",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "يمكنك التواصل مع فريق دعم Renter عبر البريد الإلكتروني support@renter.net أو بالاتصال على الرقم 3615 500 011، كما يمكنك استخدام خيار التواصل مع الدعم الموجود داخل تفاصيل الإيجار. يتم إرسال طلبات الدعم المقدمة عبر المنصة مباشرة إلى فريق Renter لمراجعتها وتقديم المساعدة اللازمة."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "متى تتم معالجة تحويل المستحقات والاستردادات والتأمينات؟",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "تتم معالجة مستحقات المؤجرين واسترداد المبالغ للمستأجرين وتحويلات مبالغ التأمين عبر شبكة المدفوعات السعودية (سريع). وعادةً ما تتم المعالجة بين الساعة 8:00 صباحاً و2:00 مساءً بتوقيت المملكة العربية السعودية خلال أيام العمل. أما الطلبات المقدمة خارج هذه الساعات أو خلال عطلات نهاية الأسبوع أو العطل الرسمية، فسيتم معالجتها خلال نافذة المعالجة التالية المتاحة."
+      }
+    }
+  ]
+}
+&lt;/script&gt;</pre>
+      <p>For <a href="https://renter.net/en/faq/">/en/faq/</a>:</p>
+      <pre>&lt;script type="application/ld+json"&gt;
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How does Renter work and ensure the safety of transactions?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Lessors list their products on the platform, allowing lessees to browse and rent them for specified periods. Payments are processed securely through the platform, using secure payment gateways and encryption to protect user data and transactions."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What kind of products can I list on Renter?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "You can list a wide range of items suitable for renting, as long as they comply with our listing guidelines."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What are the rules for cancellations and deposits on Renter?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Bookings may be cancelled at any time before the lease start date and time. Any deposit paid will be returned to the lessee after the lessor reviews and confirms that the item has been returned in the agreed condition. If the item is not returned properly, the deposit may be transferred to the lessor following a review and in accordance with the booking terms. Note: The SAREI service has a cut-off period from 2:00 PM to 8:00 AM KSA time and is unavailable during weekends and public holidays."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "When will the payments be made to the lessors, and what is Renter's fee?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Payments for all lease terms are initiated when the lease starts. Funds are typically transferred to the lessor within 24 business hours after payment processing begins. For example, if a lease starts on Sunday, payment processing will begin on Sunday, and the funds are generally expected to arrive by the next business day. Renter's fee is 3.5%, which includes payment processing fees and bank transfer costs. Note: The SAREI service has a cut-off period from 2:00 PM to 8:00 AM KSA time and is unavailable during weekends and public holidays, which may affect transfer times."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What should I do if there is an issue with a booking?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "If you encounter an issue with a booking, you can use the Contact Support option available within the lease details page. This feature allows you to submit a support request directly to the Renter team. Once submitted, our team will review the request and take the appropriate action as quickly as possible."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What happens if my item is lost or damaged?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "If an item is lost or damaged during a rental, please contact the Renter team through the available support channels as soon as possible. The Renter team will review the case, gather the necessary information from the parties involved, and assist in reaching an appropriate resolution based on the circumstances of the rental."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can businesses use Renter?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Businesses are welcome to use Renter and represent a key focus of the platform. Renter is designed to support both individuals and businesses by providing tools that simplify rental operations, increase visibility, and help manage rental activities more efficiently."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How can I contact Renter support?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "You can contact Renter support by emailing support@renter.net, calling 011 500 3615, or by using the Contact Support option available within your lease details. Support requests submitted through the platform are sent directly to the Renter team for review and assistance."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "When are payouts, refunds, and deposit transfers processed?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Payouts to lessors, refunds to lessees, and deposit transfers are processed through the Saudi Payments SAREI network. Processing generally takes place between 8:00 AM and 2:00 PM KSA time on business days. Requests submitted outside these hours, during weekends, or on public holidays will be processed during the next available processing window."
+      }
+    }
+  ]
+}
+&lt;/script&gt;</pre>
+      <p><strong>How to test all of Fix 3:</strong> put one URL of each page type into the Google Rich Results Test and into the Schema.org validator. Both must show no errors. For the product pages, also make sure the <code>offers.url</code> opens the real listing.</p>
 
       <span class="section-kicker">06</span>
       <h2 id="fix4">Fix 4: Make each canonical URL absolute. Add hreflang tags to the two home pages.</h2>
