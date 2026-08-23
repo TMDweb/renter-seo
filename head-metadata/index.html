@@ -151,6 +151,19 @@
   .copybtn:hover { background: rgba(255,255,255,0.22); }
   .copybtn.ok { background: rgba(143,208,169,0.25); border-color: rgba(143,208,169,0.5); color: #8fd0a9; }
   .copybtn svg { width: 14px; height: 14px; }
+  .dev {
+    background: #0f3835; color: #e8e6da; border: 2px solid #f0c36a;
+    border-radius: 16px; padding: 18px 22px; margin: 16px 0 18px;
+  }
+  .dev .tag { display:inline-block; background:#f0c36a; color:#0f3835; font-weight:700; font-size:.78em;
+    letter-spacing:.06em; text-transform:uppercase; padding:3px 10px; border-radius:999px; margin-bottom:8px; }
+  .dev strong { color:#f0c36a; }
+  .dev code { background: rgba(255,255,255,.10); border-color: rgba(255,255,255,.2); color:#fff; }
+  .dev p, .dev li { color:#e8e6da; }
+  .dev table, .dev td, .dev th { color:#e8e6da; background:transparent; }
+  .dev th { color:#f0c36a; }
+  .dev .tablebox { background:transparent; border-color: rgba(255,255,255,.2); }
+  .dev a { color:#f0c36a; }
   .footer-note { text-align: center; color: var(--text-muted); font-size: 0.85em; margin-top: 26px; }
 </style>
 </head>
@@ -159,7 +172,7 @@
 <div class="container">
   <div class="doc">
     <div class="doc-header">
-      <span class="section-kicker">Renter × TMD · Dev Ticket · July 26, 2026 · updated August 10, 2026</span>
+      <span class="section-kicker">Renter × TMD · Dev Ticket · July 26, 2026 · updated August 23, 2026</span>
       <h1 class="doc-title">Head template and redirects: five faults. No Open Graph tags, no Twitter Card tags, no structured data, relative canonical URLs, and 307 redirects on 57% of the clicks from search.</h1>
       <p class="doc-subtitle">Five faults in the shared <code>&lt;head&gt;</code> template and the routing layer. Each fault is one change that corrects all pages. Measured on the same 12 live URLs on Jul 26, Aug 5 and Aug 10.</p>
       <div class="pill-row">
@@ -188,6 +201,12 @@
           <li><a href="#scope">Items not in this ticket</a></li>
         </ol>
       </nav>
+
+      <div class="dev">
+        <span class="tag">Status · Aug 23</span>
+        <p><strong>Done and verified live:</strong> Fix 1, Fix 2, Fix 4 (canonical absolute, home-page hreflang), Fix 5 (301 redirects), the bonus encoding fix, and the JSON-LD on the home pages, category pages, subcategory pages, FAQ pages and product pages.</p>
+        <p><strong>Open, three items only:</strong> the four product-block fields in the callout under 3b, the two English-home fields in the callout under 3d, and the page load time on category pages (still 5.4 s to finish on Aug 23; first byte is 0.3 s, so the cost is in the client bundle and data fetch, not the server).</p>
+      </div>
 
       <span class="section-kicker">01</span>
       <h2 id="summary">Summary</h2>
@@ -294,6 +313,54 @@ $ curl -sL -A "Mozilla/5.0" https://renter.net/ar/properties/apartments/ \
       </div>
 
       <h3 id="fix3b">3b. Product page: one block</h3>
+      <div class="dev">
+        <span class="tag">Dev action · Aug 23</span>
+        <p><strong>The product block went live, but four fields differ from 3b. Correct these four. Nothing else changes.</strong> Measured on <a href="https://renter.net/ar/product/2545/kamyra-kanwn-4000d/">/ar/product/2545/</a> on Aug 23.</p>
+        <div class="tablebox"><table>
+          <thead><tr><th>Field</th><th>Live now</th><th>Must be</th><th>Source</th></tr></thead>
+          <tbody>
+            <tr><td><code>description</code></td><td><code>&lt;p&gt;4000d كاميرة كانون&lt;/p&gt;\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;…</code></td><td><code>4000d كاميرة كانون 18 - 55 مع عدسة بدون ذاكرة</code></td><td><code>description</code>, strip tags, decode entities, collapse whitespace</td></tr>
+            <tr><td><code>sku</code></td><td>missing</td><td><code>"2545"</code></td><td><code>id</code> as a string</td></tr>
+            <tr><td><code>url</code> (Product level)</td><td>missing</td><td><code>https://renter.net/ar/product/2545/kamyra-kanwn-4000d/</code></td><td>the page's canonical URL</td></tr>
+            <tr><td><code>offers.url</code></td><td><code>https://renter.net/ar/product/2545/4000d/</code></td><td><code>https://renter.net/ar/product/2545/kamyra-kanwn-4000d/</code></td><td>the SAME canonical URL. The short slug opens a duplicate of the page; Google must not be told about a second URL</td></tr>
+          </tbody>
+        </table></div>
+        <p>The complete, corrected block for this page. Your output for this URL must be byte-for-byte equivalent to this (field order does not matter):</p>
+        <pre>&lt;script type="application/ld+json"&gt;
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "كاميرا كانون 4000d",
+  "description": "4000d كاميرة كانون 18 - 55 مع عدسة بدون ذاكرة",
+  "image": [
+    "https://admin-production.renter.net/storage/a3b484b0-3e33-49d1-b716-fa9aefe53606.jpg"
+  ],
+  "sku": "2545",
+  "url": "https://renter.net/ar/product/2545/kamyra-kanwn-4000d/",
+  "offers": {
+    "@type": "Offer",
+    "url": "https://renter.net/ar/product/2545/kamyra-kanwn-4000d/",
+    "priceCurrency": "SAR",
+    "price": 200,
+    "availability": "https://schema.org/InStock",
+    "priceSpecification": [
+      {
+        "@type": "UnitPriceSpecification",
+        "price": 200,
+        "priceCurrency": "SAR",
+        "referenceQuantity": {
+          "@type": "QuantitativeValue",
+          "value": 1,
+          "unitCode": "DAY"
+        }
+      }
+    ]
+  }
+}
+&lt;/script&gt;</pre>
+        <p><strong>English product pages</strong> (<code>/en/product/…/</code>): same block, with <code>url</code> and <code>offers.url</code> using the <code>/en/</code> canonical, and <code>name</code>/<code>description</code> in the language the page shows once the translation work lands.</p>
+        <p><strong>Rating and review:</strong> no sampled product has a review yet, so this could not be verified live. The rule in 3b stands: when <code>review_summary.review_count</code> ≥ 1, add <code>aggregateRating</code> and the <code>review</code> array exactly as in the 3b block; when it is 0, omit both.</p>
+      </div>
       <p>UPPERCASE values map to these fields, verified in the page's own data payload on Aug 10:</p>
       <div class="tablebox">
       <table>
@@ -416,6 +483,72 @@ $ curl -sL -A "Mozilla/5.0" https://renter.net/ar/properties/apartments/ \
 &lt;/script&gt;</pre>
 
       <h3 id="fix3d">3d. English home page /en/: one block, paste as is</h3>
+      <div class="dev">
+        <span class="tag">Dev action · Aug 23</span>
+        <p><strong>The English home block is live with two fields changed from 3d. Restore them.</strong> Measured on <a href="https://renter.net/en/">/en/</a> on Aug 23.</p>
+        <div class="tablebox"><table>
+          <thead><tr><th>Field</th><th>Live now</th><th>Must be</th><th>Why</th></tr></thead>
+          <tbody>
+            <tr><td><code>Organization.url</code></td><td><code>https://renter.net/en/</code></td><td><code>https://renter.net/ar/</code></td><td>one entity, one <code>@id</code>, one URL on both pages. Two values for the same <code>@id</code> conflict.</td></tr>
+            <tr><td><code>WebSite.name</code></td><td><code>رينتر</code></td><td><code>Renter</code></td><td>the English site name on the English page</td></tr>
+          </tbody>
+        </table></div>
+        <p>The complete block for <code>/en/</code>, paste as is:</p>
+        <pre>&lt;script type="application/ld+json"&gt;
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://renter.net/#organization",
+      "name": "Renter | رينتر",
+      "legalName": "شركة المؤجر الذكي للتسويق",
+      "url": "https://renter.net/ar/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://renter.net/renterlogo.png"
+      },
+      "sameAs": [
+        "https://x.com/rentersoftware",
+        "https://instagram.com/rentersoftware",
+        "https://www.linkedin.com/company/rentersoftware/",
+        "https://www.youtube.com/@Rentersoftware"
+      ],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "customer support",
+        "telephone": "+966115003615",
+        "email": "support@renter.net",
+        "areaServed": "SA",
+        "availableLanguage": [
+          "ar",
+          "en"
+        ]
+      }
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://renter.net/en/#website",
+      "url": "https://renter.net/en/",
+      "name": "Renter",
+      "inLanguage": "en",
+      "publisher": {
+        "@id": "https://renter.net/#organization"
+      },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://renter.net/en/search/?q={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      }
+    }
+  ]
+}
+&lt;/script&gt;</pre>
+        <p>The Arabic home page block matches 3c exactly. No change there.</p>
+      </div>
       <p><code>Organization.url</code> is <code>/ar/</code> here on purpose: both pages describe one entity with one <code>@id</code>, and <code>/ar/</code> is the site's default home (the root redirects there). Two different URLs for the same <code>@id</code> would conflict. The <code>WebSite</code> object carries the English URL and search action.</p>
       <pre>&lt;script type="application/ld+json"&gt;
 {

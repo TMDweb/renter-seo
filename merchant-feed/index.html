@@ -354,6 +354,11 @@
     .stats-grid { grid-template-columns: 1fr; }
     h2 { font-size: 1.18em; }
   }
+  .dev { background:#0f3835; color:#e8e6da; border:2px solid #f0c36a; border-radius:16px; padding:18px 22px; margin:16px 0 18px; }
+  .dev .tag { display:inline-block; background:#f0c36a; color:#0f3835; font-weight:700; font-size:.78em; letter-spacing:.06em; text-transform:uppercase; padding:3px 10px; border-radius:999px; margin-bottom:8px; }
+  .dev strong { color:#f0c36a; } .dev code { background:rgba(255,255,255,.10); color:#fff; } .dev p,.dev li,.dev td,.dev th { color:#e8e6da; } .dev th { color:#f0c36a; }
+  .dev table { background:transparent; } .dev a { color:#f0c36a; }
+  .dev pre { background:#14211f; color:#e8e6da; font-family: ui-monospace, Menlo, monospace; font-size:12.5px; padding:14px 16px; border-radius:10px; overflow-x:auto; direction:ltr; text-align:left; }
 </style>
 </head>
 <body>
@@ -362,7 +367,7 @@
   <div class="doc">
     <div class="doc-header">
       <div class="doc-header-inner">
-        <span class="section-kicker">Renter SEO · Dev Ticket</span>
+        <span class="section-kicker">Renter SEO · Dev Ticket · updated Aug 23, 2026</span>
         <div class="doc-title">Google Merchant Center Product Feed</div>
         <p class="doc-subtitle">
           One new frontend route that renders an XML product feed from the products API,
@@ -389,7 +394,34 @@
     <div class="doc-body">
 
       <div class="doc-section">
-        <h2 id="why">1. Why this ticket exists <a href="#why" class="anchor">#</a></h2>
+        <div class="dev">
+  <span class="tag">Dev action · Aug 23</span>
+  <p><strong>Two faults found in the live feed. Both cause what the client sees in the Merchant Center: products missing, and one poor photo per product.</strong></p>
+  <p><strong>Fault 1: feed files return empty at random.</strong> TMD fetched all six files three times in a row on Aug 23, about 20 seconds apart. Items per file:</p>
+  <table><thead><tr><th>Run</th><th>feed-1</th><th>feed-2</th><th>feed-3</th><th>feed-4</th><th>feed-5</th><th>feed-6</th></tr></thead>
+  <tbody><tr><td>1</td><td>100</td><td><strong>0</strong></td><td><strong>0</strong></td><td><strong>0</strong></td><td><strong>0</strong></td><td>129</td></tr>
+  <tr><td>2</td><td>100</td><td><strong>0</strong></td><td><strong>0</strong></td><td><strong>0</strong></td><td>200</td><td>129</td></tr>
+  <tr><td>3</td><td>100</td><td>100</td><td><strong>0</strong></td><td><strong>0</strong></td><td>200</td><td>130</td></tr></tbody></table>
+  <p>An empty file is a valid RSS shell with a <code>&lt;channel&gt;</code> and no <code>&lt;item&gt;</code>, HTTP 200, 248 bytes. Google fetches each file once a day; every product in a file that is empty at that moment drops out of the Merchant Center. Products 1417, 2472 and 2411 were reported missing by the client and were absent from the feed in all three runs. On Aug 5 the same six files held 1,036 items in one fetch; the sitemap now lists 1,109 products.</p>
+  <p><strong>Required:</strong> a file must never return 0 items when products exist. If the generator cannot build the page (timeout, query error, cache miss), return HTTP 500 so Google keeps the previous version, not an empty 200. Log every empty or failed generation. Each of the six files must carry its full page of products on every fetch.</p>
+  <p><strong>Fault 2: one photo per product.</strong> Every item carries one <code>&lt;g:image_link&gt;</code> and no <code>&lt;g:additional_image_link&gt;</code>, so Google has one photo to choose from, often not the best. Add one <code>&lt;g:additional_image_link&gt;</code> per extra photo from <code>post_images[]</code>, after the first, up to 10.</p>
+  <p>Item 2725 as it must look. The first photo is the real one from the live feed; the two <code>SECOND_PHOTO</code> / <code>THIRD_PHOTO</code> URLs stand for that listing's other <code>post_images[].image</code> values, which the API has and the feed does not expose yet. Everything else is the live item unchanged, except the description, which is stripped of its <code>&lt;p&gt;</code> tags:</p>
+  <pre>&lt;item&gt;
+  &lt;g:id&gt;2725&lt;/g:id&gt;
+  &lt;title&gt;&lt;![CDATA[هيونداي سوناتا 2026]]&gt;&lt;/title&gt;
+  &lt;description&gt;&lt;![CDATA[2026]]&gt;&lt;/description&gt;
+  &lt;link&gt;https://renter.net/ar/product/2725/hywnday-swnata-2026/&lt;/link&gt;
+  &lt;g:image_link&gt;https://admin-production.renter.net/storage/be273a17-e6c3-4e2d-b9d8-96f2092b10f9.jpg&lt;/g:image_link&gt;
+  &lt;g:additional_image_link&gt;https://admin-production.renter.net/storage/SECOND_PHOTO.jpg&lt;/g:additional_image_link&gt;
+  &lt;g:additional_image_link&gt;https://admin-production.renter.net/storage/THIRD_PHOTO.jpg&lt;/g:additional_image_link&gt;
+  &lt;g:availability&gt;in_stock&lt;/g:availability&gt;
+  &lt;g:condition&gt;used&lt;/g:condition&gt;
+  &lt;g:price&gt;350 SAR&lt;/g:price&gt;
+  &lt;g:product_type&gt;&lt;![CDATA[سيارات ومركبات &gt; سيارات]]&gt;&lt;/g:product_type&gt;
+&lt;/item&gt;</pre>
+  <p><strong>Test:</strong> fetch all six files 5 times, 20 seconds apart. Every run, every file returns its full item count. Every item with more than one listing photo carries <code>additional_image_link</code> lines.</p>
+</div>
+<h2 id="why">1. Why this ticket exists <a href="#why" class="anchor">#</a></h2>
         <p>
           We ran a manual test: a Merchant Center account with only <strong>10 products added by hand</strong>.
           Result, without any ad spend:
