@@ -212,6 +212,22 @@
       <span class="section-kicker">00</span>
       <h2 id="actions">Open dev actions · verified Aug 24</h2>
       <p>Three items. Each was adversarially reviewed on Aug 24 against Google Search Central (product snippet, merchant listing, review snippet, organization, site names, structured-data policies) and the official Next.js JSON-LD guide. Every rule below is doc-verified; nothing is left to interpretation. The rest of the ticket below is reference.</p>
+      <div class="dev">
+        <span class="tag">Replace, do not add · live audit Aug 24</span>
+        <p><strong>The rule for every change below: REPLACE the existing JSON-LD <code>&lt;script&gt;</code> on the page with the block from this ticket. Never add a second block next to the old one.</strong> Two blocks of the same type on one page make Google pick one at random. Each page carries exactly one script per type.</p>
+        <p>What is live today, checked page by page on Aug 24:</p>
+        <div class="tablebox"><table>
+          <thead><tr><th>Page type</th><th>Live now</th><th>Action</th></tr></thead>
+          <tbody>
+            <tr><td>Product pages</td><td>Product block live, 4 fields wrong</td><td><strong>Replace</strong> the whole script with the action A block (built from the API per the rules)</td></tr>
+            <tr><td>Home /ar/</td><td>@graph live, 2 fields off (<code>Organization.url</code>, missing <code>alternateName</code>)</td><td><strong>Replace</strong> the whole script with the 3c block</td></tr>
+            <tr><td>Home /en/</td><td>@graph live, 3 fields off (<code>Organization.url</code>, <code>WebSite.name</code>, missing <code>alternateName</code>)</td><td><strong>Replace</strong> the whole script with the action B block</td></tr>
+            <tr><td>FAQ /ar/ and /en/</td><td>Matches this ticket exactly</td><td><strong>No change</strong></td></tr>
+            <tr><td>Category and subcategory</td><td>Breadcrumbs match the documented pattern exactly</td><td><strong>No change</strong></td></tr>
+          </tbody>
+        </table></div>
+      </div>
+
       <p class="scope"><strong>Pre-verified by TMD on Aug 24, before handoff:</strong> the corrected blocks were run through Google's <a href="https://search.google.com/test/rich-results">Rich Results Test</a> and <a href="https://validator.schema.org/">validator.schema.org</a>. Results: product block VALID (product snippets and merchant listings detected; the only warnings are the optional fields listed as deliberately omitted); home @graph VALID, zero issues; breadcrumbs VALID, zero issues; FAQ 0 errors and 0 warnings on the validator (the Rich Results Test shows "no items" for FAQ because Google retired that feature for non-government sites; expected, not a fault). Pasting the blocks as written passes today. The product block values must still come from the API per the rules above; the sample is exact for product 2545.</p>
 
       <div class="dev">
