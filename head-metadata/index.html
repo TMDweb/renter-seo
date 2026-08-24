@@ -210,21 +210,32 @@
       </div>
 
       <span class="section-kicker">00</span>
-      <h2 id="actions">Open dev actions · Aug 23</h2>
-      <p>Two items. Each has the live fault, the required value, and the complete corrected code block. The rest of the ticket below is reference; it is done and verified.</p>
+      <h2 id="actions">Open dev actions · verified Aug 24</h2>
+      <p>Three items. Each was adversarially reviewed on Aug 24 against Google Search Central (product snippet, merchant listing, review snippet, organization, site names, structured-data policies) and the official Next.js JSON-LD guide. Every rule below is doc-verified; nothing is left to interpretation. The rest of the ticket below is reference.</p>
+
       <div class="dev">
-        <span class="tag">Dev action A · Aug 23 · product block (3b)</span>
-        <p><strong>The product block went live, but four fields differ from 3b. Correct these four. Nothing else changes.</strong> Measured on <a href="https://renter.net/ar/product/2545/kamyra-kanwn-4000d/">/ar/product/2545/</a> on Aug 23.</p>
+        <span class="tag">Dev action A · product block (3b) · verified vs Google docs Aug 24</span>
+        <p><strong>The product block is live, but four fields differ from 3b. Correct these four.</strong> Measured on <a href="https://renter.net/ar/product/2545/kamyra-kanwn-4000d/">/ar/product/2545/</a> on Aug 23, re-checked Aug 24.</p>
         <div class="tablebox"><table>
           <thead><tr><th>Field</th><th>Live now</th><th>Must be</th><th>Source</th></tr></thead>
           <tbody>
-            <tr><td><code>description</code></td><td><code>&lt;p&gt;4000d كاميرة كانون&lt;/p&gt;\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;…</code></td><td><code>4000d كاميرة كانون 18 - 55 مع عدسة بدون ذاكرة</code></td><td><code>description</code>, strip tags, decode entities, collapse whitespace</td></tr>
+            <tr><td><code>description</code></td><td><code>&lt;p&gt;4000d كاميرة كانون&lt;/p&gt;\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;…</code></td><td><code>4000d كاميرة كانون 18 - 55 مع عدسة بدون ذاكرة</code></td><td><code>description</code>: strip tags, decode entities, collapse whitespace, on the server before serialization</td></tr>
             <tr><td><code>sku</code></td><td>missing</td><td><code>"2545"</code></td><td><code>id</code> as a string</td></tr>
             <tr><td><code>url</code> (Product level)</td><td>missing</td><td><code>https://renter.net/ar/product/2545/kamyra-kanwn-4000d/</code></td><td>the page's canonical URL</td></tr>
             <tr><td><code>offers.url</code></td><td><code>https://renter.net/ar/product/2545/4000d/</code></td><td><code>https://renter.net/ar/product/2545/kamyra-kanwn-4000d/</code></td><td>the SAME canonical URL. The short slug opens a duplicate of the page; Google must not be told about a second URL</td></tr>
           </tbody>
         </table></div>
-        <p>The complete, corrected block for this page. Your output for this URL must be byte-for-byte equivalent to this (field order does not matter):</p>
+        <p><strong>Rules, verified against the documentation. Apply all of them so nothing comes back later:</strong></p>
+        <ul>
+          <li><strong>Eligibility scope:</strong> rental pages qualify for Google <em>product snippets</em>, not <em>merchant listings</em> (merchant listings require a purchase page). So <code>hasMerchantReturnPolicy</code> and <code>shippingDetails</code> stay out; they are merchant-listing fields. (<a href="https://developers.google.com/search/docs/appearance/structured-data/merchant-listing">merchant-listing doc</a>)</li>
+          <li><strong>price:</strong> emit a JSON number. The API gives the price as a string (<code>"200"</code>); cast it. Keep <code>offers.price</code> AND the <code>priceSpecification</code> entry; Google requires <code>price</code> or <code>priceSpecification.price</code>, and keeping both is valid. (<a href="https://developers.google.com/search/docs/appearance/structured-data/product-snippet">product-snippet doc</a>)</li>
+          <li><strong>availability:</strong> map the API field <code>availability_status</code>: <code>AVAILABLE</code> → <code>https://schema.org/InStock</code>, <code>UNAVAILABLE</code> → <code>https://schema.org/OutOfStock</code>. Never drop <code>offers</code>; with zero reviews, <code>offers</code> is the property that keeps the block eligible.</li>
+          <li><strong>Lease terms</strong> (<code>post_lease_terms[].lease_term</code>): one <code>UnitPriceSpecification</code> per available term, with the UN/CEFACT code: <code>hourly</code> → <code>HUR</code>, <code>daily</code> → <code>DAY</code>, <code>weekly</code> → <code>WEE</code>, <code>monthly</code> → <code>MON</code>. A <code>fixed</code> term gets no <code>UnitPriceSpecification</code>. <code>offers.price</code> = the daily price when a daily term exists, else the lowest-priced term. (<a href="https://schema.org/unitCode">schema.org/unitCode</a>)</li>
+          <li><strong>Reviews:</strong> when <code>review_summary.review_count</code> ≥ 1, add <code>aggregateRating</code> (<code>ratingValue</code> + <code>reviewCount</code>; <code>bestRating</code> defaults to 5) and the <code>review</code> array exactly as in 3b. <code>author</code> MUST be an object <code>{"@type": "Person", "name": "…"}</code>; a bare string fails validation. Only mark up reviews that are visible on the page and written by real users. When the count is 0, omit both. (<a href="https://developers.google.com/search/docs/appearance/structured-data/review-snippet">review-snippet doc</a>)</li>
+          <li><strong>Deliberately omitted; do not add:</strong> <code>brand</code> and <code>gtin</code> (no source field in the API; never derive a brand from the title text) and <code>priceValidUntil</code> (a date that slips into the past suppresses the snippet).</li>
+          <li><strong>Images:</strong> <code>admin-production.renter.net</code> is crawlable (its robots.txt blocks only <code>/login</code>; verified Aug 24). When a product has several photos, list them all in the <code>image</code> array.</li>
+        </ul>
+        <p>The complete, corrected block for this page. Your output for this URL must be equivalent to this (field order does not matter):</p>
         <pre>&lt;script type="application/ld+json"&gt;
 {
   "@context": "https://schema.org",
@@ -258,16 +269,17 @@
 }
 &lt;/script&gt;</pre>
         <p><strong>English product pages</strong> (<code>/en/product/…/</code>): same block, with <code>url</code> and <code>offers.url</code> using the <code>/en/</code> canonical, and <code>name</code>/<code>description</code> in the language the page shows once the translation work lands.</p>
-        <p><strong>Rating and review:</strong> no sampled product has a review yet, so this could not be verified live. The rule in 3b stands: when <code>review_summary.review_count</code> ≥ 1, add <code>aggregateRating</code> and the <code>review</code> array exactly as in the 3b block; when it is 0, omit both.</p>
       </div>
+
       <div class="dev">
-        <span class="tag">Dev action B · Aug 23 · English home block (3d)</span>
-        <p><strong>The English home block is live with two fields changed from 3d. Restore them.</strong> Measured on <a href="https://renter.net/en/">/en/</a> on Aug 23.</p>
+        <span class="tag">Dev action B · home page blocks (3c, 3d) · verified vs Google docs Aug 24</span>
+        <p><strong>Three edits across the two home pages.</strong> One supersedes an earlier instruction: the Aug 23 note said <code>Organization.url</code> must be <code>/ar/</code>; the doc review settled on the locale-neutral root instead. This is the final form.</p>
         <div class="tablebox"><table>
           <thead><tr><th>Field</th><th>Live now</th><th>Must be</th><th>Why</th></tr></thead>
           <tbody>
-            <tr><td><code>Organization.url</code></td><td><code>https://renter.net/en/</code></td><td><code>https://renter.net/ar/</code></td><td>one entity, one <code>@id</code>, one URL on both pages. Two values for the same <code>@id</code> conflict.</td></tr>
-            <tr><td><code>WebSite.name</code></td><td><code>رينتر</code></td><td><code>Renter</code></td><td>the English site name on the English page</td></tr>
+            <tr><td><code>Organization.url</code> (both pages)</td><td><code>/ar/</code> on /ar/, <code>/en/</code> on /en/</td><td><code>https://renter.net/</code></td><td>one entity, one <code>@id</code>, one locale-neutral URL. The root 301s to /ar/; that is fine for an identifier. (<a href="https://developers.google.com/search/docs/appearance/structured-data/organization">organization doc</a>)</td></tr>
+            <tr><td><code>WebSite.name</code> on /en/</td><td><code>رينتر</code></td><td><code>Renter</code></td><td>the English site name on the English page</td></tr>
+            <tr><td><code>WebSite.alternateName</code> (both pages)</td><td>missing</td><td>/ar/: <code>"Renter"</code> · /en/: <code>"رينتر"</code></td><td>Google supports ONE site name per domain and reads it at the root level; per-locale names will not both display. <code>alternateName</code> is Google's documented slot for the second name. (<a href="https://developers.google.com/search/docs/appearance/site-names">site-names doc</a>)</td></tr>
           </tbody>
         </table></div>
         <p>The complete block for <code>/en/</code>, paste as is:</p>
@@ -280,7 +292,7 @@
       "@id": "https://renter.net/#organization",
       "name": "Renter | رينتر",
       "legalName": "شركة المؤجر الذكي للتسويق",
-      "url": "https://renter.net/ar/",
+      "url": "https://renter.net/",
       "logo": {
         "@type": "ImageObject",
         "url": "https://renter.net/renterlogo.png"
@@ -308,6 +320,7 @@
       "@id": "https://renter.net/en/#website",
       "url": "https://renter.net/en/",
       "name": "Renter",
+      "alternateName": "رينتر",
       "inLanguage": "en",
       "publisher": {
         "@id": "https://renter.net/#organization"
@@ -324,8 +337,30 @@
   ]
 }
 &lt;/script&gt;</pre>
-        <p>The Arabic home page block matches 3c exactly. No change there.</p>
+        <p><strong>The /ar/ page gets the same two edits</strong>: <code>Organization.url</code> → <code>https://renter.net/</code> and <code>"alternateName": "Renter"</code> in the WebSite node. The full corrected /ar/ block is in <a href="#fix3c">3c below</a>, already updated. The logo file meets Google's rules (112×112 px minimum, crawlable; verified). The <code>SearchAction</code> stays: Google retired the sitelinks search box in Nov 2024, the markup is ignored, not penalized, and AI crawlers still read it.</p>
       </div>
+
+      <div class="dev">
+        <span class="tag">Dev action C · how to render these blocks in Next.js · verified vs nextjs.org Aug 24</span>
+        <p><strong>renter.net runs the Next.js App Router</strong> (the HTML carries <code>self.__next_f</code> flight data). The official Next.js JSON-LD pattern, so the blocks are correct, safe, and always in the server HTML:</p>
+        <ul>
+          <li><strong>Render in the server component</strong> (<code>page.tsx</code> or <code>layout.tsx</code>), as a native <code>&lt;script&gt;</code> in the returned JSX. Not <code>next/script</code>, not the <code>metadata</code> export (it cannot emit JSON-LD), and never from a client component or <code>useEffect</code>: Google warns that script-injected markup makes price and availability crawls less reliable. The block must be visible in view-source with JavaScript off.</li>
+          <li><strong>Escape exactly as the Next.js docs show</strong>, in one shared helper used by every page type:
+<pre>&lt;script
+  type="application/ld+json"
+  dangerouslySetInnerHTML={{
+    __html: JSON.stringify(jsonLd).replace(/&lt;/g, '\u003c'),
+  }}
+/&gt;</pre>
+          The <code>\u003c</code> replacement closes the <code>&lt;/script&gt;</code> breakout hole. Do not escape anything else; Arabic stays raw UTF-8.</li>
+          <li><strong>Build the object conditionally.</strong> <code>JSON.stringify</code> drops <code>undefined</code> properties (safe) but serializes <code>null</code> (fails validation). Spread optional parts: <code>...(count &gt; 0 &amp;&amp; { aggregateRating })</code>. Guard against <code>NaN</code> from price math; it serializes to <code>null</code>.</li>
+          <li><strong>Clean strings on the server</strong> before stringify: strip tags, decode entities (<code>&amp;nbsp;</code> etc.), collapse whitespace. This is the same rule as the <code>description</code> fault in action A.</li>
+          <li><strong>Optional:</strong> type the objects with the <code>schema-dts</code> package (<code>WithContext&lt;Product&gt;</code>) to catch wrong property names at compile time.</li>
+        </ul>
+        <p><strong>Definition of done, all four:</strong> (1) view-source with JavaScript disabled shows the correct block on each of the <a href="#testdata">12 test URLs</a>; (2) the <a href="https://search.google.com/test/rich-results">Rich Results Test</a> passes each URL with zero errors; (3) <a href="https://validator.schema.org/">validator.schema.org</a> reports no errors; (4) no <code>null</code> values anywhere in the output. Reference: <a href="https://nextjs.org/docs/app/guides/json-ld">nextjs.org JSON-LD guide</a>, <a href="https://developers.google.com/search/docs/appearance/structured-data/generate-structured-data-with-javascript">Google on JavaScript-generated structured data</a>.</p>
+      </div>
+
+      <p class="scope"><strong>Expectations, settled by the doc review so nobody chases them later:</strong> FAQ markup earns no rich result for Renter (Google limited that feature to government and health sites in 2023); the category ItemList earns no carousel (that feature covers courses, movies, recipes, restaurants only); the sitelinks search box was retired in Nov 2024. All three stay in the template because they are valid, cost nothing, and feed AI crawlers; expect no visual change in Google from them. The wins Google can show are the product snippet (price, availability, stars once reviews exist), the site name, the logo, and breadcrumbs.</p>
 
       <span class="section-kicker">01</span>
       <h2 id="summary">Summary</h2>
@@ -452,7 +487,7 @@ $ curl -sL -A "Mozilla/5.0" https://renter.net/ar/properties/apartments/ \
       </div>
       <p>Rules:</p>
       <ul>
-        <li><code>availability</code>: API <code>AVAILABLE</code> → <code>https://schema.org/InStock</code>. Any other value → remove <code>offers</code>.</li>
+        <li><code>availability</code>: <code>availability_status</code> <code>AVAILABLE</code> → <code>https://schema.org/InStock</code>; <code>UNAVAILABLE</code> → <code>https://schema.org/OutOfStock</code>. Keep <code>offers</code> in both cases; <code>offers</code> is what makes the block eligible when there are no reviews.</li>
         <li><code>RENTAL_UNIT</code> from the listing's rental period: hour <code>"HUR"</code>, day <code>"DAY"</code>, week <code>"WEE"</code>, month <code>"MON"</code>.</li>
         <li>Price 0 or 1 SAR is a placeholder → remove <code>offers</code>.</li>
         <li>Zero reviews → remove <code>aggregateRating</code> and <code>review</code>. One real review is enough to keep them (agreed Aug 10). Never invent a review. List every review in the array.</li>
@@ -509,7 +544,7 @@ $ curl -sL -A "Mozilla/5.0" https://renter.net/ar/properties/apartments/ \
       "@id": "https://renter.net/#organization",
       "name": "Renter | رينتر",
       "legalName": "شركة المؤجر الذكي للتسويق",
-      "url": "https://renter.net/ar/",
+      "url": "https://renter.net/",
       "logo": {
         "@type": "ImageObject",
         "url": "https://renter.net/renterlogo.png"
@@ -537,6 +572,7 @@ $ curl -sL -A "Mozilla/5.0" https://renter.net/ar/properties/apartments/ \
       "@id": "https://renter.net/ar/#website",
       "url": "https://renter.net/ar/",
       "name": "رينتر",
+      "alternateName": "Renter",
       "inLanguage": "ar",
       "publisher": {
         "@id": "https://renter.net/#organization"
@@ -556,7 +592,7 @@ $ curl -sL -A "Mozilla/5.0" https://renter.net/ar/properties/apartments/ \
 
       <h3 id="fix3d">3d. English home page /en/: one block, paste as is</h3>
       <p class="scope"><strong>Dev action (Aug 23):</strong> the two fields to restore on this block, with the complete corrected code, are at the top of the page under <a href="#actions">Open dev actions · B</a>.</p>
-      <p><code>Organization.url</code> is <code>/ar/</code> here on purpose: both pages describe one entity with one <code>@id</code>, and <code>/ar/</code> is the site's default home (the root redirects there). Two different URLs for the same <code>@id</code> would conflict. The <code>WebSite</code> object carries the English URL and search action.</p>
+      <p><code>Organization.url</code> is <code>https://renter.net/</code> on both pages: one entity, one <code>@id</code>, one locale-neutral URL. The root sends a 301 to <code>/ar/</code>; that is fine for an identifier. The <code>WebSite</code> object carries the per-locale URL and name.</p>
       <pre>&lt;script type="application/ld+json"&gt;
 {
   "@context": "https://schema.org",
@@ -566,7 +602,7 @@ $ curl -sL -A "Mozilla/5.0" https://renter.net/ar/properties/apartments/ \
       "@id": "https://renter.net/#organization",
       "name": "Renter | رينتر",
       "legalName": "شركة المؤجر الذكي للتسويق",
-      "url": "https://renter.net/ar/",
+      "url": "https://renter.net/",
       "logo": {
         "@type": "ImageObject",
         "url": "https://renter.net/renterlogo.png"
@@ -594,6 +630,7 @@ $ curl -sL -A "Mozilla/5.0" https://renter.net/ar/properties/apartments/ \
       "@id": "https://renter.net/en/#website",
       "url": "https://renter.net/en/",
       "name": "Renter",
+      "alternateName": "رينتر",
       "inLanguage": "en",
       "publisher": {
         "@id": "https://renter.net/#organization"
