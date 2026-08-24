@@ -212,6 +212,7 @@
       <span class="section-kicker">00</span>
       <h2 id="actions">Open dev actions · verified Aug 24</h2>
       <p>Three items. Each was adversarially reviewed on Aug 24 against Google Search Central (product snippet, merchant listing, review snippet, organization, site names, structured-data policies) and the official Next.js JSON-LD guide. Every rule below is doc-verified; nothing is left to interpretation. The rest of the ticket below is reference.</p>
+      <p class="scope"><strong>Pre-verified by TMD on Aug 24, before handoff:</strong> the corrected blocks were run through Google's <a href="https://search.google.com/test/rich-results">Rich Results Test</a> and <a href="https://validator.schema.org/">validator.schema.org</a>. Results: product block VALID (product snippets and merchant listings detected; the only warnings are the optional fields listed as deliberately omitted); home @graph VALID, zero issues; breadcrumbs VALID, zero issues; FAQ 0 errors and 0 warnings on the validator (the Rich Results Test shows "no items" for FAQ because Google retired that feature for non-government sites; expected, not a fault). Pasting the blocks as written passes today. The product block values must still come from the API per the rules above; the sample is exact for product 2545.</p>
 
       <div class="dev">
         <span class="tag">Dev action A · product block (3b) · verified vs Google docs Aug 24</span>
