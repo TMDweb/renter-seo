@@ -188,7 +188,7 @@
       <nav class="toc" aria-label="Contents">
         <strong>Contents</strong>
         <ol>
-          <li><a href="#actions"><strong>Open dev actions · Aug 23 (start here)</strong></a></li>
+          <li><a href="#actions"><strong>Open dev actions · verified Aug 24 (start here)</strong></a></li>
           <li><a href="#summary">Summary and status</a></li>
           <li><a href="#why">Why these faults are important</a></li>
           <li><a href="#testdata">Test data: the 12 URLs</a></li>
@@ -206,7 +206,7 @@
       <div class="dev">
         <span class="tag">Status · Aug 23</span>
         <p><strong>Done and verified live:</strong> Fix 1, Fix 2, Fix 4 (canonical absolute, home-page hreflang), Fix 5 (301 redirects), the bonus encoding fix, and the JSON-LD on the home pages, category pages, subcategory pages, FAQ pages and product pages.</p>
-        <p><strong>Open, three items only:</strong> the four product-block fields (action A below), the two English-home fields (action B below), and the page load time on category pages (still 5.4 s to finish on Aug 23; first byte is 0.3 s, so the cost is in the client bundle and data fetch, not the server).</p>
+        <p><strong>Open, three items only:</strong> the product-block fields (action A below), the home-page fields (action B below), and the page load time on category pages (still 5.4 s to finish on Aug 23; first byte is 0.3 s, so the cost is in the client bundle and data fetch, not the server).</p>
       </div>
 
       <span class="section-kicker">00</span>
@@ -369,13 +369,13 @@
       <div class="scope"><strong>SCOPE.</strong> The URL lists in this ticket are test samples, not the full list. Each fix states its own scope. The sitemap has 2,280 pages: 2,072 product, 194 category and subcategory, 14 information.</div>
 
       <div class="callout crit">
-        <strong>The five faults, status Aug 10</strong>
+        <strong>The five faults, status Aug 24</strong>
         <ol>
-          <li>No Open Graph tags — <strong>done</strong>.</li>
-          <li>No Twitter Card tags — <strong>done</strong>.</li>
-          <li>Structured data: <code>Product</code> live with three faults; other page types have none — <strong>open</strong>, see Fix 3.</li>
-          <li>Relative canonical URLs (home-page hreflang: done) — <strong>open</strong>, see Fix 4.</li>
-          <li>307 redirects, 59.4% of search clicks — <strong>open</strong>, see Fix 5. Do this first.</li>
+          <li>No Open Graph tags: <strong>done</strong>.</li>
+          <li>No Twitter Card tags: <strong>done</strong>.</li>
+          <li>Structured data: live on all page types; <strong>open items are actions A and B above</strong>. See Fix 3 for the reference blocks.</li>
+          <li>Relative canonical URLs: <strong>done</strong> (Fix 4).</li>
+          <li>307 redirects: <strong>done</strong>, now 301 (Fix 5).</li>
         </ol>
       </div>
 
