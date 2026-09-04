@@ -199,6 +199,17 @@
         <li>English pages: identical, with the <code>/en/</code> canonical and product URLs.</li>
       </ul>
 
+      <h2 id="vars">The variables (how to generalize to every category page)</h2>
+      <div class="tablebox"><table>
+        <thead><tr><th>JSON-LD field</th><th>Source on the page</th><th>Transform</th></tr></thead>
+        <tbody>
+          <tr><td><code>name</code></td><td>the page H1</td><td>as is</td></tr>
+          <tr><td><code>url</code></td><td>the page canonical</td><td>the same function that fills <code>rel="canonical"</code></td></tr>
+          <tr><td><code>itemListElement</code></td><td>the same product array that renders the grid</td><td>one <code>ListItem</code> per product, <code>position</code> = display order starting at 1, <code>url</code> = absolute canonical product URL. Nothing else in the item</td></tr>
+        </tbody>
+      </table></div>
+      <p>One template covers all 194 category and subcategory pages, both languages. No page needs manual work.</p>
+
       <h2 id="example">Rendered example: /ar/cars-and-vehicles/ as it looked on Sep 5</h2>
       <p>These are the 12 real products the page listed on Sep 5. Your rendered output for that page, that day, would be exactly this:</p>
       <pre>&lt;script type="application/ld+json"&gt;

@@ -188,22 +188,22 @@
       <p class="lede">State verified <strong>Sep 5, 2026</strong>: the feed is re-partitioned to 24 files of 50 products, descriptions are now clean text, and <code>g:condition</code> is set. Three faults remain. Change ONE feed first (feed-1), back up before changing, and ping Saiaf to test it in Merchant Center before rolling out to all 24; the feed system is unified, so a bad change hits everything at once.</p>
 
       <h2 id="f1">Fix 1: include ALL product photos</h2>
-      <p>Every item today carries one <code>g:image_link</code> and nothing else (verified across feed-1 on Sep 5). Google Shopping converts on photos; add one <code>g:additional_image_link</code> line per extra photo of the product, up to 10 extra. A real item from feed-1 today, corrected; the two added lines are what changes:</p>
+      <p>Every item today carries one <code>g:image_link</code> and nothing else (verified across feed-1 on Sep 5). Google Shopping converts on photos; add one <code>g:additional_image_link</code> line per extra photo of the product, up to 10 extra. The photo URLs are the same <code>post_images[].image</code> list the product schema already renders; a one-photo product simply gets no extra lines.</p>
+      <p>A real item from feed-1 on Sep 5, corrected and complete. Product 2797 has 3 photos; the two <code>g:additional_image_link</code> lines carry its real second and third photo URLs. The description is also fully decoded (the live feed still ships <code>&amp;nbsp;</code>, <code>&amp;mdash;</code>, <code>&amp;zwj;</code>; decode entities in the feed exactly as in the schema):</p>
       <pre>&lt;item&gt;
-  &lt;g:id&gt;2798&lt;/g:id&gt;
-  &lt;title&gt;&lt;![CDATA[كتاب كون قوياً الكاتبة سهام العنزي]]&gt;&lt;/title&gt;
-  &lt;description&gt;&lt;![CDATA[اسم الكتاب: كون قوياً
-الكاتب: سهام العنزي]]&gt;&lt;/description&gt;
-  &lt;link&gt;https://renter.net/ar/product/2798/ktab-kwn-qwyaan-alkatbh-sham-alanzy/&lt;/link&gt;
-  &lt;g:image_link&gt;https://admin-production.renter.net/storage/abd31b6b-29ff-4984-a0b8-79e4cfadbe6b.jpg&lt;/g:image_link&gt;
-  &lt;g:additional_image_link&gt;URL of the product's second photo, from the same post_images list&lt;/g:additional_image_link&gt;
-  &lt;g:additional_image_link&gt;URL of the third photo, and so on, one line per photo&lt;/g:additional_image_link&gt;
+  &lt;g:id&gt;2797&lt;/g:id&gt;
+  &lt;title&gt;&lt;![CDATA[نتيندو سويتش]]&gt;&lt;/title&gt;
+  &lt;description&gt;&lt;![CDATA[جهاز جاهزين لجمعة كلها حماس؟! استأجر Nintendo Switch وخلكم أنتم أبطال التحدي! الجهاز يشمل: Nintendo Switch، 4 عصي تحكم، اللعب لأربعة أشخاص، ألعاب متنوعة وممتعة. الألعاب المتوفرة: Zelda، Mario Maker 2، Bomberman، Mario Party. أسعار التأجير: اليوم بـ 15 ريال فقط، الأسبوع بـ 50 ريال فقط. مناسب للعائلة والأصدقاء والجلسات والويكند والمناسبات.]]&gt;&lt;/description&gt;
+  &lt;link&gt;https://renter.net/ar/product/2797/ntyndw-swytsh/&lt;/link&gt;
+  &lt;g:image_link&gt;https://admin-production.renter.net/storage/6210d058-c21f-4bbf-977e-0aadb70ff781.jpg&lt;/g:image_link&gt;
+  &lt;g:additional_image_link&gt;https://admin-production.renter.net/storage/83654a42-cf38-4b5c-904f-40355b958488.jpg&lt;/g:additional_image_link&gt;
+  &lt;g:additional_image_link&gt;https://admin-production.renter.net/storage/b6e16e32-25a6-4925-9679-378975f9cd9c.jpg&lt;/g:additional_image_link&gt;
   &lt;g:availability&gt;in_stock&lt;/g:availability&gt;
   &lt;g:condition&gt;used&lt;/g:condition&gt;
-  &lt;g:price&gt;12 SAR&lt;/g:price&gt;
+  &lt;g:price&gt;15 SAR&lt;/g:price&gt;
   &lt;g:product_type&gt;&lt;![CDATA[أخرى &gt; All]]&gt;&lt;/g:product_type&gt;
 &lt;/item&gt;</pre>
-      <p>The photo URLs come from the same <code>post_images[].image</code> list the product schema already uses; a product with one photo simply gets no extra lines. Spec: <a href="https://support.google.com/merchants/answer/7052112">Google product data specification, additional_image_link</a>.</p>
+      <p>Spec: <a href="https://support.google.com/merchants/answer/7052112">Google product data specification, additional_image_link</a>.</p>
 
       <h2 id="f2">Fix 2: never return an empty file</h2>
       <p>Feed files intermittently return a valid RSS shell with zero items and HTTP 200 (reproduced again Sep 5: feed-24 returned 0 items in one run and 50 in another). Merchant Center accepts the empty file and silently drops those 50 products for the day; this is what emptied Google Shopping on Aug 25. Required behaviour: when product data cannot be fetched, return HTTP 500, never an empty 200, and log the failure. Merchant Center then keeps the last good version instead of deleting the products.</p>

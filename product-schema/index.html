@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
-<title>Renter · Dev Ticket · Product schema: 3 missing fields</title>
+<title>Renter · Dev Ticket · Product schema: 5 fixes</title>
 <style>
   :root {
     --bg: #efe9e2;
@@ -184,21 +184,41 @@
     <p class="kicker">Renter × TMD · Dev ticket · verified live Sep 5, 2026</p>
   </header>
   <div class="doc-body">
-      <h1>Product schema: add the 3 missing fields</h1>
-      <p class="lede">Verified on the live site on <strong>Sep 5, 2026</strong>, on 4 products. The block is otherwise correct: clean description, all product photos, price, availability. Only these three fields are missing or wrong, on every product. Replace the block; do not add a second one.</p>
+      <h1>Product schema: 5 fixes, one template</h1>
+      <p class="lede">Verified on the live site on <strong>Sep 5, 2026</strong>. Good news first: the block already renders all product photos and one <code>UnitPriceSpecification</code> per lease term with the right unit codes (verified live on product 2797: DAY and MON together). What remains is 5 field fixes in the one template that renders every product page. Replace the block; never add a second one.</p>
 
-      <h2 id="fields">The 3 fields</h2>
+      <h2 id="fields">The 5 fixes, with live evidence</h2>
       <div class="tablebox"><table>
-        <thead><tr><th>Field</th><th>Live now</th><th>Must be</th><th>Source</th></tr></thead>
+        <thead><tr><th>#</th><th>Field</th><th>Live now (Sep 5)</th><th>Must be</th></tr></thead>
         <tbody>
-          <tr><td><code>sku</code></td><td>missing</td><td>the product id as a string, e.g. <code>"2545"</code></td><td>API <code>id</code></td></tr>
-          <tr><td><code>url</code> (Product level)</td><td>missing</td><td>the page canonical, e.g. <code>https://renter.net/ar/product/2545/kamyra-kanwn-4000d/</code></td><td>the canonical URL</td></tr>
-          <tr><td><code>offers.url</code></td><td>short slug, e.g. <code>/ar/product/2545/4000d/</code></td><td>the SAME canonical as above</td><td>the short slug opens a duplicate page; Google must not learn a second URL</td></tr>
+          <tr><td>1</td><td><code>name</code></td><td>On 2797 it holds the whole description text</td><td>The API <code>title</code> field only (the feed already does this right: <code>نتيندو سويتش</code>)</td></tr>
+          <tr><td>2</td><td><code>description</code></td><td>Tags stripped, but entities remain: <code>&amp;nbsp;</code>, <code>&amp;mdash;</code>, <code>&amp;zwj;</code> on 2797</td><td>Fully decoded plain text: strip tags, decode ALL HTML entities, collapse whitespace</td></tr>
+          <tr><td>3</td><td><code>sku</code></td><td>missing on every product tested</td><td>The product id as a string: <code>"2797"</code></td></tr>
+          <tr><td>4</td><td><code>url</code> (Product level)</td><td>missing on every product tested</td><td>The page canonical</td></tr>
+          <tr><td>5</td><td><code>offers.url</code></td><td>Built from a short slug field that can be empty: 2797 renders <code>…/product/2797//</code></td><td>The SAME canonical as field 4. Never build this from the short slug</td></tr>
         </tbody>
       </table></div>
 
-      <h2 id="block">The complete corrected block for /ar/product/2545/</h2>
-      <p>Your output for this URL must be equivalent to this. Field order does not matter. For products with several photos, the <code>image</code> array lists them all, exactly as you already do.</p>
+      <h2 id="map">How to build every field (the generalization)</h2>
+      <p>One template, these sources. Apply it to all 2,000+ products; nothing is per-product manual work.</p>
+      <div class="tablebox"><table>
+        <thead><tr><th>JSON-LD field</th><th>API source</th><th>Transform</th></tr></thead>
+        <tbody>
+          <tr><td><code>name</code></td><td><code>title</code></td><td>as is, trimmed</td></tr>
+          <tr><td><code>description</code></td><td><code>description</code></td><td>strip tags, decode entities, collapse whitespace</td></tr>
+          <tr><td><code>image</code></td><td><code>post_images[].image</code></td><td>all of them, in order (already done)</td></tr>
+          <tr><td><code>sku</code></td><td><code>id</code></td><td>cast to string</td></tr>
+          <tr><td><code>url</code> and <code>offers.url</code></td><td>the canonical URL of the page</td><td>the same value in both; the same function that fills <code>rel="canonical"</code></td></tr>
+          <tr><td><code>offers.price</code></td><td><code>post_lease_terms[]</code> where <code>type = "available"</code></td><td>JSON number. The daily price when a daily term exists, else the lowest-priced term</td></tr>
+          <tr><td><code>offers.availability</code></td><td><code>availability_status</code></td><td><code>AVAILABLE</code> → <code>https://schema.org/InStock</code>, <code>UNAVAILABLE</code> → <code>https://schema.org/OutOfStock</code>. Never drop <code>offers</code></td></tr>
+          <tr><td><code>priceSpecification[]</code></td><td>one entry per available lease term</td><td><code>hourly</code> → <code>HUR</code> · <code>daily</code> → <code>DAY</code> · <code>weekly</code> → <code>WEE</code> · <code>monthly</code> → <code>MON</code> · <code>fixed</code> → no entry (already done; keep it)</td></tr>
+          <tr><td><code>aggregateRating</code> + <code>review</code></td><td><code>review_summary</code></td><td>only when <code>review_count</code> ≥ 1; <code>author</code> is a <code>{"@type": "Person", "name": …}</code> object, never a bare string (already done; keep it)</td></tr>
+        </tbody>
+      </table></div>
+      <p><strong>Do not add:</strong> <code>brand</code>, <code>gtin</code> (no source field; never derive from the title), <code>priceValidUntil</code> (a past date suppresses the snippet), return or shipping fields (merchant-listing only). <strong>English pages:</strong> same template with the <code>/en/</code> canonical and translated text.</p>
+
+      <h2 id="ex1">Complete block 1: single lease term (/ar/product/2545/)</h2>
+      <p>Product 2545 has one daily term and one photo. Your rendered output for this URL must be equivalent to this:</p>
       <pre>&lt;script type="application/ld+json"&gt;
 {
   "@context": "https://schema.org",
@@ -232,15 +252,52 @@
 }
 &lt;/script&gt;</pre>
 
-      <h2 id="rules">Rules that stay in force (all doc-verified)</h2>
-      <ul>
-        <li><strong>price</strong> is a JSON number; the API sends a string, cast it.</li>
-        <li><strong>availability:</strong> <code>availability_status</code> <code>AVAILABLE</code> → <code>https://schema.org/InStock</code>; <code>UNAVAILABLE</code> → <code>https://schema.org/OutOfStock</code>. Never drop <code>offers</code>.</li>
-        <li><strong>Lease terms:</strong> one <code>UnitPriceSpecification</code> per available term; <code>hourly</code> → <code>HUR</code>, <code>daily</code> → <code>DAY</code>, <code>weekly</code> → <code>WEE</code>, <code>monthly</code> → <code>MON</code>; a <code>fixed</code> term gets none. <code>offers.price</code> = the daily price when it exists, else the lowest term.</li>
-        <li><strong>Reviews:</strong> when <code>review_summary.review_count</code> ≥ 1, add <code>aggregateRating</code> (<code>ratingValue</code> + <code>reviewCount</code>) and the <code>review</code> array; <code>author</code> MUST be <code>{"@type": "Person", "name": "…"}</code>, never a bare string. Zero reviews: omit both. This is already live and accepted; keep it.</li>
-        <li><strong>Do not add:</strong> <code>brand</code>, <code>gtin</code> (no source field; never derive from the title), <code>priceValidUntil</code> (a past date suppresses the snippet), return/shipping fields (merchant-listing only).</li>
-        <li><strong>English product pages:</strong> same block with the <code>/en/</code> canonical and translated text.</li>
-      </ul>
+      <h2 id="ex2">Complete block 2: multiple lease terms (/ar/product/2797/)</h2>
+      <p>Product 2797 rents per day (15 SAR) and per month (200 SAR) and has 3 photos. This is the same template with more data; note the two <code>priceSpecification</code> entries (DAY and MON) and <code>offers.price</code> = the daily price. Your rendered output for this URL must be equivalent to this:</p>
+      <pre>&lt;script type="application/ld+json"&gt;
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "نتيندو سويتش",
+  "description": "جهاز جاهزين لجمعة كلها حماس؟! استأجر Nintendo Switch وخلكم أنتم أبطال التحدي! الجهاز يشمل: Nintendo Switch، 4 عصي تحكم، اللعب لأربعة أشخاص، ألعاب متنوعة وممتعة. الألعاب المتوفرة: Zelda، Mario Maker 2، Bomberman، Mario Party. أسعار التأجير: اليوم بـ 15 ريال فقط، الأسبوع بـ 50 ريال فقط. مناسب للعائلة والأصدقاء والجلسات والويكند والمناسبات.",
+  "image": [
+    "https://admin-production.renter.net/storage/6210d058-c21f-4bbf-977e-0aadb70ff781.jpg",
+    "https://admin-production.renter.net/storage/83654a42-cf38-4b5c-904f-40355b958488.jpg",
+    "https://admin-production.renter.net/storage/b6e16e32-25a6-4925-9679-378975f9cd9c.jpg"
+  ],
+  "sku": "2797",
+  "url": "https://renter.net/ar/product/2797/ntyndw-swytsh/",
+  "offers": {
+    "@type": "Offer",
+    "url": "https://renter.net/ar/product/2797/ntyndw-swytsh/",
+    "priceCurrency": "SAR",
+    "price": 15,
+    "availability": "https://schema.org/InStock",
+    "priceSpecification": [
+      {
+        "@type": "UnitPriceSpecification",
+        "price": 15,
+        "priceCurrency": "SAR",
+        "referenceQuantity": {
+          "@type": "QuantitativeValue",
+          "value": 1,
+          "unitCode": "DAY"
+        }
+      },
+      {
+        "@type": "UnitPriceSpecification",
+        "price": 200,
+        "priceCurrency": "SAR",
+        "referenceQuantity": {
+          "@type": "QuantitativeValue",
+          "value": 1,
+          "unitCode": "MON"
+        }
+      }
+    ]
+  }
+}
+&lt;/script&gt;</pre>
 
       <h2 id="nextjs">How to render the block (Next.js App Router)</h2>
       <p>Render in the server component (<code>page.tsx</code>), as a native <code>&lt;script&gt;</code> in the returned JSX. Not <code>next/script</code>, not the <code>metadata</code> export, never from <code>useEffect</code>. The block must be visible in view-source with JavaScript off. Escape exactly like this, with one shared helper:</p>
@@ -254,9 +311,9 @@
 
       <h2 id="done">Definition of done</h2>
       <ol>
-        <li>View-source with JavaScript off shows the corrected block on <a href="https://renter.net/ar/product/2545/kamyra-kanwn-4000d/">/ar/product/2545/</a>, <a href="https://renter.net/ar/product/2771/syty-klr/">/ar/product/2771/</a>, <a href="https://renter.net/ar/product/2704/tnsyq-kwshh/">/ar/product/2704/</a>.</li>
-        <li><a href="https://search.google.com/test/rich-results">Rich Results Test</a> passes those URLs with zero errors.</li>
-        <li>No <code>null</code> values anywhere in the output.</li>
+        <li>View-source with JavaScript off matches block 1 on <a href="https://renter.net/ar/product/2545/kamyra-kanwn-4000d/">/ar/product/2545/</a> and block 2 on <a href="https://renter.net/ar/product/2797/ntyndw-swytsh/">/ar/product/2797/</a>.</li>
+        <li><a href="https://search.google.com/test/rich-results">Rich Results Test</a> passes both URLs with zero errors.</li>
+        <li>No <code>null</code> values, no HTML entities, anywhere in the output.</li>
         <li>Ping Saiaf on deploy.</li>
       </ol>
       <p class="sub"><a href="../head-metadata/">Back to the dev board</a></p>
