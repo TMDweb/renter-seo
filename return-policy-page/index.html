@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
-<title>Renter · Dev Ticket · Merchant feed: three fixes</title>
+<title>Renter · Dev Ticket · Return policy page</title>
 <style>
   :root {
     --bg: #efe9e2;
@@ -181,41 +181,59 @@
 <body>
 <div class="page">
   <header class="doc-header">
-    <p class="kicker">Renter × TMD · Dev ticket · verified live Sep 5, 2026</p>
+    <p class="kicker">Renter × TMD · Dev ticket · ready, waiting decision · Sep 5, 2026</p>
   </header>
   <div class="doc-body">
-      <h1>Merchant feed: three fixes</h1>
-      <p class="lede">State verified <strong>Sep 5, 2026</strong>: the feed is re-partitioned to 24 files of 50 products, descriptions are now clean text, and <code>g:condition</code> is set. Three faults remain. Change ONE feed first (feed-1), back up before changing, and ping Saiaf to test it in Merchant Center before rolling out to all 24; the feed system is unified, so a bad change hits everything at once.</p>
+      <h1>Return policy page for Merchant Center</h1>
+      <div class="callout crit"><strong>Waiting on one decision:</strong> Mr. Mohamed to confirm publishing. Everything else is ready. Context: Google Merchant Center requires a return policy page regardless of business type; the cancellation-policy substitute was rejected, and the gap took every product off Google Shopping on Aug 25 before they returned. This can repeat at any review.</div>
 
-      <h2 id="f1">Fix 1: include ALL product photos</h2>
-      <p>Every item today carries one <code>g:image_link</code> and nothing else (verified across feed-1 on Sep 5). Google Shopping converts on photos; add one <code>g:additional_image_link</code> line per extra photo of the product, up to 10 extra. A real item from feed-1 today, corrected; the two added lines are what changes:</p>
-      <pre>&lt;item&gt;
-  &lt;g:id&gt;2798&lt;/g:id&gt;
-  &lt;title&gt;&lt;![CDATA[كتاب كون قوياً الكاتبة سهام العنزي]]&gt;&lt;/title&gt;
-  &lt;description&gt;&lt;![CDATA[اسم الكتاب: كون قوياً
-الكاتب: سهام العنزي]]&gt;&lt;/description&gt;
-  &lt;link&gt;https://renter.net/ar/product/2798/ktab-kwn-qwyaan-alkatbh-sham-alanzy/&lt;/link&gt;
-  &lt;g:image_link&gt;https://admin-production.renter.net/storage/abd31b6b-29ff-4984-a0b8-79e4cfadbe6b.jpg&lt;/g:image_link&gt;
-  &lt;g:additional_image_link&gt;URL of the product's second photo, from the same post_images list&lt;/g:additional_image_link&gt;
-  &lt;g:additional_image_link&gt;URL of the third photo, and so on, one line per photo&lt;/g:additional_image_link&gt;
-  &lt;g:availability&gt;in_stock&lt;/g:availability&gt;
-  &lt;g:condition&gt;used&lt;/g:condition&gt;
-  &lt;g:price&gt;12 SAR&lt;/g:price&gt;
-  &lt;g:product_type&gt;&lt;![CDATA[أخرى &gt; All]]&gt;&lt;/g:product_type&gt;
-&lt;/item&gt;</pre>
-      <p>The photo URLs come from the same <code>post_images[].image</code> list the product schema already uses; a product with one photo simply gets no extra lines. Spec: <a href="https://support.google.com/merchants/answer/7052112">Google product data specification, additional_image_link</a>.</p>
+      <h2 id="what">What to do (Paulo, after the yes)</h2>
+      <ol>
+        <li>Publish the page below at <code>https://renter.net/ar/return-policy/</code>. Keep the <code>noindex</code> meta that is already in it: users and Google search never see it; only Merchant Center reads it. Do not add it to any menu.</li>
+        <li>Tell Saiaf. Saiaf then sets the URL in Merchant Center's return policy settings (return window = end of rental period, return cost = 0 SAR, matching the page).</li>
+      </ol>
 
-      <h2 id="f2">Fix 2: never return an empty file</h2>
-      <p>Feed files intermittently return a valid RSS shell with zero items and HTTP 200 (reproduced again Sep 5: feed-24 returned 0 items in one run and 50 in another). Merchant Center accepts the empty file and silently drops those 50 products for the day; this is what emptied Google Shopping on Aug 25. Required behaviour: when product data cannot be fetched, return HTTP 500, never an empty 200, and log the failure. Merchant Center then keeps the last good version instead of deleting the products.</p>
+      <h2 id="page">The complete page, paste as is</h2>
+      <p>The content is grounded in the live FAQ terms (cancellation before start, deposit return after review, SAREI processing windows); nothing invented. Copy the whole file:</p>
+      <pre>&lt;!DOCTYPE html&gt;
+&lt;html lang="ar" dir="rtl"&gt;
+&lt;head&gt;
+&lt;meta charset="UTF-8"&gt;
+&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+&lt;meta name="robots" content="noindex, nofollow"&gt;
+&lt;title&gt;سياسة الإرجاع والاسترداد | رينتر&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;main style="max-width:760px;margin:40px auto;padding:0 20px;font-family:system-ui,sans-serif;line-height:1.9"&gt;
+&lt;h1&gt;سياسة الإرجاع والاسترداد&lt;/h1&gt;
+&lt;p&gt;تنطبق هذه السياسة على جميع عمليات الإيجار عبر منصة رينتر (شركة المؤجر الذكي للتسويق).&lt;/p&gt;
 
-      <h2 id="f3">Fix 3 (Saiaf, not Paulo): register feeds 6 to 24</h2>
-      <p>Only 5 of the 24 files are registered in Merchant Center. Saiaf registers the rest once fix 1 is tested on feed-1.</p>
+&lt;h2&gt;إرجاع المنتج المستأجر&lt;/h2&gt;
+&lt;p&gt;يعيد المستأجر المنتج إلى المؤجر عند نهاية مدة الإيجار المتفق عليها وبالحالة المتفق عليها. نافذة الإرجاع هي نهاية مدة الإيجار المحددة في الحجز. لا توجد رسوم إرجاع؛ تكلفة الإرجاع 0 ريال سعودي.&lt;/p&gt;
+
+&lt;h2&gt;الإلغاء والاسترداد&lt;/h2&gt;
+&lt;p&gt;يمكن إلغاء الحجز في أي وقت قبل تاريخ ووقت بدء الإيجار، ويسترد المستأجر المبلغ المدفوع كاملاً.&lt;/p&gt;
+
+&lt;h2&gt;مبلغ التأمين&lt;/h2&gt;
+&lt;p&gt;يعاد مبلغ التأمين إلى المستأجر بعد مراجعة المؤجر لحالة المنتج والتأكد من إعادته بالحالة المتفق عليها. في حال عدم إعادة المنتج بشكل صحيح، قد يحول مبلغ التأمين إلى المؤجر بعد المراجعة ووفقاً لشروط الحجز.&lt;/p&gt;
+
+&lt;h2&gt;مدة معالجة الاستردادات&lt;/h2&gt;
+&lt;p&gt;تعالج الاستردادات وتحويلات مبالغ التأمين عبر شبكة المدفوعات السعودية (سريع) خلال أيام العمل بين الساعة 8:00 صباحاً و2:00 مساءً بتوقيت المملكة العربية السعودية. الطلبات خارج هذه الأوقات أو خلال عطلات نهاية الأسبوع والعطل الرسمية تعالج في نافذة المعالجة التالية.&lt;/p&gt;
+
+&lt;h2&gt;المنتجات المفقودة أو التالفة&lt;/h2&gt;
+&lt;p&gt;إذا تعرض المنتج للفقدان أو التلف أثناء فترة الإيجار، يتواصل الطرفان مع فريق رينتر عبر قنوات الدعم، ويراجع الفريق الحالة ويجمع المعلومات اللازمة للوصول إلى حل مناسب.&lt;/p&gt;
+
+&lt;h2&gt;التواصل&lt;/h2&gt;
+&lt;p&gt;البريد الإلكتروني: support@renter.net · الهاتف: 3615 500 011&lt;/p&gt;
+&lt;/main&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
 
       <h2 id="done">Definition of done</h2>
       <ol>
-        <li>feed-1 items show every product photo; verified by Saiaf in Merchant Center on the test feed.</li>
-        <li>Six consecutive fetches of all 24 files return their full item counts or a 500, never an empty 200.</li>
-        <li>All 24 feeds registered and fetching in Merchant Center.</li>
+        <li><code>https://renter.net/ar/return-policy/</code> returns 200 with the <code>noindex</code> meta, visible in view-source.</li>
+        <li>Merchant Center accepts the return policy (Saiaf verifies in the diagnostics screen).</li>
+        <li>No product disapprovals citing return window or return cost.</li>
       </ol>
       <p class="sub"><a href="../head-metadata/">Back to the dev board</a></p>
   </div>

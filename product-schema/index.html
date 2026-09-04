@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
-<title>Renter · Dev Ticket · Merchant feed: three fixes</title>
+<title>Renter · Dev Ticket · Product schema: 3 missing fields</title>
 <style>
   :root {
     --bg: #efe9e2;
@@ -184,38 +184,80 @@
     <p class="kicker">Renter × TMD · Dev ticket · verified live Sep 5, 2026</p>
   </header>
   <div class="doc-body">
-      <h1>Merchant feed: three fixes</h1>
-      <p class="lede">State verified <strong>Sep 5, 2026</strong>: the feed is re-partitioned to 24 files of 50 products, descriptions are now clean text, and <code>g:condition</code> is set. Three faults remain. Change ONE feed first (feed-1), back up before changing, and ping Saiaf to test it in Merchant Center before rolling out to all 24; the feed system is unified, so a bad change hits everything at once.</p>
+      <h1>Product schema: add the 3 missing fields</h1>
+      <p class="lede">Verified on the live site on <strong>Sep 5, 2026</strong>, on 4 products. The block is otherwise correct: clean description, all product photos, price, availability. Only these three fields are missing or wrong, on every product. Replace the block; do not add a second one.</p>
 
-      <h2 id="f1">Fix 1: include ALL product photos</h2>
-      <p>Every item today carries one <code>g:image_link</code> and nothing else (verified across feed-1 on Sep 5). Google Shopping converts on photos; add one <code>g:additional_image_link</code> line per extra photo of the product, up to 10 extra. A real item from feed-1 today, corrected; the two added lines are what changes:</p>
-      <pre>&lt;item&gt;
-  &lt;g:id&gt;2798&lt;/g:id&gt;
-  &lt;title&gt;&lt;![CDATA[كتاب كون قوياً الكاتبة سهام العنزي]]&gt;&lt;/title&gt;
-  &lt;description&gt;&lt;![CDATA[اسم الكتاب: كون قوياً
-الكاتب: سهام العنزي]]&gt;&lt;/description&gt;
-  &lt;link&gt;https://renter.net/ar/product/2798/ktab-kwn-qwyaan-alkatbh-sham-alanzy/&lt;/link&gt;
-  &lt;g:image_link&gt;https://admin-production.renter.net/storage/abd31b6b-29ff-4984-a0b8-79e4cfadbe6b.jpg&lt;/g:image_link&gt;
-  &lt;g:additional_image_link&gt;URL of the product's second photo, from the same post_images list&lt;/g:additional_image_link&gt;
-  &lt;g:additional_image_link&gt;URL of the third photo, and so on, one line per photo&lt;/g:additional_image_link&gt;
-  &lt;g:availability&gt;in_stock&lt;/g:availability&gt;
-  &lt;g:condition&gt;used&lt;/g:condition&gt;
-  &lt;g:price&gt;12 SAR&lt;/g:price&gt;
-  &lt;g:product_type&gt;&lt;![CDATA[أخرى &gt; All]]&gt;&lt;/g:product_type&gt;
-&lt;/item&gt;</pre>
-      <p>The photo URLs come from the same <code>post_images[].image</code> list the product schema already uses; a product with one photo simply gets no extra lines. Spec: <a href="https://support.google.com/merchants/answer/7052112">Google product data specification, additional_image_link</a>.</p>
+      <h2 id="fields">The 3 fields</h2>
+      <div class="tablebox"><table>
+        <thead><tr><th>Field</th><th>Live now</th><th>Must be</th><th>Source</th></tr></thead>
+        <tbody>
+          <tr><td><code>sku</code></td><td>missing</td><td>the product id as a string, e.g. <code>"2545"</code></td><td>API <code>id</code></td></tr>
+          <tr><td><code>url</code> (Product level)</td><td>missing</td><td>the page canonical, e.g. <code>https://renter.net/ar/product/2545/kamyra-kanwn-4000d/</code></td><td>the canonical URL</td></tr>
+          <tr><td><code>offers.url</code></td><td>short slug, e.g. <code>/ar/product/2545/4000d/</code></td><td>the SAME canonical as above</td><td>the short slug opens a duplicate page; Google must not learn a second URL</td></tr>
+        </tbody>
+      </table></div>
 
-      <h2 id="f2">Fix 2: never return an empty file</h2>
-      <p>Feed files intermittently return a valid RSS shell with zero items and HTTP 200 (reproduced again Sep 5: feed-24 returned 0 items in one run and 50 in another). Merchant Center accepts the empty file and silently drops those 50 products for the day; this is what emptied Google Shopping on Aug 25. Required behaviour: when product data cannot be fetched, return HTTP 500, never an empty 200, and log the failure. Merchant Center then keeps the last good version instead of deleting the products.</p>
+      <h2 id="block">The complete corrected block for /ar/product/2545/</h2>
+      <p>Your output for this URL must be equivalent to this. Field order does not matter. For products with several photos, the <code>image</code> array lists them all, exactly as you already do.</p>
+      <pre>&lt;script type="application/ld+json"&gt;
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "كاميرا كانون 4000d",
+  "description": "4000d كاميرة كانون 18 - 55 مع عدسة بدون ذاكرة",
+  "image": [
+    "https://admin-production.renter.net/storage/a3b484b0-3e33-49d1-b716-fa9aefe53606.jpg"
+  ],
+  "sku": "2545",
+  "url": "https://renter.net/ar/product/2545/kamyra-kanwn-4000d/",
+  "offers": {
+    "@type": "Offer",
+    "url": "https://renter.net/ar/product/2545/kamyra-kanwn-4000d/",
+    "priceCurrency": "SAR",
+    "price": 200,
+    "availability": "https://schema.org/InStock",
+    "priceSpecification": [
+      {
+        "@type": "UnitPriceSpecification",
+        "price": 200,
+        "priceCurrency": "SAR",
+        "referenceQuantity": {
+          "@type": "QuantitativeValue",
+          "value": 1,
+          "unitCode": "DAY"
+        }
+      }
+    ]
+  }
+}
+&lt;/script&gt;</pre>
 
-      <h2 id="f3">Fix 3 (Saiaf, not Paulo): register feeds 6 to 24</h2>
-      <p>Only 5 of the 24 files are registered in Merchant Center. Saiaf registers the rest once fix 1 is tested on feed-1.</p>
+      <h2 id="rules">Rules that stay in force (all doc-verified)</h2>
+      <ul>
+        <li><strong>price</strong> is a JSON number; the API sends a string, cast it.</li>
+        <li><strong>availability:</strong> <code>availability_status</code> <code>AVAILABLE</code> → <code>https://schema.org/InStock</code>; <code>UNAVAILABLE</code> → <code>https://schema.org/OutOfStock</code>. Never drop <code>offers</code>.</li>
+        <li><strong>Lease terms:</strong> one <code>UnitPriceSpecification</code> per available term; <code>hourly</code> → <code>HUR</code>, <code>daily</code> → <code>DAY</code>, <code>weekly</code> → <code>WEE</code>, <code>monthly</code> → <code>MON</code>; a <code>fixed</code> term gets none. <code>offers.price</code> = the daily price when it exists, else the lowest term.</li>
+        <li><strong>Reviews:</strong> when <code>review_summary.review_count</code> ≥ 1, add <code>aggregateRating</code> (<code>ratingValue</code> + <code>reviewCount</code>) and the <code>review</code> array; <code>author</code> MUST be <code>{"@type": "Person", "name": "…"}</code>, never a bare string. Zero reviews: omit both. This is already live and accepted; keep it.</li>
+        <li><strong>Do not add:</strong> <code>brand</code>, <code>gtin</code> (no source field; never derive from the title), <code>priceValidUntil</code> (a past date suppresses the snippet), return/shipping fields (merchant-listing only).</li>
+        <li><strong>English product pages:</strong> same block with the <code>/en/</code> canonical and translated text.</li>
+      </ul>
+
+      <h2 id="nextjs">How to render the block (Next.js App Router)</h2>
+      <p>Render in the server component (<code>page.tsx</code>), as a native <code>&lt;script&gt;</code> in the returned JSX. Not <code>next/script</code>, not the <code>metadata</code> export, never from <code>useEffect</code>. The block must be visible in view-source with JavaScript off. Escape exactly like this, with one shared helper:</p>
+      <pre>&lt;script
+  type="application/ld+json"
+  dangerouslySetInnerHTML={{{{
+    __html: JSON.stringify(jsonLd).replace(/&lt;/g, '\\u003c'),
+  }}}}
+/&gt;</pre>
+      <p>Build the object conditionally; never emit <code>null</code> (it fails validation, while dropped <code>undefined</code> is safe). Reference: <a href="https://nextjs.org/docs/app/guides/json-ld">nextjs.org JSON-LD guide</a>.</p>
 
       <h2 id="done">Definition of done</h2>
       <ol>
-        <li>feed-1 items show every product photo; verified by Saiaf in Merchant Center on the test feed.</li>
-        <li>Six consecutive fetches of all 24 files return their full item counts or a 500, never an empty 200.</li>
-        <li>All 24 feeds registered and fetching in Merchant Center.</li>
+        <li>View-source with JavaScript off shows the corrected block on <a href="https://renter.net/ar/product/2545/kamyra-kanwn-4000d/">/ar/product/2545/</a>, <a href="https://renter.net/ar/product/2771/syty-klr/">/ar/product/2771/</a>, <a href="https://renter.net/ar/product/2704/tnsyq-kwshh/">/ar/product/2704/</a>.</li>
+        <li><a href="https://search.google.com/test/rich-results">Rich Results Test</a> passes those URLs with zero errors.</li>
+        <li>No <code>null</code> values anywhere in the output.</li>
+        <li>Ping Saiaf on deploy.</li>
       </ol>
       <p class="sub"><a href="../head-metadata/">Back to the dev board</a></p>
   </div>

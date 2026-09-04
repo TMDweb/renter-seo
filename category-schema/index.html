@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
-<title>Renter · Dev Ticket · Merchant feed: three fixes</title>
+<title>Renter · Dev Ticket · Category ItemList block</title>
 <style>
   :root {
     --bg: #efe9e2;
@@ -181,41 +181,117 @@
 <body>
 <div class="page">
   <header class="doc-header">
-    <p class="kicker">Renter × TMD · Dev ticket · verified live Sep 5, 2026</p>
+    <p class="kicker">Renter × TMD · Dev ticket · written fresh Sep 5, 2026 (the 3e answer)</p>
   </header>
   <div class="doc-body">
-      <h1>Merchant feed: three fixes</h1>
-      <p class="lede">State verified <strong>Sep 5, 2026</strong>: the feed is re-partitioned to 24 files of 50 products, descriptions are now clean text, and <code>g:condition</code> is set. Three faults remain. Change ONE feed first (feed-1), back up before changing, and ping Saiaf to test it in Merchant Center before rolling out to all 24; the feed system is unified, so a bad change hits everything at once.</p>
+      <h1>Category and subcategory pages: the ItemList block</h1>
+      <p class="lede">This is the answer to the 3e question. The old ticket referenced code that did not exist; here it is, complete. Category and subcategory pages already carry a correct BreadcrumbList (verified <strong>Sep 5, 2026</strong>); keep it exactly as it is. What you ADD is one more script: a <code>CollectionPage</code> with an <code>ItemList</code> of the products shown on the page.</p>
 
-      <h2 id="f1">Fix 1: include ALL product photos</h2>
-      <p>Every item today carries one <code>g:image_link</code> and nothing else (verified across feed-1 on Sep 5). Google Shopping converts on photos; add one <code>g:additional_image_link</code> line per extra photo of the product, up to 10 extra. A real item from feed-1 today, corrected; the two added lines are what changes:</p>
-      <pre>&lt;item&gt;
-  &lt;g:id&gt;2798&lt;/g:id&gt;
-  &lt;title&gt;&lt;![CDATA[كتاب كون قوياً الكاتبة سهام العنزي]]&gt;&lt;/title&gt;
-  &lt;description&gt;&lt;![CDATA[اسم الكتاب: كون قوياً
-الكاتب: سهام العنزي]]&gt;&lt;/description&gt;
-  &lt;link&gt;https://renter.net/ar/product/2798/ktab-kwn-qwyaan-alkatbh-sham-alanzy/&lt;/link&gt;
-  &lt;g:image_link&gt;https://admin-production.renter.net/storage/abd31b6b-29ff-4984-a0b8-79e4cfadbe6b.jpg&lt;/g:image_link&gt;
-  &lt;g:additional_image_link&gt;URL of the product's second photo, from the same post_images list&lt;/g:additional_image_link&gt;
-  &lt;g:additional_image_link&gt;URL of the third photo, and so on, one line per photo&lt;/g:additional_image_link&gt;
-  &lt;g:availability&gt;in_stock&lt;/g:availability&gt;
-  &lt;g:condition&gt;used&lt;/g:condition&gt;
-  &lt;g:price&gt;12 SAR&lt;/g:price&gt;
-  &lt;g:product_type&gt;&lt;![CDATA[أخرى &gt; All]]&gt;&lt;/g:product_type&gt;
-&lt;/item&gt;</pre>
-      <p>The photo URLs come from the same <code>post_images[].image</code> list the product schema already uses; a product with one photo simply gets no extra lines. Spec: <a href="https://support.google.com/merchants/answer/7052112">Google product data specification, additional_image_link</a>.</p>
+      <div class="callout"><strong>Honest expectation, so nobody chases a ghost:</strong> Google shows list rich results only for courses, movies, recipes and restaurants, so this block earns no visual change in Google. Its value is machine readability: it tells Google and AI crawlers exactly which products belong to which category. Low effort, keep expectations at zero visuals.</div>
 
-      <h2 id="f2">Fix 2: never return an empty file</h2>
-      <p>Feed files intermittently return a valid RSS shell with zero items and HTTP 200 (reproduced again Sep 5: feed-24 returned 0 items in one run and 50 in another). Merchant Center accepts the empty file and silently drops those 50 products for the day; this is what emptied Google Shopping on Aug 25. Required behaviour: when product data cannot be fetched, return HTTP 500, never an empty 200, and log the failure. Merchant Center then keeps the last good version instead of deleting the products.</p>
+      <h2 id="pattern">The pattern (Google's "summary page" carousel pattern)</h2>
+      <ul>
+        <li>One extra <code>&lt;script type="application/ld+json"&gt;</code> per category and subcategory page, next to the existing breadcrumb script.</li>
+        <li><code>name</code> = the page H1. <code>url</code> = the page canonical.</li>
+        <li><code>itemListElement</code>: one <code>ListItem</code> per product currently rendered on the page, in display order, with <code>position</code> and the absolute product <code>url</code> ONLY. No names, no prices, no Product objects inside the list; the product pages carry their own full Product block.</li>
+        <li>All URLs absolute, on renter.net, unique within the list.</li>
+        <li>The list changes when the page content changes; that is correct behaviour, render it from the same data that renders the grid.</li>
+        <li>English pages: identical, with the <code>/en/</code> canonical and product URLs.</li>
+      </ul>
 
-      <h2 id="f3">Fix 3 (Saiaf, not Paulo): register feeds 6 to 24</h2>
-      <p>Only 5 of the 24 files are registered in Merchant Center. Saiaf registers the rest once fix 1 is tested on feed-1.</p>
+      <h2 id="example">Rendered example: /ar/cars-and-vehicles/ as it looked on Sep 5</h2>
+      <p>These are the 12 real products the page listed on Sep 5. Your rendered output for that page, that day, would be exactly this:</p>
+      <pre>&lt;script type="application/ld+json"&gt;
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "سيارات ومركبات للإيجار",
+  "url": "https://renter.net/ar/cars-and-vehicles/",
+  "mainEntity": {
+    "@type": "ItemList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "url": "https://renter.net/ar/product/2791/lwbd-msks-11-mtw/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "url": "https://renter.net/ar/product/2788/wayt-alby-llayjar/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "url": "https://renter.net/ar/product/2781/ajar-ras-shahnh-ma-saeq/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "url": "https://renter.net/ar/product/2779/syarat-dyanat-lshrkat-almyah/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 5,
+        "url": "https://renter.net/ar/product/2778/dyanat-mbrdh-wmjmd/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 6,
+        "url": "https://renter.net/ar/product/2776/khlath-khrsanh/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 7,
+        "url": "https://renter.net/ar/product/2766/kryn-thqyl-lliyjar-baldmam-or-100-tn-160-tn-200-tn-250-tn-or-llmsana-walmsharya-alnftyh-or-operator-documents/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 8,
+        "url": "https://renter.net/ar/product/2765/fan-swzwky-aykw-2026/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 9,
+        "url": "https://renter.net/ar/product/2764/kamry-lwmyr-2026/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 10,
+        "url": "https://renter.net/ar/product/2761/syarh-kyky-ltajyr-alshhry-2000-ryal/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 11,
+        "url": "https://renter.net/ar/product/2755/qlab-sks-20m/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 12,
+        "url": "https://renter.net/ar/product/2754/accent-2023/"
+      }
+    ]
+  }
+}
+&lt;/script&gt;</pre>
+      <p>A subcategory page like <code>/ar/cars-and-vehicles/cars/</code> gets the same block with its own H1, canonical, and its own product list.</p>
+
+      <h2 id="nextjs">How to render the block (Next.js App Router)</h2>
+      <p>Render in the server component (<code>page.tsx</code>), as a native <code>&lt;script&gt;</code> in the returned JSX. Not <code>next/script</code>, not the <code>metadata</code> export, never from <code>useEffect</code>. The block must be visible in view-source with JavaScript off. Escape exactly like this, with one shared helper:</p>
+      <pre>&lt;script
+  type="application/ld+json"
+  dangerouslySetInnerHTML={{{{
+    __html: JSON.stringify(jsonLd).replace(/&lt;/g, '\\u003c'),
+  }}}}
+/&gt;</pre>
+      <p>Build the object conditionally; never emit <code>null</code> (it fails validation, while dropped <code>undefined</code> is safe). Reference: <a href="https://nextjs.org/docs/app/guides/json-ld">nextjs.org JSON-LD guide</a>.</p>
 
       <h2 id="done">Definition of done</h2>
       <ol>
-        <li>feed-1 items show every product photo; verified by Saiaf in Merchant Center on the test feed.</li>
-        <li>Six consecutive fetches of all 24 files return their full item counts or a 500, never an empty 200.</li>
-        <li>All 24 feeds registered and fetching in Merchant Center.</li>
+        <li>View-source with JavaScript off shows two scripts (breadcrumb + this block) on <a href="https://renter.net/ar/cars-and-vehicles/">/ar/cars-and-vehicles/</a> and <a href="https://renter.net/ar/cars-and-vehicles/cars/">/ar/cars-and-vehicles/cars/</a>.</li>
+        <li>The URLs in the list match the products visible on the page.</li>
+        <li><a href="https://validator.schema.org/">validator.schema.org</a> reports zero errors.</li>
+        <li>Ping Saiaf on deploy.</li>
       </ol>
       <p class="sub"><a href="../head-metadata/">Back to the dev board</a></p>
   </div>
