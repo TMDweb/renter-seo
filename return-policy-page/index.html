@@ -183,20 +183,22 @@
 <div class="page">
   <header class="doc-header">
     <a class="backbtn" href="../head-metadata/">&#8592; Back to the dev board</a>
-    <p class="kicker">Renter × TMD · Dev ticket · ready, waiting decision · Sep 5, 2026</p>
+    <p class="kicker">Renter × TMD · Dev ticket · approved Sep 7, 2026 · build</p>
   </header>
   <div class="doc-body">
       <h1>Return policy page for Merchant Center</h1>
-      <div class="callout crit"><strong>Waiting on one decision:</strong> Mr. Mohamed to confirm publishing. Everything else is ready. Context: Google Merchant Center requires a return policy page regardless of business type; the cancellation-policy substitute was rejected, and the gap took every product off Google Shopping on Aug 25 before they returned. This can repeat at any review.</div>
+      <div class="callout"><strong>Approved by Mr. Mohamed on Sep 7, 2026. Build it.</strong> Context: Google Merchant Center requires a return policy page regardless of business type; the cancellation-policy substitute was rejected, and the gap took every product off Google Shopping on Aug 25 before they returned. This can repeat at any review.</div>
 
-      <h2 id="what">What to do (Paulo, after the yes)</h2>
+      <h2 id="what">What to do (Paulo)</h2>
       <ol>
-        <li>Publish the page below at <code>https://renter.net/ar/return-policy/</code>. Keep the <code>noindex</code> meta that is already in it: users and Google search never see it; only Merchant Center reads it. Do not add it to any menu.</li>
+        <li>Create a new page at slug <code>return-policy</code>: <code>https://renter.net/ar/return-policy/</code> (and <code>/en/return-policy/</code> with the same Arabic content for now; the English text can follow later).</li>
+        <li>Use the same page layout as the FAQ page (header, footer, typography), agreed in the meeting. Paste the content below into it. Do not add the page to any menu or navigation.</li>
+        <li>Keep the <code>&lt;meta name="robots" content="noindex, nofollow"&gt;</code> tag. Do not make the page indexable and do not touch robots.txt: users and Google search never see it; only Merchant Center reads it.</li>
         <li>Tell Saiaf. Saiaf then sets the URL in Merchant Center's return policy settings (return window = end of rental period, return cost = 0 SAR, matching the page).</li>
       </ol>
 
-      <h2 id="page">The complete page, paste as is</h2>
-      <p>The content is grounded in the live FAQ terms (cancellation before start, deposit return after review, SAREI processing windows); nothing invented. Copy the whole file:</p>
+      <h2 id="page">The complete page content, paste as is</h2>
+      <p>Use the body content inside the FAQ layout; the <code>&lt;head&gt;</code> lines show the required title and robots meta. The content is grounded in the live FAQ terms (cancellation before start, deposit return after review, SAREI processing windows); nothing invented. Copy the whole file:</p>
       <pre>&lt;!DOCTYPE html&gt;
 &lt;html lang="ar" dir="rtl"&gt;
 &lt;head&gt;

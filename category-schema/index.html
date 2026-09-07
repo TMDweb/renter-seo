@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
-<title>Renter · Dev Ticket · Category ItemList block</title>
+<title>Renter · Dev Ticket · Category ItemList block and infinite scroll</title>
 <style>
   :root {
     --bg: #efe9e2;
@@ -183,42 +183,56 @@
 <div class="page">
   <header class="doc-header">
     <a class="backbtn" href="../head-metadata/">&#8592; Back to the dev board</a>
-    <p class="kicker">Renter × TMD · Dev ticket · written fresh Sep 5, 2026 (the 3e answer)</p>
+    <p class="kicker">Renter × TMD · Dev ticket · rebuilt on Google documentation · Sep 7, 2026</p>
   </header>
   <div class="doc-body">
-      <h1>Category and subcategory pages: the ItemList block</h1>
-      <p class="lede">This is the answer to the 3e question. The old ticket referenced code that did not exist; here it is, complete. Category and subcategory pages already carry a correct BreadcrumbList (verified <strong>Sep 5, 2026</strong>); keep it exactly as it is. What you ADD is one more script: a <code>CollectionPage</code> with an <code>ItemList</code> of the products shown on the page.</p>
+      <h1>Category and subcategory pages: the ItemList block, with infinite scroll</h1>
+      <p class="lede">Rebuilt <strong>Sep 7, 2026</strong> after the meeting question: "the schema is in a server component, but scroll adds products in a client component; how do we keep it complete?" The answer comes from Google's own documentation and it is simpler than feared: <strong>the block lists the server-rendered products only, and it must never be updated from the client.</strong> Completeness comes from paginated URLs, not from scroll.</p>
 
-      <div class="callout"><strong>Honest expectation, so nobody chases a ghost:</strong> Google shows list rich results only for courses, movies, recipes and restaurants, so this block earns no visual change in Google. Its value is machine readability: it tells Google and AI crawlers exactly which products belong to which category. Low effort, keep expectations at zero visuals.</div>
+      <h2 id="why">Why, in Google's words</h2>
+      <div class="tablebox"><table>
+        <thead><tr><th>Google says</th><th>What it means for us</th><th>Source</th></tr></thead>
+        <tbody>
+          <tr><td>"Google Search does not interact with your page."</td><td>Googlebot never scrolls. Products loaded on scroll do not exist for Google, so a client-side update to the JSON-LD would describe products Google cannot see.</td><td><a href="https://developers.google.com/search/docs/crawling-indexing/javascript/lazy-loading">Lazy-loading content</a></td></tr>
+          <tr><td>"Google's crawlers don't 'click' buttons and generally don't trigger JavaScript functions that require user actions to update the current page contents."</td><td>A "load more" button or scroll trigger is invisible to Google unless it is a real link.</td><td><a href="https://developers.google.com/search/docs/specialty/ecommerce/pagination-and-incremental-page-loading">Pagination and incremental page loading</a></td></tr>
+          <tr><td>"Google Search can understand and process structured data that's available in the DOM when it renders the page."</td><td>Only what the server renders is read reliably. Keep the block in the server component, as it is now.</td><td><a href="https://developers.google.com/search/docs/appearance/structured-data/generate-structured-data-with-javascript">Structured data with JavaScript</a></td></tr>
+          <tr><td>"Your structured data must be a true representation of the page content." and "Don't mark up content that is not visible to readers of the page."</td><td>The list must equal the products actually rendered in the initial HTML: not fewer, not more.</td><td><a href="https://developers.google.com/search/docs/appearance/structured-data/sd-policies">Structured data policies</a></td></tr>
+          <tr><td>"Give each chunk its own persistent, unique URL", "using ?page=12", "Link sequentially to the individual URLs", "give each page its own canonical URL."</td><td>If every product must be reachable through category pages, add paginated URLs. Each one is server-rendered with its own product set and its own ItemList.</td><td>Both docs above</td></tr>
+        </tbody>
+      </table></div>
+      <p><strong>Also true, and it lowers the stakes:</strong> every product page already carries its own Product block and is in the sitemap and the Merchant feed. The category ItemList is a map, not the only road. Google shows list rich results only for courses, movies, recipes and restaurants, so this block earns no visual change; its value is machine readability.</p>
 
-      <h2 id="pattern">The pattern (Google's "summary page" carousel pattern)</h2>
+      <h2 id="do">What to build (two parts)</h2>
+      <h3>Part 1, required now: the block for the first page</h3>
       <ul>
-        <li>One extra <code>&lt;script type="application/ld+json"&gt;</code> per category and subcategory page, next to the existing breadcrumb script.</li>
-        <li><code>name</code> = the page H1. <code>url</code> = the page canonical.</li>
-        <li><code>itemListElement</code>: one <code>ListItem</code> per product currently rendered on the page, in display order, with <code>position</code> and the absolute product <code>url</code> ONLY. No names, no prices, no Product objects inside the list; the product pages carry their own full Product block.</li>
-        <li>All URLs absolute, on renter.net, unique within the list.</li>
-        <li>The list changes when the page content changes; that is correct behaviour, render it from the same data that renders the grid.</li>
-        <li>English pages: identical, with the <code>/en/</code> canonical and product URLs.</li>
+        <li>One extra <code>&lt;script type="application/ld+json"&gt;</code> per category and subcategory page, next to the existing breadcrumb script. Rendered in the server component from the same product array that renders the first grid. Never touched by the client component; infinite scroll changes the grid, not the script.</li>
+        <li><code>name</code> = the page H1. <code>url</code> = the page canonical. <code>itemListElement</code> = one <code>ListItem</code> per server-rendered product, <code>position</code> from 1, absolute product <code>url</code> only. Nothing else in the item.</li>
+        <li>Same template for English pages with the <code>/en/</code> canonical.</li>
+      </ul>
+      <h3>Part 2, recommended, when convenient: paginated URLs</h3>
+      <ul>
+        <li>Serve <code>/ar/cars-and-vehicles/?page=2</code>, <code>?page=3</code> and so on from the server with the next set of products, each with its own H1, its own self-referencing canonical (<code>?page=2</code> canonical is <code>?page=2</code>, not page 1) and its own ItemList of that page's products.</li>
+        <li>Add a real <code>&lt;a href="…?page=2"&gt;</code> link at the end of the grid (it can be the "load more" control itself). Keep infinite scroll for users and update the address bar with the History API, as Google's doc describes.</li>
+        <li>Do not use <code>rel="next"/"prev"</code>; Google no longer reads them.</li>
       </ul>
 
-      <h2 id="vars">The variables (how to generalize to every category page)</h2>
+      <h2 id="vars">The variables (one template, all 194 pages)</h2>
       <div class="tablebox"><table>
         <thead><tr><th>JSON-LD field</th><th>Source on the page</th><th>Transform</th></tr></thead>
         <tbody>
           <tr><td><code>name</code></td><td>the page H1</td><td>as is</td></tr>
-          <tr><td><code>url</code></td><td>the page canonical</td><td>the same function that fills <code>rel="canonical"</code></td></tr>
-          <tr><td><code>itemListElement</code></td><td>the same product array that renders the grid</td><td>one <code>ListItem</code> per product, <code>position</code> = display order starting at 1, <code>url</code> = absolute canonical product URL. Nothing else in the item</td></tr>
+          <tr><td><code>url</code></td><td>the page canonical (with <code>?page=N</code> on paginated pages)</td><td>the same function that fills <code>rel="canonical"</code></td></tr>
+          <tr><td><code>itemListElement</code></td><td>the product array the server rendered for this page</td><td>one <code>ListItem</code> per product, <code>position</code> = display order from 1, <code>url</code> = absolute canonical product URL</td></tr>
         </tbody>
       </table></div>
-      <p>One template covers all 194 category and subcategory pages, both languages. No page needs manual work.</p>
 
-      <h2 id="example">Rendered example: /ar/cars-and-vehicles/ as it looked on Sep 5</h2>
-      <p>These are the 12 real products the page listed on Sep 5. Your rendered output for that page, that day, would be exactly this:</p>
+      <h2 id="example">Complete rendered block: /ar/cars-and-vehicles/</h2>
+      <p>The 12 products the server rendered for this page on Sep 5, in display order, with the live H1 as <code>name</code>. Your output for this page must be equivalent to this (the list changes when the page's products change; that is correct):</p>
       <pre>&lt;script type="application/ld+json"&gt;
 {
   "@context": "https://schema.org",
   "@type": "CollectionPage",
-  "name": "سيارات ومركبات للإيجار",
+  "name": "تأجير سيارات في السعودية | مركبات ودبابات وأكثر",
   "url": "https://renter.net/ar/cars-and-vehicles/",
   "mainEntity": {
     "@type": "ItemList",
@@ -287,7 +301,6 @@
   }
 }
 &lt;/script&gt;</pre>
-      <p>A subcategory page like <code>/ar/cars-and-vehicles/cars/</code> gets the same block with its own H1, canonical, and its own product list.</p>
 
       <h2 id="nextjs">How to render the block (Next.js App Router)</h2>
       <p>Render in the server component (<code>page.tsx</code>), as a native <code>&lt;script&gt;</code> in the returned JSX. Not <code>next/script</code>, not the <code>metadata</code> export, never from <code>useEffect</code>. The block must be visible in view-source with JavaScript off. Escape exactly like this, with one shared helper:</p>
@@ -299,10 +312,12 @@
 /&gt;</pre>
       <p>Build the object conditionally; never emit <code>null</code> (it fails validation, while dropped <code>undefined</code> is safe). Reference: <a href="https://nextjs.org/docs/app/guides/json-ld">nextjs.org JSON-LD guide</a>.</p>
 
+
       <h2 id="done">Definition of done</h2>
       <ol>
         <li>View-source with JavaScript off shows two scripts (breadcrumb + this block) on <a href="https://renter.net/ar/cars-and-vehicles/">/ar/cars-and-vehicles/</a> and <a href="https://renter.net/ar/cars-and-vehicles/cars/">/ar/cars-and-vehicles/cars/</a>.</li>
-        <li>The URLs in the list match the products visible on the page.</li>
+        <li>The URLs in the list equal the products in the initial server HTML, same count, same order.</li>
+        <li>Scrolling adds products to the grid and does not change the script (check the DOM after scrolling).</li>
         <li><a href="https://validator.schema.org/">validator.schema.org</a> reports zero errors.</li>
         <li>Ping Saiaf on deploy.</li>
       </ol>

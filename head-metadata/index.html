@@ -181,32 +181,34 @@
 <body>
 <div class="page">
   <header class="doc-header">
-    <p class="kicker">Renter × TMD · Dev board · one page per issue · verified Sep 5, 2026</p>
+    <p class="kicker">Renter × TMD · Dev board · one page per issue · verified Sep 7, 2026</p>
   </header>
   <div class="doc-body">
       <h1>Renter dev board: one page per issue</h1>
-      <p class="lede">Each open issue lives on its own page with only the code you need. Every status below was verified against the live site on <strong>September 5, 2026</strong>. The old combined ticket is kept unchanged in the <a href="archive/">archive</a>.</p>
+      <p class="lede">Each open issue lives on its own page with only the code you need. Every status below was verified against the live site on <strong>September 7, 2026</strong>, after the weekly meeting. The old combined ticket is kept unchanged in the <a href="archive/">archive</a>.</p>
 
       <h2 id="open">Open</h2>
       <div class="tablebox"><table class="board">
         <thead><tr><th>Issue</th><th>Status</th><th>One line</th><th>Page</th></tr></thead>
         <tbody>
-          <tr><td>Product schema: 5 field fixes</td><td><span class="pill open">OPEN</span></td><td><code>name</code>, <code>description</code> entities, <code>sku</code>, Product <code>url</code>, <code>offers.url</code>; one template fix, evidence and complete blocks on the page</td><td><a href="../product-schema/">product-schema</a></td></tr>
-          <tr><td>Category and subcategory block</td><td><span class="pill open">OPEN</span></td><td>Pages carry only the breadcrumb; the CollectionPage + ItemList block is written fresh on its page (this answers the 3e question)</td><td><a href="../category-schema/">category-schema</a></td></tr>
-          <tr><td>Merchant feed: 3 fixes</td><td><span class="pill open">OPEN</span></td><td>One photo per product, occasional empty files, and feed rollout to 24 files</td><td><a href="../merchant-feed/">merchant-feed</a></td></tr>
-          <tr><td>Return policy page</td><td><span class="pill blocked">WAITING DECISION</span></td><td>Merchant Center requires it (products dropped Aug 25); page content is ready; Mr. Mohamed to confirm publishing</td><td><a href="../return-policy-page/">return-policy-page</a></td></tr>
+          <tr><td>Category and subcategory ItemList (with infinite scroll)</td><td><span class="pill open">OPEN</span></td><td>Researched on Google docs Sep 7: the block lists the server-rendered products only, never updated from the client; completeness via paginated URLs. Page rebuilt with the reasoning and the complete block</td><td><a href="../category-schema/">category-schema</a></td></tr>
+          <tr><td>Return policy page</td><td><span class="pill open">APPROVED, BUILD</span></td><td>Mr. Mohamed approved Sep 7. Publish at slug <code>return-policy</code> with the FAQ page layout, not in the navigation, <code>noindex</code> kept, not indexable. Complete page content on its page</td><td><a href="../return-policy-page/">return-policy-page</a></td></tr>
+          <tr><td>Staging robots meta</td><td><span class="pill open">OPEN</span></td><td>Verified Sep 7: <code>v2-staging.renter.net</code> serves <code>&lt;meta name="robots" content="index, follow"&gt;</code> (copied from production) while robots.txt says <code>Disallow: /</code>. Staging must emit <code>noindex, nofollow</code> from an environment flag; production stays <code>index, follow</code>. Best: HTTP auth on staging</td><td>fix inline</td></tr>
+          <tr><td>Translation: meta title and description</td><td><span class="pill progress">WAITING JAN</span></td><td>On staging the meta title and description are still identical in Arabic and English. Before any production push: Jan sets an Arabic meta title/description on one Arabic product and English on its English page, Paulo confirms, Saiaf verifies on staging</td><td>Jan + Paulo</td></tr>
+          <tr><td>Merchant feed: register feeds 6 to 24</td><td><span class="pill progress">SAIAF</span></td><td>Photos and clean descriptions are done and verified in Merchant Center. Only the registration of the remaining feed files is left, on Saiaf</td><td><a href="../merchant-feed/">merchant-feed</a></td></tr>
           <tr><td>Booking confirmation push</td><td><span class="pill progress">IN PROGRESS</span></td><td>Frontend implementation received from Janlord; Paulo committed to this week</td><td><a href="../booking-confirmation-data-layer/">booking-confirmation</a></td></tr>
         </tbody>
       </table></div>
 
-      <h2 id="done">Done and verified live, Sep 5</h2>
+      <h2 id="done">Done and verified live</h2>
       <div class="tablebox"><table>
         <thead><tr><th>Item</th><th>Verified</th></tr></thead>
         <tbody>
+          <tr><td>Product schema: all 5 fixes (<code>name</code>, decoded description, <code>sku</code>, Product <code>url</code>, canonical <code>offers.url</code>); a previously failing product now passes the Rich Results Test</td><td><span class="pill done">DONE</span> Sep 7</td></tr>
+          <tr><td>Merchant feed: all product photos via <code>additional_image_link</code>, clean descriptions; Merchant Center shows no errors</td><td><span class="pill done">DONE</span> Sep 7</td></tr>
           <tr><td>Home page schema: one block per language, <code>Organization.url</code> root, <code>alternateName</code> on both</td><td><span class="pill done">DONE</span> Sep 5</td></tr>
-          <tr><td>Product schema: all product photos in the <code>image</code> array, one <code>UnitPriceSpecification</code> per lease term with correct unit codes</td><td><span class="pill done">DONE</span> verified Sep 5</td></tr>
-          <tr><td>301 redirects, absolute canonicals, hreflang, Open Graph, Twitter cards, encoding fix</td><td><span class="pill done">DONE</span> Aug 24</td></tr>
-          <tr><td>FAQ blocks and breadcrumbs on category pages</td><td><span class="pill done">DONE</span> Aug 24</td></tr>
+          <tr><td>H1 on category and subcategory pages: reported missing in the Sep 7 meeting; re-tested Sep 7 evening on all 194 sitemap pages (server HTML) and in the rendered DOM: exactly one correct H1 everywhere. Not reproducible; re-test if it is seen again</td><td><span class="pill done">NOT REPRODUCIBLE</span> Sep 7</td></tr>
+          <tr><td>301 redirects, absolute canonicals, hreflang, Open Graph, Twitter cards, encoding fix, FAQ blocks, breadcrumbs</td><td><span class="pill done">DONE</span> Aug 24</td></tr>
         </tbody>
       </table></div>
       <p class="sub">Rule for every fix: REPLACE the existing block, never add a second one next to it. When a change ships, ping Saiaf so it gets tested before the next meeting.</p>
