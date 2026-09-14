@@ -178,6 +178,7 @@
 .pill.done{background:var(--ok-soft);color:var(--ok)}
 </style>
 <style>.backbtn{display:inline-block;background:var(--white);color:var(--primary) !important;border:1px solid rgba(255,255,255,.5);text-decoration:none;font:600 14px/1 -apple-system,sans-serif;padding:10px 18px;border-radius:10px;margin:0 0 14px;box-shadow:var(--shadow-sm)}.backbtn:hover{background:var(--surface-soft)}.doc-body .backbtn{border-color:var(--border)}</style>
+<style>.statusbar{display:flex;gap:12px;align-items:center;background:var(--white);border:1px solid var(--border);border-radius:12px;padding:14px 18px;margin:0 0 22px;box-shadow:var(--shadow-sm)}.statusbar .pill{font-size:13px;padding:5px 12px}.statusbar span.txt{color:var(--text)}</style>
 </head>
 <body>
 <div class="page">
@@ -186,6 +187,7 @@
     <p class="kicker">Renter × TMD · Dev ticket · rebuilt on Google documentation · Sep 7, 2026</p>
   </header>
   <div class="doc-body">
+      <div class="statusbar"><span class="pill open">NOT DONE</span><span class="txt">Verified Sep 14, 2026: category and subcategory pages still carry only the breadcrumb, on production and on staging. Paulo (Sep 9): restructuring how products load, target staging before the Sunday meeting.</span></div>
       <h1>Category and subcategory pages: the ItemList block, with infinite scroll</h1>
       <p class="lede">Rebuilt <strong>Sep 7, 2026</strong> after the meeting question: "the schema is in a server component, but scroll adds products in a client component; how do we keep it complete?" The answer comes from Google's own documentation and it is simpler than feared: <strong>the block lists the server-rendered products only, and it must never be updated from the client.</strong> Completeness comes from paginated URLs, not from scroll.</p>
 

@@ -181,21 +181,21 @@
 <body>
 <div class="page">
   <header class="doc-header">
-    <p class="kicker">Renter × TMD · Dev board · one page per issue · verified Sep 7, 2026</p>
+    <p class="kicker">Renter × TMD · Dev board · one page per issue · verified Sep 14, 2026</p>
   </header>
   <div class="doc-body">
       <h1>Renter dev board: one page per issue</h1>
-      <p class="lede">Each open issue lives on its own page with only the code you need. Every status below was verified against the live site on <strong>September 7, 2026</strong>, after the weekly meeting. The old combined ticket is kept unchanged in the <a href="archive/">archive</a>.</p>
+      <p class="lede">Each open issue lives on its own page with only the code you need. Every status below was verified against the live site on <strong>September 14, 2026</strong>, on the live site, not from meeting statements. The old combined ticket is kept unchanged in the <a href="archive/">archive</a>.</p>
 
       <h2 id="open">Open</h2>
       <div class="tablebox"><table class="board">
         <thead><tr><th>Issue</th><th>Status</th><th>One line</th><th>Page</th></tr></thead>
         <tbody>
-          <tr><td>Category and subcategory ItemList (with infinite scroll)</td><td><span class="pill open">OPEN</span></td><td>Researched on Google docs Sep 7: the block lists the server-rendered products only, never updated from the client; completeness via paginated URLs. Page rebuilt with the reasoning and the complete block</td><td><a href="../category-schema/">category-schema</a></td></tr>
-          <tr><td>Return policy page</td><td><span class="pill open">APPROVED, BUILD</span></td><td>Mr. Mohamed approved Sep 7. Publish at slug <code>return-policy</code> with the FAQ page layout, not in the navigation, <code>noindex</code> kept, not indexable. Complete page content on its page</td><td><a href="../return-policy-page/">return-policy-page</a></td></tr>
-          <tr><td>Staging robots meta</td><td><span class="pill open">OPEN</span></td><td>Verified Sep 7: <code>v2-staging.renter.net</code> serves <code>&lt;meta name="robots" content="index, follow"&gt;</code> (copied from production) while robots.txt says <code>Disallow: /</code>. Staging must emit <code>noindex, nofollow</code> from an environment flag; production stays <code>index, follow</code>. Best: HTTP auth on staging</td><td>fix inline</td></tr>
-          <tr><td>Translation: meta title and description</td><td><span class="pill progress">WAITING JAN</span></td><td>On staging the meta title and description are still identical in Arabic and English. Before any production push: Jan sets an Arabic meta title/description on one Arabic product and English on its English page, Paulo confirms, Saiaf verifies on staging</td><td>Jan + Paulo</td></tr>
-          <tr><td>Booking confirmation push</td><td><span class="pill progress">IN PROGRESS</span></td><td>Frontend implementation received from Janlord; Paulo committed to this week</td><td><a href="../booking-confirmation-data-layer/">booking-confirmation</a></td></tr>
+          <tr><td>Product schema: 5 field fixes</td><td><span class="pill open">NOT DONE</span></td><td>Verified Sep 14 on 6 live products: <code>sku</code> and Product <code>url</code> missing, <code>offers.url</code> short slug, entities in descriptions, and a new regression: <code>name</code> holds the description text. The Sep 7 "done" came from a meeting statement, not a live check; corrected</td><td><a href="../product-schema/">product-schema</a></td></tr>
+          <tr><td>Category and subcategory ItemList (with pagination)</td><td><span class="pill progress">IN PROGRESS</span></td><td>Not on production or staging as of Sep 14. Paulo is restructuring product loading; agreed path: server-rendered first page + paginated URLs, own slug per page preferred (<code>/category/2/</code>) with self canonicals</td><td><a href="../category-schema/">category-schema</a></td></tr>
+          <tr><td>Staging robots meta</td><td><span class="pill open">NOT DONE</span></td><td>Sep 14: <code>v2-staging.renter.net</code> still serves <code>&lt;meta name="robots" content="index, follow"&gt;</code>. Staging must emit <code>noindex, nofollow</code> from an environment flag; best is HTTP auth on staging</td><td>fix inline</td></tr>
+          <tr><td>Translation: meta title and description</td><td><span class="pill progress">WAITING JAN</span></td><td>Staging still shows identical meta title/description in both languages. Test rule stands: Jan sets one Arabic and one English pair on staging, Paulo confirms, Saiaf verifies before production</td><td>Jan + Paulo</td></tr>
+          <tr><td>Booking confirmation push</td><td><span class="pill progress">IN PROGRESS</span></td><td>No deploy notice since Sep 7; <code>booking_confirmed</code> event not observed. Paulo to give a date</td><td><a href="../booking-confirmation-data-layer/">booking-confirmation</a></td></tr>
         </tbody>
       </table></div>
 
@@ -203,11 +203,11 @@
       <div class="tablebox"><table>
         <thead><tr><th>Item</th><th>Verified</th></tr></thead>
         <tbody>
-          <tr><td>Product schema: all 5 fixes (<code>name</code>, decoded description, <code>sku</code>, Product <code>url</code>, canonical <code>offers.url</code>); a previously failing product now passes the Rich Results Test</td><td><span class="pill done">DONE</span> Sep 7</td></tr>
-          <tr><td>Merchant feed: all product photos via <code>additional_image_link</code>, clean descriptions, no errors; all 24 Arabic feeds registered in Merchant Center (daily update at midnight). Feed 24 is empty by design: 1,125 products = 22 full feeds + 25 in feed 23</td><td><span class="pill done">DONE</span> Sep 7</td></tr>
-          <tr><td>Home page schema: one block per language, <code>Organization.url</code> root, <code>alternateName</code> on both</td><td><span class="pill done">DONE</span> Sep 5</td></tr>
-          <tr><td>H1 on category and subcategory pages: reported missing in the Sep 7 meeting; re-tested Sep 7 evening on all 194 sitemap pages (server HTML) and in the rendered DOM: exactly one correct H1 everywhere. Not reproducible; re-test if it is seen again</td><td><span class="pill done">NOT REPRODUCIBLE</span> Sep 7</td></tr>
-          <tr><td>301 redirects, absolute canonicals, hreflang, Open Graph, Twitter cards, encoding fix, FAQ blocks, breadcrumbs</td><td><span class="pill done">DONE</span> Aug 24</td></tr>
+          <tr><td>Return policy page: <code>/ar/return-policy/</code> and <code>/en/return-policy/</code> live with <code>noindex, nofollow</code> and correct H1. Saiaf sets the URL in Merchant Center</td><td><span class="pill done">COMPLETED</span> Sep 14</td></tr>
+          <tr><td>Merchant feed: all product photos, clean descriptions, no errors; all 24 Arabic feeds registered (feed 24 empty by catalog size: 1,125 products)</td><td><span class="pill done">COMPLETED</span> Sep 14</td></tr>
+          <tr><td>Home page schema: one block per language, <code>Organization.url</code> root, <code>alternateName</code> on both</td><td><span class="pill done">COMPLETED</span> Sep 5</td></tr>
+          <tr><td>H1 on category and subcategory pages: reported missing Sep 7; re-tested on all 194 sitemap pages and in the rendered DOM: one correct H1 everywhere</td><td><span class="pill done">NOT REPRODUCIBLE</span> Sep 7</td></tr>
+          <tr><td>301 redirects, absolute canonicals, hreflang, Open Graph, Twitter cards, encoding fix, FAQ blocks, breadcrumbs</td><td><span class="pill done">COMPLETED</span> Aug 24</td></tr>
         </tbody>
       </table></div>
       <p class="sub">Rule for every fix: REPLACE the existing block, never add a second one next to it. When a change ships, ping Saiaf so it gets tested before the next meeting.</p>
