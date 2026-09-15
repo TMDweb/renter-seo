@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Renter · Blog section</title>
+<style>
+  :root {
+    --bg: #efe9e2;
+    --surface: #ffffff;
+    --surface-soft: #f7f2eb;
+    --border: rgba(25, 89, 84, 0.10);
+    --primary: #195954;
+    --primary-dark: #0f3835;
+    --secondary: #8b6030;
+    --text: #233331;
+    --text-muted: #5f625d;
+    --white: #ffffff;
+    --crit: #b3261e;
+    --crit-soft: #fbe9e7;
+    --warn: #8a5a00;
+    --warn-soft: #fcf3e0;
+    --ok: #1f6b4a;
+    --ok-soft: #e6f4ec;
+    --shadow-lg: 0 24px 60px rgba(15, 56, 53, 0.12);
+    --shadow-sm: 0 4px 14px rgba(15, 56, 53, 0.06);
+    --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, "Helvetica Neue", Arial, sans-serif;
+    background:
+      radial-gradient(circle at top right, rgba(139, 96, 48, 0.08), transparent 24%),
+      linear-gradient(180deg, #f5f1eb 0%, var(--bg) 100%);
+    padding: 40px 20px 60px;
+    color: var(--text);
+    line-height: 1.65;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+  }
+  .container { max-width: 980px; margin: 0 auto; }
+  a { color: var(--primary); text-decoration: none; border-bottom: 1px solid rgba(25,89,84,0.25); }
+  a:hover { color: var(--primary-dark); border-bottom-color: var(--primary); }
+
+  .doc {
+    background: var(--surface);
+    border-radius: 28px;
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.65);
+  }
+  .doc-header {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    padding: 46px 50px 40px;
+    color: var(--white);
+  }
+  .section-kicker {
+    display: inline-flex;
+    padding: 8px 16px;
+    margin-bottom: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.86);
+    font-size: 0.82em;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .doc-title { font-size: 1.9em; font-weight: 700; line-height: 1.3; text-wrap: balance; }
+  .doc-subtitle { color: rgba(255, 255, 255, 0.78); margin-top: 12px; max-width: 760px; }
+  .pill-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 20px; }
+  .pill {
+    display: inline-flex; align-items: center;
+    padding: 6px 14px; border-radius: 999px;
+    font-size: 0.78em; font-weight: 600;
+    background: rgba(255,255,255,0.10); color: var(--white);
+    border: 1px solid rgba(255,255,255,0.18);
+  }
+  .pill.crit { background: rgba(255, 205, 196, 0.22); border-color: rgba(255, 205, 196, 0.4); }
+
+  .doc-body { padding: 40px 50px 50px; }
+  section { margin-bottom: 40px; }
+  h3 { scroll-margin-top: 20px; }
+  h2 { scroll-margin-top: 20px; color: var(--primary-dark); font-size: 1.25em; margin-bottom: 12px; display: flex; align-items: baseline; gap: 10px; }
+  h2 .num { font-family: var(--mono); font-size: 0.72em; color: var(--secondary); font-weight: 600; }
+  p { margin-bottom: 10px; max-width: 78ch; }
+  ul, ol { margin: 8px 0 10px 22px; max-width: 78ch; }
+  li { margin: 5px 0; }
+  strong { color: var(--primary-dark); }
+
+  code {
+    font-family: var(--mono); font-size: 0.88em;
+    background: #dfeeea; border: 1px solid rgba(25, 89, 84, 0.28);
+    border-radius: 5px; padding: 2px 7px; color: var(--primary-dark);
+  }
+  pre {
+    background: #14211f; color: #e8e6da;
+    font-family: var(--mono); font-size: 12.5px; line-height: 1.55;
+    padding: 18px 20px; border-radius: 14px;
+    overflow-x: auto; margin: 12px 0;
+    direction: ltr; text-align: left;
+  }
+  pre code { background: none; border: none; padding: 0; color: inherit; font-size: inherit; }
+  pre .cmd { color: #f0c36a; }
+  pre .cm { color: #8fa39b; }
+  pre .hit { color: #f2a69b; }
+  pre .good { color: #8fd0a9; }
+
+  .callout {
+    border-radius: 16px; padding: 18px 22px; margin: 14px 0;
+    border: 1px solid var(--border); background: var(--surface-soft);
+  }
+  .callout.crit { background: var(--crit-soft); border-color: rgba(179,38,30,0.18); }
+  .callout.crit strong { color: var(--crit); }
+  .callout.ok { background: var(--ok-soft); border-color: rgba(31,107,74,0.18); }
+  .callout h3 { font-size: 1em; margin-bottom: 6px; color: var(--primary-dark); }
+
+  table { border-collapse: collapse; width: 100%; font-size: 0.92em; margin: 12px 0; }
+  .tablebox { border: 1px solid var(--border); border-radius: 14px; overflow-x: auto; background: var(--surface); box-shadow: var(--shadow-sm); }
+  th { font-size: 0.78em; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); text-align: left; padding: 12px 16px; border-bottom: 1px solid var(--border); background: var(--surface-soft); white-space: nowrap; }
+  td { padding: 11px 16px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  td.mono { font-family: var(--mono); font-size: 0.85em; white-space: nowrap; }
+
+  .scope {
+    background: var(--crit-soft); border: 1px solid rgba(179,38,30,0.18);
+    border-radius: 12px; padding: 12px 16px; margin: 10px 0 14px;
+    font-size: 0.94em; color: var(--crit); font-weight: 600; max-width: 78ch;
+  }
+  .scope strong { color: var(--crit); }
+  .toc {
+    background: var(--surface-soft); border: 1px solid var(--border);
+    border-radius: 16px; padding: 16px 22px; margin-bottom: 28px;
+    font-size: 0.92em;
+  }
+  .toc ol { margin: 0 0 0 20px; }
+  .toc li { margin: 4px 0; }
+  .toc .sub { font-size: 0.92em; color: var(--text-muted); }
+  .toc .sub a { margin-right: 2px; }
+  .codewrap { position: relative; margin: 12px 0; }
+  .codewrap pre { margin: 0; }
+  .copybtn {
+    position: absolute; top: 10px; right: 10px;
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.22);
+    background: rgba(255,255,255,0.10); color: #e8e6da;
+    font: 600 12px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    cursor: pointer; user-select: none; transition: background .15s;
+  }
+  .copybtn:hover { background: rgba(255,255,255,0.22); }
+  .copybtn.ok { background: rgba(143,208,169,0.25); border-color: rgba(143,208,169,0.5); color: #8fd0a9; }
+  .copybtn svg { width: 14px; height: 14px; }
+  .dev {
+    background: #0f3835; color: #e8e6da; border: 2px solid #f0c36a;
+    border-radius: 16px; padding: 18px 22px; margin: 16px 0 18px;
+  }
+  .dev .tag { display:inline-block; background:#f0c36a; color:#0f3835; font-weight:700; font-size:.78em;
+    letter-spacing:.06em; text-transform:uppercase; padding:3px 10px; border-radius:999px; margin-bottom:8px; }
+  .dev strong { color:#f0c36a; }
+  .dev code { background: rgba(255,255,255,.10); border-color: rgba(255,255,255,.2); color:#fff; }
+  .dev p, .dev li { color:#e8e6da; }
+  .dev table, .dev td, .dev th { color:#e8e6da; background:transparent; }
+  .dev th { color:#f0c36a; }
+  .dev .tablebox { background:transparent; border-color: rgba(255,255,255,.2); }
+  .dev a { color:#f0c36a; }
+  .footer-note { text-align: center; color: var(--text-muted); font-size: 0.85em; margin-top: 26px; }
+</style>
+<style>
+.codewrap{position:relative}
+.copybtn{position:absolute;top:10px;right:10px;background:var(--primary);color:#fff;border:0;border-radius:8px;padding:6px 14px;font:600 12px/1 -apple-system,sans-serif;cursor:pointer;opacity:.85}
+.copybtn:hover{opacity:1}
+.board td a{font-weight:600}
+.pill{display:inline-block;padding:3px 10px;border-radius:99px;font-size:12px;font-weight:700}
+.pill.open{background:var(--crit-soft);color:var(--crit)}
+.pill.blocked{background:var(--warn-soft);color:var(--warn)}
+.pill.progress{background:#e8eefb;color:#1a4b8f}
+.pill.done{background:var(--ok-soft);color:var(--ok)}
+</style>
+<style>.backbtn{display:inline-block;background:var(--white);color:var(--primary) !important;border:1px solid rgba(255,255,255,.5);text-decoration:none;font:600 14px/1 -apple-system,sans-serif;padding:10px 18px;border-radius:10px;margin:0 0 14px;box-shadow:var(--shadow-sm)}.backbtn:hover{background:var(--surface-soft)}.doc-body .backbtn{border-color:var(--border)}</style>
+<style>.statusbar{display:flex;gap:12px;align-items:center;background:var(--white);border:1px solid var(--border);border-radius:12px;padding:14px 18px;margin:0 0 22px;box-shadow:var(--shadow-sm)}.statusbar .pill{font-size:13px;padding:5px 12px}.statusbar span.txt{color:var(--text)}</style>
+</head>
+<body>
+<div class="page">
+  <header class="doc-header">
+    <a class="backbtn" href="../head-metadata/">&#8592; Back to the dev board</a>
+    <p class="kicker">Renter × TMD · Dev ticket · new section · verified against the live site and Google/Next.js docs · Sep 15, 2026</p>
+  </header>
+  <div class="doc-body">
+      <div class="statusbar"><span class="pill open">NOT STARTED</span><span class="txt">Verified Sep 15, 2026: <code>/ar/blog/</code> and <code>/en/blog/</code> return 404. Nothing exists yet. Waiting for client approval at the Sunday meeting (Sep 20), then Jan (API, 2 weeks) and Paulo (templates, 2 weeks after the API is on staging).</span></div>
+      <h1>Blog section: /ar/blog/ and /en/blog/</h1>
+      <p class="lede">A server-rendered blog in the Next.js App Router, fed by a new Laravel <code>posts</code> API, with hubs that mirror the product categories, Latin slugs shared by both locales, self canonicals, hreflang pairs, paginated URLs, BlogPosting + BreadcrumbList JSON-LD with the existing Organization as publisher, a blog sitemap per locale and 3 GTM events. The full plan (research, editorial calendar, KPIs) is a separate document; this page holds only what you build.</p>
+      <p><a class="backbtn" href="mockup/" target="_blank">Open the rendered mockup (article, hub, index)</a></p>
+
+      <div class="toc"><strong>On this page</strong><ol>
+        <li><a href="#urls">URLs and routing</a></li><li><a href="#head">Head metadata (generateMetadata)</a></li><li><a href="#jsonld">JSON-LD blocks</a></li>
+        <li><a href="#article">Article page component</a></li><li><a href="#list">Index and hub pages with pagination</a></li><li><a href="#sitemap">Sitemap and revalidation</a></li>
+        <li><a href="#gtm">GTM events</a></li><li><a href="#api">API (Jan)</a></li><li><a href="#ui">UI rules and CWV budget</a></li><li><a href="#vars">Variables</a></li><li><a href="#done">Definition of done</a></li>
+      </ol></div>
+
+      <h2 id="urls">1. URLs and routing</h2>
+      <div class="tablebox"><table>
+        <thead><tr><th>Page</th><th>Route file</th><th>Example</th></tr></thead>
+        <tbody>
+          <tr><td>Index</td><td><code>app/[locale]/blog/page.tsx</code></td><td><code>/ar/blog/</code></td></tr>
+          <tr><td>Index page N</td><td><code>app/[locale]/blog/page/[n]/page.tsx</code></td><td><code>/ar/blog/page/2/</code> (<code>/page/1/</code> 301 to <code>/ar/blog/</code>)</td></tr>
+          <tr><td>Hub</td><td><code>app/[locale]/blog/[hub]/page.tsx</code></td><td><code>/ar/blog/cars-and-vehicles/</code></td></tr>
+          <tr><td>Hub page N</td><td><code>app/[locale]/blog/[hub]/page/[n]/page.tsx</code></td><td><code>/ar/blog/cars-and-vehicles/page/2/</code></td></tr>
+          <tr><td>Article</td><td><code>app/[locale]/blog/[hub]/[slug]/page.tsx</code></td><td><code>/ar/blog/cars-and-vehicles/car-rental-monthly-price-riyadh/</code></td></tr>
+          <tr><td>Author</td><td><code>app/[locale]/blog/author/[slug]/page.tsx</code></td><td><code>/ar/blog/author/renter-team/</code></td></tr>
+          <tr><td>Sitemap</td><td><code>app/sitemap/[locale]/blog.xml/route.ts</code></td><td><code>/sitemap/ar/blog.xml</code></td></tr>
+        </tbody>
+      </table></div>
+      <ul>
+        <li>Hubs are a fixed list of 10: the 9 category slugs from the sitemap (<code>properties, cars-and-vehicles, occasions-and-entertainment, services, devices-and-appliances, equipment-and-tools, courts-and-arenas, furniture-and-accessories, fashion-and-clothes</code>) plus <code>guides</code>. Any other <code>[hub]</code> value is a 404. <code>page</code>, <code>author</code>, <code>tag</code> are reserved and cannot be slugs.</li>
+        <li>Slugs are Latin, lowercase, hyphenated, identical in both locales (same rule as <code>/ar/cars-and-vehicles/cars/</code>). Google recommends descriptive words with hyphens and percent-encoding for non-ASCII, so Arabic slugs would ship as 100+ character encoded strings (<a href="https://developers.google.com/search/docs/crawling-indexing/url-structure">URL structure</a>).</li>
+        <li>Trailing slash on every URL, as on the rest of the site.</li>
+        <li>An article whose <code>en_published</code> is false returns 404 on <code>/en/</code> and emits only <code>ar</code> + <code>x-default</code> hreflang. Never emit an hreflang to a 404 (<a href="https://developers.google.com/search/docs/specialty/international/localized-versions">Localized versions</a>).</li>
+        <li>Every list page is server-rendered with its own URL and a self canonical; page 2 does not canonical to page 1 (<a href="https://developers.google.com/search/docs/specialty/ecommerce/pagination-and-incremental-page-loading">Pagination</a>). No <code>&lt;link rel="next/prev"&gt;</code> in the head; Google ignores it. No infinite scroll on the blog.</li>
+        <li>Slug or hub changes go through the <code>post_redirects</code> table and Next <code>redirects()</code> (301), never a silent rename.</li>
+      </ul>
+
+      <h2 id="head">2. Head metadata: the rendered target and the generateMetadata that produces it</h2>
+      <p>Rendered head for the first article. It copies the pattern already live on <a href="https://renter.net/ar/faq/">/ar/faq/</a> (verified Sep 15) and changes only <code>og:type</code>, the image and the <code>article:</code> tags. Separator stays <code>|</code>.</p>
+      <pre>&lt;title&gt;سعر إيجار السيارات الشهري في الرياض 2026 | رينتر&lt;/title&gt;
+&lt;meta name=&quot;description&quot; content=&quot;متوسط الإيجار الشهري للسيارات في الرياض حسب الفئة: اقتصادية من 1,800 ريال، متوسطة من 2,500 ريال. أسعار حقيقية من مؤجرين على رينتر.&quot;/&gt;
+&lt;meta name=&quot;robots&quot; content=&quot;index, follow&quot;/&gt;
+&lt;link rel=&quot;canonical&quot; href=&quot;https://renter.net/ar/blog/cars-and-vehicles/car-rental-monthly-price-riyadh/&quot;/&gt;
+&lt;link rel=&quot;alternate&quot; hreflang=&quot;ar&quot; href=&quot;https://renter.net/ar/blog/cars-and-vehicles/car-rental-monthly-price-riyadh/&quot;/&gt;
+&lt;link rel=&quot;alternate&quot; hreflang=&quot;en&quot; href=&quot;https://renter.net/en/blog/cars-and-vehicles/car-rental-monthly-price-riyadh/&quot;/&gt;
+&lt;link rel=&quot;alternate&quot; hreflang=&quot;x-default&quot; href=&quot;https://renter.net/ar/blog/cars-and-vehicles/car-rental-monthly-price-riyadh/&quot;/&gt;
+&lt;meta property=&quot;og:title&quot; content=&quot;سعر إيجار السيارات الشهري في الرياض 2026 | رينتر&quot;/&gt;
+&lt;meta property=&quot;og:description&quot; content=&quot;متوسط الإيجار الشهري للسيارات في الرياض حسب الفئة: اقتصادية من 1,800 ريال، متوسطة من 2,500 ريال. أسعار حقيقية من مؤجرين على رينتر.&quot;/&gt;
+&lt;meta property=&quot;og:url&quot; content=&quot;https://renter.net/ar/blog/cars-and-vehicles/car-rental-monthly-price-riyadh/&quot;/&gt;
+&lt;meta property=&quot;og:site_name&quot; content=&quot;Renter&quot;/&gt;
+&lt;meta property=&quot;og:image&quot; content=&quot;https://admin-production.renter.net/storage/blog/car-rental-monthly-price-riyadh-16x9.webp&quot;/&gt;
+&lt;meta property=&quot;og:image:width&quot; content=&quot;1600&quot;/&gt;
+&lt;meta property=&quot;og:image:height&quot; content=&quot;900&quot;/&gt;
+&lt;meta property=&quot;og:type&quot; content=&quot;article&quot;/&gt;
+&lt;meta property=&quot;article:published_time&quot; content=&quot;2026-09-20T09:00:00+03:00&quot;/&gt;
+&lt;meta property=&quot;article:modified_time&quot; content=&quot;2026-09-20T09:00:00+03:00&quot;/&gt;
+&lt;meta property=&quot;article:section&quot; content=&quot;سيارات ومركبات&quot;/&gt;
+&lt;meta name=&quot;twitter:card&quot; content=&quot;summary_large_image&quot;/&gt;
+&lt;meta name=&quot;twitter:title&quot; content=&quot;سعر إيجار السيارات الشهري في الرياض 2026 | رينتر&quot;/&gt;
+&lt;meta name=&quot;twitter:description&quot; content=&quot;متوسط الإيجار الشهري للسيارات في الرياض حسب الفئة: اقتصادية من 1,800 ريال، متوسطة من 2,500 ريال. أسعار حقيقية من مؤجرين على رينتر.&quot;/&gt;
+&lt;meta name=&quot;twitter:image&quot; content=&quot;https://admin-production.renter.net/storage/blog/car-rental-monthly-price-riyadh-16x9.webp&quot;/&gt;</pre>
+      <p>Description for hubs and the index comes from the CMS hub intro (120 to 155 characters). Page N adds "، الصفحة N" to the title. Meta title limit 60 characters, description 155; the CMS validates both.</p>
+
+      <h2 id="jsonld">3. JSON-LD blocks (complete, first article)</h2>
+      <p>Two scripts per article, rendered in the server component from one helper (below), escaped with <code>.replace(/&lt;/g, '\u003c')</code> as in the <a href="https://nextjs.org/docs/app/guides/json-ld">Next.js JSON-LD guide</a>. <code>publisher</code> and <code>isPartOf</code> reference the Organization and WebSite already on the home page by <code>@id</code>; do not repeat those blocks. Three image ratios (16:9, 4:3, 1:1) and ISO dates with <code>+03:00</code>, per the <a href="https://developers.google.com/search/docs/appearance/structured-data/article">Article guide</a>. Last breadcrumb has no <code>item</code> (<a href="https://developers.google.com/search/docs/appearance/structured-data/breadcrumb">Breadcrumb guide</a>). No FAQPage block on articles: Google shows FAQ rich results only for government and health sites (<a href="https://developers.google.com/search/docs/appearance/structured-data/faqpage">FAQ guide</a>); the visible Q&amp;A text stays.</p>
+      <pre>&lt;script type=&quot;application/ld+json&quot;&gt;
+{
+  &quot;@context&quot;: &quot;https://schema.org&quot;,
+  &quot;@type&quot;: &quot;BlogPosting&quot;,
+  &quot;@id&quot;: &quot;https://renter.net/ar/blog/cars-and-vehicles/car-rental-monthly-price-riyadh/#article&quot;,
+  &quot;mainEntityOfPage&quot;: {
+    &quot;@type&quot;: &quot;WebPage&quot;,
+    &quot;@id&quot;: &quot;https://renter.net/ar/blog/cars-and-vehicles/car-rental-monthly-price-riyadh/&quot;
+  },
+  &quot;url&quot;: &quot;https://renter.net/ar/blog/cars-and-vehicles/car-rental-monthly-price-riyadh/&quot;,
+  &quot;headline&quot;: &quot;سعر إيجار السيارات الشهري في الرياض 2026: دليل الأسعار الكامل&quot;,
+  &quot;description&quot;: &quot;متوسط الإيجار الشهري للسيارات في الرياض حسب الفئة: اقتصادية من 1,800 ريال، متوسطة من 2,500 ريال. أسعار حقيقية من مؤجرين على رينتر.&quot;,
+  &quot;image&quot;: [
+    &quot;https://admin-production.renter.net/storage/blog/car-rental-monthly-price-riyadh-16x9.webp&quot;,
+    &quot;https://admin-production.renter.net/storage/blog/car-rental-monthly-price-riyadh-4x3.webp&quot;,
+    &quot;https://admin-production.renter.net/storage/blog/car-rental-monthly-price-riyadh-1x1.webp&quot;
+  ],
+  &quot;datePublished&quot;: &quot;2026-09-20T09:00:00+03:00&quot;,
+  &quot;dateModified&quot;: &quot;2026-09-20T09:00:00+03:00&quot;,
+  &quot;inLanguage&quot;: &quot;ar&quot;,
+  &quot;articleSection&quot;: &quot;سيارات ومركبات&quot;,
+  &quot;wordCount&quot;: 1240,
+  &quot;author&quot;: {
+    &quot;@type&quot;: &quot;Person&quot;,
+    &quot;name&quot;: &quot;فريق رينتر&quot;,
+    &quot;url&quot;: &quot;https://renter.net/ar/blog/author/renter-team/&quot;
+  },
+  &quot;publisher&quot;: { &quot;@id&quot;: &quot;https://renter.net/#organization&quot; },
+  &quot;isPartOf&quot;: { &quot;@id&quot;: &quot;https://renter.net/ar/#website&quot; }
+}
+&lt;/script&gt;
+&lt;script type=&quot;application/ld+json&quot;&gt;
+{
+  &quot;@context&quot;: &quot;https://schema.org&quot;,
+  &quot;@type&quot;: &quot;BreadcrumbList&quot;,
+  &quot;itemListElement&quot;: [
+    { &quot;@type&quot;: &quot;ListItem&quot;, &quot;position&quot;: 1, &quot;name&quot;: &quot;الرئيسية&quot;, &quot;item&quot;: &quot;https://renter.net/ar/&quot; },
+    { &quot;@type&quot;: &quot;ListItem&quot;, &quot;position&quot;: 2, &quot;name&quot;: &quot;المدونة&quot;, &quot;item&quot;: &quot;https://renter.net/ar/blog/&quot; },
+    { &quot;@type&quot;: &quot;ListItem&quot;, &quot;position&quot;: 3, &quot;name&quot;: &quot;سيارات ومركبات&quot;, &quot;item&quot;: &quot;https://renter.net/ar/blog/cars-and-vehicles/&quot; },
+    { &quot;@type&quot;: &quot;ListItem&quot;, &quot;position&quot;: 4, &quot;name&quot;: &quot;سعر إيجار السيارات الشهري في الرياض 2026: دليل الأسعار الكامل&quot; }
+  ]
+}
+&lt;/script&gt;</pre>
+      <h3>Hub and index pages</h3>
+      <p>CollectionPage with an ItemList of the cards rendered on that page (same rule as the category ItemList ticket: the list equals the server HTML, never updated by the client), plus BreadcrumbList. Example for <code>/ar/blog/cars-and-vehicles/</code> with 3 articles published:</p>
+      <pre>&lt;script type=&quot;application/ld+json&quot;&gt;
+{
+  &quot;@context&quot;: &quot;https://schema.org&quot;,
+  &quot;@type&quot;: &quot;CollectionPage&quot;,
+  &quot;name&quot;: &quot;أدلة وأسعار تأجير السيارات والمركبات في السعودية&quot;,
+  &quot;url&quot;: &quot;https://renter.net/ar/blog/cars-and-vehicles/&quot;,
+  &quot;inLanguage&quot;: &quot;ar&quot;,
+  &quot;isPartOf&quot;: { &quot;@id&quot;: &quot;https://renter.net/ar/#website&quot; },
+  &quot;mainEntity&quot;: {
+    &quot;@type&quot;: &quot;ItemList&quot;,
+    &quot;itemListElement&quot;: [
+      { &quot;@type&quot;: &quot;ListItem&quot;, &quot;position&quot;: 1, &quot;url&quot;: &quot;https://renter.net/ar/blog/cars-and-vehicles/car-rental-monthly-price-riyadh/&quot; },
+      { &quot;@type&quot;: &quot;ListItem&quot;, &quot;position&quot;: 2, &quot;url&quot;: &quot;https://renter.net/ar/blog/cars-and-vehicles/car-rental-requirements-saudi/&quot; },
+      { &quot;@type&quot;: &quot;ListItem&quot;, &quot;position&quot;: 3, &quot;url&quot;: &quot;https://renter.net/ar/blog/cars-and-vehicles/trailer-rental-monthly-price/&quot; }
+    ]
+  }
+}
+&lt;/script&gt;
+&lt;script type=&quot;application/ld+json&quot;&gt;
+{
+  &quot;@context&quot;: &quot;https://schema.org&quot;,
+  &quot;@type&quot;: &quot;BreadcrumbList&quot;,
+  &quot;itemListElement&quot;: [
+    { &quot;@type&quot;: &quot;ListItem&quot;, &quot;position&quot;: 1, &quot;name&quot;: &quot;الرئيسية&quot;, &quot;item&quot;: &quot;https://renter.net/ar/&quot; },
+    { &quot;@type&quot;: &quot;ListItem&quot;, &quot;position&quot;: 2, &quot;name&quot;: &quot;المدونة&quot;, &quot;item&quot;: &quot;https://renter.net/ar/blog/&quot; },
+    { &quot;@type&quot;: &quot;ListItem&quot;, &quot;position&quot;: 3, &quot;name&quot;: &quot;سيارات ومركبات&quot; }
+  ]
+}
+&lt;/script&gt;</pre>
+      <h3>The helper</h3>
+      <pre>// lib/blog/jsonld.ts
+const SITE = &#x27;https://renter.net&#x27;;
+const ORG_ID = `${SITE}/#organization`;   // the Organization already on the home page; never repeat the block
+
+export function blogJsonLd(post: Post, locale: &#x27;ar&#x27; | &#x27;en&#x27;) {
+  const url = `${SITE}/${locale}/blog/${post.hub}/${post.slug}/`;
+  const article = {
+    &#x27;@context&#x27;: &#x27;https://schema.org&#x27;,
+    &#x27;@type&#x27;: &#x27;BlogPosting&#x27;,
+    &#x27;@id&#x27;: `${url}#article`,
+    mainEntityOfPage: { &#x27;@type&#x27;: &#x27;WebPage&#x27;, &#x27;@id&#x27;: url },
+    url,
+    headline: post.title,                                   // = H1, 110 chars max
+    description: post.excerpt,
+    image: [post.cover.w1600, post.cover.w1200x900, post.cover.w1200x1200],   // 16:9, 4:3, 1:1 (Google Article guide)
+    datePublished: post.publish_at,                         // ISO 8601 with +03:00
+    dateModified: post.updated_at_content,
+    inLanguage: locale,
+    articleSection: post.hub_name,
+    wordCount: post.word_count,
+    author: { &#x27;@type&#x27;: &#x27;Person&#x27;, name: post.author.name, url: `${SITE}/${locale}/blog/author/${post.author.slug}/` },
+    publisher: { &#x27;@id&#x27;: ORG_ID },
+    isPartOf: { &#x27;@id&#x27;: `${SITE}/${locale}/#website` },
+  };
+  const breadcrumb = {
+    &#x27;@context&#x27;: &#x27;https://schema.org&#x27;,
+    &#x27;@type&#x27;: &#x27;BreadcrumbList&#x27;,
+    itemListElement: [
+      { &#x27;@type&#x27;: &#x27;ListItem&#x27;, position: 1, name: locale === &#x27;ar&#x27; ? &#x27;الرئيسية&#x27; : &#x27;Home&#x27;, item: `${SITE}/${locale}/` },
+      { &#x27;@type&#x27;: &#x27;ListItem&#x27;, position: 2, name: locale === &#x27;ar&#x27; ? &#x27;المدونة&#x27; : &#x27;Blog&#x27;, item: `${SITE}/${locale}/blog/` },
+      { &#x27;@type&#x27;: &#x27;ListItem&#x27;, position: 3, name: post.hub_name, item: `${SITE}/${locale}/blog/${post.hub}/` },
+      { &#x27;@type&#x27;: &#x27;ListItem&#x27;, position: 4, name: post.title },      // last item: no &quot;item&quot; (Google breadcrumb doc)
+    ],
+  };
+  return { article, breadcrumb };
+}</pre>
+
+      <h2 id="article">4. Article page component</h2>
+      <p>Server component. Fetches once, renders the body HTML from the API, the CTA module, related products, FAQ, author box, related articles, and two small client components (share row, dataLayer push). Class names match the mockup CSS.</p>
+      <pre>// app/[locale]/blog/[hub]/[slug]/page.tsx  (server component; no &quot;use client&quot;)
+import type { Metadata } from &#x27;next&#x27;;
+import { notFound } from &#x27;next/navigation&#x27;;
+import Image from &#x27;next/image&#x27;;
+import { getPost } from &#x27;@/lib/blog/api&#x27;;
+import { blogJsonLd } from &#x27;@/lib/blog/jsonld&#x27;;
+import { ArticleView } from &#x27;@/components/blog/ArticleView&#x27;; // client: pushes article_view to dataLayer once
+import { ShareRow } from &#x27;@/components/blog/ShareRow&#x27;;       // client: WhatsApp / X / copy / native share
+
+const SITE = &#x27;https://renter.net&#x27;;
+const HUBS = [&#x27;properties&#x27;,&#x27;cars-and-vehicles&#x27;,&#x27;occasions-and-entertainment&#x27;,&#x27;services&#x27;,&#x27;devices-and-appliances&#x27;,&#x27;equipment-and-tools&#x27;,&#x27;courts-and-arenas&#x27;,&#x27;furniture-and-accessories&#x27;,&#x27;fashion-and-clothes&#x27;,&#x27;guides&#x27;];
+
+type Params = { locale: &#x27;ar&#x27; | &#x27;en&#x27;; hub: string; slug: string };
+
+export const revalidate = 600; // ISR; Laravel also calls /api/revalidate on publish
+
+export async function generateMetadata({ params }: { params: Promise&lt;Params&gt; }): Promise&lt;Metadata&gt; {
+  const { locale, hub, slug } = await params;
+  const post = await getPost(slug, locale);
+  if (!post || post.hub !== hub) return {};
+  const path = `/${locale}/blog/${hub}/${slug}/`;
+  const languages: Record&lt;string, string&gt; = { ar: `${SITE}/ar/blog/${hub}/${slug}/`, &#x27;x-default&#x27;: `${SITE}/ar/blog/${hub}/${slug}/` };
+  if (post.en_published) languages.en = `${SITE}/en/blog/${hub}/${slug}/`;
+  return {
+    title: post.meta_title,                       // &quot;سعر إيجار السيارات الشهري في الرياض 2026 | رينتر&quot;
+    description: post.excerpt,
+    robots: { index: true, follow: true },
+    alternates: { canonical: `${SITE}${path}`, languages },
+    openGraph: {
+      type: &#x27;article&#x27;,
+      title: post.meta_title,
+      description: post.excerpt,
+      url: `${SITE}${path}`,
+      siteName: &#x27;Renter&#x27;,
+      images: [{ url: post.cover.w1600, width: 1600, height: 900 }],
+      publishedTime: post.publish_at,             // &quot;2026-09-20T09:00:00+03:00&quot;
+      modifiedTime: post.updated_at_content,
+      section: post.hub_name,
+      tags: post.tags,
+    },
+    twitter: { card: &#x27;summary_large_image&#x27;, title: post.meta_title, description: post.excerpt, images: [post.cover.w1600] },
+  };
+}
+
+export default async function ArticlePage({ params }: { params: Promise&lt;Params&gt; }) {
+  const { locale, hub, slug } = await params;
+  if (!HUBS.includes(hub)) notFound();
+  const post = await getPost(slug, locale);
+  if (!post || post.hub !== hub || post.status !== &#x27;published&#x27;) notFound();
+  if (locale === &#x27;en&#x27; &amp;&amp; !post.en_published) notFound();
+
+  const { article, breadcrumb } = blogJsonLd(post, locale);
+
+  return (
+    &lt;main className=&quot;wrap&quot;&gt;
+      {/* Two JSON-LD scripts, rendered on the server, escaped exactly like the product pages */}
+      &lt;script type=&quot;application/ld+json&quot; dangerouslySetInnerHTML={{ __html: JSON.stringify(article).replace(/&lt;/g, &#x27;\\u003c&#x27;) }} /&gt;
+      &lt;script type=&quot;application/ld+json&quot; dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb).replace(/&lt;/g, &#x27;\\u003c&#x27;) }} /&gt;
+
+      &lt;nav className=&quot;bc&quot; aria-label={locale === &#x27;ar&#x27; ? &#x27;مسار التنقل&#x27; : &#x27;Breadcrumb&#x27;}&gt;
+        &lt;a href={`/${locale}/`}&gt;{locale === &#x27;ar&#x27; ? &#x27;الرئيسية&#x27; : &#x27;Home&#x27;}&lt;/a&gt; › &lt;a href={`/${locale}/blog/`}&gt;{locale === &#x27;ar&#x27; ? &#x27;المدونة&#x27; : &#x27;Blog&#x27;}&lt;/a&gt; › &lt;a href={`/${locale}/blog/${hub}/`}&gt;{post.hub_name}&lt;/a&gt; › &lt;span aria-current=&quot;page&quot;&gt;{post.title}&lt;/span&gt;
+      &lt;/nav&gt;
+
+      &lt;article&gt;
+        &lt;a className=&quot;chip&quot; href={`/${locale}/blog/${hub}/`}&gt;{post.hub_name}&lt;/a&gt;
+        &lt;h1&gt;{post.title}&lt;/h1&gt;
+        &lt;div className=&quot;meta&quot;&gt;
+          &lt;a href={`/${locale}/blog/author/${post.author.slug}/`}&gt;{post.author.name}&lt;/a&gt;
+          &lt;time dateTime={post.publish_at}&gt;{post.publish_at_human}&lt;/time&gt;
+          {post.updated_at_content !== post.publish_at &amp;&amp; &lt;time dateTime={post.updated_at_content}&gt;{post.updated_human}&lt;/time&gt;}
+          &lt;span&gt;{post.reading_time_min} {locale === &#x27;ar&#x27; ? &#x27;دقائق&#x27; : &#x27;min&#x27;}&lt;/span&gt;
+        &lt;/div&gt;
+        &lt;p className=&quot;excerpt&quot;&gt;{post.excerpt}&lt;/p&gt;
+        &lt;figure className=&quot;cover&quot;&gt;
+          &lt;Image src={post.cover.w1600} alt={post.cover_alt} width={1600} height={900} priority sizes=&quot;(max-width: 960px) 100vw, 720px&quot; /&gt;
+        &lt;/figure&gt;
+        &lt;ShareRow url={`${SITE}/${locale}/blog/${hub}/${slug}/`} title={post.title} /&gt;
+
+        &lt;details className=&quot;toc&quot; open&gt;
+          &lt;summary&gt;{locale === &#x27;ar&#x27; ? &#x27;محتويات المقال&#x27; : &#x27;In this article&#x27;}&lt;/summary&gt;
+          &lt;ol&gt;{post.toc.map(h =&gt; &lt;li key={h.id}&gt;&lt;a href={`#${h.id}`}&gt;{h.text}&lt;/a&gt;&lt;/li&gt;)}&lt;/ol&gt;
+        &lt;/details&gt;
+
+        {/* body_html comes from the API with H2 ids already injected by the backend sanitizer */}
+        &lt;div className=&quot;body&quot; dangerouslySetInnerHTML={{ __html: post.body_html }} /&gt;
+
+        &lt;div className=&quot;cta-cat&quot; data-cta=&quot;category&quot; data-cta-position=&quot;mid&quot;&gt;
+          &lt;div&gt;&lt;strong&gt;{post.cta.title}&lt;/strong&gt;&lt;small&gt;{post.cta.subtitle}&lt;/small&gt;&lt;/div&gt;
+          &lt;a className=&quot;btn&quot; href={post.cta.category_url}&gt;{post.cta.button}&lt;/a&gt;
+        &lt;/div&gt;
+
+        {post.related_products.length &gt; 0 &amp;&amp; (
+          &lt;div className=&quot;products&quot;&gt;
+            {post.related_products.map(p =&gt; (
+              &lt;a key={p.id} className=&quot;pcard&quot; href={p.url} data-cta=&quot;product&quot; data-cta-position=&quot;end&quot;&gt;
+                &lt;Image src={p.image} alt={p.name} width={400} height={300} sizes=&quot;(max-width: 640px) 45vw, 160px&quot; /&gt;
+                &lt;div className=&quot;pt&quot;&gt;&lt;b&gt;{p.name}&lt;/b&gt;&lt;span className=&quot;price&quot;&gt;{p.price_label}&lt;/span&gt;&lt;/div&gt;
+              &lt;/a&gt;
+            ))}
+          &lt;/div&gt;
+        )}
+
+        {post.faq.length &gt; 0 &amp;&amp; (
+          &lt;section className=&quot;faq&quot;&gt;
+            &lt;h2 id=&quot;faq&quot;&gt;{locale === &#x27;ar&#x27; ? &#x27;الأسئلة الشائعة&#x27; : &#x27;FAQ&#x27;}&lt;/h2&gt;
+            {post.faq.map((f, i) =&gt; &lt;details key={i} open={i === 0}&gt;&lt;summary&gt;{f.question}&lt;/summary&gt;&lt;p&gt;{f.answer}&lt;/p&gt;&lt;/details&gt;)}
+          &lt;/section&gt;
+        )}
+
+        &lt;aside className=&quot;author&quot;&gt;
+          &lt;b&gt;{post.author.name}&lt;/b&gt;&lt;small&gt;{post.author.role}&lt;/small&gt;
+          &lt;a href={`/${locale}/blog/author/${post.author.slug}/`}&gt;{locale === &#x27;ar&#x27; ? &#x27;كل مقالات الكاتب&#x27; : &#x27;All articles&#x27;}&lt;/a&gt;
+        &lt;/aside&gt;
+
+        &lt;section className=&quot;related&quot;&gt;
+          &lt;h2&gt;{locale === &#x27;ar&#x27; ? &#x27;مقالات ذات صلة&#x27; : &#x27;Related articles&#x27;}&lt;/h2&gt;
+          &lt;div className=&quot;cards&quot;&gt;
+            {post.related_posts.map(r =&gt; (
+              &lt;a key={r.slug} className=&quot;card&quot; href={`/${locale}/blog/${r.hub}/${r.slug}/`} data-cta=&quot;related_article&quot; data-cta-position=&quot;end&quot;&gt;
+                &lt;Image src={r.cover.w800} alt={r.cover_alt} width={800} height={450} sizes=&quot;(max-width: 640px) 100vw, 320px&quot; /&gt;
+                &lt;h3&gt;{r.title}&lt;/h3&gt;&lt;p&gt;{r.excerpt}&lt;/p&gt;
+              &lt;/a&gt;
+            ))}
+          &lt;/div&gt;
+        &lt;/section&gt;
+      &lt;/article&gt;
+
+      &lt;ArticleView slug={slug} hub={hub} locale={locale} author={post.author.slug} format={post.format} wordCount={post.word_count} /&gt;
+    &lt;/main&gt;
+  );
+}</pre>
+
+      <h2 id="list">5. Index and hub pages with pagination</h2>
+      <p>One component serves four routes. 12 cards per page. Real <code>&lt;a href&gt;</code> pager. Beyond the last page is a 404; <code>/page/1/</code> is a 301 to the base URL.</p>
+      <pre>// app/[locale]/blog/[hub]/page.tsx  and  app/[locale]/blog/[hub]/page/[n]/page.tsx  (same component, n defaults to 1)
+// app/[locale]/blog/page.tsx        and  app/[locale]/blog/page/[n]/page.tsx        (hub = undefined)
+import type { Metadata } from &#x27;next&#x27;;
+import { notFound, permanentRedirect } from &#x27;next/navigation&#x27;;
+import { getPosts, getHub } from &#x27;@/lib/blog/api&#x27;;
+import { BlogCard } from &#x27;@/components/blog/BlogCard&#x27;;
+
+const SITE = &#x27;https://renter.net&#x27;;
+const PER_PAGE = 12;
+
+export const revalidate = 600;
+
+export async function generateMetadata({ params }: { params: Promise&lt;{ locale: &#x27;ar&#x27;|&#x27;en&#x27;; hub?: string; n?: string }&gt; }): Promise&lt;Metadata&gt; {
+  const { locale, hub, n } = await params;
+  const page = Number(n ?? 1);
+  const base = hub ? `/${locale}/blog/${hub}/` : `/${locale}/blog/`;
+  const path = page &gt; 1 ? `${base}page/${page}/` : base;
+  const h = hub ? await getHub(hub, locale) : null;
+  const title = hub
+    ? (locale === &#x27;ar&#x27; ? `أدلة وأسعار ${h!.name} في السعودية | رينتر` : `${h!.name} Rental Guides and Prices in Saudi Arabia | Renter`)
+    : (locale === &#x27;ar&#x27; ? &#x27;مدونة رينتر: أدلة وأسعار الإيجار في السعودية&#x27; : &#x27;Renter Blog: Rental Guides and Prices in Saudi Arabia&#x27;);
+  const suffix = page &gt; 1 ? (locale === &#x27;ar&#x27; ? `، الصفحة ${page}` : `, page ${page}`) : &#x27;&#x27;;
+  const description = hub ? h!.intro : (locale === &#x27;ar&#x27;
+    ? &#x27;أسعار حقيقية من مؤجرين على المنصة، شروط، ومقارنات لكل ما يمكن استئجاره: سيارات، معدات، مناسبات، عقارات وأجهزة.&#x27;
+    : &#x27;Real prices from lessors on the platform, requirements, and comparisons for everything you can rent: cars, equipment, events, property and devices.&#x27;);
+  return {
+    title: title.replace(&#x27; | &#x27;, `${suffix} | `),
+    description,
+    robots: { index: true, follow: true },
+    alternates: {
+      canonical: `${SITE}${path}`,                                  // self canonical, also on page 2+
+      languages: { ar: `${SITE}/ar${path.slice(3)}`, en: `${SITE}/en${path.slice(3)}`, &#x27;x-default&#x27;: `${SITE}/ar${path.slice(3)}` },
+    },
+    openGraph: { type: &#x27;website&#x27;, title, description, url: `${SITE}${path}`, siteName: &#x27;Renter&#x27;, images: [{ url: `${SITE}/renterlogo.png`, width: 1200, height: 630 }] },
+    twitter: { card: &#x27;summary_large_image&#x27;, title, description, images: [`${SITE}/renterlogo.png`] },
+  };
+}
+
+export default async function BlogListPage({ params }: { params: Promise&lt;{ locale: &#x27;ar&#x27;|&#x27;en&#x27;; hub?: string; n?: string }&gt; }) {
+  const { locale, hub, n } = await params;
+  const page = Number(n ?? 1);
+  const base = hub ? `/${locale}/blog/${hub}/` : `/${locale}/blog/`;
+  if (n === &#x27;1&#x27;) permanentRedirect(base);                           // /page/1/ -&gt; 301 -&gt; base
+  if (!Number.isInteger(page) || page &lt; 1) notFound();
+  const h = hub ? await getHub(hub, locale) : null;
+  if (hub &amp;&amp; !h) notFound();
+  const { items, meta } = await getPosts({ locale, hub, page, per_page: PER_PAGE });
+  if (items.length === 0) notFound();                               // beyond last page -&gt; 404
+  const path = page &gt; 1 ? `${base}page/${page}/` : base;
+
+  const collection = {
+    &#x27;@context&#x27;: &#x27;https://schema.org&#x27;,
+    &#x27;@type&#x27;: &#x27;CollectionPage&#x27;,
+    name: h ? h.h1 : (locale === &#x27;ar&#x27; ? &#x27;مدونة رينتر: أدلة وأسعار الإيجار في السعودية&#x27; : &#x27;Renter Blog: Rental Guides and Prices in Saudi Arabia&#x27;),
+    url: `${SITE}${path}`,
+    inLanguage: locale,
+    isPartOf: { &#x27;@id&#x27;: `${SITE}/${locale}/#website` },
+    mainEntity: { &#x27;@type&#x27;: &#x27;ItemList&#x27;, itemListElement: items.map((p, i) =&gt; ({ &#x27;@type&#x27;: &#x27;ListItem&#x27;, position: i + 1, url: `${SITE}/${locale}/blog/${p.hub}/${p.slug}/` })) },
+  };
+  const crumbs = [
+    { &#x27;@type&#x27;: &#x27;ListItem&#x27;, position: 1, name: locale === &#x27;ar&#x27; ? &#x27;الرئيسية&#x27; : &#x27;Home&#x27;, item: `${SITE}/${locale}/` },
+    hub ? { &#x27;@type&#x27;: &#x27;ListItem&#x27;, position: 2, name: locale === &#x27;ar&#x27; ? &#x27;المدونة&#x27; : &#x27;Blog&#x27;, item: `${SITE}/${locale}/blog/` } : { &#x27;@type&#x27;: &#x27;ListItem&#x27;, position: 2, name: locale === &#x27;ar&#x27; ? &#x27;المدونة&#x27; : &#x27;Blog&#x27; },
+    ...(hub ? [{ &#x27;@type&#x27;: &#x27;ListItem&#x27;, position: 3, name: h!.name }] : []),
+  ];
+  const breadcrumb = { &#x27;@context&#x27;: &#x27;https://schema.org&#x27;, &#x27;@type&#x27;: &#x27;BreadcrumbList&#x27;, itemListElement: crumbs };
+
+  const pageLink = (p: number) =&gt; (p === 1 ? base : `${base}page/${p}/`);
+
+  return (
+    &lt;main className=&quot;wrap&quot;&gt;
+      &lt;script type=&quot;application/ld+json&quot; dangerouslySetInnerHTML={{ __html: JSON.stringify(collection).replace(/&lt;/g, &#x27;\\u003c&#x27;) }} /&gt;
+      &lt;script type=&quot;application/ld+json&quot; dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb).replace(/&lt;/g, &#x27;\\u003c&#x27;) }} /&gt;
+      &lt;h1&gt;{h ? h.h1 : (locale === &#x27;ar&#x27; ? &#x27;مدونة رينتر: أدلة وأسعار الإيجار في السعودية&#x27; : &#x27;Renter Blog: Rental Guides and Prices in Saudi Arabia&#x27;)}{page &gt; 1 &amp;&amp; (locale === &#x27;ar&#x27; ? `، الصفحة ${page}` : `, page ${page}`)}&lt;/h1&gt;
+      {h &amp;&amp; &lt;p className=&quot;hub-intro&quot;&gt;{h.intro}&lt;/p&gt;}
+      {h &amp;&amp; &lt;a className=&quot;btn ghost&quot; href={h.category_url} data-cta=&quot;category&quot; data-cta-position=&quot;answer&quot;&gt;{locale === &#x27;ar&#x27; ? `تصفّح ${h.name} على رينتر` : `Browse ${h.name} on Renter`}&lt;/a&gt;}
+      &lt;div className=&quot;cards&quot;&gt;{items.map(p =&gt; &lt;BlogCard key={p.slug} post={p} locale={locale} /&gt;)}&lt;/div&gt;
+      &lt;nav className=&quot;pager&quot; aria-label={locale === &#x27;ar&#x27; ? &#x27;الصفحات&#x27; : &#x27;Pages&#x27;}&gt;
+        {page &gt; 1 &amp;&amp; &lt;a href={pageLink(page - 1)} rel=&quot;prev&quot;&gt;‹&lt;/a&gt;}
+        {Array.from({ length: meta.last_page }, (_, i) =&gt; i + 1).map(p =&gt; p === page ? &lt;span key={p} aria-current=&quot;page&quot;&gt;{p}&lt;/span&gt; : &lt;a key={p} href={pageLink(p)}&gt;{p}&lt;/a&gt;)}
+        {page &lt; meta.last_page &amp;&amp; &lt;a href={pageLink(page + 1)} rel=&quot;next&quot;&gt;›&lt;/a&gt;}
+      &lt;/nav&gt;
+    &lt;/main&gt;
+  );
+}
+// rel=&quot;prev&quot;/&quot;next&quot; on the &lt;a&gt; are harmless link hints; no &lt;link rel=&quot;next&quot;&gt; in &lt;head&gt;: Google ignores it.</pre>
+
+      <h2 id="sitemap">6. Sitemap and revalidation</h2>
+      <p>Two new children in the sitemap index. <code>lastmod</code> is the content update time, not the render time. Paginated pages and author pages are not listed. No hreflang in the sitemap: the head already carries it and one of Google's three methods is enough.</p>
+      <pre>// app/sitemap/[locale]/blog.xml/route.ts   -&gt;  https://renter.net/sitemap/ar/blog.xml  and  /sitemap/en/blog.xml
+import { getSitemapEntries } from &#x27;@/lib/blog/api&#x27;;
+const SITE = &#x27;https://renter.net&#x27;;
+const HUBS = [&#x27;properties&#x27;,&#x27;cars-and-vehicles&#x27;,&#x27;occasions-and-entertainment&#x27;,&#x27;services&#x27;,&#x27;devices-and-appliances&#x27;,&#x27;equipment-and-tools&#x27;,&#x27;courts-and-arenas&#x27;,&#x27;furniture-and-accessories&#x27;,&#x27;fashion-and-clothes&#x27;,&#x27;guides&#x27;];
+
+export const revalidate = 3600;
+
+export async function GET(_: Request, { params }: { params: Promise&lt;{ locale: &#x27;ar&#x27;|&#x27;en&#x27; }&gt; }) {
+  const { locale } = await params;
+  const posts = await getSitemapEntries(locale);          // [{ hub, slug, updated_at_content }], published only, en only if en_published
+  const latest = posts[0]?.updated_at_content ?? new Date().toISOString();
+  const urls = [
+    { loc: `${SITE}/${locale}/blog/`, lastmod: latest },
+    ...HUBS.map(h =&gt; ({ loc: `${SITE}/${locale}/blog/${h}/`, lastmod: posts.find(p =&gt; p.hub === h)?.updated_at_content ?? latest })),
+    ...posts.map(p =&gt; ({ loc: `${SITE}/${locale}/blog/${p.hub}/${p.slug}/`, lastmod: p.updated_at_content })),
+  ];
+  const xml = `&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;\n&lt;urlset xmlns=&quot;http://www.sitemaps.org/schemas/sitemap/0.9&quot;&gt;\n` +
+    urls.map(u =&gt; `  &lt;url&gt;&lt;loc&gt;${u.loc}&lt;/loc&gt;&lt;lastmod&gt;${u.lastmod}&lt;/lastmod&gt;&lt;/url&gt;`).join(&#x27;\n&#x27;) + `\n&lt;/urlset&gt;`;
+  return new Response(xml, { headers: { &#x27;Content-Type&#x27;: &#x27;application/xml; charset=utf-8&#x27;, &#x27;Cache-Control&#x27;: &#x27;public, max-age=3600&#x27; } });
+}
+
+// Then add to the sitemap index (the file that serves https://renter.net/sitemap.xml):
+//   &lt;sitemap&gt;&lt;loc&gt;https://renter.net/sitemap/ar/blog.xml&lt;/loc&gt;&lt;/sitemap&gt;
+//   &lt;sitemap&gt;&lt;loc&gt;https://renter.net/sitemap/en/blog.xml&lt;/loc&gt;&lt;/sitemap&gt;</pre>
+      <p>ISR at 600 s plus on-demand revalidation when Jan's backend publishes or updates a post:</p>
+      <pre>// app/api/revalidate/route.ts   (Laravel calls it after publish / update / unpublish)
+import { revalidatePath } from &#x27;next/cache&#x27;;
+import { NextRequest, NextResponse } from &#x27;next/server&#x27;;
+
+export async function POST(req: NextRequest) {
+  if (req.headers.get(&#x27;x-revalidate-secret&#x27;) !== process.env.BLOG_REVALIDATE_SECRET) return NextResponse.json({ ok: false }, { status: 401 });
+  const { hub, slug } = await req.json();               // { &quot;hub&quot;: &quot;cars-and-vehicles&quot;, &quot;slug&quot;: &quot;car-rental-monthly-price-riyadh&quot; }
+  for (const locale of [&#x27;ar&#x27;, &#x27;en&#x27;]) {
+    revalidatePath(`/${locale}/blog/${hub}/${slug}`);
+    revalidatePath(`/${locale}/blog/${hub}`);
+    revalidatePath(`/${locale}/blog`);
+    revalidatePath(`/sitemap/${locale}/blog.xml`);
+  }
+  return NextResponse.json({ ok: true });
+}</pre>
+
+      <h2 id="gtm">7. GTM events (container GTM-WXTFBJCJ, GA4 G-F246ZT78HF)</h2>
+      <div class="tablebox"><table>
+        <thead><tr><th>Event</th><th>Fires when</th><th>Parameters</th></tr></thead>
+        <tbody>
+          <tr><td><code>article_view</code></td><td>article page mounts (once)</td><td>article_slug, article_hub, article_locale, article_author, article_format, word_count</td></tr>
+          <tr><td><code>article_scroll</code></td><td>GTM scroll trigger 25/50/75/100 on <code>^/(ar|en)/blog/</code></td><td>percent_scrolled, page_path</td></tr>
+          <tr><td><code>article_cta_click</code></td><td>click on any <code>[data-cta]</code> element</td><td>cta_type (category, product, app, related_article, hub), cta_position (answer, mid, end, sidebar, body), destination_url, article_slug, article_hub</td></tr>
+          <tr><td><code>article_share</code></td><td>share pill click</td><td>channel (whatsapp, x, copy, native), article_slug</td></tr>
+        </tbody>
+      </table></div>
+      <p>Paulo: the pushes below. Saiaf: the GTM triggers and tags, and the GA4 custom dimensions (article_hub, article_slug, cta_type, article_format). Nothing new is marked as a conversion.</p>
+      <pre>// components/blog/ArticleView.tsx  (&quot;use client&quot;; renders nothing; one push per page view)
+&#x27;use client&#x27;;
+import { useEffect } from &#x27;react&#x27;;
+declare global { interface Window { dataLayer: Record&lt;string, unknown&gt;[] } }
+
+export function ArticleView(p: { slug: string; hub: string; locale: string; author: string; format: string; wordCount: number }) {
+  useEffect(() =&gt; {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: &#x27;article_view&#x27;,
+      article_slug: p.slug, article_hub: p.hub, article_locale: p.locale,
+      article_author: p.author, article_format: p.format, word_count: p.wordCount,
+    });
+    const onClick = (e: MouseEvent) =&gt; {
+      const el = (e.target as HTMLElement).closest&lt;HTMLElement&gt;(&#x27;[data-cta]&#x27;);
+      if (!el) return;
+      window.dataLayer.push({
+        event: &#x27;article_cta_click&#x27;,
+        cta_type: el.dataset.cta,                       // category | product | app | related_article | hub
+        cta_position: el.dataset.ctaPosition ?? &#x27;body&#x27;, // answer | mid | end | sidebar | body
+        destination_url: (el as HTMLAnchorElement).href ?? &#x27;&#x27;,
+        article_slug: p.slug, article_hub: p.hub,
+      });
+    };
+    document.addEventListener(&#x27;click&#x27;, onClick);
+    return () =&gt; document.removeEventListener(&#x27;click&#x27;, onClick);
+  }, [p.slug]);
+  return null;
+}
+
+// ShareRow.tsx pushes: { event: &#x27;article_share&#x27;, channel: &#x27;whatsapp&#x27; | &#x27;x&#x27; | &#x27;copy&#x27; | &#x27;native&#x27;, article_slug }
+// GTM (Saiaf): 3 Custom Event triggers (article_view, article_cta_click, article_share) -&gt; GA4 event tags with the same names and parameters.
+// article_scroll: GTM built-in Scroll Depth trigger (25, 50, 75, 100), Page Path matches RegEx ^/(ar|en)/blog/ -&gt; GA4 event article_scroll { percent_scrolled }.</pre>
+
+      <h2 id="api">8. API for Jan (Laravel, admin-production.renter.net)</h2>
+      <p>Tables: <code>posts</code>, <code>authors</code>, <code>post_redirects</code>. Field list and rules are in the plan document, section 5. Public JSON, no auth, <code>Cache-Control: public, max-age=300</code>. Unpublished posts are never returned, not even by direct slug. Body HTML is sanitized to <code>h2 h3 p ul ol li a strong table thead tbody tr th td figure img figcaption blockquote</code> and the backend injects <code>id</code> on every H2 (<code>s1, s2, ...</code>) and returns the same list as <code>toc</code>. Cover upload 1600×900; the backend derives 1200×900, 1200×1200 and 800×450 WebP q80. On publish, update or unpublish, POST to the frontend <code>/api/revalidate</code> with header <code>x-revalidate-secret</code>.</p>
+      <pre>GET https://admin-production.renter.net/api/v1/blog/posts?locale=ar&amp;hub=cars-and-vehicles&amp;page=1&amp;per_page=12
+{
+  &quot;items&quot;: [
+    {
+      &quot;slug&quot;: &quot;car-rental-monthly-price-riyadh&quot;,
+      &quot;hub&quot;: &quot;cars-and-vehicles&quot;,
+      &quot;hub_name&quot;: &quot;سيارات ومركبات&quot;,
+      &quot;title&quot;: &quot;سعر إيجار السيارات الشهري في الرياض 2026: دليل الأسعار الكامل&quot;,
+      &quot;excerpt&quot;: &quot;متوسط الإيجار الشهري للسيارات في الرياض حسب الفئة: اقتصادية من 1,800 ريال، متوسطة من 2,500 ريال. أسعار حقيقية من مؤجرين على رينتر.&quot;,
+      &quot;cover&quot;: { &quot;w1600&quot;: &quot;https://admin-production.renter.net/storage/blog/car-rental-monthly-price-riyadh-16x9.webp&quot;, &quot;w800&quot;: &quot;https://admin-production.renter.net/storage/blog/car-rental-monthly-price-riyadh-16x9-800.webp&quot; },
+      &quot;cover_alt&quot;: &quot;سيارة كامري 2026 للإيجار الشهري في الرياض&quot;,
+      &quot;publish_at&quot;: &quot;2026-09-20T09:00:00+03:00&quot;,
+      &quot;publish_at_human&quot;: &quot;20 سبتمبر 2026&quot;,
+      &quot;reading_time_min&quot;: 6,
+      &quot;format&quot;: &quot;price_guide&quot;,
+      &quot;en_published&quot;: true,
+      &quot;author&quot;: { &quot;slug&quot;: &quot;renter-team&quot;, &quot;name&quot;: &quot;فريق رينتر&quot; }
+    }
+  ],
+  &quot;meta&quot;: { &quot;total&quot;: 12, &quot;per_page&quot;: 12, &quot;current_page&quot;: 1, &quot;last_page&quot;: 1 }
+}
+
+GET https://admin-production.renter.net/api/v1/blog/posts/car-rental-monthly-price-riyadh?locale=ar
+{
+  &quot;slug&quot;: &quot;car-rental-monthly-price-riyadh&quot;,
+  &quot;hub&quot;: &quot;cars-and-vehicles&quot;,
+  &quot;hub_name&quot;: &quot;سيارات ومركبات&quot;,
+  &quot;status&quot;: &quot;published&quot;,
+  &quot;title&quot;: &quot;سعر إيجار السيارات الشهري في الرياض 2026: دليل الأسعار الكامل&quot;,
+  &quot;meta_title&quot;: &quot;سعر إيجار السيارات الشهري في الرياض 2026 | رينتر&quot;,
+  &quot;excerpt&quot;: &quot;متوسط الإيجار الشهري للسيارات في الرياض حسب الفئة: اقتصادية من 1,800 ريال، متوسطة من 2,500 ريال. أسعار حقيقية من مؤجرين على رينتر.&quot;,
+  &quot;body_html&quot;: &quot;&lt;h2 id=\&quot;s1\&quot;&gt;متوسط أسعار الإيجار الشهري حسب الفئة&lt;/h2&gt;&lt;p class=\&quot;answer\&quot;&gt;الإجابة المختصرة: ...&lt;/p&gt;&lt;table&gt;...&lt;/table&gt;...&quot;,
+  &quot;toc&quot;: [ { &quot;id&quot;: &quot;s1&quot;, &quot;text&quot;: &quot;متوسط أسعار الإيجار الشهري حسب الفئة&quot; }, { &quot;id&quot;: &quot;s2&quot;, &quot;text&quot;: &quot;ما الذي يغيّر السعر&quot; } ],
+  &quot;word_count&quot;: 1240,
+  &quot;reading_time_min&quot;: 6,
+  &quot;format&quot;: &quot;price_guide&quot;,
+  &quot;cover&quot;: {
+    &quot;w1600&quot;: &quot;https://admin-production.renter.net/storage/blog/car-rental-monthly-price-riyadh-16x9.webp&quot;,
+    &quot;w1200x900&quot;: &quot;https://admin-production.renter.net/storage/blog/car-rental-monthly-price-riyadh-4x3.webp&quot;,
+    &quot;w1200x1200&quot;: &quot;https://admin-production.renter.net/storage/blog/car-rental-monthly-price-riyadh-1x1.webp&quot;,
+    &quot;w800&quot;: &quot;https://admin-production.renter.net/storage/blog/car-rental-monthly-price-riyadh-16x9-800.webp&quot;
+  },
+  &quot;cover_alt&quot;: &quot;سيارة كامري 2026 للإيجار الشهري في الرياض&quot;,
+  &quot;publish_at&quot;: &quot;2026-09-20T09:00:00+03:00&quot;,
+  &quot;publish_at_human&quot;: &quot;20 سبتمبر 2026&quot;,
+  &quot;updated_at_content&quot;: &quot;2026-09-20T09:00:00+03:00&quot;,
+  &quot;updated_human&quot;: &quot;20 سبتمبر 2026&quot;,
+  &quot;en_published&quot;: true,
+  &quot;tags&quot;: [&quot;إيجار شهري&quot;, &quot;الرياض&quot;],
+  &quot;author&quot;: { &quot;slug&quot;: &quot;renter-team&quot;, &quot;name&quot;: &quot;فريق رينتر&quot;, &quot;role&quot;: &quot;محتوى يُراجعه فريق العمليات في رينتر بناءً على إعلانات المؤجرين الحقيقية على المنصة.&quot; },
+  &quot;cta&quot;: { &quot;title&quot;: &quot;تصفّح سيارات للإيجار الشهري في الرياض&quot;, &quot;subtitle&quot;: &quot;أكثر من 300 سيارة من مؤجرين موثقين&quot;, &quot;button&quot;: &quot;اعرض السيارات&quot;, &quot;category_url&quot;: &quot;/ar/cars-and-vehicles/cars/&quot; },
+  &quot;related_products&quot;: [
+    { &quot;id&quot;: 2764, &quot;name&quot;: &quot;كامري لومير 2026&quot;, &quot;price_label&quot;: &quot;2,900 ريال / شهر&quot;, &quot;image&quot;: &quot;https://admin-production.renter.net/storage/products/2764-1.webp&quot;, &quot;url&quot;: &quot;/ar/product/2764/kamry-lwmyr-2026/&quot; },
+    { &quot;id&quot;: 738,  &quot;name&quot;: &quot;كيا K4 موديل 2026&quot;, &quot;price_label&quot;: &quot;2,600 ريال / شهر&quot;, &quot;image&quot;: &quot;https://admin-production.renter.net/storage/products/738-1.webp&quot;,  &quot;url&quot;: &quot;/ar/product/738/kya-k4-mwdyl-2026/&quot; }
+  ],
+  &quot;faq&quot;: [
+    { &quot;question&quot;: &quot;كم إيجار السيارة الشهري في الرياض؟&quot;, &quot;answer&quot;: &quot;من 1,800 ريال للسيارات الاقتصادية إلى أكثر من 4,000 ريال للدفع الرباعي، حسب الموديل والكيلومترات.&quot; }
+  ],
+  &quot;related_posts&quot;: [
+    { &quot;slug&quot;: &quot;car-rental-requirements-saudi&quot;, &quot;hub&quot;: &quot;cars-and-vehicles&quot;, &quot;title&quot;: &quot;شروط تأجير السيارات في السعودية 2026&quot;, &quot;excerpt&quot;: &quot;...&quot;, &quot;cover&quot;: { &quot;w800&quot;: &quot;...&quot; }, &quot;cover_alt&quot;: &quot;...&quot; }
+  ]
+}
+
+GET /api/v1/blog/hubs?locale=ar        -&gt; [ { &quot;slug&quot;: &quot;cars-and-vehicles&quot;, &quot;name&quot;: &quot;سيارات ومركبات&quot;, &quot;h1&quot;: &quot;أدلة وأسعار تأجير السيارات والمركبات في السعودية&quot;, &quot;intro&quot;: &quot;...&quot;, &quot;category_url&quot;: &quot;/ar/cars-and-vehicles/&quot;, &quot;post_count&quot;: 12 }, ... ]
+GET /api/v1/blog/authors/renter-team?locale=ar -&gt; { &quot;slug&quot;, &quot;name&quot;, &quot;role&quot;, &quot;bio&quot;, &quot;photo&quot;, &quot;posts&quot;: [ ...list items... ] }
+GET /api/v1/blog/sitemap?locale=ar     -&gt; [ { &quot;hub&quot;: &quot;cars-and-vehicles&quot;, &quot;slug&quot;: &quot;car-rental-monthly-price-riyadh&quot;, &quot;updated_at_content&quot;: &quot;2026-09-20T09:00:00+03:00&quot; }, ... ]  (published only; en only where en_published)
+GET /api/v1/blog/popular?hub=cars-and-vehicles&amp;locale=ar -&gt; 3 list items
+Rules: 404 JSON for unknown slug; unpublished posts are never returned (also not by direct slug); Cache-Control: public, max-age=300.</pre>
+
+      <h2 id="ui">9. UI rules and Core Web Vitals budget</h2>
+      <p>Tokens verified in the live CSS on Sep 15: Cairo (next/font), primary <code>#2049ee</code>, hover <code>#1036ce</code>, dark <code>#273a97</code>, soft <code>#d8e3ff</code>, text <code>#333</code>, neutral <code>#606060</code>, border <code>#e8e8e8</code>, radius <code>.5rem</code>, container 1109px. The <a href="mockup/">mockup</a> uses exactly these and numbers the components 1 to 16; copy its CSS into a <code>blog.module.css</code>.</p>
+      <div class="tablebox"><table>
+        <thead><tr><th>Rule</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td>Layout</td><td>one column to 959px; from 960px article 720px + sidebar 300px, gap 48px; sidebar sticky, moves below the article on mobile</td></tr>
+          <tr><td>RTL</td><td>logical properties only (<code>margin-inline-start</code>, <code>border-inline-start</code>, <code>text-align:start</code>); numbers need no wrapper; ranges with hyphens get <code>dir="ltr"</code></td></tr>
+          <tr><td>Type</td><td>body 16px / 1.8, measure 72ch; H1 clamp(24px, 4.5vw, 36px) 800; H2 24px 800; H3 19px 700; Western digits always</td></tr>
+          <tr><td>Touch</td><td>44px minimum on buttons and pager; 36px on share pills with 8px gaps</td></tr>
+          <tr><td>LCP 2.5 s</td><td>cover via <code>next/image</code> with <code>priority</code> and <code>sizes="(max-width: 960px) 100vw, 720px"</code>; WebP; never lazy</td></tr>
+          <tr><td>CLS 0.1</td><td>width and height on every image; fixed aspect boxes; TOC and tables server-rendered</td></tr>
+          <tr><td>INP 200 ms</td><td>only two client components (ShareRow, ArticleView); no scroll listeners of our own</td></tr>
+          <tr><td>Weight</td><td>article HTML 150 KB max; no new client JS above 15 KB gzip; do not put the body HTML into flight data twice (fetch in the server component only)</td></tr>
+          <tr><td>Images</td><td>cover 1600×900 WebP q80 200 KB max; inline 1200px max 120 KB; alt required in both languages; Latin file names</td></tr>
+          <tr><td>Dark mode</td><td>reuse the site's <code>--bg</code> / <code>--text</code> tokens; test both</td></tr>
+        </tbody>
+      </table></div>
+
+      <h2 id="vars">10. Variables (one template, every article)</h2>
+      <div class="tablebox"><table>
+        <thead><tr><th>Where</th><th>Field</th><th>Source in the API</th><th>Transform</th></tr></thead>
+        <tbody>
+          <tr><td>URL</td><td>path</td><td><code>hub</code>, <code>slug</code></td><td><code>/{locale}/blog/{hub}/{slug}/</code></td></tr>
+          <tr><td>title, og:title, twitter:title</td><td></td><td><code>meta_title</code></td><td>as is (60 max, validated by CMS)</td></tr>
+          <tr><td>description, og:description, twitter:description, BlogPosting.description</td><td></td><td><code>excerpt</code></td><td>as is (155 max)</td></tr>
+          <tr><td>canonical, og:url, BlogPosting.url, mainEntityOfPage</td><td></td><td>path</td><td>absolute with <code>https://renter.net</code></td></tr>
+          <tr><td>hreflang</td><td></td><td><code>en_published</code></td><td>ar + x-default always; en only when true</td></tr>
+          <tr><td>H1, headline, last breadcrumb name</td><td></td><td><code>title</code></td><td>as is</td></tr>
+          <tr><td>og:image, twitter:image, image[0]</td><td></td><td><code>cover.w1600</code></td><td>as is; image[1] = w1200x900, image[2] = w1200x1200</td></tr>
+          <tr><td>datePublished, article:published_time</td><td></td><td><code>publish_at</code></td><td>ISO 8601 with +03:00, unchanged</td></tr>
+          <tr><td>dateModified, article:modified_time</td><td></td><td><code>updated_at_content</code></td><td>changes only when the body changes</td></tr>
+          <tr><td>author</td><td></td><td><code>author.name</code>, <code>author.slug</code></td><td>Person with url <code>/{locale}/blog/author/{slug}/</code></td></tr>
+          <tr><td>publisher, isPartOf</td><td></td><td>constants</td><td><code>https://renter.net/#organization</code>, <code>https://renter.net/{locale}/#website</code></td></tr>
+          <tr><td>articleSection, breadcrumb 3, chip</td><td></td><td><code>hub_name</code></td><td>as is</td></tr>
+          <tr><td>CTA module</td><td></td><td><code>cta</code></td><td>as is; <code>category_url</code> defaults to the hub category</td></tr>
+          <tr><td>Related products</td><td></td><td><code>related_products</code></td><td>0 to 4 live products; render nothing when empty</td></tr>
+        </tbody>
+      </table></div>
+
+      <h2 id="first">First 6 articles (editorial calendar, for testing the templates)</h2>
+      <div class="tablebox"><table>
+        <thead><tr><th>Publish</th><th>Hub</th><th>Title AR</th><th>Target keyword (vol/mo)</th><th>URL</th></tr></thead>
+        <tbody><tr><td>2026-09-20</td><td><code>cars-and-vehicles</code></td><td>سعر إيجار السيارات الشهري في الرياض 2026: دليل الأسعار الكامل</td><td>ايجار سيارة شهري (1,900)</td><td><code>/ar/blog/cars-and-vehicles/car-rental-monthly-price-riyadh/</code></td></tr><tr><td>2026-09-22</td><td><code>properties</code></td><td>الإيجار الشهري للشقق المفروشة 2026: الأسعار في الرياض وجدة والدمام</td><td>شقق مفروشه للايجار الشهري (12,100)</td><td><code>/ar/blog/properties/furnished-apartments-monthly-rent/</code></td></tr><tr><td>2026-09-24</td><td><code>equipment-and-tools</code></td><td>أسعار تأجير المعدات الثقيلة في السعودية 2026: جدول يومي وشهري</td><td>أسعار تأجير المعدات الثقيلة (50)</td><td><code>/ar/blog/equipment-and-tools/heavy-equipment-rental-prices-saudi/</code></td></tr><tr><td>2026-09-27</td><td><code>occasions-and-entertainment</code></td><td>دليل تأجير الخيام للمناسبات: الأنواع والسعة والأسعار</td><td>تأجير خيام (2,900)</td><td><code>/ar/blog/occasions-and-entertainment/tent-rental-guide-prices/</code></td></tr><tr><td>2026-09-29</td><td><code>cars-and-vehicles</code></td><td>شروط استئجار سيارة في السعودية 2026: العمر والرخصة والتأمين</td><td>شروط استئجار سيارة (260)</td><td><code>/ar/blog/cars-and-vehicles/car-rental-requirements-saudi/</code></td></tr><tr><td>2026-10-01</td><td><code>guides</code></td><td>دليل التأجير في السعودية: ما الذي يمكن تأجيره وكيف يعمل وكيف تحمي حقوقك</td><td>ايجار (1,500,000)</td><td><code>/ar/blog/guides/how-renting-works-saudi/</code></td></tr></tbody>
+      </table></div>
+      <p>The full 39-article calendar with meta titles and descriptions lives in the plan folder (editorial-calendar.xlsx).</p>
+
+      <h2 id="done">Definition of done</h2>
+      <ol>
+        <li>On staging with JavaScript off, view-source of one article shows: the head block of section 2 (with the article's values), two JSON-LD scripts, the H1, the body, the CTA, related products, FAQ, author box and related articles. Nothing of the article depends on client rendering.</li>
+        <li><a href="https://validator.schema.org/">validator.schema.org</a> and the <a href="https://search.google.com/test/rich-results">Rich Results Test</a> report zero errors on the article, the hub and the index.</li>
+        <li><code>/ar/blog/</code>, <code>/ar/blog/page/2/</code>, <code>/ar/blog/cars-and-vehicles/</code> each have a self canonical, an H1, real pager links; <code>/ar/blog/page/1/</code> returns 301; <code>/ar/blog/page/99/</code> returns 404; <code>/ar/blog/not-a-hub/</code> returns 404.</li>
+        <li>An article with <code>en_published=false</code>: <code>/en/...</code> returns 404 and the Arabic page has no <code>hreflang="en"</code>.</li>
+        <li><code>https://renter.net/sitemap.xml</code> lists <code>/sitemap/ar/blog.xml</code> and <code>/sitemap/en/blog.xml</code>; both validate and carry <code>lastmod</code>.</li>
+        <li>Publishing a post in the Laravel admin makes it appear on the index within 60 s (revalidate webhook) without a redeploy.</li>
+        <li>GTM Preview shows <code>article_view</code> once per page, <code>article_cta_click</code> with the right <code>cta_type</code>, <code>article_share</code> on a share click.</li>
+        <li>Lighthouse mobile on the article: LCP under 2.5 s, CLS under 0.1, no new console errors; PageSpeed Insights lab run attached to the ticket.</li>
+        <li>Staging keeps <code>noindex</code> (separate ticket) until production; production emits <code>index, follow</code>.</li>
+        <li>Ping Saiaf on staging deploy and again on production deploy. Saiaf submits the two sitemaps in Search Console and requests indexing of the first 6 articles.</li>
+      </ol>
+      <p><a class="backbtn" href="../head-metadata/">&#8592; Back to the dev board</a></p>
+  </div>
+</div>
+<script>
+document.querySelectorAll('pre').forEach(function(pre){
+  var w=document.createElement('div'); w.className='codewrap'; pre.parentNode.insertBefore(w,pre); w.appendChild(pre);
+  var b=document.createElement('button'); b.className='copybtn'; b.textContent='Copy'; w.appendChild(b);
+  b.addEventListener('click',function(){
+    var t=pre.innerText;
+    function ok(){b.textContent='Copied';setTimeout(function(){b.textContent='Copy'},1500);}
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(ok,function(){fb()});}else{fb()}
+    function fb(){var ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');ok();}catch(e){b.textContent='Failed'}document.body.removeChild(ta);}
+  });
+});
+</script>
+</body>
+</html>

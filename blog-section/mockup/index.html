@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Mockup: مدونة رينتر (article, hub, index)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  /* Tokens copied from the live site CSS (Sep 15, 2026): Cairo, #2049ee primary, #1036ce hover, #273a97 dark, #333 text, #606060 neutral, #e8e8e8 border, radius .5rem */
+  :root{--font:"Cairo",sans-serif;--primary:#2049ee;--primary-hover:#1036ce;--primary-dark:#273a97;--primary-soft:#d8e3ff;--text:#333;--text-neutral:#606060;--border:#e8e8e8;--bg:#fff;--bg-soft:#f5f5f5;--radius:.5rem;--ok:#00a74e;--max:1109px;--measure:720px}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:var(--font);color:var(--text);background:var(--bg);line-height:1.8;font-size:16px;-webkit-font-smoothing:antialiased}
+  a{color:var(--primary);text-decoration:none}a:hover{color:var(--primary-hover)}
+  img{max-width:100%;height:auto;display:block}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 16px}
+  /* mock header (site header stays as is) */
+  .hdr{border-bottom:1px solid var(--border);padding:12px 0}
+  .hdr .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .logo{font-weight:800;color:var(--primary);font-size:22px}
+  .nav{display:flex;gap:18px;font-size:14px;color:var(--text-neutral)}
+  .nav .on{color:var(--primary);font-weight:700}
+  .demo-label{background:#14211f;color:#f0c36a;font:600 12px/1 var(--font);padding:8px 16px;letter-spacing:.06em;text-transform:uppercase;direction:ltr;text-align:left}
+  /* breadcrumb */
+  .bc{font-size:13px;color:var(--text-neutral);padding:14px 0 6px;display:flex;flex-wrap:wrap;gap:6px}
+  .bc a{color:var(--text-neutral)}.bc span[aria-current]{color:var(--text);font-weight:600}
+  /* article layout */
+  .article-grid{display:grid;grid-template-columns:1fr;gap:28px;padding:8px 0 40px}
+  @media(min-width:960px){.article-grid{grid-template-columns:minmax(0,var(--measure)) 300px;gap:48px}}
+  article h1{font-size:clamp(24px,4.5vw,36px);line-height:1.35;font-weight:800;margin:6px 0 10px;text-wrap:balance}
+  .meta{display:flex;flex-wrap:wrap;gap:8px 16px;font-size:13px;color:var(--text-neutral);margin-bottom:16px;align-items:center}
+  .meta .dot::before{content:"•";margin-inline-end:8px;color:var(--border)}
+  .excerpt{font-size:18px;color:var(--text-neutral);margin-bottom:18px}
+  .cover{border-radius:var(--radius);overflow:hidden;background:var(--bg-soft);aspect-ratio:16/9;margin-bottom:20px}
+  .cover img{width:100%;height:100%;object-fit:cover}
+  figcaption{font-size:12px;color:var(--text-neutral);margin-top:6px}
+  /* TOC */
+  .toc{background:var(--bg-soft);border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;margin:0 0 22px;font-size:14px}
+  .toc summary{font-weight:700;cursor:pointer;list-style:none}
+  .toc ol{margin:10px 22px 0 0;display:grid;gap:6px}
+  /* body */
+  .body h2{font-size:24px;font-weight:800;margin:32px 0 10px;line-height:1.4;scroll-margin-top:80px}
+  .body h3{font-size:19px;font-weight:700;margin:22px 0 8px}
+  .body p{margin-bottom:14px;max-width:72ch}
+  .body ul,.body ol{margin:0 22px 14px 0}
+  .body li{margin:4px 0}
+  .body .answer{border-inline-start:4px solid var(--primary);background:var(--primary-soft);padding:12px 16px;border-radius:var(--radius);margin:0 0 18px;font-weight:600}
+  .tablebox{overflow-x:auto;border:1px solid var(--border);border-radius:var(--radius);margin:12px 0 18px}
+  table{border-collapse:collapse;width:100%;font-size:14px;min-width:420px}
+  th{background:var(--bg-soft);text-align:right;padding:10px 14px;font-weight:700;border-bottom:1px solid var(--border);white-space:nowrap}
+  td{padding:10px 14px;border-bottom:1px solid var(--border)}
+  td.num{font-variant-numeric:tabular-nums;direction:ltr;text-align:right;unicode-bidi:embed}
+  /* CTA modules */
+  .cta-cat{display:flex;align-items:center;justify-content:space-between;gap:14px;border:1px solid var(--primary);border-radius:var(--radius);padding:14px 18px;margin:22px 0;background:#fff}
+  .cta-cat strong{display:block;font-size:16px}
+  .cta-cat small{color:var(--text-neutral)}
+  .btn{display:inline-flex;align-items:center;justify-content:center;background:var(--primary);color:#fff !important;font-weight:700;padding:10px 18px;border-radius:var(--radius);white-space:nowrap;min-height:44px}
+  .btn:hover{background:var(--primary-hover)}
+  .btn.ghost{background:#fff;color:var(--primary) !important;border:1px solid var(--primary)}
+  .products{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin:12px 0 22px}
+  .pcard{border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;background:#fff;font-size:13px}
+  .pcard .ph{aspect-ratio:4/3;background:var(--bg-soft)}
+  .pcard .pt{padding:8px 10px}
+  .pcard .pt b{display:block;font-size:13px;line-height:1.4;max-height:2.8em;overflow:hidden}
+  .pcard .price{color:var(--primary);font-weight:700;direction:rtl}
+  /* FAQ */
+  .faq details{border-bottom:1px solid var(--border);padding:10px 0}
+  .faq summary{font-weight:700;cursor:pointer;font-size:16px}
+  .faq p{margin:8px 0 0;color:var(--text-neutral)}
+  /* author */
+  .author{display:flex;gap:14px;align-items:flex-start;border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin:28px 0}
+  .author .av{width:56px;height:56px;border-radius:50%;background:var(--primary-soft);flex:none;display:grid;place-items:center;font-weight:800;color:var(--primary)}
+  .author b{display:block}.author small{color:var(--text-neutral);display:block}
+  /* share */
+  .share{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:12px 0 24px;font-size:14px}
+  .share a{border:1px solid var(--border);border-radius:999px;padding:6px 14px;color:var(--text);min-height:36px;display:inline-flex;align-items:center}
+  /* sidebar */
+  aside .box{border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:18px;font-size:14px}
+  aside h4{font-size:15px;font-weight:800;margin-bottom:10px}
+  aside .sticky{position:sticky;top:16px}
+  .app{background:var(--primary-dark);color:#fff;border-radius:var(--radius);padding:16px;text-align:center}
+  .app .btn{background:#fff;color:var(--primary-dark) !important;margin-top:10px}
+  /* related grid + cards (index/hub) */
+  .cards{display:grid;grid-template-columns:1fr;gap:16px;margin:12px 0 28px}
+  @media(min-width:640px){.cards{grid-template-columns:repeat(2,1fr)}}
+  @media(min-width:960px){.cards{grid-template-columns:repeat(3,1fr)}}
+  .card{border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;background:#fff;display:flex;flex-direction:column}
+  .card .ph{aspect-ratio:16/9;background:linear-gradient(135deg,#d8e3ff,#f5f5f5)}
+  .card .ct{padding:12px 14px 14px;display:flex;flex-direction:column;gap:6px;flex:1}
+  .chip{display:inline-block;font-size:12px;font-weight:700;color:var(--primary);background:var(--primary-soft);border-radius:999px;padding:2px 10px;align-self:flex-start}
+  .card h3{font-size:16px;line-height:1.45;font-weight:700}
+  .card h3 a{color:var(--text)}
+  .card p{font-size:13px;color:var(--text-neutral);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .card .cm{font-size:12px;color:var(--text-neutral);margin-top:auto}
+  .hubs{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 20px}
+  .hubs a{border:1px solid var(--border);border-radius:999px;padding:6px 14px;font-size:14px;color:var(--text);min-height:36px;display:inline-flex;align-items:center}
+  .hubs a.on{background:var(--primary);color:#fff;border-color:var(--primary)}
+  .pager{display:flex;gap:6px;justify-content:center;margin:10px 0 40px;font-size:14px}
+  .pager a,.pager span{min-width:40px;min-height:40px;display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--border);border-radius:var(--radius)}
+  .pager span[aria-current]{background:var(--primary);color:#fff;border-color:var(--primary)}
+  .section-title{font-size:22px;font-weight:800;margin:26px 0 6px}
+  .hub-h1{font-size:clamp(24px,4vw,32px);font-weight:800;margin:6px 0 6px}
+  .hub-intro{color:var(--text-neutral);max-width:72ch;margin-bottom:6px}
+  .ftr{border-top:1px solid var(--border);padding:24px 0;font-size:13px;color:var(--text-neutral);text-align:center;margin-top:30px}
+  /* annotation badges for the ticket only */
+  .note{position:relative}
+  .note::before{content:attr(data-n);position:absolute;top:-10px;inset-inline-start:-10px;background:#f0c36a;color:#14211f;font:800 11px/1 var(--font);padding:4px 7px;border-radius:999px;z-index:2;direction:ltr}
+</style>
+</head>
+<body>
+<div class="demo-label">MOCKUP 1 / 3 · ARTICLE PAGE · /ar/blog/cars-and-vehicles/rent-car-monthly-riyadh-price/ · numbered badges = component list in the ticket</div>
+<header class="hdr"><div class="wrap"><div class="logo">رينتر</div><nav class="nav"><span>الرئيسية</span><span>الفئات</span><span class="on">المدونة</span><span>الأسئلة الشائعة</span><span>English</span></nav></div></header>
+
+<main class="wrap">
+  <nav class="bc note" data-n="1" aria-label="مسار التنقل"><a href="#">الرئيسية</a><span>›</span><a href="#">المدونة</a><span>›</span><a href="#">سيارات ومركبات</a><span>›</span><span aria-current="page">سعر إيجار السيارات الشهري في الرياض 2026</span></nav>
+
+  <div class="article-grid">
+    <article>
+      <span class="chip note" data-n="2">سيارات ومركبات</span>
+      <h1 class="note" data-n="3">سعر إيجار السيارات الشهري في الرياض 2026: دليل الأسعار الكامل</h1>
+      <div class="meta note" data-n="4"><span>بقلم <a href="#">فريق رينتر</a></span><span class="dot">نُشر 20 سبتمبر 2026</span><span class="dot">حُدّث 20 سبتمبر 2026</span><span class="dot">قراءة 6 دقائق</span></div>
+      <p class="excerpt note" data-n="5">متوسط الإيجار الشهري للسيارات الاقتصادية في الرياض يبدأ من 1,800 ريال، وللسيارات المتوسطة من 2,500 ريال. هذا الدليل يشرح الفروق بين الفئات وما الذي يغير السعر.</p>
+      <figure class="cover note" data-n="6"><img src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1600' height='900'%3E%3Crect width='1600' height='900' fill='%23d8e3ff'/%3E%3Ctext x='800' y='470' font-size='48' text-anchor='middle' fill='%232049ee' font-family='sans-serif'%3Ecover 1600x900 WebP%3C/text%3E%3C/svg%3E" alt="سيارة كامري 2026 للإيجار الشهري في الرياض" width="1600" height="900" fetchpriority="high"><figcaption>صورة من إعلان مؤجر على رينتر</figcaption></figure>
+      <div class="share note" data-n="7"><span>مشاركة:</span><a href="#">واتساب</a><a href="#">X</a><a href="#">نسخ الرابط</a></div>
+
+      <details class="toc note" data-n="8" open><summary>محتويات المقال</summary><ol><li><a href="#s1">متوسط أسعار الإيجار الشهري حسب الفئة</a></li><li><a href="#s2">ما الذي يغيّر السعر</a></li><li><a href="#s3">الإيجار الشهري أم اليومي</a></li><li><a href="#s4">الأسئلة الشائعة</a></li></ol></details>
+
+      <div class="body">
+        <h2 id="s1">متوسط أسعار الإيجار الشهري حسب الفئة</h2>
+        <p class="answer note" data-n="9">الإجابة المختصرة: السيارة الاقتصادية من 1,800 إلى 2,400 ريال شهريًا، المتوسطة من 2,500 إلى 3,500 ريال، والدفع الرباعي من 4,000 ريال وأكثر (أسعار المؤجرين على رينتر، سبتمبر 2026).</p>
+        <div class="tablebox note" data-n="10"><table><thead><tr><th>الفئة</th><th>مثال</th><th>الشهري (ريال)</th><th>اليومي (ريال)</th></tr></thead><tbody>
+          <tr><td>اقتصادية</td><td>أكسنت، بيستون ميني</td><td class="num">1,800 - 2,400</td><td class="num">90 - 130</td></tr>
+          <tr><td>متوسطة</td><td>كامري، سوناتا، K4</td><td class="num">2,500 - 3,500</td><td class="num">140 - 200</td></tr>
+          <tr><td>دفع رباعي</td><td>راف فور، جيتور T2</td><td class="num">4,000 - 6,000</td><td class="num">220 - 350</td></tr>
+        </tbody></table></div>
+        <p>الأسعار أعلاه هي نطاق إعلانات المؤجرين على رينتر في الرياض. السعر النهائي يعتمد على الموديل، عدد الكيلومترات المسموحة، ومبلغ التأمين.</p>
+
+        <div class="cta-cat note" data-n="11"><div><strong>تصفّح سيارات للإيجار الشهري في الرياض</strong><small>أكثر من 300 سيارة من مؤجرين موثقين</small></div><a class="btn" href="#">اعرض السيارات</a></div>
+
+        <h2 id="s2">ما الذي يغيّر السعر</h2>
+        <h3>1. الموديل وسنة الصنع</h3>
+        <p>الفرق بين موديل 2024 و2026 لنفس السيارة يصل إلى 15% في الإيجار الشهري.</p>
+        <h3>2. الكيلومترات المسموحة</h3>
+        <p>أغلب المؤجرين يحددون 3,000 كم شهريًا. كل 1,000 كم إضافية تضيف بين 150 و300 ريال.</p>
+
+        <h2 id="s3">الإيجار الشهري أم اليومي</h2>
+        <p>إذا كانت المدة أطول من 12 يومًا، الإيجار الشهري أرخص في أغلب الحالات.</p>
+
+        <p><strong>منتجات مرتبطة على رينتر</strong></p>
+        <div class="products note" data-n="12">
+          <a class="pcard" href="#"><div class="ph"></div><div class="pt"><b>كامري لوميير 2026</b><span class="price">2,900 ريال / شهر</span></div></a>
+          <a class="pcard" href="#"><div class="ph"></div><div class="pt"><b>كيا K4 موديل 2026</b><span class="price">2,600 ريال / شهر</span></div></a>
+          <a class="pcard" href="#"><div class="ph"></div><div class="pt"><b>تويوتا راف فور 2026</b><span class="price">4,800 ريال / شهر</span></div></a>
+          <a class="pcard" href="#"><div class="ph"></div><div class="pt"><b>أكسنت 2023</b><span class="price">1,900 ريال / شهر</span></div></a>
+        </div>
+
+        <h2 id="s4">الأسئلة الشائعة</h2>
+        <div class="faq note" data-n="13">
+          <details open><summary>كم إيجار السيارة الشهري في الرياض؟</summary><p>من 1,800 ريال للسيارات الاقتصادية إلى أكثر من 4,000 ريال للدفع الرباعي، حسب الموديل والكيلومترات.</p></details>
+          <details><summary>هل يشمل الإيجار الشهري التأمين؟</summary><p>التأمين الأساسي يشمله أغلب المؤجرين. التأمين الشامل يُضاف كخيار.</p></details>
+          <details><summary>ما هي متطلبات استئجار سيارة شهريًا؟</summary><p>هوية سارية أو إقامة، رخصة قيادة سارية، وبطاقة دفع للتأمين.</p></details>
+        </div>
+      </div>
+
+      <div class="author note" data-n="14"><div class="av">ر</div><div><b>فريق رينتر</b><small>محتوى يُراجعه فريق العمليات في رينتر بناءً على إعلانات المؤجرين الحقيقية على المنصة.</small><a href="#">كل مقالات الكاتب</a></div></div>
+
+      <h2 class="section-title note" data-n="15">مقالات ذات صلة</h2>
+      <div class="cards">
+        <div class="card"><div class="ph"></div><div class="ct"><span class="chip">سيارات ومركبات</span><h3><a href="#">شروط تأجير السيارات في السعودية 2026</a></h3><p>الأوراق المطلوبة، العمر الأدنى، ومبلغ التأمين.</p><span class="cm">قراءة 4 دقائق</span></div></div>
+        <div class="card"><div class="ph"></div><div class="ct"><span class="chip">سيارات ومركبات</span><h3><a href="#">كم إيجار الدينا بالشهر؟</a></h3><p>نطاق أسعار الدينا والونيت للإيجار الشهري.</p><span class="cm">قراءة 5 دقائق</span></div></div>
+        <div class="card"><div class="ph"></div><div class="ct"><span class="chip">سيارات ومركبات</span><h3><a href="#">إيجار سيارة يومي أم شهري: أيهما أوفر؟</a></h3><p>مقارنة بالأرقام على 3 فئات.</p><span class="cm">قراءة 3 دقائق</span></div></div>
+      </div>
+    </article>
+
+    <aside class="note" data-n="16"><div class="sticky">
+      <div class="box"><h4>الأكثر قراءة في سيارات ومركبات</h4><ol style="margin-right:18px;display:grid;gap:6px"><li><a href="#">شروط تأجير السيارات في السعودية</a></li><li><a href="#">كم إيجار التريلا بالشهر؟</a></li><li><a href="#">أفضل سيارة اقتصادية للإيجار</a></li></ol></div>
+      <div class="box app"><b>حمّل تطبيق رينتر</b><br><small>احجز واستأجر من جوالك</small><br><a class="btn" href="#">App Store / Google Play</a></div>
+    </div></aside>
+  </div>
+</main>
+
+<div class="demo-label">MOCKUP 2 / 3 · HUB PAGE · /ar/blog/cars-and-vehicles/</div>
+<main class="wrap">
+  <nav class="bc" aria-label="مسار التنقل"><a href="#">الرئيسية</a><span>›</span><a href="#">المدونة</a><span>›</span><span aria-current="page">سيارات ومركبات</span></nav>
+  <h1 class="hub-h1">أدلة وأسعار تأجير السيارات والمركبات في السعودية</h1>
+  <p class="hub-intro">كل ما تحتاجه قبل استئجار سيارة، دينا، تريلا أو دراجة: الأسعار الحقيقية من مؤجرين على رينتر، الشروط، والمقارنات. 12 مقالًا.</p>
+  <div class="cta-cat"><div><strong>جاهز للحجز؟</strong><small>تصفّح فئة سيارات ومركبات على رينتر</small></div><a class="btn ghost" href="#">إلى الفئة</a></div>
+  <div class="cards">
+    <div class="card"><div class="ph"></div><div class="ct"><span class="chip">دليل أسعار</span><h3><a href="#">سعر إيجار السيارات الشهري في الرياض 2026</a></h3><p>متوسط الإيجار الشهري حسب الفئة وما الذي يغيره.</p><span class="cm">20 سبتمبر 2026 · قراءة 6 دقائق</span></div></div>
+    <div class="card"><div class="ph"></div><div class="ct"><span class="chip">شروط</span><h3><a href="#">شروط تأجير السيارات في السعودية 2026</a></h3><p>الأوراق، العمر، التأمين، والغرامات.</p><span class="cm">23 سبتمبر 2026 · قراءة 4 دقائق</span></div></div>
+    <div class="card"><div class="ph"></div><div class="ct"><span class="chip">دليل أسعار</span><h3><a href="#">كم إيجار التريلا بالشهر في السعودية؟</a></h3><p>نطاق أسعار التريلا مع سائق وبدون.</p><span class="cm">25 سبتمبر 2026 · قراءة 5 دقائق</span></div></div>
+  </div>
+  <nav class="pager" aria-label="الصفحات"><span aria-current="page">1</span><a href="#">2</a><a href="#">3</a><a href="#">التالي ›</a></nav>
+</main>
+
+<div class="demo-label">MOCKUP 3 / 3 · BLOG INDEX · /ar/blog/</div>
+<main class="wrap">
+  <nav class="bc" aria-label="مسار التنقل"><a href="#">الرئيسية</a><span>›</span><span aria-current="page">المدونة</span></nav>
+  <h1 class="hub-h1">مدونة رينتر: أدلة وأسعار الإيجار في السعودية</h1>
+  <p class="hub-intro">أسعار حقيقية من مؤجرين على المنصة، شروط، ومقارنات لكل ما يمكن استئجاره: سيارات، معدات، مناسبات، عقارات وأجهزة.</p>
+  <div class="hubs"><a class="on" href="#">الكل</a><a href="#">سيارات ومركبات</a><a href="#">معدات وأدوات</a><a href="#">مناسبات وترفيه</a><a href="#">عقارات</a><a href="#">أجهزة</a><a href="#">أثاث</a><a href="#">أزياء</a><a href="#">ملاعب</a><a href="#">أدلة الإيجار</a></div>
+  <div class="cards">
+    <div class="card"><div class="ph"></div><div class="ct"><span class="chip">سيارات ومركبات</span><h3><a href="#">سعر إيجار السيارات الشهري في الرياض 2026</a></h3><p>متوسط الإيجار الشهري حسب الفئة.</p><span class="cm">20 سبتمبر 2026</span></div></div>
+    <div class="card"><div class="ph"></div><div class="ct"><span class="chip">معدات وأدوات</span><h3><a href="#">سعر إيجار البوبكات اليومي والشهري 2026</a></h3><p>نطاق الأسعار مع مشغل وبدون.</p><span class="cm">21 سبتمبر 2026</span></div></div>
+    <div class="card"><div class="ph"></div><div class="ct"><span class="chip">مناسبات وترفيه</span><h3><a href="#">تكلفة تأجير خيمة مناسبات في الرياض</a></h3><p>حسب المقاس وعدد الضيوف.</p><span class="cm">22 سبتمبر 2026</span></div></div>
+  </div>
+  <nav class="pager" aria-label="الصفحات"><span aria-current="page">1</span><a href="#">2</a><a href="#">التالي ›</a></nav>
+</main>
+<footer class="ftr">مؤشرات القياس في الصفحة: سرعة LCP هدفها 2.5 ثانية، CLS 0.1، INP 200 مللي ثانية. الخط Cairo كما في الموقع.</footer>
+</body>
+</html>
