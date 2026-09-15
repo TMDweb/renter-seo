@@ -79,9 +79,11 @@
       main { margin: 16px auto; padding: 24px 20px; }
     }
   </style>
+<style>.statusbar{display:flex;gap:12px;align-items:center;background:#fff;border:1px solid rgba(25,89,84,.10);border-radius:12px;padding:14px 18px;margin:0 0 22px}.statusbar .pill{display:inline-block;padding:5px 12px;border-radius:99px;font-size:13px;font-weight:700;background:#e8eefb;color:#1a4b8f}</style>
 </head>
 <body>
-  <main>
+  <div class="statusbar"><span class="pill">FRONTEND LIVE, END-TO-END TEST PENDING</span><span>Verified Sep 15, 2026: the parent-page listener and the dataLayer push are deployed on renter.net exactly as specified below, with once-per-transaction dedupe; GTM has the conversion tag. Remaining proof: one real test booking that confirms the payment iframe posts the validated success message. Owner: Jan (iframe side) + Saiaf (GTM Preview check).</span></div>
+<main>
     <h1>Developer action: expose confirmed bookings to GTM</h1>
     <p class="muted">The current <code>/ar/payment/</code> trigger is invalid; that URL is a 404.</p>
 
