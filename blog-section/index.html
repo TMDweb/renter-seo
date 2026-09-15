@@ -440,10 +440,10 @@ export default async function ArticlePage({ params }: { params: Promise&lt;Param
         &lt;/figure&gt;
         &lt;ShareRow url={`${SITE}/${locale}/blog/${hub}/${slug}/`} title={post.title} /&gt;
 
-        &lt;details className=&quot;toc&quot; open&gt;
-          &lt;summary&gt;{locale === &#x27;ar&#x27; ? &#x27;محتويات المقال&#x27; : &#x27;In this article&#x27;}&lt;/summary&gt;
+        &lt;nav className=&quot;toc&quot; aria-label={locale === &#x27;ar&#x27; ? &#x27;محتويات المقال&#x27; : &#x27;In this article&#x27;}&gt;
+          &lt;strong&gt;{locale === &#x27;ar&#x27; ? &#x27;محتويات المقال&#x27; : &#x27;In this article&#x27;}&lt;/strong&gt;
           &lt;ol&gt;{post.toc.map(h =&gt; &lt;li key={h.id}&gt;&lt;a href={`#${h.id}`}&gt;{h.text}&lt;/a&gt;&lt;/li&gt;)}&lt;/ol&gt;
-        &lt;/details&gt;
+        &lt;/nav&gt;
 
         {/* body_html comes from the API with H2 ids already injected by the backend sanitizer */}
         &lt;div className=&quot;body&quot; dangerouslySetInnerHTML={{ __html: post.body_html }} /&gt;
@@ -467,7 +467,7 @@ export default async function ArticlePage({ params }: { params: Promise&lt;Param
         {post.faq.length &gt; 0 &amp;&amp; (
           &lt;section className=&quot;faq&quot;&gt;
             &lt;h2 id=&quot;faq&quot;&gt;{locale === &#x27;ar&#x27; ? &#x27;الأسئلة الشائعة&#x27; : &#x27;FAQ&#x27;}&lt;/h2&gt;
-            {post.faq.map((f, i) =&gt; &lt;details key={i} open={i === 0}&gt;&lt;summary&gt;{f.question}&lt;/summary&gt;&lt;p&gt;{f.answer}&lt;/p&gt;&lt;/details&gt;)}
+            {post.faq.map((f, i) =&gt; &lt;div key={i}&gt;&lt;h3&gt;{f.question}&lt;/h3&gt;&lt;p&gt;{f.answer}&lt;/p&gt;&lt;/div&gt;)}   {/* plain text, always visible, no accordion */}
           &lt;/section&gt;
         )}
 
@@ -751,7 +751,7 @@ Rules: 404 JSON for unknown slug; unpublished posts are never returned (also not
           <tr><td>Type</td><td>body 16px / 1.8, measure 72ch; H1 clamp(24px, 4.5vw, 36px) 800; H2 24px 800; H3 19px 700; Western digits always</td></tr>
           <tr><td>Touch</td><td>44px minimum on buttons and pager; 36px on share pills with 8px gaps</td></tr>
           <tr><td>LCP 2.5 s</td><td>cover via <code>next/image</code> with <code>priority</code> and <code>sizes="(max-width: 960px) 100vw, 720px"</code>; WebP; never lazy</td></tr>
-          <tr><td>CLS 0.1</td><td>width and height on every image; fixed aspect boxes; TOC and tables server-rendered</td></tr>
+          <tr><td>CLS 0.1</td><td>width and height on every image; fixed aspect boxes; TOC (plain list, always visible) and tables server-rendered; no accordions anywhere on the blog</td></tr>
           <tr><td>INP 200 ms</td><td>only two client components (ShareRow, ArticleView); no scroll listeners of our own</td></tr>
           <tr><td>Weight</td><td>article HTML 150 KB max; no new client JS above 15 KB gzip; do not put the body HTML into flight data twice (fetch in the server component only)</td></tr>
           <tr><td>Images</td><td>cover 1600×900 WebP q80 200 KB max; inline 1200px max 120 KB; alt required in both languages; Latin file names</td></tr>
@@ -789,7 +789,7 @@ Rules: 404 JSON for unknown slug; unpublished posts are never returned (also not
 
       <h2 id="done">Definition of done</h2>
       <ol>
-        <li>On staging with JavaScript off, view-source of one article shows: the head block of section 2 (with the article's values), two JSON-LD scripts, the H1, the body, the CTA, related products, FAQ, author box and related articles. Nothing of the article depends on client rendering.</li>
+        <li>On staging with JavaScript off, view-source of one article shows: the head block of section 2 (with the article's values), two JSON-LD scripts, the H1, the body, the CTA, related products, FAQ (plain H3 + paragraph text, always visible, no accordion), author box and related articles. Nothing of the article depends on client rendering.</li>
         <li><a href="https://validator.schema.org/">validator.schema.org</a> and the <a href="https://search.google.com/test/rich-results">Rich Results Test</a> report zero errors on the article, the hub and the index.</li>
         <li><code>/ar/blog/</code>, <code>/ar/blog/page/2/</code>, <code>/ar/blog/cars-and-vehicles/</code> each have a self canonical, an H1, real pager links; <code>/ar/blog/page/1/</code> returns 301; <code>/ar/blog/page/99/</code> returns 404; <code>/ar/blog/not-a-hub/</code> returns 404.</li>
         <li>An article with <code>en_published=false</code>: <code>/en/...</code> returns 404 and the Arabic page has no <code>hreflang="en"</code>.</li>
