@@ -187,7 +187,7 @@
     <p class="kicker">Renter × TMD · Dev ticket · new section · verified against the live site and Google/Next.js docs · Sep 15, 2026</p>
   </header>
   <div class="doc-body">
-      <div class="statusbar"><span class="pill open">NOT STARTED</span><span class="txt">Verified Sep 15, 2026: <code>/ar/blog/</code> and <code>/en/blog/</code> return 404. Nothing exists yet. Waiting for client approval at the Sunday meeting (Sep 20), then Jan (API, 2 weeks) and Paulo (templates, 2 weeks after the API is on staging).</span></div>
+      <div class="statusbar"><span class="pill open">NOT STARTED</span><span class="txt">Verified Sep 15, 2026: <code>/ar/blog/</code> and <code>/en/blog/</code> return 404. Nothing exists yet. Waiting for approval at the Sunday meeting (Sep 20). The work split in this ticket is a recommendation: Paulo and Jan decide who takes what and confirm the dates.</span></div>
       <h1>Blog section: /ar/blog/ and /en/blog/</h1>
       <p class="lede">A server-rendered blog in the Next.js App Router, fed by a new Laravel <code>posts</code> API, with hubs that mirror the product categories, Latin slugs shared by both locales, self canonicals, hreflang pairs, paginated URLs, BlogPosting + BreadcrumbList JSON-LD with the existing Organization as publisher, a blog sitemap per locale and 3 GTM events. The full plan (research, editorial calendar, KPIs) is a separate document; this page holds only what you build.</p>
       <p><a class="backbtn" href="mockup/" target="_blank">Open the rendered mockup (article, hub, index)</a></p>
@@ -635,7 +635,7 @@ export async function POST(req: NextRequest) {
           <tr><td><code>article_share</code></td><td>share pill click</td><td>channel (whatsapp, x, copy, native), article_slug</td></tr>
         </tbody>
       </table></div>
-      <p>Paulo: the pushes below. Saiaf: the GTM triggers and tags, and the GA4 custom dimensions (article_hub, article_slug, cta_type, article_format). Nothing new is marked as a conversion.</p>
+      <p>Frontend: the pushes below. Saiaf: the GTM triggers and tags, and the GA4 custom dimensions (article_hub, article_slug, cta_type, article_format). Nothing new is marked as a conversion.</p>
       <pre>// components/blog/ArticleView.tsx  (&quot;use client&quot;; renders nothing; one push per page view)
 &#x27;use client&#x27;;
 import { useEffect } from &#x27;react&#x27;;
@@ -670,7 +670,7 @@ export function ArticleView(p: { slug: string; hub: string; locale: string; auth
 // GTM (Saiaf): 3 Custom Event triggers (article_view, article_cta_click, article_share) -&gt; GA4 event tags with the same names and parameters.
 // article_scroll: GTM built-in Scroll Depth trigger (25, 50, 75, 100), Page Path matches RegEx ^/(ar|en)/blog/ -&gt; GA4 event article_scroll { percent_scrolled }.</pre>
 
-      <h2 id="api">8. API for Jan (Laravel, admin-production.renter.net)</h2>
+      <h2 id="api">8. Content API (Laravel, admin-production.renter.net)</h2>
       <p>Tables: <code>posts</code>, <code>authors</code>, <code>post_redirects</code>. Field list and rules are in the plan document, section 5. Public JSON, no auth, <code>Cache-Control: public, max-age=300</code>. Unpublished posts are never returned, not even by direct slug. Body HTML is sanitized to <code>h2 h3 p ul ol li a strong table thead tbody tr th td figure img figcaption blockquote</code> and the backend injects <code>id</code> on every H2 (<code>s1, s2, ...</code>) and returns the same list as <code>toc</code>. Cover upload 1600×900; the backend derives 1200×900, 1200×1200 and 800×450 WebP q80. On publish, update or unpublish, POST to the frontend <code>/api/revalidate</code> with header <code>x-revalidate-secret</code>.</p>
       <pre>GET https://admin-production.renter.net/api/v1/blog/posts?locale=ar&amp;hub=cars-and-vehicles&amp;page=1&amp;per_page=12
 {
