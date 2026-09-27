@@ -187,7 +187,7 @@
     <p class="kicker">Renter × TMD · Dev ticket · rebuilt on Google documentation · Sep 7, 2026</p>
   </header>
   <div class="doc-body">
-      <div class="statusbar"><span class="pill open">NOT DONE</span><span class="txt">Verified Sep 14, 2026: category and subcategory pages still carry only the breadcrumb, on production and on staging. Paulo (Sep 9): restructuring how products load, target staging before the Sunday meeting.</span></div>
+      <div class="statusbar"><span class="pill progress">PARTIAL</span><span class="txt">Verified Sep 27, 2026. Part 1 is live on category and subcategory pages with 4 deviations: the BreadcrumbList was removed (put it back), the list prints twice (keep one script), ListItem uses <code>item</code> (use <code>url</code>), positions start at 3 (start at 1). Part 2, pagination, is not built; unknown paths such as <code>/cars-and-vehicles/2/</code> return 200 with canonical <code>/arundefined/</code> and must return 404.</span></div>
       <h1>Category and subcategory pages: the ItemList block, with infinite scroll</h1>
       <p class="lede">Rebuilt <strong>Sep 7, 2026</strong> after the meeting question: "the schema is in a server component, but scroll adds products in a client component; how do we keep it complete?" The answer comes from Google's own documentation and it is simpler than feared: <strong>the block lists the server-rendered products only, and it must never be updated from the client.</strong> Completeness comes from paginated URLs, not from scroll.</p>
 

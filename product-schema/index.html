@@ -187,7 +187,7 @@
     <p class="kicker">Renter × TMD · Dev ticket · verified live Sep 5, 2026</p>
   </header>
   <div class="doc-body">
-      <div class="statusbar"><span class="pill open">NOT DONE</span><span class="txt">Verified on the live site Sep 14, 2026 on 6 products: none of the 5 fixes is applied. New regression: <code>name</code> now holds the description text instead of the title. Everything on this page is still required.</span></div>
+      <div class="statusbar"><span class="pill progress">PARTIAL</span><span class="txt">Verified Sep 27, 2026 on 11 products: <code>sku</code> is live. Still open: <code>url</code> and <code>offers.url</code> use the short slug, <code>name</code> holds the description, descriptions carry <code>&amp;nbsp;</code>. Note: the Sep 14 meeting note reads "add short slug"; that is not the requirement. <code>url</code> and <code>offers.url</code> must equal the page canonical, the same value as <code>&lt;link rel="canonical"&gt;</code>.</span></div>
       <h1>Product schema: 5 fixes, one template</h1>
       <p class="lede">Verified on the live site on <strong>Sep 5, 2026</strong>. Good news first: the block already renders all product photos and one <code>UnitPriceSpecification</code> per lease term with the right unit codes (verified live on product 2797: DAY and MON together). What remains is 5 field fixes in the one template that renders every product page. Replace the block; never add a second one.</p>
 
