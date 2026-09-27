@@ -211,8 +211,8 @@ h3{color:var(--primary-dark);margin:22px 0 8px}
         <dl>
           <dt>What is wrong</dt><dd>(1) Google rejected the return policy: "Return information provided does not match your online store." Our Merchant Center settings and our return policy page say different things. (2) 331 of 1,470 products are not approved: 289 vehicles (Google policy), 18 with a price of 0, 17 with broken photo links, 15 with no photo.</dd>
           <dt>Why it matters</dt><dd>Google Shopping brought 678 clicks in the 28 days to Sep 27. A product that is not approved never shows. A rejected return policy can limit or stop listings: on Aug 25, the missing return policy took all products off Google Shopping.</dd>
-          <dt>The fix</dt><dd>Part 1: Mr. Mohamed chooses the return terms; the page and Merchant Center then say the same thing. Part 2: three feed rules and one data repair. Part 3: a decision on vehicles.</dd>
-          <dt>Owners</dt><dd>Mr. Mohamed decides (Parts 1 and 3). Dev team: page text and feed rules. Jan: the missing photo files. Saiaf: Merchant Center settings and the resubmission.</dd>
+          <dt>The fix</dt><dd>Part 1: Mr. Mohamed chooses the return terms; the page and Merchant Center then say the same thing. Part 2: three feed rules and one data repair. Part 3: Ahmed takes the vehicle products out of Google Shopping.</dd>
+          <dt>Owners</dt><dd>Mr. Mohamed decides Part 1. Ahmed: Part 3. Dev team: page text and feed rules. Jan: the missing photo files. Saiaf: Merchant Center settings and the resubmission.</dd>
           <dt>Done when</dt><dd>The return policy shows "Approved", and the only products not approved are the ones the team chose to keep out.</dd>
         </dl>
       </div>
@@ -287,7 +287,7 @@ h3{color:var(--primary-dark);margin:22px 0 8px}
       <div class="tablebox"><table>
         <thead><tr><th>Merchant Center issue</th><th>Products</th><th>Cause, verified Sep 27</th><th>Fix</th><th>Owner</th></tr></thead>
         <tbody>
-          <tr><td>Vehicles</td><td>289</td><td>Google does not allow vehicles in Shopping (Part 3)</td><td>Decision in Part 3</td><td>Mr. Mohamed</td></tr>
+          <tr><td>Vehicles</td><td>289</td><td>Google does not allow vehicles in Shopping (Part 3)</td><td>Task in Part 3</td><td>Ahmed</td></tr>
           <tr><td>Invalid price</td><td>18 (16 in the feed today)</td><td>The product price is 0</td><td>Feed rule: leave out every product with a price of 0 or less</td><td>Dev team</td></tr>
           <tr><td>Unsupported image type</td><td>17 (18 in the feed today)</td><td>The photo links return "404 Not Found": the files are missing on <code>admin-production.renter.net/storage</code>. All photos of these 18 products are missing, so visitors also see no photos on their pages</td><td>Jan: restore the files from a backup if one exists; if not, ask the lessors to upload new photos. Feed rule: leave out products with no working photo</td><td>Jan, Dev team</td></tr>
           <tr><td>Missing product image</td><td>15</td><td>The product has no photo</td><td>Feed rule: leave out products with no photo</td><td>Dev team</td></tr>
@@ -314,13 +314,13 @@ h3{color:var(--primary-dark);margin:22px 0 8px}
           <tr><td>يخت</td><td>1</td></tr>
         </tbody>
       </table></div>
-      <p><strong>Decision for Mr. Mohamed.</strong> Almost all of these are vehicles in Google's sense, so a manual review would help very few products. TMD recommends: leave the category سيارات ومركبات out of the Shopping feed. No traffic is lost, because these products cannot show in Shopping today. They keep their pages and keep showing in normal Google search.</p>
+      <p><strong>Task for Ahmed.</strong> Almost all of these are vehicles in Google's sense, so a manual review would help very few products. In Merchant Center, add a rule to the product feed: when the product type contains سيارات ومركبات, exclude the product from Shopping ads and free listings. If a rule is not possible, ask the dev team to leave that category out of the feed. No traffic is lost, because these products cannot show in Shopping today. They keep their pages and keep showing in normal Google search.</p>
 
       <h2 id="done">Done when</h2>
       <ol>
         <li>Merchant Center, Return policies: the status is "Approved".</li>
         <li>Merchant Center, Products: no "Invalid price", "Unsupported image type" or "Missing product image" issues.</li>
-        <li>If the vehicles decision is "leave out": no "Vehicles" issue, and the feed has no product from سيارات ومركبات.</li>
+        <li>No "Vehicles" issue: the vehicle products are out of Google Shopping.</li>
       </ol>
 
       <p><a class="backbtn" href="../head-metadata/">&#8592; Back to the dev board</a></p>

@@ -228,7 +228,7 @@ h3{color:var(--primary-dark);margin:22px 0 8px}
           <tr><td>3</td><td><a href="#i3">Category pages: breadcrumbs removed, list errors, unknown addresses</a></td><td><span class="pill open">REGRESSION</span></td><td>Dev team</td><td><a href="../category-schema/">ticket</a></td></tr>
           <tr><td>4</td><td><a href="#i4">Product addresses: copies of every product, deleted products send visitors home</a></td><td><span class="pill open">NOT DONE</span></td><td>Dev team</td><td><a href="../product-urls/">ticket</a></td></tr>
           <tr><td>5</td><td><a href="#i5">Product schema: 4 fields wrong on most products</a></td><td><span class="pill progress">PARTIAL</span></td><td>Dev team</td><td><a href="../product-schema/">ticket</a></td></tr>
-          <tr><td>6</td><td><a href="#i6">Google Shopping: return policy rejected, 331 products not approved</a></td><td><span class="pill open">NOT DONE</span></td><td>Mr. Mohamed decides; dev team, Jan, Saiaf</td><td><a href="../merchant-center/">ticket</a></td></tr>
+          <tr><td>6</td><td><a href="#i6">Google Shopping: return policy rejected, 331 products not approved</a></td><td><span class="pill open">NOT DONE</span></td><td>Mr. Mohamed decides the return terms; Ahmed, dev team, Jan, Saiaf</td><td><a href="../merchant-center/">ticket</a></td></tr>
           <tr><td>7</td><td><a href="#i7">Lessor data protection</a></td><td><span class="pill progress">PARTIAL</span></td><td>Dev team</td><td><a href="https://tmd.sa/renter/lessor-data-protection/v1/2026-09-21/">ticket (access code)</a></td></tr>
           <tr><td>8</td><td><a href="#i8">Staging: the security certificate ran out on Sep 23</a></td><td><span class="pill open">NOT DONE</span></td><td>Dev team</td><td><a href="../staging-certificate/">ticket</a></td></tr>
           <tr><td>9</td><td><a href="#i9">English pages show Arabic text</a></td><td><span class="pill blocked">WAITING JAN</span></td><td>Jan, then Paulo</td><td>below</td></tr>
@@ -302,12 +302,12 @@ h3{color:var(--primary-dark);margin:22px 0 8px}
 
       <div class="issue" id="i6">
         <h3>6 · Google Shopping: return policy rejected, 331 products not approved</h3>
-        <div class="meta"><span class="pill open">NOT DONE</span><span>Owners: Mr. Mohamed decides; dev team, Jan, Saiaf act</span><span><a href="../merchant-center/">Ticket with details</a></span></div>
+        <div class="meta"><span class="pill open">NOT DONE</span><span>Owners: Mr. Mohamed decides the return terms; Ahmed, dev team, Jan, Saiaf act</span><span><a href="../merchant-center/">Ticket with details</a></span></div>
         <dl>
           <dt>What is wrong</dt><dd>Google rejected the return policy: the Merchant Center settings and the return policy page differ in 6 fields. 331 products are not approved: 289 vehicles (Google policy), 18 with a price of 0, 17 with broken photo links, 15 with no photo.</dd>
           <dt>Why it matters</dt><dd>Google Shopping brought 678 clicks in 28 days. Products that are not approved never show. On Aug 25 a missing return policy took all products off Google Shopping.</dd>
           <dt>Proof</dt><dd>Merchant Center and the 24 feed files, Sep 27. The 17 broken photos: the files are missing on the storage server (products 1252 to 1298).</dd>
-          <dt>Fix</dt><dd>Mr. Mohamed chooses the return terms; TMD recommends "no returns after the rental starts", and the page text is ready. Feed rules: leave out products with a price of 0 or no working photo. Jan restores the missing photo files. Mr. Mohamed decides on vehicles.</dd>
+          <dt>Fix</dt><dd>Mr. Mohamed chooses the return terms; TMD recommends "no returns after the rental starts", and the page text is ready. Feed rules: leave out products with a price of 0 or no working photo. Jan restores the missing photo files. Ahmed takes the vehicle products out of Google Shopping.</dd>
           <dt>Done when</dt><dd>The return policy is "Approved" and no price or photo issues remain.</dd>
         </dl>
       </div>
