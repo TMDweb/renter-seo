@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
-<title>Renter · Dev Ticket · Product schema: 4 fields to correct</title>
+<title>Renter · Dev Ticket · Product addresses and deleted products</title>
 <style>
   :root {
     --bg: #efe9e2;
@@ -203,147 +203,107 @@ h3{color:var(--primary-dark);margin:22px 0 8px}
     <p class="kicker">Renter × TMD · Dev ticket · verified live Sep 27, 2026</p>
   </header>
   <div class="doc-body">
-      <div class="statusbar"><span class="pill progress">PARTIAL</span><span class="txt">Checked Sep 27, 2026 on all 968 live Arabic product pages in the sitemap. Done: <code>sku</code> on all 968, all photos, one price entry per lease term. Open: the 4 fields below. Note: the Sep 14 meeting note reads "add short slug". That is not the requirement: <code>url</code> and <code>offers.url</code> must equal the page canonical.</span></div>
-      <h1>Product schema: 4 fields to correct in one template</h1>
+      <div class="statusbar"><span class="pill open">NOT DONE</span><span class="txt">Checked Sep 27, 2026 on the live site, in the sitemap (1,139 Arabic product addresses) and in Search Console.</span></div>
+      <h1>Product addresses: one official address per product, and "not found" for deleted products</h1>
 
       <div class="inshort">
         <h2>In short</h2>
         <dl>
-          <dt>What it is</dt><dd>Each product page carries a hidden code block (JSON-LD, schema type Product). It gives Google the product name, photos, price and address.</dd>
-          <dt>What is wrong</dt><dd>4 fields are wrong on most products: the address, the name, the description and the main price.</dd>
-          <dt>Why it matters</dt><dd>Google uses this block for product results with price and availability. Today 690 products give Google an address that answers "not found", 91 have an empty name, and the name is right on only 31 of 968. Google treats a Product block without a name as invalid.</dd>
-          <dt>The fix</dt><dd>4 field changes in the one template that renders every product page. Replace the block; never add a second one.</dd>
-          <dt>Owner</dt><dd>Dev team. Paulo and Jan decide who takes it.</dd>
-          <dt>Done when</dt><dd>The output equals the two complete blocks below, and the Rich Results Test shows no errors for both products.</dd>
+          <dt>What is wrong (1)</dt><dd>A product page opens at any address that has its number. <code>/ar/product/2545/kamyra-kanwn-4000d/</code>, <code>/ar/product/2545/4000d/</code> and <code>/ar/product/2545/anything/</code> all show the same page, and each copy tells Google that it is the official address.</dd>
+          <dt>What is wrong (2)</dt><dd>When a product is deleted, its address sends the visitor to the home page. 169 of the 1,139 product addresses in the sitemap do this today (15%).</dd>
+          <dt>Why it matters</dt><dd>(1) Google can index several copies of one product and split its ranking between them. It already indexes two addresses for 11 products, for example <code>/ar/product/1662/120/</code>. (2) Google still lists deleted products as indexed (for example <code>/ar/product/2797/</code>, last crawled Sep 5). A searcher who clicks one lands on the home page with no explanation. Google calls a missing page that does not answer "not found" a soft 404, and the sitemap keeps sending Google to 169 dead addresses.</dd>
+          <dt>The fix</dt><dd>In the product page code: a product that does not exist answers 404 ("not found"). An address with any slug other than the official one moves permanently (308) to the official address. The canonical tag is built from the product data, never from the address that was typed. The sitemap lists live products only.</dd>
+          <dt>Owner</dt><dd>Dev team. The sitemap change goes to whoever builds <code>/sitemap/ar/products.xml</code>.</dd>
+          <dt>Done when</dt><dd>The 4 checks at the end of this page give the expected answers.</dd>
         </dl>
       </div>
 
-      <h2 id="fields">The 4 fixes, with live evidence</h2>
+      <h2 id="proof">Proof, Sep 27</h2>
       <div class="tablebox"><table>
-        <thead><tr><th>#</th><th>Field</th><th>Live now (Sep 27)</th><th>Must be</th><th>Wrong on</th></tr></thead>
+        <thead><tr><th>Address</th><th>Answer today</th><th>Must be</th></tr></thead>
         <tbody>
-          <tr><td>1</td><td><code>url</code> and <code>offers.url</code></td><td>690 products: an empty slug, for example <code>https://renter.net/ar/product/311//</code>, which answers 404.<br>222 products: the short-slug copy, for example <code>/ar/product/2545/4000d/</code>.<br>56 products: correct.</td><td>The page canonical. Build it with the same function as the canonical tag (<code>productSlug</code> on the <a href="../product-urls/">product addresses page</a>)</td><td>912 of 968</td></tr>
-          <tr><td>2</td><td><code>name</code></td><td>The description text: 311 says "فرن شواء كهربائي", the title is "فرن شوية".<br>91 products: empty (for example 2693). 8 products: 1 or 2 characters (2728: "K5"; 2512: ".")</td><td>The API <code>title</code> field: the product name the page shows</td><td>937 of 968</td></tr>
-          <tr><td>3</td><td><code>description</code></td><td>HTML codes stay in the text, such as <code>&amp;nbsp;</code> on 2545</td><td>Plain text: strip tags, decode all HTML codes, collapse spaces</td><td>405 of 968</td></tr>
-          <tr><td>4</td><td><code>offers.price</code></td><td>The price of the first lease term. 311 says 100 (its monthly price) although it rents for 5 a day</td><td>The daily price when a daily term exists, else the lowest price</td><td>every product whose first term is not daily</td></tr>
+          <tr><td><a href="https://renter.net/ar/product/2545/kamyra-kanwn-4000d/">/ar/product/2545/kamyra-kanwn-4000d/</a></td><td>200, canonical = itself</td><td>200, canonical = itself (the official address)</td></tr>
+          <tr><td><a href="https://renter.net/ar/product/2545/4000d/">/ar/product/2545/4000d/</a></td><td>200, canonical = itself</td><td>308 to the official address</td></tr>
+          <tr><td><a href="https://renter.net/ar/product/2545/anything/">/ar/product/2545/anything/</a></td><td>200, canonical = itself</td><td>308 to the official address</td></tr>
+          <tr><td><a href="https://renter.net/ar/product/2797/ntyndw-swytsh/">/ar/product/2797/ntyndw-swytsh/</a> (deleted)</td><td>307 to <code>https://renter.net/</code></td><td>404</td></tr>
+          <tr><td><a href="https://renter.net/ar/product/99999999/x/">/ar/product/99999999/x/</a> (never existed)</td><td>307 to <code>https://renter.net/</code></td><td>404</td></tr>
+        </tbody>
+      </table></div>
+      <p>Search Console, URL Inspection, Sep 27: <code>/ar/product/1662/120/</code> (a short copy) is "Submitted and indexed". The deleted <code>/ar/product/2676/</code>, <code>/ar/product/2797/</code> and <code>/ar/product/182/</code> are still "Submitted and indexed".</p>
+
+      <h2 id="rules">What Google and Next.js say</h2>
+      <div class="tablebox"><table>
+        <thead><tr><th>Source says</th><th>What it means here</th></tr></thead>
+        <tbody>
+          <tr><td>A soft 404 "returns a user-friendly 'not found' message but not a 404 HTTP response code." "We recommend returning a 404 response code for truly 'not found' pages." (<a href="https://support.google.com/webmasters/answer/7440203">Search Console Help</a>)</td><td>A deleted product answers 404. Sending it to the home page is not a replacement.</td></tr>
+          <tr><td>301 and 308 are permanent redirects and a strong canonical signal. 302, 303 and 307 are temporary. (<a href="https://developers.google.com/search/docs/crawling-indexing/301-redirects">Google: redirects</a>)</td><td>Copies of a product move permanently to the official address. <code>permanentRedirect()</code> in Next.js answers 308.</td></tr>
+          <tr><td>"The status can't change once streaming has started." "To return a real 404 status, the resource has to be checked before the response streams." (<a href="https://nextjs.org/docs/app/api-reference/functions/not-found">Next.js: notFound</a>)</td><td>The product check must run before the page streams. Today a deleted product answers a real 307 code, so the current check already runs early enough. Put the new code at the same place.</td></tr>
         </tbody>
       </table></div>
 
-      <h2 id="map">How to build every field (one template for all products)</h2>
-      <div class="tablebox"><table>
-        <thead><tr><th>JSON-LD field</th><th>API source</th><th>Transform</th></tr></thead>
-        <tbody>
-          <tr><td><code>name</code></td><td><code>title</code></td><td>as is, trimmed</td></tr>
-          <tr><td><code>description</code></td><td><code>description</code></td><td>strip tags, decode all HTML codes, collapse spaces</td></tr>
-          <tr><td><code>image</code></td><td><code>post_images[].image</code></td><td>all of them, in order (done)</td></tr>
-          <tr><td><code>sku</code></td><td><code>id</code></td><td>as a string (done)</td></tr>
-          <tr><td><code>url</code> and <code>offers.url</code></td><td>the page canonical</td><td>the same value in both, from <code>productPath(locale, product)</code></td></tr>
-          <tr><td><code>offers.price</code></td><td><code>post_lease_terms[]</code> where <code>type = "available"</code></td><td>a JSON number: the daily price when a daily term exists, else the lowest price</td></tr>
-          <tr><td><code>offers.availability</code></td><td><code>availability_status</code></td><td><code>AVAILABLE</code> to <code>https://schema.org/InStock</code>, <code>UNAVAILABLE</code> to <code>https://schema.org/OutOfStock</code>. Never drop <code>offers</code></td></tr>
-          <tr><td><code>priceSpecification[]</code></td><td>one entry per available lease term</td><td><code>hourly</code> HUR · <code>daily</code> DAY · <code>weekly</code> WEE · <code>monthly</code> MON · <code>fixed</code> no entry (done; keep it)</td></tr>
-          <tr><td><code>aggregateRating</code> and <code>review</code></td><td><code>review_summary</code></td><td>only when <code>review_count</code> is 1 or more; <code>author</code> is a <code>{"@type": "Person", "name": …}</code> object (done; keep it)</td></tr>
-        </tbody>
-      </table></div>
-      <p><strong>Do not add:</strong> <code>brand</code> or <code>gtin</code> (no source field; never guess them from the title), <code>priceValidUntil</code> (a past date hides the price), return or shipping fields. <strong>English pages:</strong> the same template with the <code>/en/</code> canonical.</p>
+      <h2 id="fix">The fix: 4 changes</h2>
+      <p class="note">Code references come from the June copy of the repository. The live code has moved on (for example the new short slug), so read the changes as "replace this behavior".</p>
 
-      <h2 id="ex1">Complete block 1: one lease term (/ar/product/2545/)</h2>
-      <p>Product 2545 rents per day and has one photo. The output for this page must be equal to this:</p>
-<pre>&lt;script type="application/ld+json"&gt;
-{
-  "@context": "https://schema.org",
-  "@type": "Product",
-  "name": "كاميرا كانون 4000d",
-  "description": "4000d كاميرة كانون 18 - 55 مع عدسة بدون ذاكرة",
-  "image": [
-    "https://admin-production.renter.net/storage/a3b484b0-3e33-49d1-b716-fa9aefe53606.jpg"
-  ],
-  "sku": "2545",
-  "url": "https://renter.net/ar/product/2545/kamyra-kanwn-4000d/",
-  "offers": {
-    "@type": "Offer",
-    "url": "https://renter.net/ar/product/2545/kamyra-kanwn-4000d/",
-    "priceCurrency": "SAR",
-    "price": 200,
-    "availability": "https://schema.org/InStock",
-    "priceSpecification": [
-      {
-        "@type": "UnitPriceSpecification",
-        "price": 200,
-        "priceCurrency": "SAR",
-        "referenceQuantity": {
-          "@type": "QuantitativeValue",
-          "value": 1,
-          "unitCode": "DAY"
-        }
-      }
-    ]
-  }
+      <h3>Change 1: one function for the official slug</h3>
+      <p>Every place that builds a product address must use the same function: the sitemap, the product cards, the canonical tag, the hreflang tags, the JSON-LD <code>url</code> and <code>offers.url</code>, and the Merchant feed. The official slug is the one the sitemap and the product cards use today. Put that logic in one server-safe file (no <code>'use client'</code>), for example <code>src/lib/product-url.ts</code>:</p>
+<pre>// The official slug of a product: the SAME value the sitemap uses today.
+// Expected results (Sep 27):
+//   2545 -&gt; "kamyra-kanwn-4000d"
+//   311  -&gt; "frn-shwyh"
+//   2822 -&gt; "doosan-mega400v"
+//   2830 -&gt; "man-lft-jy-il-jy-mqas-22-mtr-manlift-jlg-22m"
+export function productSlug(product: ViewPost): string {
+  // Move here the code that builds the product slug for the sitemap today.
 }
-&lt;/script&gt;</pre>
 
-      <h2 id="ex2">Complete block 2: two lease terms (/ar/product/311/)</h2>
-      <p>Product 311 rents per day (5 SAR) and per month (100 SAR) and has 2 photos. It is the same template with more data. Note the two <code>priceSpecification</code> entries and <code>offers.price</code> = 5, the daily price. The output for this page must be equal to this:</p>
-<pre>&lt;script type="application/ld+json"&gt;
-{
-  "@context": "https://schema.org",
-  "@type": "Product",
-  "name": "فرن شوية",
-  "description": "فرن شواء كهربائي",
-  "image": [
-    "https://admin-production.renter.net/storage/post_images_17617108338430832252.jpg",
-    "https://admin-production.renter.net/storage/post_images_17617108454957832643.jpg"
-  ],
-  "sku": "311",
-  "url": "https://renter.net/ar/product/311/frn-shwyh/",
-  "offers": {
-    "@type": "Offer",
-    "url": "https://renter.net/ar/product/311/frn-shwyh/",
-    "priceCurrency": "SAR",
-    "price": 5,
-    "availability": "https://schema.org/OutOfStock",
-    "priceSpecification": [
-      {
-        "@type": "UnitPriceSpecification",
-        "price": 5,
-        "priceCurrency": "SAR",
-        "referenceQuantity": {
-          "@type": "QuantitativeValue",
-          "value": 1,
-          "unitCode": "DAY"
-        }
-      },
-      {
-        "@type": "UnitPriceSpecification",
-        "price": 100,
-        "priceCurrency": "SAR",
-        "referenceQuantity": {
-          "@type": "QuantitativeValue",
-          "value": 1,
-          "unitCode": "MON"
-        }
-      }
-    ]
-  }
+export function productPath(locale: string, product: ViewPost): string {
+  return `/${locale}/product/${product.id}/${productSlug(product)}/`;
+}</pre>
+      <p>Do not use the new short slug in addresses. If the team wants short addresses one day, that is a planned move: every old address answers 308 to its new address, and the sitemap changes on the same day.</p>
+
+      <h3>Change 2: the canonical tag comes from the product, not from the typed address</h3>
+      <p>File: <code>src/app/[locale]/product/[id]/[title]/page.tsx</code>, function <code>generateMetadata</code>. The June code builds the canonical and hreflang tags from the address that was typed:</p>
+<pre>const path = `/product/${id}/${title}/`;</pre>
+      <p>That is why any slug becomes its own "official" copy. Replace that line with this one, placed after the <code>if (!product)</code> check:</p>
+<pre>const path = `/product/${id}/${productSlug(product)}/`;</pre>
+      <p>The rest of <code>alternates</code> (canonical, <code>ar</code>, <code>en</code>, <code>x-default</code>) stays as it is; it already uses <code>path</code>.</p>
+
+      <h3>Change 3: 404 for missing products, 308 for wrong slugs</h3>
+      <p>Same file, the page component. The June code sends a missing product to the home page:</p>
+<pre>if (!rawProduct) {
+  return redirect("/");
+}</pre>
+      <p>Replace it with this block. Keep it in the same place, before anything else renders:</p>
+<pre>// Deleted or unknown product: answer 404 "not found".
+if (!rawProduct) {
+  notFound();
 }
-&lt;/script&gt;</pre>
 
-      <h2 id="nextjs">How to print the block (Next.js App Router)</h2>
-      <p>Print it in the server component (<code>page.tsx</code>) as a plain <code>&lt;script&gt;</code> in the returned JSX. Not <code>next/script</code>, not the <code>metadata</code> export, never from <code>useEffect</code>. The block must show in view-source with JavaScript off. Use the shared <code>JsonLd</code> helper from the <a href="../home-schema/">home page ticket</a>, which escapes the text like this:</p>
-<pre>&lt;script
-  type="application/ld+json"
-  dangerouslySetInnerHTML={{
-    __html: JSON.stringify(jsonLd).replace(/&lt;/g, "\\u003c"),
-  }}
-/&gt;</pre>
-      <p>Build the object field by field and never write <code>null</code> (the Rich Results Test flags it as an error; a field left <code>undefined</code> is simply dropped). Reference: <a href="https://nextjs.org/docs/app/guides/json-ld">Next.js JSON-LD guide</a>.</p>
+// Any slug other than the official one: move permanently (308).
+const officialSlug = productSlug(rawProduct);
+if (title !== officialSlug) {
+  permanentRedirect(`/${locale}/product/${id}/${officialSlug}/`);
+}</pre>
+      <p>Read <code>locale</code> and <code>title</code> from <code>params</code> next to <code>id</code>: <code>const { locale, id, title } = await params;</code>. Change the import line to <code>import { notFound, permanentRedirect } from "next/navigation";</code>.</p>
+      <p>Add a friendly "not found" page so the visitor is not stuck: <code>src/app/[locale]/not-found.tsx</code> with a short message such as "هذا الإعلان لم يعد متاحًا" and links to the categories and the search. It keeps the 404 code.</p>
+
+      <h3>Change 4: the sitemap lists live products only</h3>
+      <p><a href="https://renter.net/sitemap/ar/products.xml">/sitemap/ar/products.xml</a> and <a href="https://renter.net/sitemap/en/products.xml">/sitemap/en/products.xml</a> list 169 deleted products each. Build them from the same rule the product page uses: if the page would answer 404, the product is not in the sitemap.</p>
 
       <h2 id="done">Done when</h2>
-      <ol>
-        <li>View-source on <a href="https://renter.net/ar/product/2545/kamyra-kanwn-4000d/">/ar/product/2545/</a> matches block 1, and on <a href="https://renter.net/ar/product/311/frn-shwyh/">/ar/product/311/</a> matches block 2.</li>
-        <li>The <a href="https://search.google.com/test/rich-results?url=https%3A%2F%2Frenter.net%2Far%2Fproduct%2F311%2Ffrn-shwyh%2F">Rich Results Test</a> shows no errors for both pages.</li>
-        <li>No <code>null</code> values and no HTML codes such as <code>&amp;nbsp;</code> anywhere in the block.</li>
-        <li>Tell Saiaf after the deploy; TMD re-checks all 968 products.</li>
-      </ol>
+      <p>Run these 4 checks after the deploy:</p>
+<pre>curl -s -o /dev/null -w '%{http_code} %{redirect_url}\n' https://renter.net/ar/product/2545/4000d/
+# expected: 308 https://renter.net/ar/product/2545/kamyra-kanwn-4000d/
+
+curl -s -o /dev/null -w '%{http_code}\n' https://renter.net/ar/product/2797/ntyndw-swytsh/
+# expected: 404
+
+curl -s -o /dev/null -w '%{http_code}\n' https://renter.net/ar/product/99999999/x/
+# expected: 404
+
+curl -s https://renter.net/ar/product/2545/kamyra-kanwn-4000d/ | grep -o '&lt;link rel="canonical"[^&gt;]*&gt;'
+# expected: &lt;link rel="canonical" href="https://renter.net/ar/product/2545/kamyra-kanwn-4000d/"/&gt;</pre>
+      <p>If a missing product answers 200 instead of 404, the check now runs inside a Suspense boundary (<code>src/app/[locale]/loading.tsx</code> creates one). Move the check back to the top of the page, or into <code>src/proxy.ts</code>, as the Next.js text above says. Then tell Saiaf; TMD re-checks the sitemap and Search Console.</p>
 
       <p><a class="backbtn" href="../head-metadata/">&#8592; Back to the dev board</a></p>
   </div>

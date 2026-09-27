@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Renter · Dev Ticket · Google Merchant Center issues</title>
+<style>
+  :root {
+    --bg: #efe9e2;
+    --surface: #ffffff;
+    --surface-soft: #f7f2eb;
+    --border: rgba(25, 89, 84, 0.10);
+    --primary: #195954;
+    --primary-dark: #0f3835;
+    --secondary: #8b6030;
+    --text: #233331;
+    --text-muted: #5f625d;
+    --white: #ffffff;
+    --crit: #b3261e;
+    --crit-soft: #fbe9e7;
+    --warn: #8a5a00;
+    --warn-soft: #fcf3e0;
+    --ok: #1f6b4a;
+    --ok-soft: #e6f4ec;
+    --shadow-lg: 0 24px 60px rgba(15, 56, 53, 0.12);
+    --shadow-sm: 0 4px 14px rgba(15, 56, 53, 0.06);
+    --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, "Helvetica Neue", Arial, sans-serif;
+    background:
+      radial-gradient(circle at top right, rgba(139, 96, 48, 0.08), transparent 24%),
+      linear-gradient(180deg, #f5f1eb 0%, var(--bg) 100%);
+    padding: 40px 20px 60px;
+    color: var(--text);
+    line-height: 1.65;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+  }
+  .container { max-width: 980px; margin: 0 auto; }
+  a { color: var(--primary); text-decoration: none; border-bottom: 1px solid rgba(25,89,84,0.25); }
+  a:hover { color: var(--primary-dark); border-bottom-color: var(--primary); }
+
+  .doc {
+    background: var(--surface);
+    border-radius: 28px;
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.65);
+  }
+  .doc-header {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    padding: 46px 50px 40px;
+    color: var(--white);
+  }
+  .section-kicker {
+    display: inline-flex;
+    padding: 8px 16px;
+    margin-bottom: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.86);
+    font-size: 0.82em;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .doc-title { font-size: 1.9em; font-weight: 700; line-height: 1.3; text-wrap: balance; }
+  .doc-subtitle { color: rgba(255, 255, 255, 0.78); margin-top: 12px; max-width: 760px; }
+  .pill-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 20px; }
+  .pill {
+    display: inline-flex; align-items: center;
+    padding: 6px 14px; border-radius: 999px;
+    font-size: 0.78em; font-weight: 600;
+    background: rgba(255,255,255,0.10); color: var(--white);
+    border: 1px solid rgba(255,255,255,0.18);
+  }
+  .pill.crit { background: rgba(255, 205, 196, 0.22); border-color: rgba(255, 205, 196, 0.4); }
+
+  .doc-body { padding: 40px 50px 50px; }
+  section { margin-bottom: 40px; }
+  h3 { scroll-margin-top: 20px; }
+  h2 { scroll-margin-top: 20px; color: var(--primary-dark); font-size: 1.25em; margin-bottom: 12px; display: flex; align-items: baseline; gap: 10px; }
+  h2 .num { font-family: var(--mono); font-size: 0.72em; color: var(--secondary); font-weight: 600; }
+  p { margin-bottom: 10px; max-width: 78ch; }
+  ul, ol { margin: 8px 0 10px 22px; max-width: 78ch; }
+  li { margin: 5px 0; }
+  strong { color: var(--primary-dark); }
+
+  code {
+    font-family: var(--mono); font-size: 0.88em;
+    background: #dfeeea; border: 1px solid rgba(25, 89, 84, 0.28);
+    border-radius: 5px; padding: 2px 7px; color: var(--primary-dark);
+  }
+  pre {
+    background: #14211f; color: #e8e6da;
+    font-family: var(--mono); font-size: 12.5px; line-height: 1.55;
+    padding: 18px 20px; border-radius: 14px;
+    overflow-x: auto; margin: 12px 0;
+    direction: ltr; text-align: left;
+  }
+  pre code { background: none; border: none; padding: 0; color: inherit; font-size: inherit; }
+  pre .cmd { color: #f0c36a; }
+  pre .cm { color: #8fa39b; }
+  pre .hit { color: #f2a69b; }
+  pre .good { color: #8fd0a9; }
+
+  .callout {
+    border-radius: 16px; padding: 18px 22px; margin: 14px 0;
+    border: 1px solid var(--border); background: var(--surface-soft);
+  }
+  .callout.crit { background: var(--crit-soft); border-color: rgba(179,38,30,0.18); }
+  .callout.crit strong { color: var(--crit); }
+  .callout.ok { background: var(--ok-soft); border-color: rgba(31,107,74,0.18); }
+  .callout h3 { font-size: 1em; margin-bottom: 6px; color: var(--primary-dark); }
+
+  table { border-collapse: collapse; width: 100%; font-size: 0.92em; margin: 12px 0; }
+  .tablebox { border: 1px solid var(--border); border-radius: 14px; overflow-x: auto; background: var(--surface); box-shadow: var(--shadow-sm); }
+  th { font-size: 0.78em; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); text-align: left; padding: 12px 16px; border-bottom: 1px solid var(--border); background: var(--surface-soft); white-space: nowrap; }
+  td { padding: 11px 16px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  td.mono { font-family: var(--mono); font-size: 0.85em; white-space: nowrap; }
+
+  .scope {
+    background: var(--crit-soft); border: 1px solid rgba(179,38,30,0.18);
+    border-radius: 12px; padding: 12px 16px; margin: 10px 0 14px;
+    font-size: 0.94em; color: var(--crit); font-weight: 600; max-width: 78ch;
+  }
+  .scope strong { color: var(--crit); }
+  .toc {
+    background: var(--surface-soft); border: 1px solid var(--border);
+    border-radius: 16px; padding: 16px 22px; margin-bottom: 28px;
+    font-size: 0.92em;
+  }
+  .toc ol { margin: 0 0 0 20px; }
+  .toc li { margin: 4px 0; }
+  .toc .sub { font-size: 0.92em; color: var(--text-muted); }
+  .toc .sub a { margin-right: 2px; }
+  .codewrap { position: relative; margin: 12px 0; }
+  .codewrap pre { margin: 0; }
+  .copybtn {
+    position: absolute; top: 10px; right: 10px;
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.22);
+    background: rgba(255,255,255,0.10); color: #e8e6da;
+    font: 600 12px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    cursor: pointer; user-select: none; transition: background .15s;
+  }
+  .copybtn:hover { background: rgba(255,255,255,0.22); }
+  .copybtn.ok { background: rgba(143,208,169,0.25); border-color: rgba(143,208,169,0.5); color: #8fd0a9; }
+  .copybtn svg { width: 14px; height: 14px; }
+  .dev {
+    background: #0f3835; color: #e8e6da; border: 2px solid #f0c36a;
+    border-radius: 16px; padding: 18px 22px; margin: 16px 0 18px;
+  }
+  .dev .tag { display:inline-block; background:#f0c36a; color:#0f3835; font-weight:700; font-size:.78em;
+    letter-spacing:.06em; text-transform:uppercase; padding:3px 10px; border-radius:999px; margin-bottom:8px; }
+  .dev strong { color:#f0c36a; }
+  .dev code { background: rgba(255,255,255,.10); border-color: rgba(255,255,255,.2); color:#fff; }
+  .dev p, .dev li { color:#e8e6da; }
+  .dev table, .dev td, .dev th { color:#e8e6da; background:transparent; }
+  .dev th { color:#f0c36a; }
+  .dev .tablebox { background:transparent; border-color: rgba(255,255,255,.2); }
+  .dev a { color:#f0c36a; }
+  .footer-note { text-align: center; color: var(--text-muted); font-size: 0.85em; margin-top: 26px; }
+</style>
+<style>
+.codewrap{position:relative}
+.copybtn{position:absolute;top:10px;right:10px;background:var(--primary);color:#fff;border:0;border-radius:8px;padding:6px 14px;font:600 12px/1 -apple-system,sans-serif;cursor:pointer;opacity:.85}
+.copybtn:hover{opacity:1}
+.board td a{font-weight:600}
+.pill{display:inline-block;padding:3px 10px;border-radius:99px;font-size:12px;font-weight:700}
+.pill.open{background:var(--crit-soft);color:var(--crit)}
+.pill.blocked{background:var(--warn-soft);color:var(--warn)}
+.pill.progress{background:#e8eefb;color:#1a4b8f}
+.pill.done{background:var(--ok-soft);color:var(--ok)}
+</style>
+<style>.backbtn{display:inline-block;background:var(--white);color:var(--primary) !important;border:1px solid rgba(255,255,255,.5);text-decoration:none;font:600 14px/1 -apple-system,sans-serif;padding:10px 18px;border-radius:10px;margin:0 0 14px;box-shadow:var(--shadow-sm)}.backbtn:hover{background:var(--surface-soft)}.doc-body .backbtn{border-color:var(--border)}</style>
+<style>.statusbar{display:flex;gap:12px;align-items:center;background:var(--white);border:1px solid var(--border);border-radius:12px;padding:14px 18px;margin:0 0 22px;box-shadow:var(--shadow-sm)}.statusbar .pill{font-size:13px;padding:5px 12px}.statusbar span.txt{color:var(--text)}</style>
+<style>
+.inshort{background:var(--surface-soft);border:1px solid var(--border);border-radius:16px;padding:18px 22px;margin:0 0 26px;max-width:880px}
+.inshort h2{margin-bottom:10px}
+.inshort dl,.issue dl{display:grid;grid-template-columns:150px 1fr;gap:8px 18px;margin:0}
+.inshort dt,.issue dt{font-weight:700;color:var(--primary-dark)}
+.inshort dd,.issue dd{margin:0;max-width:78ch}
+.issue{border:1px solid var(--border);border-radius:16px;padding:20px 24px;margin:18px 0;background:var(--surface);box-shadow:var(--shadow-sm)}
+.issue h3{font-size:1.1em;color:var(--primary-dark);margin-bottom:8px;scroll-margin-top:20px}
+.issue .meta{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:12px;font-size:.92em;color:var(--text-muted)}
+.gloss{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:8px 24px;background:var(--surface-soft);border:1px solid var(--border);border-radius:16px;padding:16px 22px;margin:12px 0 28px;font-size:.93em}
+.gloss p{margin:0}
+.gloss b{color:var(--primary-dark)}
+h3{color:var(--primary-dark);margin:22px 0 8px}
+.note{font-size:.93em;color:var(--text-muted)}
+@media (max-width:700px){.inshort dl,.issue dl{grid-template-columns:1fr}.doc-body{padding:26px 18px 34px}.doc-header{padding:28px 18px}}
+</style>
+</head>
+<body>
+<div class="page">
+  <header class="doc-header">
+    <a class="backbtn" href="../head-metadata/">&#8592; Back to the dev board</a>
+    <p class="kicker">Renter × TMD · Dev ticket · verified in Merchant Center and the feed, Sep 27, 2026</p>
+  </header>
+  <div class="doc-body">
+      <div class="statusbar"><span class="pill open">NOT DONE</span><span class="txt">Checked Sep 27, 2026 in Merchant Center (account 5815335338), in the 24 feed files (1,159 products) and on the return policy pages.</span></div>
+      <h1>Google Shopping: the return policy is rejected, and 331 products are not approved</h1>
+
+      <div class="inshort">
+        <h2>In short</h2>
+        <dl>
+          <dt>What is wrong</dt><dd>(1) Google rejected the return policy: "Return information provided does not match your online store." Our Merchant Center settings and our return policy page say different things. (2) 331 of 1,470 products are not approved: 289 vehicles (Google policy), 18 with a price of 0, 17 with broken photo links, 15 with no photo.</dd>
+          <dt>Why it matters</dt><dd>Google Shopping brought 678 clicks in the 28 days to Sep 27. A product that is not approved never shows. A rejected return policy can limit or stop listings: on Aug 25, the missing return policy took all products off Google Shopping.</dd>
+          <dt>The fix</dt><dd>Part 1: Mr. Mohamed chooses the return terms; the page and Merchant Center then say the same thing. Part 2: three feed rules and one data repair. Part 3: a decision on vehicles.</dd>
+          <dt>Owners</dt><dd>Mr. Mohamed decides (Parts 1 and 3). Dev team: page text and feed rules. Jan: the missing photo files. Saiaf: Merchant Center settings and the resubmission.</dd>
+          <dt>Done when</dt><dd>The return policy shows "Approved", and the only products not approved are the ones the team chose to keep out.</dd>
+        </dl>
+      </div>
+
+      <h2 id="return">Part 1: the return policy</h2>
+      <p>Google compares the Merchant Center settings with the page, field by field: "Confirm that the return policies are consistent in Merchant Center and across your website." (<a href="https://support.google.com/merchants/answer/14011730">Google: set up return policies</a>). Today they differ in 6 fields:</p>
+      <div class="tablebox"><table>
+        <thead><tr><th>Field</th><th>Merchant Center today</th><th><a href="https://renter.net/ar/return-policy/">Return policy page</a> today</th></tr></thead>
+        <tbody>
+          <tr><td>Returns</td><td>Accepted, for defective and non-defective products</td><td>The item goes back to the lessor at the end of the rental. Nothing about a return for a refund</td></tr>
+          <tr><td>Return window</td><td>10 days</td><td>"the end of the rental period"</td></tr>
+          <tr><td>Return method</td><td>In store, at a drop-off point, by mail</td><td>Not stated (handed back to the lessor)</td></tr>
+          <tr><td>Return cost</td><td>The customer pays the return label</td><td>No fees, 0 SAR</td></tr>
+          <tr><td>Refund time</td><td>10 days</td><td>Business days, 8:00 to 14:00, through SARIE</td></tr>
+          <tr><td>Exchanges</td><td>Accepted</td><td>Not stated</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3>Decision for Mr. Mohamed: which return terms are true for Renter?</h3>
+      <div class="tablebox"><table>
+        <thead><tr><th>Option</th><th>What it says</th><th>What changes</th></tr></thead>
+        <tbody>
+          <tr><td><strong>1. No returns after the rental starts</strong> (TMD recommends)</td><td>A booking can be cancelled before the rental starts, with a full refund. After the rental starts, there is no refund. This is what the current terms and the page already say.</td><td>Merchant Center: "No, I don't accept returns" and "No, I don't accept exchanges". The page gets a short summary at the top (text below). Google can show "no returns" next to the listings; for rentals that is true.</td></tr>
+          <tr><td><strong>2. Returns with a refund window</strong></td><td>Only if Renter really refunds after the rental starts, for example for a defective item.</td><td>Mr. Mohamed sets the number of days, who pays, and how the item goes back. The page and Merchant Center both get these exact values.</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3>Option 1: the complete page text</h3>
+      <p>For the dev team, only if Mr. Mohamed chooses option 1. Replace the content of <code>/ar/return-policy/</code> with this. The page keeps its layout, its <code>noindex, nofollow</code> tag and its address. What changes: a summary on top, and the section "إرجاع المنتج المستأجر" becomes "تسليم المنتج في نهاية الإيجار", so the word "return" means one thing only.</p>
+<pre>&lt;h1&gt;سياسة الإرجاع والاسترداد&lt;/h1&gt;
+&lt;p&gt;تنطبق هذه السياسة على جميع عمليات الإيجار عبر منصة رينتر (شركة المؤجر الذكي للتسويق).&lt;/p&gt;
+&lt;h2&gt;ملخص السياسة&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;الإرجاع: لا يمكن إرجاع المنتج مقابل استرداد المبلغ بعد بدء مدة الإيجار.&lt;/li&gt;
+  &lt;li&gt;الإلغاء: يمكن إلغاء الحجز في أي وقت قبل تاريخ ووقت بدء الإيجار، ويسترد المستأجر المبلغ المدفوع كاملاً.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;تسليم المنتج في نهاية الإيجار&lt;/h2&gt;
+&lt;p&gt;يسلّم المستأجر المنتج إلى المؤجر عند نهاية مدة الإيجار المتفق عليها وبالحالة المتفق عليها، دون أي رسوم.&lt;/p&gt;
+&lt;h2&gt;الإلغاء والاسترداد&lt;/h2&gt;
+&lt;p&gt;يمكن إلغاء الحجز في أي وقت قبل تاريخ ووقت بدء الإيجار، ويسترد المستأجر المبلغ المدفوع كاملاً.&lt;/p&gt;
+&lt;h2&gt;مبلغ التأمين&lt;/h2&gt;
+&lt;p&gt;يعاد مبلغ التأمين إلى المستأجر بعد مراجعة المؤجر لحالة المنتج والتأكد من إعادته بالحالة المتفق عليها. في حال عدم إعادة المنتج بشكل صحيح، قد يحول مبلغ التأمين إلى المؤجر بعد المراجعة ووفقاً لشروط الحجز.&lt;/p&gt;
+&lt;h2&gt;مدة معالجة الاستردادات&lt;/h2&gt;
+&lt;p&gt;تعالج الاستردادات وتحويلات مبالغ التأمين عبر شبكة المدفوعات السعودية (سريع) خلال أيام العمل بين الساعة 8:00 صباحاً و2:00 مساءً بتوقيت المملكة العربية السعودية. الطلبات خارج هذه الأوقات أو خلال عطلات نهاية الأسبوع والعطل الرسمية تعالج في نافذة المعالجة التالية.&lt;/p&gt;
+&lt;h2&gt;المنتجات المفقودة أو التالفة&lt;/h2&gt;
+&lt;p&gt;إذا تعرض المنتج للفقدان أو التلف أثناء فترة الإيجار، يتواصل الطرفان مع فريق رينتر عبر قنوات الدعم، ويراجع الفريق الحالة ويجمع المعلومات اللازمة للوصول إلى حل مناسب.&lt;/p&gt;
+&lt;h2&gt;التواصل&lt;/h2&gt;
+&lt;p&gt;البريد الإلكتروني: support@renter.net · الهاتف: 3615 500 011&lt;/p&gt;</pre>
+      <p>The same change for <code>/en/return-policy/</code>:</p>
+<pre>&lt;h1&gt;Return and Refund Policy&lt;/h1&gt;
+&lt;p&gt;This Return and Refund Policy applies to all rental transactions conducted through the Renter platform, operated by Smart Lessor Marketing Company.&lt;/p&gt;
+&lt;h2&gt;Policy summary&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;Returns: a rented product cannot be returned for a refund after the rental period starts.&lt;/li&gt;
+  &lt;li&gt;Cancellation: the Lessee may cancel a booking at any time before the scheduled rental start date and time, and gets a full refund of the amount paid.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Handing the Product Back at the End of the Rental&lt;/h2&gt;
+&lt;p&gt;The Lessee hands the rented product back to the Lessor at the end of the agreed rental period and in the condition specified in the booking terms. No fees are charged.&lt;/p&gt;
+&lt;h2&gt;Cancellation and Refunds&lt;/h2&gt;
+&lt;p&gt;The Lessee may cancel a booking at any time before the scheduled rental start date and time. In such cases, the Lessee is entitled to a full refund of the amount paid.&lt;/p&gt;
+&lt;h2&gt;Security Deposit&lt;/h2&gt;
+&lt;p&gt;The security deposit will be refunded to the Lessee after the Lessor has inspected the returned product and confirmed that it has been returned in the condition agreed upon in the booking. If the product is not returned in the required condition, the security deposit may be transferred to the Lessor following a review of the case and in accordance with the applicable booking terms.&lt;/p&gt;
+&lt;h2&gt;Refund Processing&lt;/h2&gt;
+&lt;p&gt;Refunds and security deposit transfers are processed through the Saudi Payments network (SARIE) during business days between 8:00 AM and 2:00 PM Saudi Arabia time. Requests submitted outside these processing hours, on weekends, or during official public holidays will be processed during the next available processing window.&lt;/p&gt;
+&lt;h2&gt;Lost or Damaged Products&lt;/h2&gt;
+&lt;p&gt;If a rented product is lost or damaged during the rental period, the Lessee and Lessor should contact the Renter support team through the available support channels. Renter will review the circumstances, collect the necessary information from the parties involved, and facilitate an appropriate resolution in accordance with the applicable booking terms.&lt;/p&gt;
+&lt;h2&gt;Contact Us&lt;/h2&gt;
+&lt;p&gt;Email: support@renter.net · Phone: 011 500 3615&lt;/p&gt;</pre>
+      <p><strong>Then Saiaf</strong>, after the new text is live: Merchant Center, Return policies, "Standard for Saudi Arabia", Edit. Set "No, I don't accept returns" and "No, I don't accept exchanges". Keep the policy URL <code>https://renter.net/ar/return-policy/</code>. Save. Google's review can take up to 10 days.</p>
+
+      <h2 id="products">Part 2: products not approved, cause and fix</h2>
+      <div class="tablebox"><table>
+        <thead><tr><th>Merchant Center issue</th><th>Products</th><th>Cause, verified Sep 27</th><th>Fix</th><th>Owner</th></tr></thead>
+        <tbody>
+          <tr><td>Vehicles</td><td>289</td><td>Google does not allow vehicles in Shopping (Part 3)</td><td>Decision in Part 3</td><td>Mr. Mohamed</td></tr>
+          <tr><td>Invalid price</td><td>18 (16 in the feed today)</td><td>The product price is 0</td><td>Feed rule: leave out every product with a price of 0 or less</td><td>Dev team</td></tr>
+          <tr><td>Unsupported image type</td><td>17 (18 in the feed today)</td><td>The photo links return "404 Not Found": the files are missing on <code>admin-production.renter.net/storage</code>. All photos of these 18 products are missing, so visitors also see no photos on their pages</td><td>Jan: restore the files from a backup if one exists; if not, ask the lessors to upload new photos. Feed rule: leave out products with no working photo</td><td>Jan, Dev team</td></tr>
+          <tr><td>Missing product image</td><td>15</td><td>The product has no photo</td><td>Feed rule: leave out products with no photo</td><td>Dev team</td></tr>
+        </tbody>
+      </table></div>
+      <p>The 18 products with missing photo files, all in one number range: 1252, 1253, 1254, 1255, 1257, 1258, 1259, 1261, 1263, 1264, 1266, 1267, 1268, 1269, 1276, 1279, 1295, 1298. Example: <a href="https://admin-production.renter.net/storage/post_images_17790936669896840623.jpg">the first photo of product 1298</a> answers 404.</p>
+
+      <h2 id="vehicles">Part 3: vehicles in Google Shopping</h2>
+      <p>Merchant Center says: "You are not allowed to display motor or sail-powered vehicles used for public transportation on your website." (<a href="https://support.google.com/merchants/answer/17233951#vehicles">Google: unsupported Shopping content, vehicles</a>). The feed carries 297 products from the category سيارات ومركبات:</p>
+      <div class="tablebox"><table>
+        <thead><tr><th>Subcategory</th><th>Products in the feed</th></tr></thead>
+        <tbody>
+          <tr><td>سيارات</td><td>132</td></tr>
+          <tr><td>النقل الثقيل</td><td>63</td></tr>
+          <tr><td>نقل خفيف</td><td>59</td></tr>
+          <tr><td>أخرى</td><td>12</td></tr>
+          <tr><td>دبابات</td><td>10</td></tr>
+          <tr><td>حافلات</td><td>7</td></tr>
+          <tr><td>بقي وعربات</td><td>5</td></tr>
+          <tr><td>سطحة</td><td>3</td></tr>
+          <tr><td>قوارب بحرية</td><td>2</td></tr>
+          <tr><td>سياكل و سكوترات</td><td>2</td></tr>
+          <tr><td>مركبة مائية</td><td>1</td></tr>
+          <tr><td>يخت</td><td>1</td></tr>
+        </tbody>
+      </table></div>
+      <p><strong>Decision for Mr. Mohamed.</strong> Almost all of these are vehicles in Google's sense, so a manual review would help very few products. TMD recommends: leave the category سيارات ومركبات out of the Shopping feed. No traffic is lost, because these products cannot show in Shopping today. They keep their pages and keep showing in normal Google search.</p>
+
+      <h2 id="done">Done when</h2>
+      <ol>
+        <li>Merchant Center, Return policies: the status is "Approved".</li>
+        <li>Merchant Center, Products: no "Invalid price", "Unsupported image type" or "Missing product image" issues.</li>
+        <li>If the vehicles decision is "leave out": no "Vehicles" issue, and the feed has no product from سيارات ومركبات.</li>
+      </ol>
+
+      <p><a class="backbtn" href="../head-metadata/">&#8592; Back to the dev board</a></p>
+  </div>
+</div>
+<script>
+document.querySelectorAll('pre').forEach(function(pre){
+  var w=document.createElement('div'); w.className='codewrap'; pre.parentNode.insertBefore(w,pre); w.appendChild(pre);
+  var b=document.createElement('button'); b.className='copybtn'; b.textContent='Copy'; w.appendChild(b);
+  b.addEventListener('click',function(){
+    var t=pre.innerText;
+    function ok(){b.textContent='Copied';setTimeout(function(){b.textContent='Copy'},1500);}
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(ok,function(){fb()});}else{fb()}
+    function fb(){var ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');ok();}catch(e){b.textContent='Failed'}document.body.removeChild(ta);}
+  });
+});
+</script>
+</body>
+</html>

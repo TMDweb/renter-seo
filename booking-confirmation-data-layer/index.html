@@ -82,7 +82,7 @@
 <style>.statusbar{display:flex;gap:12px;align-items:center;background:#fff;border:1px solid rgba(25,89,84,.10);border-radius:12px;padding:14px 18px;margin:0 0 22px}.statusbar .pill{display:inline-block;padding:5px 12px;border-radius:99px;font-size:13px;font-weight:700;background:#e8eefb;color:#1a4b8f}</style>
 </head>
 <body>
-  <div class="statusbar"><span class="pill">FIX VERIFIED SEP 15, END-TO-END TEST PENDING</span><span>The trailing-slash bug is fixed on production and re-tested against the deployed code: a message from <code>https://admin-production.renter.net</code> pushes exactly one <code>booking_confirmed</code> with the specified payload; duplicates, failed payments and foreign origins are blocked. Last step: one real test booking with GTM Preview open, which also proves the payment iframe posts the success message.</span></div>
+  <div class="statusbar"><span class="pill progress">LAST CHECK PENDING</span><span class="txt">Checked Sep 27, 2026. Nothing left to build. The page code was fixed Sep 15 and re-tested against the deployed code: a message from <code>https://admin-production.renter.net</code> pushes exactly one <code>booking_confirmed</code>; duplicates, failed payments and foreign origins are blocked. Google Tag Manager version 19 is published with the <code>booking_confirmed</code> trigger. Last step: see one real paid booking in Google Analytics with its booking number.</span></div>
 <main>
     <h1>Developer action: expose confirmed bookings to GTM</h1>
     <p class="muted">The current <code>/ar/payment/</code> trigger is invalid; that URL is a 404.</p>

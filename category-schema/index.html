@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
-<title>Renter · Dev Ticket · Category ItemList block and infinite scroll</title>
+<title>Renter · Dev Ticket · Category pages: breadcrumbs and product list</title>
 <style>
   :root {
     --bg: #efe9e2;
@@ -179,58 +179,129 @@
 </style>
 <style>.backbtn{display:inline-block;background:var(--white);color:var(--primary) !important;border:1px solid rgba(255,255,255,.5);text-decoration:none;font:600 14px/1 -apple-system,sans-serif;padding:10px 18px;border-radius:10px;margin:0 0 14px;box-shadow:var(--shadow-sm)}.backbtn:hover{background:var(--surface-soft)}.doc-body .backbtn{border-color:var(--border)}</style>
 <style>.statusbar{display:flex;gap:12px;align-items:center;background:var(--white);border:1px solid var(--border);border-radius:12px;padding:14px 18px;margin:0 0 22px;box-shadow:var(--shadow-sm)}.statusbar .pill{font-size:13px;padding:5px 12px}.statusbar span.txt{color:var(--text)}</style>
+<style>
+.inshort{background:var(--surface-soft);border:1px solid var(--border);border-radius:16px;padding:18px 22px;margin:0 0 26px;max-width:880px}
+.inshort h2{margin-bottom:10px}
+.inshort dl,.issue dl{display:grid;grid-template-columns:150px 1fr;gap:8px 18px;margin:0}
+.inshort dt,.issue dt{font-weight:700;color:var(--primary-dark)}
+.inshort dd,.issue dd{margin:0;max-width:78ch}
+.issue{border:1px solid var(--border);border-radius:16px;padding:20px 24px;margin:18px 0;background:var(--surface);box-shadow:var(--shadow-sm)}
+.issue h3{font-size:1.1em;color:var(--primary-dark);margin-bottom:8px;scroll-margin-top:20px}
+.issue .meta{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:12px;font-size:.92em;color:var(--text-muted)}
+.gloss{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:8px 24px;background:var(--surface-soft);border:1px solid var(--border);border-radius:16px;padding:16px 22px;margin:12px 0 28px;font-size:.93em}
+.gloss p{margin:0}
+.gloss b{color:var(--primary-dark)}
+h3{color:var(--primary-dark);margin:22px 0 8px}
+.note{font-size:.93em;color:var(--text-muted)}
+@media (max-width:700px){.inshort dl,.issue dl{grid-template-columns:1fr}.doc-body{padding:26px 18px 34px}.doc-header{padding:28px 18px}}
+</style>
 </head>
 <body>
 <div class="page">
   <header class="doc-header">
     <a class="backbtn" href="../head-metadata/">&#8592; Back to the dev board</a>
-    <p class="kicker">Renter × TMD · Dev ticket · rebuilt on Google documentation · Sep 7, 2026</p>
+    <p class="kicker">Renter × TMD · Dev ticket · verified live Sep 27, 2026</p>
   </header>
   <div class="doc-body">
-      <div class="statusbar"><span class="pill progress">PARTIAL</span><span class="txt">Verified Sep 27, 2026. Part 1 is live on category and subcategory pages with 4 deviations: the BreadcrumbList was removed (put it back), the list prints twice (keep one script), ListItem uses <code>item</code> (use <code>url</code>), positions start at 3 (start at 1). Part 2, pagination, is not built; unknown paths such as <code>/cars-and-vehicles/2/</code> return 200 with canonical <code>/arundefined/</code> and must return 404.</span></div>
-      <h1>Category and subcategory pages: the ItemList block, with infinite scroll</h1>
-      <p class="lede">Rebuilt <strong>Sep 7, 2026</strong> after the meeting question: "the schema is in a server component, but scroll adds products in a client component; how do we keep it complete?" The answer comes from Google's own documentation and it is simpler than feared: <strong>the block lists the server-rendered products only, and it must never be updated from the client.</strong> Completeness comes from paginated URLs, not from scroll.</p>
+      <div class="statusbar"><span class="pill progress">PARTIAL</span><span class="txt">Checked Sep 27, 2026. The product list block went live on the 194 category and subcategory pages between Sep 16 and Sep 22. In the same deploy the breadcrumb block was removed (a regression), and the new list has 4 errors. Unknown addresses such as <code>/ar/cars-and-vehicles/2/</code> answer 200 with a broken canonical. Pagination (part 2) is not built.</span></div>
+      <h1>Category and subcategory pages: put the breadcrumbs back and correct the product list</h1>
 
-      <h2 id="why">Why, in Google's words</h2>
+      <div class="inshort">
+        <h2>In short</h2>
+        <dl>
+          <dt>What is wrong</dt><dd>(1) The breadcrumb code block (schema type BreadcrumbList) is gone from all 194 category and subcategory pages. (2) The new product list block is printed twice, uses the wrong link field, starts counting at 3, and on subcategories its name is not the H1. (3) Addresses that do not exist, such as <code>/ar/cars-and-vehicles/2/</code>, answer 200 with the canonical <code>https://renter.net/arundefined/</code>.</dd>
+          <dt>Why it matters</dt><dd>Google uses the breadcrumb block to show the page path (رينتر › سيارات ومركبات › سيارات) in desktop results and to understand how pages relate. A list with errors can be misread or ignored. Addresses that do not exist but answer 200 are soft 404s.</dd>
+          <dt>The fix</dt><dd>Put back the breadcrumb block as it was, keep one corrected list, and answer 404 for unknown addresses. All three sit in the shared category and subcategory templates.</dd>
+          <dt>Owner</dt><dd>Dev team. Paulo and Jan decide who takes it.</dd>
+          <dt>Done when</dt><dd>The checks at the end of this page pass on <code>/ar/cars-and-vehicles/</code> and <code>/ar/cars-and-vehicles/cars/</code>.</dd>
+        </dl>
+      </div>
+
+      <h2 id="now">Fix now: 6 corrections</h2>
       <div class="tablebox"><table>
-        <thead><tr><th>Google says</th><th>What it means for us</th><th>Source</th></tr></thead>
+        <thead><tr><th>#</th><th>Live now (Sep 27)</th><th>Must be</th></tr></thead>
         <tbody>
-          <tr><td>"Google Search does not interact with your page."</td><td>Googlebot never scrolls. Products loaded on scroll do not exist for Google, so a client-side update to the JSON-LD would describe products Google cannot see.</td><td><a href="https://developers.google.com/search/docs/crawling-indexing/javascript/lazy-loading">Lazy-loading content</a></td></tr>
-          <tr><td>"Google's crawlers don't 'click' buttons and generally don't trigger JavaScript functions that require user actions to update the current page contents."</td><td>A "load more" button or scroll trigger is invisible to Google unless it is a real link.</td><td><a href="https://developers.google.com/search/docs/specialty/ecommerce/pagination-and-incremental-page-loading">Pagination and incremental page loading</a></td></tr>
-          <tr><td>"Google Search can understand and process structured data that's available in the DOM when it renders the page."</td><td>Only what the server renders is read reliably. Keep the block in the server component, as it is now.</td><td><a href="https://developers.google.com/search/docs/appearance/structured-data/generate-structured-data-with-javascript">Structured data with JavaScript</a></td></tr>
-          <tr><td>"Your structured data must be a true representation of the page content." and "Don't mark up content that is not visible to readers of the page."</td><td>The list must equal the products actually rendered in the initial HTML: not fewer, not more.</td><td><a href="https://developers.google.com/search/docs/appearance/structured-data/sd-policies">Structured data policies</a></td></tr>
-          <tr><td>"Give each chunk its own persistent, unique URL", "using ?page=12", "Link sequentially to the individual URLs", "give each page its own canonical URL."</td><td>If every product must be reachable through category pages, add paginated URLs. Each one is server-rendered with its own product set and its own ItemList.</td><td>Both docs above</td></tr>
-        </tbody>
-      </table></div>
-      <p><strong>Also true, and it lowers the stakes:</strong> every product page already carries its own Product block and is in the sitemap and the Merchant feed. The category ItemList is a map, not the only road. Google shows list rich results only for courses, movies, recipes and restaurants, so this block earns no visual change; its value is machine readability.</p>
-
-      <h2 id="do">What to build (two parts)</h2>
-      <h3>Part 1, required now: the block for the first page</h3>
-      <ul>
-        <li>One extra <code>&lt;script type="application/ld+json"&gt;</code> per category and subcategory page, next to the existing breadcrumb script. Rendered in the server component from the same product array that renders the first grid. Never touched by the client component; infinite scroll changes the grid, not the script.</li>
-        <li><code>name</code> = the page H1. <code>url</code> = the page canonical. <code>itemListElement</code> = one <code>ListItem</code> per server-rendered product, <code>position</code> from 1, absolute product <code>url</code> only. Nothing else in the item.</li>
-        <li>Same template for English pages with the <code>/en/</code> canonical.</li>
-      </ul>
-      <h3>Part 2, recommended, when convenient: paginated URLs</h3>
-      <ul>
-        <li>Serve <code>/ar/cars-and-vehicles/?page=2</code>, <code>?page=3</code> and so on from the server with the next set of products, each with its own H1, its own self-referencing canonical (<code>?page=2</code> canonical is <code>?page=2</code>, not page 1) and its own ItemList of that page's products.</li>
-        <li>Add a real <code>&lt;a href="…?page=2"&gt;</code> link at the end of the grid (it can be the "load more" control itself). Keep infinite scroll for users and update the address bar with the History API, as Google's doc describes.</li>
-        <li>Do not use <code>rel="next"/"prev"</code>; Google no longer reads them.</li>
-      </ul>
-
-      <h2 id="vars">The variables (one template, all 194 pages)</h2>
-      <div class="tablebox"><table>
-        <thead><tr><th>JSON-LD field</th><th>Source on the page</th><th>Transform</th></tr></thead>
-        <tbody>
-          <tr><td><code>name</code></td><td>the page H1</td><td>as is</td></tr>
-          <tr><td><code>url</code></td><td>the page canonical (with <code>?page=N</code> on paginated pages)</td><td>the same function that fills <code>rel="canonical"</code></td></tr>
-          <tr><td><code>itemListElement</code></td><td>the product array the server rendered for this page</td><td>one <code>ListItem</code> per product, <code>position</code> = display order from 1, <code>url</code> = absolute canonical product URL</td></tr>
+          <tr><td>1</td><td>No BreadcrumbList block</td><td>One BreadcrumbList script per page, as before the Sep 16 deploy (complete blocks below)</td></tr>
+          <tr><td>2</td><td>The list is printed twice: inside <code>CollectionPage</code> and again as a separate <code>ItemList</code> script</td><td>One script: the <code>CollectionPage</code> with the list inside <code>mainEntity</code>. Delete the separate <code>ItemList</code> script</td></tr>
+          <tr><td>3</td><td>Each list entry links with <code>item</code></td><td>Each list entry links with <code>url</code>. (The breadcrumb uses <code>item</code>: that is correct there. The two formats differ.)</td></tr>
+          <tr><td>4</td><td>Positions run 3 to 14</td><td>Positions run 1 to N</td></tr>
+          <tr><td>5</td><td>Subcategory <code>name</code> is the page title with "| رينتر" (<code>/ar/cars-and-vehicles/cars/</code>)</td><td><code>name</code> = the page H1, on category and subcategory pages</td></tr>
+          <tr><td>6</td><td><a href="https://renter.net/ar/cars-and-vehicles/2/">/ar/cars-and-vehicles/2/</a> answers 200, with canonical <code>https://renter.net/arundefined/</code> and two robots tags (<code>index, follow</code> and <code>noindex</code>)</td><td>404, like <a href="https://renter.net/ar/xyz-not-a-page/">/ar/xyz-not-a-page/</a> answers today</td></tr>
         </tbody>
       </table></div>
 
-      <h2 id="example">Complete rendered block: /ar/cars-and-vehicles/</h2>
-      <p>The 12 products the server rendered for this page on Sep 5, in display order, with the live H1 as <code>name</code>. Your output for this page must be equivalent to this (the list changes when the page's products change; that is correct):</p>
-      <pre>&lt;script type="application/ld+json"&gt;
+      <h3>Correction 1: the breadcrumb block, complete</h3>
+      <p>Category page <code>/ar/cars-and-vehicles/</code>. The last entry is the current page, so it has no <code>item</code> (Google then uses the page address):</p>
+<pre>&lt;script type="application/ld+json"&gt;
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "الرئيسية",
+      "item": "https://renter.net/ar/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "سيارات ومركبات"
+    }
+  ]
+}
+&lt;/script&gt;</pre>
+      <p>Subcategory page <code>/ar/cars-and-vehicles/cars/</code>:</p>
+<pre>&lt;script type="application/ld+json"&gt;
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "الرئيسية",
+      "item": "https://renter.net/ar/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "سيارات ومركبات",
+      "item": "https://renter.net/ar/cars-and-vehicles/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "سيارات"
+    }
+  ]
+}
+&lt;/script&gt;</pre>
+      <p>To build it for all 194 pages, add this function to <code>src/lib/jsonld.tsx</code>. Names are the category and subcategory names from the site menu; English pages use the English names and <code>/en/</code> addresses:</p>
+<pre>export function breadcrumbLd(
+  locale: "ar" | "en",
+  category: { name: string; slug: string },
+  subcategory?: { name: string },
+) {
+  const home = { name: locale === "ar" ? "الرئيسية" : "Home", url: `https://renter.net/${locale}/` };
+  const trail = [
+    { "@type": "ListItem", position: 1, name: home.name, item: home.url },
+    subcategory
+      ? { "@type": "ListItem", position: 2, name: category.name, item: `https://renter.net/${locale}/${category.slug}/` }
+      : { "@type": "ListItem", position: 2, name: category.name },
+  ];
+  if (subcategory) {
+    trail.push({ "@type": "ListItem", position: 3, name: subcategory.name });
+  }
+  return { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: trail };
+}</pre>
+
+      <h3>Corrections 2 to 5: the product list, complete</h3>
+      <p>Use the shared <code>JsonLd</code> and <code>collectionPageLd</code> functions from the <a href="../home-schema/#list">home page ticket</a>. On each category and subcategory page, print these two scripts from the server component:</p>
+<pre>&lt;JsonLd data={breadcrumbLd(locale, category, subcategory)} /&gt;
+&lt;JsonLd data={collectionPageLd(h1Text, canonicalUrl, productUrls)} /&gt;</pre>
+      <p><code>h1Text</code> is the text the page prints in its H1. <code>canonicalUrl</code> is the same value as the canonical tag. <code>productUrls</code> are the full addresses of the products the server renders in the first grid, in display order. Rendered output for <code>/ar/cars-and-vehicles/</code> with its 12 products on Sep 27. The list changes when the products change; that is correct:</p>
+<pre>&lt;script type="application/ld+json"&gt;
 {
   "@context": "https://schema.org",
   "@type": "CollectionPage",
@@ -242,87 +313,112 @@
       {
         "@type": "ListItem",
         "position": 1,
-        "url": "https://renter.net/ar/product/2791/lwbd-msks-11-mtw/"
+        "url": "https://renter.net/ar/product/2849/dyna-thlajh-tbryd-3-tn/"
       },
       {
         "@type": "ListItem",
         "position": 2,
-        "url": "https://renter.net/ar/product/2788/wayt-alby-llayjar/"
+        "url": "https://renter.net/ar/product/2848/rafah-mqsyh-khrbaeyh-16-mtr-or-artfaa-akbr-laamal-altrkyb-walsyanh/"
       },
       {
         "@type": "ListItem",
         "position": 3,
-        "url": "https://renter.net/ar/product/2781/ajar-ras-shahnh-ma-saeq/"
+        "url": "https://renter.net/ar/product/2847/syzrlft-khrbaey-14-mtr-or-mnsh-rfa-ahtrafyh-lliyjar-fy-jdh/"
       },
       {
         "@type": "ListItem",
         "position": 4,
-        "url": "https://renter.net/ar/product/2779/syarat-dyanat-lshrkat-almyah/"
+        "url": "https://renter.net/ar/product/2846/rafah-mqsyh-khrbaeyh-12-mtr-lliyjar-or-jahzh-lmsharya-jdh-wmkh-waltaef/"
       },
       {
         "@type": "ListItem",
         "position": 5,
-        "url": "https://renter.net/ar/product/2778/dyanat-mbrdh-wmjmd/"
+        "url": "https://renter.net/ar/product/2845/syzrlft-khrbaey-10-mtr-lliyjar-or-hl-srya-waamn-ljdh-wmkh-waltaef/"
       },
       {
         "@type": "ListItem",
         "position": 6,
-        "url": "https://renter.net/ar/product/2776/khlath-khrsanh/"
+        "url": "https://renter.net/ar/product/2836/ayjar-syzr-lft-10-mtr-fy-mkh-2026-tajyr-syzr-lft-10-mtr-fy-mkhtajyr-rafah-mqsyh-10-mtr-fy-mkh-tajyr-syz-rlft-8-mtr-fy-mkh-tajar-syzr-lft-fy-mkh-2026-llayjar-syzr-lft-llayjar-fy-mkh-2026-tajyr-syzr-lft-fy-alsawdyh/"
       },
       {
         "@type": "ListItem",
         "position": 7,
-        "url": "https://renter.net/ar/product/2766/kryn-thqyl-lliyjar-baldmam-or-100-tn-160-tn-200-tn-250-tn-or-llmsana-walmsharya-alnftyh-or-operator-documents/"
+        "url": "https://renter.net/ar/product/2834/byjw-bartnr/"
       },
       {
         "@type": "ListItem",
         "position": 8,
-        "url": "https://renter.net/ar/product/2765/fan-swzwky-aykw-2026/"
+        "url": "https://renter.net/ar/product/2831/twywta-kamry/"
       },
       {
         "@type": "ListItem",
         "position": 9,
-        "url": "https://renter.net/ar/product/2764/kamry-lwmyr-2026/"
+        "url": "https://renter.net/ar/product/2829/syzrlft-12-mtr-lliyjar-alshhry-or-rafah-mqsyh/"
       },
       {
         "@type": "ListItem",
         "position": 10,
-        "url": "https://renter.net/ar/product/2761/syarh-kyky-ltajyr-alshhry-2000-ryal/"
+        "url": "https://renter.net/ar/product/2821/drajh-hwaeyh-llbalghyn/"
       },
       {
         "@type": "ListItem",
         "position": 11,
-        "url": "https://renter.net/ar/product/2755/qlab-sks-20m/"
+        "url": "https://renter.net/ar/product/2811/nysan-kyks-2022/"
       },
       {
         "@type": "ListItem",
         "position": 12,
-        "url": "https://renter.net/ar/product/2754/accent-2023/"
+        "url": "https://renter.net/ar/product/2801/bwklynat-wbldwzrat/"
       }
     ]
   }
 }
 &lt;/script&gt;</pre>
 
-      <h2 id="nextjs">How to render the block (Next.js App Router)</h2>
-      <p>Render in the server component (<code>page.tsx</code>), as a native <code>&lt;script&gt;</code> in the returned JSX. Not <code>next/script</code>, not the <code>metadata</code> export, never from <code>useEffect</code>. The block must be visible in view-source with JavaScript off. Escape exactly like this, with one shared helper:</p>
-      <pre>&lt;script
-  type="application/ld+json"
-  dangerouslySetInnerHTML={{{{
-    __html: JSON.stringify(jsonLd).replace(/&lt;/g, '\\u003c'),
-  }}}}
-/&gt;</pre>
-      <p>Build the object conditionally; never emit <code>null</code> (it fails validation, while dropped <code>undefined</code> is safe). Reference: <a href="https://nextjs.org/docs/app/guides/json-ld">nextjs.org JSON-LD guide</a>.</p>
+      <h3>Correction 6: unknown addresses answer 404</h3>
+      <p>The subcategory route (<code>src/app/[locale]/(categories)/cars-and-vehicles/[subcategory]/page.tsx</code>, and the same file in the 9 other categories) takes any word after the category as a subcategory. When the word is not a real subcategory, the page still renders and builds its canonical from empty values: <code>https://renter.net/ar</code> + <code>undefined</code>. At the start of the page component and of <code>generateMetadata</code>, look the subcategory up and stop when it does not exist:</p>
+<pre>import { notFound } from "next/navigation";
 
+// First lines of the page component and of generateMetadata:
+const { locale, subcategory } = await params;
+const sub = findSubcategory("cars-and-vehicles", subcategory); // the lookup the page already uses for its H1 and meta
+if (!sub) {
+  notFound();
+}</pre>
+      <p>The check must run before the page starts streaming, or the answer stays 200. Next.js: "To return a real 404 status, the resource has to be checked before the response streams." (<a href="https://nextjs.org/docs/app/api-reference/functions/not-found">Next.js: notFound</a>). If the answer is still 200 after the deploy, run the same check in <code>src/proxy.ts</code>.</p>
 
-      <h2 id="done">Definition of done</h2>
+      <h2 id="why">Why the list holds only the products the server renders, in Google's words</h2>
+      <div class="tablebox"><table>
+        <thead><tr><th>Google says</th><th>What it means for us</th><th>Source</th></tr></thead>
+        <tbody>
+          <tr><td>"Google Search does not interact with your page."</td><td>Googlebot never scrolls. Products loaded on scroll do not exist for Google, so a client-side update to the JSON-LD would describe products Google cannot see.</td><td><a href="https://developers.google.com/search/docs/crawling-indexing/javascript/lazy-loading">Lazy-loading content</a></td></tr>
+          <tr><td>"Google's crawlers don't 'click' buttons and generally don't trigger JavaScript functions that require user actions to update the current page contents."</td><td>A "load more" button or scroll trigger is invisible to Google unless it is a real link.</td><td><a href="https://developers.google.com/search/docs/specialty/ecommerce/pagination-and-incremental-page-loading">Pagination and incremental page loading</a></td></tr>
+          <tr><td>"Google Search can understand and process structured data that's available in the DOM when it renders the page."</td><td>Only what the server renders is read reliably. Keep the block in the server component, as it is now.</td><td><a href="https://developers.google.com/search/docs/appearance/structured-data/generate-structured-data-with-javascript">Structured data with JavaScript</a></td></tr>
+          <tr><td>"Your structured data must be a true representation of the page content." and "Don't mark up content that is not visible to readers of the page."</td><td>The list must equal the products actually rendered in the initial HTML: not fewer, not more.</td><td><a href="https://developers.google.com/search/docs/appearance/structured-data/sd-policies">Structured data policies</a></td></tr>
+          <tr><td>"Give each chunk its own persistent, unique URL", "using ?page=12", "Link sequentially to the individual URLs", "give each page its own canonical URL."</td><td>If every product must be reachable through category pages, add paginated URLs. Each one is server-rendered with its own product set and its own ItemList.</td><td>Both docs above</td></tr>
+        </tbody>
+      </table></div>
+      <p><strong>Also true, and it lowers the stakes:</strong> every product page already carries its own Product block and is in the sitemap and the Merchant feed. The category ItemList is a map, not the only road. Google shows list rich results only for courses, movies, recipes and restaurants, so this block earns no visual change; its value is machine readability.</p>
+      <h2 id="pagination">Part 2, later: paginated addresses</h2>
+      <p>Not urgent. Today <code>?page=2</code> shows page 1 with a canonical to page 1, which is harmless. Build this when convenient:</p>
+      <ul>
+        <li>Serve <code>/ar/cars-and-vehicles/?page=2</code>, <code>?page=3</code> and so on from the server with the next set of products. Each page has its own H1, its own self-referencing canonical (<code>?page=2</code> points to <code>?page=2</code>, not to page 1) and its own list block of that page's products.</li>
+        <li>Add a real <code>&lt;a href="…?page=2"&gt;</code> link at the end of the grid. It can be the "load more" control itself. Keep infinite scroll for users and update the address bar with the History API, as Google's documentation describes.</li>
+        <li>Do not use <code>rel="next"</code> or <code>rel="prev"</code>; Google no longer reads them.</li>
+      </ul>
+
+      <h2 id="done">Done when</h2>
+<pre>curl -s https://renter.net/ar/cars-and-vehicles/cars/ | grep -o '"@type":"[A-Za-z]*"' | sort | uniq -c
+# expected: BreadcrumbList 1, CollectionPage 1, ItemList 1, ListItem = 3 (breadcrumb) + the products in the grid
+
+curl -s -o /dev/null -w '%{http_code}\n' https://renter.net/ar/cars-and-vehicles/2/
+# expected: 404</pre>
       <ol>
-        <li>View-source with JavaScript off shows two scripts (breadcrumb + this block) on <a href="https://renter.net/ar/cars-and-vehicles/">/ar/cars-and-vehicles/</a> and <a href="https://renter.net/ar/cars-and-vehicles/cars/">/ar/cars-and-vehicles/cars/</a>.</li>
-        <li>The URLs in the list equal the products in the initial server HTML, same count, same order.</li>
-        <li>Scrolling adds products to the grid and does not change the script (check the DOM after scrolling).</li>
-        <li><a href="https://validator.schema.org/">validator.schema.org</a> reports zero errors.</li>
-        <li>Ping Saiaf on deploy.</li>
+        <li>In <a href="https://validator.schema.org/#url=https%3A%2F%2Frenter.net%2Far%2Fcars-and-vehicles%2Fcars%2F">validator.schema.org</a>: one BreadcrumbList and one CollectionPage, list positions from 1, each list entry with <code>url</code>, zero errors.</li>
+        <li>Scrolling adds products to the grid and does not change the script.</li>
+        <li>Tell Saiaf after the deploy.</li>
       </ol>
+
       <p><a class="backbtn" href="../head-metadata/">&#8592; Back to the dev board</a></p>
   </div>
 </div>

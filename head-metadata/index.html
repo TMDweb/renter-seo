@@ -177,48 +177,228 @@
 .pill.progress{background:#e8eefb;color:#1a4b8f}
 .pill.done{background:var(--ok-soft);color:var(--ok)}
 </style>
+<style>.backbtn{display:inline-block;background:var(--white);color:var(--primary) !important;border:1px solid rgba(255,255,255,.5);text-decoration:none;font:600 14px/1 -apple-system,sans-serif;padding:10px 18px;border-radius:10px;margin:0 0 14px;box-shadow:var(--shadow-sm)}.backbtn:hover{background:var(--surface-soft)}.doc-body .backbtn{border-color:var(--border)}</style>
+<style>.statusbar{display:flex;gap:12px;align-items:center;background:var(--white);border:1px solid var(--border);border-radius:12px;padding:14px 18px;margin:0 0 22px;box-shadow:var(--shadow-sm)}.statusbar .pill{font-size:13px;padding:5px 12px}.statusbar span.txt{color:var(--text)}</style>
+<style>
+.inshort{background:var(--surface-soft);border:1px solid var(--border);border-radius:16px;padding:18px 22px;margin:0 0 26px;max-width:880px}
+.inshort h2{margin-bottom:10px}
+.inshort dl,.issue dl{display:grid;grid-template-columns:150px 1fr;gap:8px 18px;margin:0}
+.inshort dt,.issue dt{font-weight:700;color:var(--primary-dark)}
+.inshort dd,.issue dd{margin:0;max-width:78ch}
+.issue{border:1px solid var(--border);border-radius:16px;padding:20px 24px;margin:18px 0;background:var(--surface);box-shadow:var(--shadow-sm)}
+.issue h3{font-size:1.1em;color:var(--primary-dark);margin-bottom:8px;scroll-margin-top:20px}
+.issue .meta{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:12px;font-size:.92em;color:var(--text-muted)}
+.gloss{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:8px 24px;background:var(--surface-soft);border:1px solid var(--border);border-radius:16px;padding:16px 22px;margin:12px 0 28px;font-size:.93em}
+.gloss p{margin:0}
+.gloss b{color:var(--primary-dark)}
+h3{color:var(--primary-dark);margin:22px 0 8px}
+.note{font-size:.93em;color:var(--text-muted)}
+@media (max-width:700px){.inshort dl,.issue dl{grid-template-columns:1fr}.doc-body{padding:26px 18px 34px}.doc-header{padding:28px 18px}}
+</style>
 </head>
 <body>
 <div class="page">
   <header class="doc-header">
-    <p class="kicker">Renter × TMD · Dev board · one page per issue · verified Sep 27, 2026</p>
+    <p class="kicker">Renter × TMD · Dev board · verified live Sep 27, 2026</p>
   </header>
   <div class="doc-body">
-      <h1>Renter dev board: one page per issue</h1>
-      <p class="lede">Each open issue lives on its own page with only the code you need. Every status below was verified on the live site, in Search Console and in Merchant Center on <strong>September 27, 2026</strong>, not from meeting statements. The old combined ticket is kept unchanged in the <a href="archive/">archive</a>.</p>
+      <h1>Renter dev board</h1>
+      <p class="lede">One entry per open issue. Each entry says what is wrong, why it matters, the proof, the fix, the owner, and how we check that it is done. Issues that need code have their own page with complete, copy-ready code. Every status was checked on <strong>Sep 27, 2026</strong> on the live site, in Search Console and in Merchant Center, not taken from meeting notes. The old combined ticket stays in the <a href="archive/">archive</a>.</p>
+      <p class="lede"><strong>Rule for every fix:</strong> replace the existing block, never add a second one next to it. After a deploy, tell Saiaf; TMD checks the live site before the next meeting.</p>
 
-      <h2 id="open">Open</h2>
+      <h2 id="words">Words used on this board</h2>
+      <div class="gloss">
+        <p><b>H1:</b> the main heading of a page. Google reads it to learn the topic. One per page.</p>
+        <p><b>Schema (JSON-LD):</b> a hidden code block that describes the page to Google: product, price, business name.</p>
+        <p><b>Canonical:</b> the one official address of a page. Every copy must point to it.</p>
+        <p><b>404:</b> the answer "page not found". <b>308 or 301:</b> "moved for good". <b>307:</b> "moved for now".</p>
+        <p><b>Soft 404:</b> a missing page that does not answer 404, for example one that sends visitors to the home page.</p>
+        <p><b>Sitemap:</b> the list of addresses we ask Google to crawl.</p>
+        <p><b>Staging:</b> the test copy of the site, v2-staging.renter.net.</p>
+        <p><b>SSL certificate:</b> the file that gives https and the padlock. It has an end date.</p>
+        <p><b>Merchant Center:</b> Google's product account for Google Shopping. It reads our product feed.</p>
+      </div>
+
+      <h2 id="open">Open issues at a glance</h2>
       <div class="tablebox"><table class="board">
-        <thead><tr><th>Issue</th><th>Status</th><th>One line</th><th>Page</th></tr></thead>
+        <thead><tr><th>#</th><th>Issue</th><th>Status</th><th>Owner</th><th>Details</th></tr></thead>
         <tbody>
-          <tr><td>Product page: 5 to 6 H1s</td><td><span class="pill open">REGRESSION</span></td><td>Sep 27, every product page, AR and EN. The section titles (الوصف، السعر، إضافات اختيارية، الموقع، شاركنا رأيك) render as <code>&lt;h1&gt;</code>. In the June code they were <code>&lt;h2&gt;</code> (<code>src/components/product_section_container/index.tsx</code>, line 23). The keyword H1 (product title + للايجار بالسعودية) has <code>class="hidden"</code>, so the only visible H1s are generic labels. Fix: section titles back to <code>&lt;h2&gt;</code>; make the visible product title the one and only <code>&lt;h1&gt;</code> and remove the hidden one</td><td>fix inline</td></tr>
-          <tr><td>Home page: Organization and WebSite schema removed</td><td><span class="pill open">REGRESSION</span></td><td>Sep 27, <code>/ar/</code> and <code>/en/</code>: the Organization + WebSite block (site name, logo, publisher) is gone; the page now carries only CollectionPage + ItemList. Keep the ItemList (agreed Sep 16) and put back the Organization + WebSite block exactly as before. Also: CollectionPage <code>url</code> is <code>https://renter.net/ar//</code> (double slash), and the list holds 12 items while the page renders 31 product cards</td><td><a href="archive/#fix3c">archive 3c, 3d</a></td></tr>
-          <tr><td>Product schema: 4 of 5 fixes left</td><td><span class="pill progress">PARTIAL</span></td><td>Sep 27, 11 products: <code>sku</code> is live. Still wrong: <code>url</code> and <code>offers.url</code> use the short slug (<code>/ar/product/2545/4000d/</code>); both must equal the page canonical (<code>/ar/product/2545/kamyra-kanwn-4000d/</code>). <code>name</code> holds the description text, not the title. Descriptions still carry <code>&amp;nbsp;</code></td><td><a href="../product-schema/">product-schema</a></td></tr>
-          <tr><td>Duplicate product URLs (short slug)</td><td><span class="pill open">NOT DONE</span></td><td>Sep 27: <code>/ar/product/2545/4000d/</code> returns 200 with a self canonical, so every product has 2 indexable URLs. Google already indexes both for 11 products (URL Inspection: <code>/ar/product/1662/120/</code> "Submitted and indexed"). Fix: 301 the short slug to the canonical slug</td><td>fix inline</td></tr>
-          <tr><td>Category and subcategory ItemList</td><td><span class="pill progress">PARTIAL</span></td><td>Part 1 is live since the Sep 16 to 22 deploy, with 4 deviations: (1) BreadcrumbList removed, put it back; (2) the list prints twice (CollectionPage <code>mainEntity</code> and a second ItemList script), keep one; (3) ListItem uses <code>item</code>, use <code>url</code>; (4) positions start at 3, start at 1. Part 2 (pagination) not built: <code>?page=2</code> serves page 1, and <code>/cars-and-vehicles/2/</code> returns 200 with canonical <code>https://renter.net/arundefined/</code> (unknown paths must return 404)</td><td><a href="../category-schema/">category-schema</a></td></tr>
-          <tr><td>Merchant Center: return policy and product issues</td><td><span class="pill open">NOT DONE</span></td><td>Sep 27: return policy <strong>Rejected</strong>, reason "Return information provided does not match your online store" (settings: 10 days, customer pays the label, in store / drop-off / mail; page: end of rental, no fees). 331 products not approved: 289 vehicle policy, 18 price 0, 17 unsupported image type, 15 no image. Feed rule: skip items with price 0 or no image; send JPEG or PNG only</td><td><a href="../merchant-feed/">merchant-feed</a></td></tr>
-          <tr><td>Lessor data protection</td><td><span class="pill progress">PARTIAL</span></td><td>Sep 21 ticket. Done: the lessor profile returns 404 to logged-out visitors. Open: every product page still carries the lessor name and phone number in its page source for logged-out visitors (verified on product 2830). API lock (part 1) pending</td><td><a href="https://tmd.sa/renter/lessor-data-protection/v1/2026-09-21/">tmd.sa ticket</a></td></tr>
-          <tr><td>Blog section: /ar/blog/ and /en/blog/</td><td><span class="pill open">NOT STARTED</span></td><td>Sep 27: both URLs return 404. Plan approved Sep 20; delivery date asked Sep 26, no reply yet. Work split in the ticket is a recommendation; Paulo and Jan confirm who takes what and the dates. First article planned for Oct 20. Client plan: <a href="https://tmd.sa/renter/blog-plan/v1/2026-09-15/">tmd.sa deck</a></td><td><a href="../blog-section/">blog-section</a></td></tr>
-          <tr><td>Translation: English product pages</td><td><span class="pill blocked">WAITING JAN</span></td><td>Sep 27: English product pages still show the Arabic title, H1 and description; the English home page meta description is Arabic. Test rule stands: one Arabic and one English pair on staging first, then production</td><td>Jan + Paulo</td></tr>
-          <tr><td>Staging SSL certificate expired</td><td><span class="pill open">NOT DONE</span></td><td><code>v2-staging.renter.net</code> serves a Let's Encrypt certificate that expired on Sep 23; browsers block the site, so no staging test is possible. Renew it and check the auto-renew job</td><td>fix inline</td></tr>
-          <tr><td>Booking confirmation push</td><td><span class="pill progress">E2E CHECK PENDING</span></td><td>Listener fixed Sep 15; GTM v19 published with the <code>booking_confirmed</code> custom-event trigger and <code>transaction_id</code>, <code>value</code>, <code>currency</code>. Remaining: see real bookings arrive in GA4 as <code>verified_conversion</code> with a transaction ID</td><td><a href="../booking-confirmation-data-layer/">booking-confirmation</a></td></tr>
-          <tr><td>Deleted products redirect to home</td><td><span class="pill open">NOT DONE</span></td><td>Deleted or unknown product IDs send a 307 to the home page (for example <code>/ar/product/2797/</code>). Google reads that as a soft 404. Return 404 or 410, or a 301 to the product's category</td><td>fix inline</td></tr>
-          <tr><td>Cars category meta description</td><td><span class="pill open">NOT DONE</span></td><td><code>/ar/cars-and-vehicles/</code> shows the real-estate description, word for word the same as <code>/ar/properties/</code>. Replace it with the cars description from the descriptions sheet</td><td>content fix</td></tr>
+          <tr><td>1</td><td><a href="#i1">Product pages: the product name is not the main heading</a></td><td><span class="pill open">REGRESSION</span></td><td>Dev team</td><td><a href="../product-h1/">ticket</a></td></tr>
+          <tr><td>2</td><td><a href="#i2">Home page: the business identity block is gone</a></td><td><span class="pill open">REGRESSION</span></td><td>Dev team</td><td><a href="../home-schema/">ticket</a></td></tr>
+          <tr><td>3</td><td><a href="#i3">Category pages: breadcrumbs removed, list errors, unknown addresses</a></td><td><span class="pill open">REGRESSION</span></td><td>Dev team</td><td><a href="../category-schema/">ticket</a></td></tr>
+          <tr><td>4</td><td><a href="#i4">Product addresses: copies of every product, deleted products send visitors home</a></td><td><span class="pill open">NOT DONE</span></td><td>Dev team</td><td><a href="../product-urls/">ticket</a></td></tr>
+          <tr><td>5</td><td><a href="#i5">Product schema: 4 fields wrong on most products</a></td><td><span class="pill progress">PARTIAL</span></td><td>Dev team</td><td><a href="../product-schema/">ticket</a></td></tr>
+          <tr><td>6</td><td><a href="#i6">Google Shopping: return policy rejected, 331 products not approved</a></td><td><span class="pill open">NOT DONE</span></td><td>Mr. Mohamed decides; dev team, Jan, Saiaf</td><td><a href="../merchant-center/">ticket</a></td></tr>
+          <tr><td>7</td><td><a href="#i7">Lessor data protection</a></td><td><span class="pill progress">PARTIAL</span></td><td>Dev team</td><td><a href="https://tmd.sa/renter/lessor-data-protection/v1/2026-09-21/">ticket (access code)</a></td></tr>
+          <tr><td>8</td><td><a href="#i8">Staging: the security certificate ran out on Sep 23</a></td><td><span class="pill open">NOT DONE</span></td><td>Dev team</td><td><a href="../staging-certificate/">ticket</a></td></tr>
+          <tr><td>9</td><td><a href="#i9">English pages show Arabic text</a></td><td><span class="pill blocked">WAITING JAN</span></td><td>Jan, then Paulo</td><td>below</td></tr>
+          <tr><td>10</td><td><a href="#i10">Two wrong meta descriptions</a></td><td><span class="pill open">NOT DONE</span></td><td>Dev team</td><td>below</td></tr>
+          <tr><td>11</td><td><a href="#i11">Blog section</a></td><td><span class="pill open">NOT STARTED</span></td><td>Dev team; TMD writes</td><td><a href="../blog-section/">ticket</a></td></tr>
+          <tr><td>12</td><td><a href="#i12">Bookings in Google Analytics</a></td><td><span class="pill progress">LAST CHECK PENDING</span></td><td>Saiaf; Renter team</td><td><a href="../booking-confirmation-data-layer/">ticket</a></td></tr>
         </tbody>
       </table></div>
+
+      <h2 id="details">Each issue in detail</h2>
+
+      <div class="issue" id="i1">
+        <h3>1 · Product pages: the product name is not the main heading</h3>
+        <div class="meta"><span class="pill open">REGRESSION</span><span>Owner: dev team</span><span><a href="../product-h1/">Ticket with code</a></span></div>
+        <dl>
+          <dt>What is wrong</dt><dd>Every product page has 4 to 7 main headings (H1): the section labels الوصف، السعر، الموقع، شاركنا رأيك. The H1 with the product name is hidden from visitors. In June the labels were H2.</dd>
+          <dt>Why it matters</dt><dd>Google reads the main heading to learn what the page is about. Product pages bring 61% of the site's Google clicks.</dd>
+          <dt>Proof</dt><dd>966 of 968 live Arabic product pages, Sep 27. Example: <a href="https://renter.net/ar/product/2545/kamyra-kanwn-4000d/">/ar/product/2545/</a>.</dd>
+          <dt>Fix</dt><dd>Section labels back to H2. The visible product name becomes the only H1. Delete the hidden H1. Three small changes.</dd>
+          <dt>Done when</dt><dd>Each product page has one H1: the visible product name.</dd>
+        </dl>
+      </div>
+
+      <div class="issue" id="i2">
+        <h3>2 · Home page: the business identity block is gone</h3>
+        <div class="meta"><span class="pill open">REGRESSION</span><span>Owner: dev team</span><span><a href="../home-schema/">Ticket with code</a></span></div>
+        <dl>
+          <dt>What is wrong</dt><dd>The home page lost the code block with the business name, logo, social accounts and support contacts (schema types Organization and WebSite). The product list block that stayed has 5 errors: a double slash in its address, printed twice, the wrong link field, counting from 3, and 12 of the 31 products on the page.</dd>
+          <dt>Why it matters</dt><dd>Google uses these blocks for the site name it shows on every search result and for the logo.</dd>
+          <dt>Proof</dt><dd><a href="https://renter.net/ar/">/ar/</a> and <a href="https://renter.net/en/">/en/</a>, Sep 27. The block was live and verified in August.</dd>
+          <dt>Fix</dt><dd>Paste back the identity block (complete code per language) and correct the list (5 rules).</dd>
+          <dt>Done when</dt><dd>The Rich Results Test finds "Organization" on both home pages, with no errors.</dd>
+        </dl>
+      </div>
+
+      <div class="issue" id="i3">
+        <h3>3 · Category pages: breadcrumbs removed, list errors, unknown addresses</h3>
+        <div class="meta"><span class="pill open">REGRESSION</span><span>Owner: dev team</span><span><a href="../category-schema/">Ticket with code</a></span></div>
+        <dl>
+          <dt>What is wrong</dt><dd>The deploy of Sep 16 to 22 added a product list block to the 194 category and subcategory pages and removed their breadcrumb block. The new list is printed twice, uses the wrong link field and counts from 3. An address that does not exist, <a href="https://renter.net/ar/cars-and-vehicles/2/">/ar/cars-and-vehicles/2/</a>, answers 200 with the canonical <code>https://renter.net/arundefined/</code>.</dd>
+          <dt>Why it matters</dt><dd>The breadcrumb block shows the page path in desktop results and tells Google how pages relate. Unknown addresses that answer 200 are soft 404s.</dd>
+          <dt>Proof</dt><dd><a href="https://renter.net/ar/cars-and-vehicles/">/ar/cars-and-vehicles/</a> and <a href="https://renter.net/ar/cars-and-vehicles/cars/">/ar/cars-and-vehicles/cars/</a>, Sep 27.</dd>
+          <dt>Fix</dt><dd>Put back the breadcrumb block, keep one corrected list, and answer 404 for unknown addresses. Paginated addresses (<code>?page=2</code>) are a later step.</dd>
+          <dt>Done when</dt><dd>The schema validator shows one BreadcrumbList and one list that counts from 1; <code>/ar/cars-and-vehicles/2/</code> answers 404.</dd>
+        </dl>
+      </div>
+
+      <div class="issue" id="i4">
+        <h3>4 · Product addresses: copies of every product, deleted products send visitors home</h3>
+        <div class="meta"><span class="pill open">NOT DONE</span><span>Owner: dev team</span><span><a href="../product-urls/">Ticket with code</a></span></div>
+        <dl>
+          <dt>What is wrong</dt><dd>Any word after the product number opens the page and calls itself official: <code>/ar/product/2545/4000d/</code> and <code>/ar/product/2545/anything/</code> are copies of <code>/ar/product/2545/kamyra-kanwn-4000d/</code>. Deleted products send the visitor to the home page (307). 169 of the 1,139 product addresses in the sitemap are deleted products.</dd>
+          <dt>Why it matters</dt><dd>Google splits a product's ranking across its copies; it already indexes two addresses for 11 products. Deleted products stay listed in Google, and a click lands on the home page. Google counts these as soft 404s.</dd>
+          <dt>Proof</dt><dd>Live checks and Search Console URL Inspection, Sep 27: <code>/ar/product/1662/120/</code> (a copy) and the deleted <code>/ar/product/2797/</code> are both "Submitted and indexed".</dd>
+          <dt>Fix</dt><dd>A wrong slug moves for good (308) to the official address. The canonical comes from the product data. A missing product answers 404. The sitemap lists live products only.</dd>
+          <dt>Done when</dt><dd>The 4 checks on the ticket page give the expected answers.</dd>
+        </dl>
+      </div>
+
+      <div class="issue" id="i5">
+        <h3>5 · Product schema: 4 fields wrong on most products</h3>
+        <div class="meta"><span class="pill progress">PARTIAL</span><span>Owner: dev team</span><span><a href="../product-schema/">Ticket with code</a></span></div>
+        <dl>
+          <dt>What is wrong</dt><dd>The product code block gives Google a wrong address on 912 of 968 products (on 690 the address answers "not found"), the description instead of the name on 937 (91 names are empty), HTML codes in 405 descriptions, and the first lease term's price instead of the daily price. <code>sku</code> is done.</dd>
+          <dt>Why it matters</dt><dd>Google uses this block for product results with price and availability. A block without a name is invalid.</dd>
+          <dt>Proof</dt><dd>All 968 live Arabic product pages in the sitemap, Sep 27.</dd>
+          <dt>Fix</dt><dd>4 field changes in one template. The ticket has complete blocks for products 2545 and 311.</dd>
+          <dt>Done when</dt><dd>The output equals the two complete blocks, and the Rich Results Test shows no errors.</dd>
+        </dl>
+      </div>
+
+      <div class="issue" id="i6">
+        <h3>6 · Google Shopping: return policy rejected, 331 products not approved</h3>
+        <div class="meta"><span class="pill open">NOT DONE</span><span>Owners: Mr. Mohamed decides; dev team, Jan, Saiaf act</span><span><a href="../merchant-center/">Ticket with details</a></span></div>
+        <dl>
+          <dt>What is wrong</dt><dd>Google rejected the return policy: the Merchant Center settings and the return policy page differ in 6 fields. 331 products are not approved: 289 vehicles (Google policy), 18 with a price of 0, 17 with broken photo links, 15 with no photo.</dd>
+          <dt>Why it matters</dt><dd>Google Shopping brought 678 clicks in 28 days. Products that are not approved never show. On Aug 25 a missing return policy took all products off Google Shopping.</dd>
+          <dt>Proof</dt><dd>Merchant Center and the 24 feed files, Sep 27. The 17 broken photos: the files are missing on the storage server (products 1252 to 1298).</dd>
+          <dt>Fix</dt><dd>Mr. Mohamed chooses the return terms; TMD recommends "no returns after the rental starts", and the page text is ready. Feed rules: leave out products with a price of 0 or no working photo. Jan restores the missing photo files. Mr. Mohamed decides on vehicles.</dd>
+          <dt>Done when</dt><dd>The return policy is "Approved" and no price or photo issues remain.</dd>
+        </dl>
+      </div>
+
+      <div class="issue" id="i7">
+        <h3>7 · Lessor data protection</h3>
+        <div class="meta"><span class="pill progress">PARTIAL</span><span>Owner: dev team</span><span><a href="https://tmd.sa/renter/lessor-data-protection/v1/2026-09-21/">Ticket (access code)</a></span></div>
+        <dl>
+          <dt>What is wrong</dt><dd>Part of the lessors' contact data is still readable by visitors who are not logged in. Security details stay in the access-protected ticket, not on this public page.</dd>
+          <dt>Why it matters</dt><dd>Lessor phone numbers are personal data. The Sep 20 meeting agreed they are for logged-in users only.</dd>
+          <dt>Proof</dt><dd>Checked Sep 27. Done part: the lessor profile page answers 404 to logged-out visitors.</dd>
+          <dt>Fix</dt><dd>Parts 1 and 3 of the ticket.</dd>
+          <dt>Done when</dt><dd>The checks in the ticket pass.</dd>
+        </dl>
+      </div>
+
+      <div class="issue" id="i8">
+        <h3>8 · Staging: the security certificate ran out on Sep 23</h3>
+        <div class="meta"><span class="pill open">NOT DONE</span><span>Owner: dev team (whoever runs the staging server)</span><span><a href="../staging-certificate/">Ticket with commands</a></span></div>
+        <dl>
+          <dt>What is wrong</dt><dd>Staging is the test copy of the site, <a href="https://v2-staging.renter.net/ar/">v2-staging.renter.net</a>. Its security certificate (the padlock for https) ended on Sep 23 and was not renewed. Browsers now block it with "Your connection is not private".</dd>
+          <dt>Why it matters</dt><dd>No change can be tested before it goes live. The English translation test waits for staging. The live site renter.net is not affected: its certificate is valid until Dec 22.</dd>
+          <dt>Proof</dt><dd>Certificate end date: Sep 23, 2026, 01:16 GMT (checked Sep 27).</dd>
+          <dt>Fix</dt><dd>Renew the certificate and repair its automatic renewal. The commands are on the ticket.</dd>
+          <dt>Done when</dt><dd>Staging opens with no warning, and the certificate ends in December 2026.</dd>
+        </dl>
+      </div>
+
+      <div class="issue" id="i9">
+        <h3>9 · English pages show Arabic text</h3>
+        <div class="meta"><span class="pill blocked">WAITING JAN</span><span>Owners: Jan, then Paulo</span></div>
+        <dl>
+          <dt>What is wrong</dt><dd>English product pages show the Arabic title, main heading and description. Example: <a href="https://renter.net/en/product/2545/kamyra-kanwn-4000d/">/en/product/2545/</a> has the title "كاميرا كانون 4000d للايجار بالسعودية".</dd>
+          <dt>Why it matters</dt><dd>English pages cannot rank for English searches while their text is Arabic.</dd>
+          <dt>Proof</dt><dd>Live English product pages, Sep 27.</dd>
+          <dt>Fix</dt><dd>Jan provides an English title and description for each product through the API. Paulo shows them on the <code>/en/</code> pages. Agreed test: one product in Arabic and English on staging first, then production. The test needs staging back (issue 8).</dd>
+          <dt>Done when</dt><dd><code>/en/product/2545/</code> shows an English title, main heading and description.</dd>
+        </dl>
+      </div>
+
+      <div class="issue" id="i10">
+        <h3>10 · Two wrong meta descriptions</h3>
+        <div class="meta"><span class="pill open">NOT DONE</span><span>Owner: dev team; TMD gives the text</span></div>
+        <dl>
+          <dt>What is wrong</dt><dd>The meta description is the short text Google can show under the result title. <a href="https://renter.net/ar/cars-and-vehicles/">/ar/cars-and-vehicles/</a> uses the real-estate text of <code>/ar/properties/</code>. The English home page <a href="https://renter.net/en/">/en/</a> uses the Arabic home text.</dd>
+          <dt>Why it matters</dt><dd>A cars page described as real estate, or an English page described in Arabic, gets fewer clicks.</dd>
+          <dt>Proof</dt><dd>The live meta tags, Sep 27.</dd>
+          <dt>Fix</dt><dd>Replace the two texts. The Arabic cars text mirrors the live English cars text; the English home text translates the live Arabic home text:<br>
+            <code>/ar/cars-and-vehicles/</code>: تأجير سيارات في السعودية عبر رينتر: سيارات ودبابات وحافلات ويخوت. قارن الأسعار وتواصل مع المالك مباشرة واحجز خلال دقائق.<br>
+            <code>/en/</code>: Discover thousands of items for rent in Saudi Arabia. Choose from cars, real estate, equipment, event supplies and more, with simple, fast renting, payment and tracking.</dd>
+          <dt>Done when</dt><dd>View-source shows the new texts on both pages.</dd>
+        </dl>
+      </div>
+
+      <div class="issue" id="i11">
+        <h3>11 · Blog section</h3>
+        <div class="meta"><span class="pill open">NOT STARTED</span><span>Owners: dev team builds; TMD writes the articles</span><span><a href="../blog-section/">Dev ticket</a> · <a href="https://tmd.sa/renter/blog-plan/v1/2026-09-15/">plan</a></span></div>
+        <dl>
+          <dt>What is wrong</dt><dd><a href="https://renter.net/ar/blog/">/ar/blog/</a> and <a href="https://renter.net/en/blog/">/en/blog/</a> answer 404. The plan was approved Sep 20 and the dev ticket is ready.</dd>
+          <dt>Why it matters</dt><dd>Articles reach searches that product pages cannot answer, such as how-to and comparison questions. The first article is planned for Oct 20.</dd>
+          <dt>Proof</dt><dd>Both addresses answer 404 on Sep 27. A delivery date was asked on Sep 26; no answer yet.</dd>
+          <dt>Fix</dt><dd>Build the section as the ticket describes. The work split in the ticket is a proposal; Paulo and Jan decide who takes what, and the dates.</dd>
+          <dt>Done when</dt><dd>The checks in the ticket pass.</dd>
+        </dl>
+      </div>
+
+      <div class="issue" id="i12">
+        <h3>12 · Bookings in Google Analytics</h3>
+        <div class="meta"><span class="pill progress">LAST CHECK PENDING</span><span>Owners: Saiaf checks; Renter team</span><span><a href="../booking-confirmation-data-layer/">Ticket</a></span></div>
+        <dl>
+          <dt>What is wrong</dt><dd>Nothing to build. The site now tells Google Analytics when a booking is paid (event <code>booking_confirmed</code> with the booking number and value). It is tested with a simulated payment. A real paid booking has not been seen in Google Analytics yet.</dd>
+          <dt>Why it matters</dt><dd>Ads and reports can count real bookings instead of page views.</dd>
+          <dt>Proof</dt><dd>The page code was fixed Sep 15. Google Tag Manager version 19 was published with the <code>booking_confirmed</code> trigger.</dd>
+          <dt>Fix</dt><dd>After the next real paid booking, Saiaf checks that Google Analytics shows it with its booking number. If the Renter team makes a test booking, tell Saiaf the time.</dd>
+          <dt>Done when</dt><dd>One real booking shows in Google Analytics with its booking number.</dd>
+        </dl>
+      </div>
 
       <h2 id="done">Done and verified live</h2>
       <div class="tablebox"><table>
         <thead><tr><th>Item</th><th>Verified</th></tr></thead>
         <tbody>
-          <tr><td>Staging robots: <code>noindex, nofollow</code> meta and <code>Disallow: /</code> in robots.txt</td><td><span class="pill done">COMPLETED</span> Sep 27</td></tr>
-          <tr><td>Merchant feed: 24 files, 1,159 items, no empty files on 2 runs, all product photos, clean descriptions. Feed 25 is needed when the catalog passes 1,200 products</td><td><span class="pill done">COMPLETED</span> Sep 27</td></tr>
-          <tr><td>Return policy page: <code>/ar/return-policy/</code> and <code>/en/return-policy/</code> live with <code>noindex, nofollow</code> and correct H1 (Merchant Center review: see the open row)</td><td><span class="pill done">COMPLETED</span> Sep 14</td></tr>
-          <tr><td>H1 on category and subcategory pages: one correct H1 on all 194 sitemap pages</td><td><span class="pill done">COMPLETED</span> Sep 27</td></tr>
-          <tr><td>301 redirects (root, http, www, locale-less), absolute canonicals, hreflang, Open Graph, Twitter cards, FAQ blocks</td><td><span class="pill done">COMPLETED</span> Sep 27</td></tr>
+          <tr><td>Staging is closed to Google: <code>noindex, nofollow</code> tag and <code>Disallow: /</code> in robots.txt</td><td><span class="pill done">COMPLETED</span> Sep 27</td></tr>
+          <tr><td>Merchant feed: 24 files, 1,159 products, no empty file on 2 runs, all product photos, clean descriptions. A 25th file is needed when the catalog passes 1,200 products</td><td><span class="pill done">COMPLETED</span> Sep 27</td></tr>
+          <tr><td>Return policy page: <code>/ar/return-policy/</code> and <code>/en/return-policy/</code> live, with <code>noindex, nofollow</code> and the correct H1. Google's review of the policy: issue 6</td><td><span class="pill done">COMPLETED</span> Sep 14</td></tr>
+          <tr><td>One correct H1 on all 194 category and subcategory pages</td><td><span class="pill done">COMPLETED</span> Sep 27</td></tr>
+          <tr><td>Lessor profile page: 404 for logged-out visitors</td><td><span class="pill done">COMPLETED</span> Sep 27</td></tr>
+          <tr><td>301 redirects (root, http, www, missing language), canonical tags in full-address form, hreflang, Open Graph, Twitter cards, FAQ blocks. Product copies: issue 4</td><td><span class="pill done">COMPLETED</span> Sep 27</td></tr>
         </tbody>
       </table></div>
-      <p class="sub">Rule for every fix: REPLACE the existing block, never add a second one next to it. When a change ships, ping Saiaf so it gets tested before the next meeting.</p>
+
   </div>
 </div>
 <script>
