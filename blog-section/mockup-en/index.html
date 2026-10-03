@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Mockup: Renter blog in English (article, hub, index)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  /* Tokens copied from the live site CSS (Sep 15, 2026): Cairo, #2049ee primary, #1036ce hover, #273a97 dark, #333 text, #606060 neutral, #e8e8e8 border, radius .5rem */
+  :root{--font:"Cairo",sans-serif;--primary:#2049ee;--primary-hover:#1036ce;--primary-dark:#273a97;--primary-soft:#d8e3ff;--text:#333;--text-neutral:#606060;--border:#e8e8e8;--bg:#fff;--bg-soft:#f5f5f5;--radius:.5rem;--ok:#00a74e;--max:1109px;--measure:720px}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:var(--font);color:var(--text);background:var(--bg);line-height:1.8;font-size:16px;-webkit-font-smoothing:antialiased}
+  a{color:var(--primary);text-decoration:none}a:hover{color:var(--primary-hover)}
+  img{max-width:100%;height:auto;display:block}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 16px}
+  /* mock header (site header stays as is) */
+  .hdr{border-bottom:1px solid var(--border);padding:12px 0}
+  .hdr .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .logo{font-weight:800;color:var(--primary);font-size:22px}
+  .nav{display:flex;gap:18px;font-size:14px;color:var(--text-neutral)}
+  .nav .on{color:var(--primary);font-weight:700}
+  .demo-label{background:#0C0E1D;color:#fcbf2c;font:600 12px/1 var(--font);padding:8px 16px;letter-spacing:.06em;text-transform:uppercase;direction:ltr;text-align:left}
+  /* breadcrumb */
+  .bc{font-size:13px;color:var(--text-neutral);padding:14px 0 6px;display:flex;flex-wrap:wrap;gap:6px}
+  .bc a{color:var(--text-neutral)}.bc span[aria-current]{color:var(--text);font-weight:600}
+  /* article layout */
+  .article-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:28px;padding:8px 0 40px}
+  .article-grid>*{min-width:0}
+  @media(min-width:960px){.article-grid{grid-template-columns:minmax(0,var(--measure)) 300px;gap:48px}}
+  article h1{font-size:clamp(24px,4.5vw,36px);line-height:1.35;font-weight:800;margin:6px 0 10px;text-wrap:balance}
+  .meta{display:flex;flex-wrap:wrap;gap:8px 16px;font-size:13px;color:var(--text-neutral);margin-bottom:16px;align-items:center}
+  .meta .dot::before{content:"•";margin-inline-end:8px;color:var(--border)}
+  .excerpt{font-size:18px;color:var(--text-neutral);margin-bottom:18px}
+  .cover{border-radius:var(--radius);overflow:hidden;background:var(--bg-soft);aspect-ratio:16/9;margin-bottom:20px}
+  .cover img{width:100%;height:100%;object-fit:cover}
+  figcaption{font-size:12px;color:var(--text-neutral);margin-top:6px}
+  /* TOC */
+  .toc{background:var(--bg-soft);border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;margin:0 0 22px;font-size:14px}
+  .toc strong{font-weight:700;display:block}
+  .toc ol{margin:10px 22px 0 0;display:grid;gap:6px}
+  /* body */
+  .body h2{font-size:24px;font-weight:800;margin:32px 0 10px;line-height:1.4;scroll-margin-top:80px}
+  .body h3{font-size:19px;font-weight:700;margin:22px 0 8px}
+  .body p{margin-bottom:14px;max-width:72ch}
+  .body ul,.body ol{margin:0 22px 14px 0}
+  .body li{margin:4px 0}
+  .body .answer{border-inline-start:4px solid var(--primary);background:var(--primary-soft);padding:12px 16px;border-radius:var(--radius);margin:0 0 18px;font-weight:600}
+  .tablebox{overflow-x:auto;border:1px solid var(--border);border-radius:var(--radius);margin:12px 0 18px}
+  table{border-collapse:collapse;width:100%;font-size:14px;min-width:420px}
+  th{background:var(--bg-soft);text-align:right;padding:10px 14px;font-weight:700;border-bottom:1px solid var(--border);white-space:nowrap}
+  td{padding:10px 14px;border-bottom:1px solid var(--border)}
+  td.num{font-variant-numeric:tabular-nums;direction:ltr;text-align:right;unicode-bidi:embed}
+  /* CTA modules */
+  .cta-cat{display:flex;align-items:center;justify-content:space-between;gap:14px;border:1px solid var(--primary);border-radius:var(--radius);padding:14px 18px;margin:22px 0;background:#fff}
+  .cta-cat strong{display:block;font-size:16px}
+  .cta-cat small{color:var(--text-neutral)}
+  .btn{display:inline-flex;align-items:center;justify-content:center;background:var(--primary);color:#fff !important;font-weight:700;padding:10px 18px;border-radius:var(--radius);white-space:nowrap;min-height:44px}
+  .btn:hover{background:var(--primary-hover)}
+  .btn.ghost{background:#fff;color:var(--primary) !important;border:1px solid var(--primary)}
+  .products{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin:12px 0 22px}
+  .pcard{border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;background:#fff;font-size:13px}
+  .pcard .ph{aspect-ratio:4/3;background:var(--bg-soft)}
+  .pcard .pt{padding:8px 10px}
+  .pcard .pt b{display:block;font-size:13px;line-height:1.4;max-height:2.8em;overflow:hidden}
+  .pcard .price{color:var(--primary);font-weight:700;direction:rtl}
+  /* FAQ */
+  .faq h3{font-size:17px;font-weight:700;margin:16px 0 4px}
+  .faq p{margin:0 0 6px;color:var(--text-neutral)}
+  /* author */
+  .author{display:flex;gap:14px;align-items:flex-start;border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin:28px 0}
+  .author .av{width:56px;height:56px;border-radius:50%;background:var(--primary-soft);flex:none;display:grid;place-items:center;font-weight:800;color:var(--primary)}
+  .author b{display:block}.author small{color:var(--text-neutral);display:block}
+  /* share */
+  .share{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:12px 0 24px;font-size:14px}
+  .share a{border:1px solid var(--border);border-radius:999px;padding:6px 14px;color:var(--text);min-height:36px;display:inline-flex;align-items:center}
+  /* sidebar */
+  aside .box{border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:18px;font-size:14px}
+  aside h4{font-size:15px;font-weight:800;margin-bottom:10px}
+  aside .sticky{position:sticky;top:16px}
+  .app{background:var(--primary-dark);color:#fff;border-radius:var(--radius);padding:16px;text-align:center}
+  .app .btn{background:#fff;color:var(--primary-dark) !important;margin-top:10px}
+  /* related grid + cards (index/hub) */
+  .cards{display:grid;grid-template-columns:1fr;gap:16px;margin:12px 0 28px}
+  @media(min-width:640px){.cards{grid-template-columns:repeat(2,1fr)}}
+  @media(min-width:960px){.cards{grid-template-columns:repeat(3,1fr)}}
+  .card{border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;background:#fff;display:flex;flex-direction:column}
+  .card .ph{aspect-ratio:16/9;background:linear-gradient(135deg,#d8e3ff,#f5f5f5)}
+  .card .ct{padding:12px 14px 14px;display:flex;flex-direction:column;gap:6px;flex:1}
+  .chip{display:inline-block;font-size:12px;font-weight:700;color:var(--primary);background:var(--primary-soft);border-radius:999px;padding:2px 10px;align-self:flex-start}
+  .card h3{font-size:16px;line-height:1.45;font-weight:700}
+  .card h3 a{color:var(--text)}
+  .card p{font-size:13px;color:var(--text-neutral);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .card .cm{font-size:12px;color:var(--text-neutral);margin-top:auto}
+  .hubs{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 20px}
+  .hubs a{border:1px solid var(--border);border-radius:999px;padding:6px 14px;font-size:14px;color:var(--text);min-height:36px;display:inline-flex;align-items:center}
+  .hubs a.on{background:var(--primary);color:#fff;border-color:var(--primary)}
+  .pager{display:flex;gap:6px;justify-content:center;margin:10px 0 40px;font-size:14px}
+  .pager a,.pager span{min-width:40px;min-height:40px;display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--border);border-radius:var(--radius)}
+  .pager span[aria-current]{background:var(--primary);color:#fff;border-color:var(--primary)}
+  .section-title{font-size:22px;font-weight:800;margin:26px 0 6px}
+  .hub-h1{font-size:clamp(24px,4vw,32px);font-weight:800;margin:6px 0 6px}
+  .hub-intro{color:var(--text-neutral);max-width:72ch;margin-bottom:6px}
+  .ftr{border-top:1px solid var(--border);padding:24px 0;font-size:13px;color:var(--text-neutral);text-align:center;margin-top:30px}
+  /* annotation badges for the ticket only */
+  .note{position:relative}
+  .note::before{content:attr(data-n);position:absolute;top:-10px;inset-inline-start:-10px;background:#fcbf2c;color:#0C0E1D;font:800 11px/1 var(--font);padding:4px 7px;border-radius:999px;z-index:2;direction:ltr}
+</style>
+<style>
+/* LTR overrides for the English template; everything else is the shared Renter tokens above */
+.toc ol{margin:10px 0 0 22px}
+.body ul,.body ol{margin:0 0 14px 22px}
+th{text-align:left}
+aside ol{margin-left:18px;display:grid;gap:6px}
+</style>
+</head>
+<body>
+<div style="background:#0C0E1D;color:#fff;padding:18px 20px;font:400 14px/1.6 'IBM Plex Sans Arabic',system-ui,sans-serif;direction:ltr;text-align:left">
+<img src="https://tmd.sa/_shared/TMD-logo-white.svg" alt="TMD" style="height:20px;display:block;margin-bottom:10px">
+English (LTR) version of the blog template. It uses Renter's own brand on purpose: Cairo, #2049ee, the tokens already live on renter.net.
+<a href="../mockup/" style="color:#fcbf2c;margin-left:10px">Arabic version</a>
+<a href="../" style="color:#fcbf2c;margin-left:10px">Back to the ticket</a></div>
+<div class="demo-label">MOCKUP 1 / 3 · ARTICLE PAGE · /en/blog/cars-and-vehicles/car-rental-monthly-price-riyadh/ · numbered badges = component list in the ticket</div>
+<header class="hdr"><div class="wrap"><div class="logo">Renter</div><nav class="nav"><span>Home</span><span>Categories</span><span class="on">Blog</span><span>FAQ</span><span>العربية</span></nav></div></header>
+
+<main class="wrap">
+  <nav class="bc note" data-n="1" aria-label="Breadcrumb"><a href="#">Home</a><span>›</span><a href="#">Blog</a><span>›</span><a href="#">Cars &amp; Vehicles</a><span>›</span><span aria-current="page">Monthly car rental prices in Riyadh 2026</span></nav>
+
+  <div class="article-grid">
+    <article>
+      <span class="chip note" data-n="2">Cars &amp; Vehicles</span>
+      <h1 class="note" data-n="3">Monthly car rental prices in Riyadh 2026: the complete price guide</h1>
+      <div class="meta note" data-n="4"><span>By <a href="#">Renter Team</a></span><span class="dot">Published Oct 20, 2026</span><span class="dot">Updated Oct 20, 2026</span><span class="dot">6 min read</span></div>
+      <p class="excerpt note" data-n="5">Monthly rental for an economy car in Riyadh starts at SAR 1,800, and a mid-size car starts at SAR 2,500. This guide explains the differences between classes and what changes the price.</p>
+      <figure class="cover note" data-n="6"><img src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1600' height='900'%3E%3Crect width='1600' height='900' fill='%23d8e3ff'/%3E%3Ctext x='800' y='470' font-size='48' text-anchor='middle' fill='%232049ee' font-family='sans-serif'%3Ecover 1600x900 WebP%3C/text%3E%3C/svg%3E" alt="Toyota Camry 2026 available for monthly rental in Riyadh" width="1600" height="900" fetchpriority="high"><figcaption>Photo from a lessor listing on Renter</figcaption></figure>
+      <div class="share note" data-n="7"><span>Share:</span><a href="#">WhatsApp</a><a href="#">X</a><a href="#">Copy link</a></div>
+
+      <nav class="toc note" data-n="8" aria-label="In this article"><strong>In this article</strong><ol><li><a href="#s1">Average monthly prices by class</a></li><li><a href="#s2">What changes the price</a></li><li><a href="#s3">Monthly or daily rental</a></li><li><a href="#s4">Frequently asked questions</a></li></ol></nav>
+
+      <div class="body">
+        <h2 id="s1">Average monthly prices by class</h2>
+        <p class="answer note" data-n="9">Short answer: an economy car costs SAR 1,800 to 2,400 a month, a mid-size car SAR 2,500 to 3,500, and an SUV from SAR 4,000 (lessor prices on Renter, October 2026).</p>
+        <div class="tablebox note" data-n="10"><table><thead><tr><th>Class</th><th>Examples</th><th>Monthly (SAR)</th><th>Daily (SAR)</th></tr></thead><tbody>
+          <tr><td>Economy</td><td>Accent, Peston Mini</td><td class="num">1,800 - 2,400</td><td class="num">90 - 130</td></tr>
+          <tr><td>Mid-size</td><td>Camry, Sonata, K4</td><td class="num">2,500 - 3,500</td><td class="num">140 - 200</td></tr>
+          <tr><td>SUV</td><td>RAV4, Jetour T2</td><td class="num">4,000 - 6,000</td><td class="num">220 - 350</td></tr>
+        </tbody></table></div>
+        <p>These ranges come from lessor listings on Renter in Riyadh. The final price depends on the model, the included mileage and the security deposit.</p>
+
+        <div class="cta-cat note" data-n="11"><div><strong>Browse cars for monthly rental in Riyadh</strong><small>More than 300 cars from verified lessors</small></div><a class="btn" href="#">View cars</a></div>
+
+        <h2 id="s2">What changes the price</h2>
+        <h3>1. Model and year</h3>
+        <p>The gap between a 2024 and a 2026 model of the same car reaches 15% on a monthly rental.</p>
+        <h3>2. Included mileage</h3>
+        <p>Most lessors include 3,000 km a month. Each extra 1,000 km adds SAR 150 to 300.</p>
+
+        <h2 id="s3">Monthly or daily rental</h2>
+        <p>For any period longer than 12 days, a monthly rental costs less in most cases.</p>
+
+        <p><strong>Related listings on Renter</strong></p>
+        <div class="products note" data-n="12">
+          <a class="pcard" href="#"><div class="ph"></div><div class="pt"><b>Camry Lumière 2026</b><span class="price">SAR 2,900 / month</span></div></a>
+          <a class="pcard" href="#"><div class="ph"></div><div class="pt"><b>Kia K4 2026</b><span class="price">SAR 2,600 / month</span></div></a>
+          <a class="pcard" href="#"><div class="ph"></div><div class="pt"><b>Toyota RAV4 2026</b><span class="price">SAR 4,800 / month</span></div></a>
+          <a class="pcard" href="#"><div class="ph"></div><div class="pt"><b>Accent 2023</b><span class="price">SAR 1,900 / month</span></div></a>
+        </div>
+
+        <h2 id="s4">Frequently asked questions</h2>
+        <div class="faq note" data-n="13">
+          <h3>How much is a monthly car rental in Riyadh?</h3><p>From SAR 1,800 for economy cars to more than SAR 4,000 for SUVs, depending on the model and mileage.</p>
+          <h3>Does a monthly rental include insurance?</h3><p>Most lessors include basic insurance. Comprehensive cover is an optional extra.</p>
+          <h3>What do I need to rent a car monthly?</h3><p>A valid national ID or iqama, a valid driving licence, and a payment card for the deposit.</p>
+        </div>
+      </div>
+
+      <div class="author note" data-n="14"><div class="av">R</div><div><b>Renter Team</b><small>Content reviewed by Renter's operations team, based on real lessor listings on the platform.</small><a href="#">All articles by this author</a></div></div>
+
+      <h2 class="section-title note" data-n="15">Related articles</h2>
+      <div class="cards">
+        <div class="card"><div class="ph"></div><div class="ct"><span class="chip">Cars &amp; Vehicles</span><h3><a href="#">Car rental requirements in Saudi Arabia 2026</a></h3><p>Documents, minimum age and security deposit.</p><span class="cm">4 min read</span></div></div>
+        <div class="card"><div class="ph"></div><div class="ct"><span class="chip">Cars &amp; Vehicles</span><h3><a href="#">How much is a monthly dyna rental?</a></h3><p>Price ranges for monthly dyna and pickup rentals.</p><span class="cm">5 min read</span></div></div>
+        <div class="card"><div class="ph"></div><div class="ct"><span class="chip">Cars &amp; Vehicles</span><h3><a href="#">Daily or monthly car rental: which costs less?</a></h3><p>A side-by-side comparison across 3 classes.</p><span class="cm">3 min read</span></div></div>
+      </div>
+    </article>
+
+    <aside class="note" data-n="16"><div class="sticky">
+      <div class="box"><h4>Most read in Cars &amp; Vehicles</h4><ol><li><a href="#">Car rental requirements in Saudi Arabia</a></li><li><a href="#">How much is a monthly trailer rental?</a></li><li><a href="#">Best economy cars to rent</a></li></ol></div>
+      <div class="box app"><b>Get the Renter app</b><br><small>Book and rent from your phone</small><br><a class="btn" href="#">App Store / Google Play</a></div>
+    </div></aside>
+  </div>
+</main>
+
+<div class="demo-label">MOCKUP 2 / 3 · HUB PAGE · /en/blog/cars-and-vehicles/</div>
+<main class="wrap">
+  <nav class="bc" aria-label="Breadcrumb"><a href="#">Home</a><span>›</span><a href="#">Blog</a><span>›</span><span aria-current="page">Cars &amp; Vehicles</span></nav>
+  <h1 class="hub-h1">Car and vehicle rental guides and prices in Saudi Arabia</h1>
+  <p class="hub-intro">Everything you need before renting a car, dyna, trailer or motorbike: real prices from lessors on Renter, requirements and comparisons. 12 articles.</p>
+  <div class="cta-cat"><div><strong>Ready to book?</strong><small>Browse Cars &amp; Vehicles on Renter</small></div><a class="btn ghost" href="#">Go to category</a></div>
+  <div class="cards">
+    <div class="card"><div class="ph"></div><div class="ct"><span class="chip">Price guide</span><h3><a href="#">Monthly car rental prices in Riyadh 2026</a></h3><p>Average monthly rent by class and what changes it.</p><span class="cm">Oct 20, 2026 · 6 min read</span></div></div>
+    <div class="card"><div class="ph"></div><div class="ct"><span class="chip">Requirements</span><h3><a href="#">Car rental requirements in Saudi Arabia 2026</a></h3><p>Documents, age, insurance and penalties.</p><span class="cm">Nov 3, 2026 · 4 min read</span></div></div>
+    <div class="card"><div class="ph"></div><div class="ct"><span class="chip">Price guide</span><h3><a href="#">How much is a monthly trailer rental in Saudi Arabia?</a></h3><p>Trailer price ranges with and without a driver.</p><span class="cm">Nov 10, 2026 · 5 min read</span></div></div>
+  </div>
+  <nav class="pager" aria-label="Pages"><span aria-current="page">1</span><a href="#">2</a><a href="#">3</a><a href="#">Next ›</a></nav>
+</main>
+
+<div class="demo-label">MOCKUP 3 / 3 · BLOG INDEX · /en/blog/</div>
+<main class="wrap">
+  <nav class="bc" aria-label="Breadcrumb"><a href="#">Home</a><span>›</span><span aria-current="page">Blog</span></nav>
+  <h1 class="hub-h1">Renter Blog: rental guides and prices in Saudi Arabia</h1>
+  <p class="hub-intro">Real prices from lessors on the platform, requirements, and comparisons for everything you can rent: cars, equipment, events, property and devices.</p>
+  <div class="hubs"><a class="on" href="#">All</a><a href="#">Cars &amp; Vehicles</a><a href="#">Equipment &amp; Tools</a><a href="#">Events</a><a href="#">Properties</a><a href="#">Devices</a><a href="#">Furniture</a><a href="#">Fashion</a><a href="#">Courts</a><a href="#">Rental guides</a></div>
+  <div class="cards">
+    <div class="card"><div class="ph"></div><div class="ct"><span class="chip">Cars &amp; Vehicles</span><h3><a href="#">Monthly car rental prices in Riyadh 2026</a></h3><p>Average monthly rent by class.</p><span class="cm">Oct 20, 2026</span></div></div>
+    <div class="card"><div class="ph"></div><div class="ct"><span class="chip">Properties</span><h3><a href="#">Furnished apartments for monthly rent 2026</a></h3><p>Prices in Riyadh, Jeddah and Dammam.</p><span class="cm">Oct 22, 2026</span></div></div>
+    <div class="card"><div class="ph"></div><div class="ct"><span class="chip">Equipment &amp; Tools</span><h3><a href="#">Heavy equipment rental prices in Saudi Arabia 2026</a></h3><p>Daily and monthly rates, with and without an operator.</p><span class="cm">Oct 27, 2026</span></div></div>
+  </div>
+  <nav class="pager" aria-label="Pages"><span aria-current="page">1</span><a href="#">2</a><a href="#">Next ›</a></nav>
+</main>
+<footer class="ftr">Performance targets for these templates: LCP 2.5 s, CLS 0.1, INP 200 ms. Font: Cairo, as on the live site.</footer>
+</body>
+</html>
