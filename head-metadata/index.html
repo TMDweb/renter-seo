@@ -236,7 +236,7 @@ h3{color:var(--primary-dark);margin:22px 0 8px}
           <tr><td>8</td><td><a href="#i8">Staging: the security certificate ran out on Sep 23</a></td><td><span class="pill done">DONE</span></td><td>Dev team</td><td><a href="../staging-certificate/">ticket</a></td></tr>
           <tr><td>9</td><td><a href="#i9">English pages show Arabic text</a></td><td><span class="pill blocked">WAITING JAN</span></td><td>Jan, then Paulo</td><td>below</td></tr>
           <tr><td>10</td><td><a href="#i10">Two wrong meta descriptions</a></td><td><span class="pill open">NOT DONE</span></td><td>Dev team</td><td>below</td></tr>
-          <tr><td>11</td><td><a href="#i11">Blog section</a></td><td><span class="pill progress">IN PROGRESS</span></td><td>Dev team; TMD writes</td><td><a href="../blog-section/">ticket</a></td></tr>
+          <tr><td>11</td><td><a href="#i11">Blog section</a></td><td><span class="pill progress">ON STAGING, 9 FIXES</span></td><td>Dev team; TMD writes</td><td><a href="../blog-section/">ticket</a></td></tr>
           <tr><td>12</td><td><a href="#i12">Bookings in Google Analytics</a></td><td><span class="pill progress">LAST CHECK PENDING</span></td><td>Saiaf; Renter team</td><td><a href="../booking-confirmation-data-layer/">ticket</a></td></tr>
                   <tr><td>13</td><td><a href="#i13">Pages that need login send visitors to the home page</a></td><td><span class="pill open">NOT DONE</span></td><td>Paulo; Mr. Mohamed confirms the text</td><td>below</td></tr>
         </tbody>
@@ -387,7 +387,7 @@ h3{color:var(--primary-dark);margin:22px 0 8px}
 
       <div class="issue" id="i11">
         <h3>11 · Blog section</h3>
-        <div class="meta"><span class="pill progress">IN PROGRESS</span><span>Owners: dev team builds; TMD writes the articles</span><span><a href="../blog-section/">Dev ticket</a> · <a href="https://tmd.sa/renter/blog-plan/v1/2026-09-15/">plan</a></span></div>
+        <div class="meta"><span class="pill progress">ON STAGING, 9 FIXES</span><span>Owners: dev team builds; TMD writes the articles</span><span><a href="../blog-section/">Dev ticket</a> · <a href="https://tmd.sa/renter/blog-plan/v1/2026-09-15/">plan</a></span></div>
         <dl>
           <dt>What is wrong</dt><dd><a href="https://renter.net/ar/blog/">/ar/blog/</a> and <a href="https://renter.net/en/blog/">/en/blog/</a> answer 404. The plan was approved Sep 20 and the dev ticket is ready.</dd>
           <dt>Why it matters</dt><dd>Articles reach searches that product pages cannot answer, such as how-to and comparison questions. The first article is planned for Oct 20.</dd>
@@ -395,6 +395,7 @@ h3{color:var(--primary-dark);margin:22px 0 8px}
           <dt>Fix</dt><dd>Build the section as the ticket describes. The work split in the ticket is a proposal; Paulo and Jan decide who takes what, and the dates.</dd>
           <dt>Done when</dt><dd>The checks in the ticket pass.</dd>
           <dt>Update Oct 4</dt><dd>Paulo finished the blog index page and expects 2 to 3 days more, with testing. He waits for Jan: the remaining APIs and more test posts. Agreed Oct 4: 15 articles per page; categories and tags are optional and come from the API; a category shows only when it has articles; reading time is typed by the editor; keep the heading structure of the mockup. Jan gives Saiaf access to the publishing dashboard. Dark mockup: <a href="../blog-section/mockup-en/">English</a>.</dd>
+          <dt>Update Oct 6</dt><dd>The index, hubs and articles are live on <code>v2-staging.renter.net</code> in Arabic and English. Nine fixes remain: the article is cut off on phones, no metadata or JSON-LD, pagination has no URLs, blog sitemaps return 500, product links repeat the locale, no table of contents or share row, blog events do not reach the data layer, small text fixes, images. Each one has a check in the <a href="https://tmd.sa/renter/blog-staging-feedback/v1/2026-10-06/">staging feedback</a> (access code from Saiaf).</dd>
         </dl>
       </div>
 
