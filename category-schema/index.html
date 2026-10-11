@@ -200,7 +200,7 @@ h3{color:var(--primary-dark);margin:22px 0 8px}
 <div class="page">
   <header class="doc-header">
     <a class="backbtn" href="../head-metadata/">&#8592; Back to the dev board</a>
-    <p class="kicker">Renter × TMD · Dev ticket · verified live Sep 27, 2026</p>
+    <p class="kicker">Renter × TMD · Dev ticket · verified live Oct 11, 2026</p>
   </header>
   <div class="doc-body">
       <div class="statusbar"><span class="pill progress">PARTIAL</span><span class="txt">Checked Oct 11, 2026: correction 6 is done, unknown addresses answer 404. Corrections 1 to 5 are still open on every category and subcategory page: no BreadcrumbList, the list printed twice, <code>item</code> instead of <code>url</code>, positions from 3, and the subcategory name with "| رينتر".</span></div>
@@ -209,24 +209,25 @@ h3{color:var(--primary-dark);margin:22px 0 8px}
       <div class="inshort">
         <h2>In short</h2>
         <dl>
-          <dt>What is wrong</dt><dd>(1) The breadcrumb code block (schema type BreadcrumbList) is gone from all 194 category and subcategory pages. (2) The new product list block is printed twice, uses the wrong link field, starts counting at 3, and on subcategories its name is not the H1. (3) Addresses that do not exist, such as <code>/ar/cars-and-vehicles/2/</code>, answer 200 with the canonical <code>https://renter.net/arundefined/</code>.</dd>
-          <dt>Why it matters</dt><dd>Google uses the breadcrumb block to show the page path (رينتر › سيارات ومركبات › سيارات) in desktop results and to understand how pages relate. A list with errors can be misread or ignored. Addresses that do not exist but answer 200 are soft 404s.</dd>
-          <dt>The fix</dt><dd>Put back the breadcrumb block as it was, keep one corrected list, and answer 404 for unknown addresses. All three sit in the shared category and subcategory templates.</dd>
+          <dt>Done so far</dt><dd>Correction 6 is live since Oct 11: addresses that do not exist, such as <code>/ar/cars-and-vehicles/2/</code>, answer 404 with <code>noindex</code>.</dd>
+          <dt>What is wrong</dt><dd>(1) The breadcrumb code block (schema type BreadcrumbList) is still missing from all 194 category and subcategory pages. (2) The product list block is printed twice, uses the wrong link field, starts counting at 3, and on subcategories its name is not the H1.</dd>
+          <dt>Why it matters</dt><dd>Google uses the breadcrumb block to show the page path (رينتر › سيارات ومركبات › سيارات) in desktop results and to understand how pages relate. A list with errors can be misread or ignored.</dd>
+          <dt>The fix</dt><dd>Put back the breadcrumb block as it was, and keep one corrected list. Both sit in the shared category and subcategory templates.</dd>
           <dt>Owner</dt><dd>Dev team. Paulo and Jan decide who takes it.</dd>
           <dt>Done when</dt><dd>The checks at the end of this page pass on <code>/ar/cars-and-vehicles/</code> and <code>/ar/cars-and-vehicles/cars/</code>.</dd>
         </dl>
       </div>
 
-      <h2 id="now">Fix now: 6 corrections</h2>
+      <h2 id="now">Corrections 1 to 5 open, 6 done</h2>
       <div class="tablebox"><table>
-        <thead><tr><th>#</th><th>Live now (Sep 27)</th><th>Must be</th></tr></thead>
+        <thead><tr><th>#</th><th>Live now (Oct 11)</th><th>Must be</th></tr></thead>
         <tbody>
           <tr><td>1</td><td>No BreadcrumbList block</td><td>One BreadcrumbList script per page, as before the Sep 16 deploy (complete blocks below)</td></tr>
           <tr><td>2</td><td>The list is printed twice: inside <code>CollectionPage</code> and again as a separate <code>ItemList</code> script</td><td>One script: the <code>CollectionPage</code> with the list inside <code>mainEntity</code>. Delete the separate <code>ItemList</code> script</td></tr>
           <tr><td>3</td><td>Each list entry links with <code>item</code></td><td>Each list entry links with <code>url</code>. (The breadcrumb uses <code>item</code>: that is correct there. The two formats differ.)</td></tr>
           <tr><td>4</td><td>Positions run 3 to 14</td><td>Positions run 1 to N</td></tr>
           <tr><td>5</td><td>Subcategory <code>name</code> is the page title with "| رينتر" (<code>/ar/cars-and-vehicles/cars/</code>)</td><td><code>name</code> = the page H1, on category and subcategory pages</td></tr>
-          <tr><td>6</td><td><a href="https://renter.net/ar/cars-and-vehicles/2/">/ar/cars-and-vehicles/2/</a> answers 200, with canonical <code>https://renter.net/arundefined/</code> and two robots tags (<code>index, follow</code> and <code>noindex</code>)</td><td>404, like <a href="https://renter.net/ar/xyz-not-a-page/">/ar/xyz-not-a-page/</a> answers today</td></tr>
+          <tr><td>6</td><td><strong>Done.</strong> <a href="https://renter.net/ar/cars-and-vehicles/2/">/ar/cars-and-vehicles/2/</a> answers 404 with <code>noindex</code></td><td>404</td></tr>
         </tbody>
       </table></div>
 
@@ -375,7 +376,7 @@ h3{color:var(--primary-dark);margin:22px 0 8px}
 }
 &lt;/script&gt;</pre>
 
-      <h3>Correction 6: unknown addresses answer 404</h3>
+      <h3>Correction 6: unknown addresses answer 404 (done, live since Oct 11)</h3>
       <p>The subcategory route (<code>src/app/[locale]/(categories)/cars-and-vehicles/[subcategory]/page.tsx</code>, and the same file in the 9 other categories) takes any word after the category as a subcategory. When the word is not a real subcategory, the page still renders and builds its canonical from empty values: <code>https://renter.net/ar</code> + <code>undefined</code>. At the start of the page component and of <code>generateMetadata</code>, look the subcategory up and stop when it does not exist:</p>
 <pre>import { notFound } from "next/navigation";
 

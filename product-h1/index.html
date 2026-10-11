@@ -200,46 +200,45 @@ h3{color:var(--primary-dark);margin:22px 0 8px}
 <div class="page">
   <header class="doc-header">
     <a class="backbtn" href="../head-metadata/">&#8592; Back to the dev board</a>
-    <p class="kicker">Renter × TMD · Dev ticket · verified live Sep 27, 2026</p>
+    <p class="kicker">Renter × TMD · Dev ticket · verified live Oct 11, 2026</p>
   </header>
   <div class="doc-body">
       <div class="statusbar"><span class="pill progress">PARTIAL</span><span class="txt">Checked Oct 11, 2026 on 1,062 live product pages: 1,044 have one H1 and 17 have two. The section labels are H2 again (change 1 done). Still open: the one H1 is the hidden one, and the visible product name is still a paragraph. Changes 2 and 3 below remain.</span></div>
-      <h1>Product pages: the product name must be the one main heading</h1>
+      <h1>Product pages: the visible product name must be the H1</h1>
 
       <div class="inshort">
         <h2>In short</h2>
         <dl>
-          <dt>What is wrong</dt><dd>Every product page has 4 to 7 main headings (H1). They are the section labels الوصف، السعر، الموقع، شاركنا رأيك and, on some products, إضافات اختيارية. The only H1 with the product name is hidden, so visitors never see it.</dd>
-          <dt>Why it matters</dt><dd>Google reads the main heading to learn what a page is about. Today it reads the same generic labels on every product page. Product pages bring 61% of the site's Google clicks (361 of 592 in the 28 days to Sep 24). Google's spam policies also name text hidden with CSS as "hidden text" when it is there only for search engines.</dd>
-          <dt>The fix</dt><dd>Three small code changes: the section labels go back to H2, the visible product name becomes the H1, and the hidden H1 is deleted.</dd>
+          <dt>What is wrong</dt><dd>Every product page has one H1, but it is hidden from visitors (<code>class="hidden"</code>). The product name that visitors see is a paragraph. 17 products have two H1s.</dd>
+          <dt>Why it matters</dt><dd>Google's spam policies name text hidden with CSS as "hidden text" when it is there only for search engines. Product pages bring most of the site's Google clicks.</dd>
+          <dt>Done so far</dt><dd>Change 1 is live since Sep 29: the section labels (الوصف، السعر، …) are H2 again.</dd>
+          <dt>The fix</dt><dd>Two code changes remain: the visible product name becomes the H1 (change 2), and the hidden H1 is deleted (change 3).</dd>
           <dt>Owner</dt><dd>Dev team. Paulo and Jan decide who takes it.</dd>
           <dt>Done when</dt><dd>Every product page has exactly one H1, and it is the visible product name. The check command is at the end of this page.</dd>
         </dl>
       </div>
 
-      <h2 id="proof">Proof, Sep 27</h2>
+      <h2 id="proof">Proof, Oct 11</h2>
       <div class="tablebox"><table>
-        <thead><tr><th>Page</th><th>The H1 headings on the page today</th></tr></thead>
+        <thead><tr><th>Page</th><th>The H1 on the page today</th></tr></thead>
         <tbody>
-          <tr><td><a href="https://renter.net/ar/product/2545/kamyra-kanwn-4000d/">/ar/product/2545/kamyra-kanwn-4000d/</a></td><td>1 hidden: كاميرا كانون 4000d للايجار بالسعودية<br>4 visible: الوصف · السعر · الموقع · شاركنا رأيك</td></tr>
-          <tr><td><a href="https://renter.net/en/product/2545/kamyra-kanwn-4000d/">/en/product/2545/kamyra-kanwn-4000d/</a></td><td>1 hidden, in Arabic<br>4 visible: Description · Price · Location · Reviews</td></tr>
+          <tr><td><a href="https://renter.net/ar/product/2545/kamyra-kanwn-4000d/">/ar/product/2545/kamyra-kanwn-4000d/</a></td><td>1 hidden: كاميرا كانون 4000d للايجار بالسعودية. The visible name "كاميرا كانون 4000d" is a <code>&lt;p&gt;</code></td></tr>
+          <tr><td><a href="https://renter.net/en/product/2545/kamyra-kanwn-4000d/">/en/product/2545/kamyra-kanwn-4000d/</a></td><td>1 hidden, in Arabic. The visible name is a <code>&lt;p&gt;</code></td></tr>
         </tbody>
       </table></div>
       <div class="tablebox"><table>
-        <thead><tr><th>H1 headings per page</th><th>Live Arabic product pages</th></tr></thead>
+        <thead><tr><th>H1 headings per page</th><th>Live Arabic product pages, Oct 11</th></tr></thead>
         <tbody>
-          <tr><td>5</td><td>720</td></tr>
-          <tr><td>6</td><td>239</td></tr>
-          <tr><td>7</td><td>7</td></tr>
-          <tr><td>4</td><td>1</td></tr>
-          <tr><td>1</td><td>1</td></tr>
+          <tr><td>1 (the hidden one)</td><td>1,044</td></tr>
+          <tr><td>2</td><td>17</td></tr>
+          <tr><td>0</td><td>1</td></tr>
         </tbody>
       </table></div>
 
-      <h2 id="fix">The fix: 3 changes</h2>
+      <h2 id="fix">The fix: changes 2 and 3 (change 1 is done)</h2>
       <p class="note">File paths and line numbers come from the June copy of the repository. The lines can have moved since then.</p>
 
-      <h3>Change 1: section labels back to H2</h3>
+      <h3>Change 1: section labels back to H2 (done, live since Sep 29)</h3>
       <p>File: <code>src/components/product_section_container/index.tsx</code>. This component prints the section labels (الوصف، السعر، …). Today it prints them as <code>&lt;h1&gt;</code>. It must print <code>&lt;h2&gt;</code>, as it did in June:</p>
 <pre>{title &amp;&amp; &lt;h2&gt;{title}{subtitle &amp;&amp; &lt;span className={`${styles.subtitle}`}&gt;{subtitle}&lt;/span&gt;}&lt;/h2&gt;}</pre>
       <p>If <code>productsectioncontainer.module.css</code> styles the label as <code>h1</code>, change that selector to <code>h2</code> so the look stays the same.</p>

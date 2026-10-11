@@ -200,39 +200,40 @@ h3{color:var(--primary-dark);margin:22px 0 8px}
 <div class="page">
   <header class="doc-header">
     <a class="backbtn" href="../head-metadata/">&#8592; Back to the dev board</a>
-    <p class="kicker">Renter × TMD · Dev ticket · verified live Sep 27, 2026</p>
+    <p class="kicker">Renter × TMD · Dev ticket · verified live Oct 11, 2026</p>
   </header>
   <div class="doc-body">
       <div class="statusbar"><span class="pill progress">PARTIAL</span><span class="txt">Checked Oct 11, 2026: Part A is done, the Organization and WebSite block is live on <code>/ar/</code> and <code>/en/</code>. Part B is open: the product list still has all 5 errors listed below.</span></div>
-      <h1>Home page: put back the business identity block and correct the product list</h1>
+      <h1>Home page: correct the product list block</h1>
 
       <div class="inshort">
         <h2>In short</h2>
         <dl>
-          <dt>What is wrong</dt><dd>The home page lost the code block that tells Google who runs the site: the name, the logo, the social accounts and the support contacts (schema types Organization and WebSite). The page now has only a product list block, and that list has 5 errors.</dd>
-          <dt>Why it matters</dt><dd>Google uses the WebSite block as a main source for the site name it shows on every search result, and the Organization block for the logo and the business details. Without them, Google has to guess the name (Renter or رينتر) and the logo.</dd>
-          <dt>The fix</dt><dd>Part A: add back one identity block per language (complete code below). Part B: correct the product list (5 rules below). Both parts are in the home page server component.</dd>
+          <dt>Done so far</dt><dd>Part A is live since Sep 29: the Organization and WebSite block is back on <code>/ar/</code> and <code>/en/</code>, as specified below. Keep it.</dd>
+          <dt>What is wrong</dt><dd>The product list block (CollectionPage) on both home pages has 5 errors: no name, an address with a double slash, printed twice, the wrong link field, and positions that start at 3. It lists 12 of the 32 products on the page.</dd>
+          <dt>Why it matters</dt><dd>A list with errors can be misread or ignored by Google. The same list template is used on the 194 category pages, so one fix corrects all of them.</dd>
+          <dt>The fix</dt><dd>Part B: correct the product list with the 5 rules below, using the shared <code>collectionPageLd</code> function. Part A below is kept as the reference for the live identity block.</dd>
           <dt>Owner</dt><dd>Dev team. Paulo and Jan decide who takes it.</dd>
-          <dt>Done when</dt><dd>The Rich Results Test finds "Organization" on <code>/ar/</code> and <code>/en/</code> with no errors, and the list check at the end of this page passes.</dd>
+          <dt>Done when</dt><dd>The list check at the end of this page passes on <code>/ar/</code> and <code>/en/</code>.</dd>
         </dl>
       </div>
 
-      <h2 id="proof">Proof, Sep 27</h2>
+      <h2 id="proof">Proof, Oct 11</h2>
       <div class="tablebox"><table>
         <thead><tr><th>Check</th><th>/ar/</th><th>/en/</th><th>Must be</th></tr></thead>
         <tbody>
-          <tr><td>Organization and WebSite block</td><td>missing</td><td>missing</td><td>present (Part A)</td></tr>
+          <tr><td>Organization and WebSite block</td><td>present</td><td>present</td><td>present (Part A, done)</td></tr>
           <tr><td>Product list: address (<code>url</code>)</td><td><code>https://renter.net/ar//</code></td><td><code>https://renter.net/en//</code></td><td>one slash at the end</td></tr>
           <tr><td>Product list: <code>name</code></td><td>missing</td><td>missing</td><td>the page H1</td></tr>
           <tr><td>Product list: printed</td><td>twice</td><td>twice</td><td>once</td></tr>
           <tr><td>Product list: link field in each entry</td><td><code>item</code></td><td><code>item</code></td><td><code>url</code></td></tr>
           <tr><td>Product list: positions</td><td>3 to 14</td><td>3 to 14</td><td>1 to N</td></tr>
-          <tr><td>Product list: products</td><td>12 of the 31 on the page</td><td>12 of 31</td><td>all product cards on the page</td></tr>
+          <tr><td>Product list: products</td><td>12 of the 32 on the page</td><td>12 of 32</td><td>all product cards on the page</td></tr>
         </tbody>
       </table></div>
 
-      <h2 id="identity">Part A: the identity block (Organization and WebSite)</h2>
-      <p>This block is new next to the product list. It does not replace it. One script per language. Checked Sep 27: the logo URL answers 200, the search URL <code>/ar/search/?q=</code> answers 200 with results, the social links are the ones in the site footer, and the phone and email are the ones on the return policy page.</p>
+      <h2 id="identity">Part A: the identity block (done, live since Sep 29, kept for reference)</h2>
+      <p>This block is live next to the product list. One script per language. Checked Oct 11: the logo URL answers 200, the search URL <code>/ar/search/?q=</code> answers 200 with results, the social links are the ones in the site footer, and the phone and email are the ones on the return policy page.</p>
       <p>Add this function to one shared file, for example <code>src/lib/jsonld.tsx</code>:</p>
 <pre>const ORGANIZATION = {
   "@type": "Organization",
@@ -435,7 +436,7 @@ export function collectionPageLd(name: string, pageUrl: string, productUrls: str
       <p>Use them in the home page server component (<code>src/app/[locale]/page.tsx</code>). <code>h1Text</code> is the text the page prints in its H1. <code>productUrls</code> are the full addresses of the product cards, in the order the page shows them:</p>
 <pre>&lt;JsonLd data={homeIdentityLd(locale)} /&gt;
 &lt;JsonLd data={collectionPageLd(h1Text, `https://renter.net/${locale}/`, productUrls)} /&gt;</pre>
-      <p>Rendered output for <code>/ar/</code> with the 31 products on the page on Sep 27. The list changes when the products change; that is correct:</p>
+      <p>Rendered output for <code>/ar/</code> with the 31 products on the page on Sep 27 (32 on Oct 11). The list changes when the products change; that is correct:</p>
 <pre>&lt;script type="application/ld+json"&gt;
 {
   "@context": "https://schema.org",

@@ -200,7 +200,7 @@ h3{color:var(--primary-dark);margin:22px 0 8px}
 <div class="page">
   <header class="doc-header">
     <a class="backbtn" href="../head-metadata/">&#8592; Back to the dev board</a>
-    <p class="kicker">Renter × TMD · Dev ticket · verified live Sep 27, 2026</p>
+    <p class="kicker">Renter × TMD · Dev ticket · verified live Oct 11, 2026</p>
   </header>
   <div class="doc-body">
       <div class="statusbar"><span class="pill open">NOT DONE</span><span class="txt">Checked Oct 11, 2026: unchanged. Any slug still opens the product with its own canonical. Deleted products answer 307 to the home page: 99 of 1,188 addresses in the sitemap. Unknown category addresses now answer 404 correctly, so the same pattern works here.</span></div>
@@ -210,15 +210,15 @@ h3{color:var(--primary-dark);margin:22px 0 8px}
         <h2>In short</h2>
         <dl>
           <dt>What is wrong (1)</dt><dd>A product page opens at any address that has its number. <code>/ar/product/2545/kamyra-kanwn-4000d/</code>, <code>/ar/product/2545/4000d/</code> and <code>/ar/product/2545/anything/</code> all show the same page, and each copy tells Google that it is the official address.</dd>
-          <dt>What is wrong (2)</dt><dd>When a product is deleted, its address sends the visitor to the home page. 169 of the 1,139 product addresses in the sitemap do this today (15%).</dd>
-          <dt>Why it matters</dt><dd>(1) Google can index several copies of one product and split its ranking between them. It already indexes two addresses for 11 products, for example <code>/ar/product/1662/120/</code>. (2) Google still lists deleted products as indexed (for example <code>/ar/product/2797/</code>, last crawled Sep 5). A searcher who clicks one lands on the home page with no explanation. Google calls a missing page that does not answer "not found" a soft 404, and the sitemap keeps sending Google to 169 dead addresses.</dd>
+          <dt>What is wrong (2)</dt><dd>When a product is deleted, its address sends the visitor to the home page. 99 of the 1,188 product addresses in the sitemap do this today (8%).</dd>
+          <dt>Why it matters</dt><dd>(1) Google can index several copies of one product and split its ranking between them. It already indexes two addresses for 11 products, for example <code>/ar/product/1662/120/</code>. (2) Google still lists deleted products as indexed (for example <code>/ar/product/2797/</code>, last crawled Sep 5). A searcher who clicks one lands on the home page with no explanation. Google calls a missing page that does not answer "not found" a soft 404, and the sitemap keeps sending Google to 99 dead addresses.</dd>
           <dt>The fix</dt><dd>In the product page code: a product that does not exist answers 404 ("not found"). An address with any slug other than the official one moves permanently (308) to the official address. The canonical tag is built from the product data, never from the address that was typed. The sitemap lists live products only.</dd>
           <dt>Owner</dt><dd>Dev team. The sitemap change goes to whoever builds <code>/sitemap/ar/products.xml</code>.</dd>
           <dt>Done when</dt><dd>The 4 checks at the end of this page give the expected answers.</dd>
         </dl>
       </div>
 
-      <h2 id="proof">Proof, Sep 27</h2>
+      <h2 id="proof">Proof, Oct 11</h2>
       <div class="tablebox"><table>
         <thead><tr><th>Address</th><th>Answer today</th><th>Must be</th></tr></thead>
         <tbody>
@@ -229,7 +229,7 @@ h3{color:var(--primary-dark);margin:22px 0 8px}
           <tr><td><a href="https://renter.net/ar/product/99999999/x/">/ar/product/99999999/x/</a> (never existed)</td><td>307 to <code>https://renter.net/</code></td><td>404</td></tr>
         </tbody>
       </table></div>
-      <p>Search Console, URL Inspection, Sep 27: <code>/ar/product/1662/120/</code> (a short copy) is "Submitted and indexed". The deleted <code>/ar/product/2676/</code>, <code>/ar/product/2797/</code> and <code>/ar/product/182/</code> are still "Submitted and indexed".</p>
+      <p>Search Console, URL Inspection, Oct 11: <code>/ar/product/1662/120/</code> (a short copy) is "Submitted and indexed". The deleted <code>/ar/product/2676/</code>, <code>/ar/product/2797/</code> and <code>/ar/product/182/</code> are still "Submitted and indexed".</p>
 
       <h2 id="rules">What Google and Next.js say</h2>
       <div class="tablebox"><table>
@@ -242,12 +242,12 @@ h3{color:var(--primary-dark);margin:22px 0 8px}
       </table></div>
 
       <h2 id="fix">The fix: 4 changes</h2>
-      <p class="note">Code references come from the June copy of the repository. The live code has moved on (for example the new short slug), so read the changes as "replace this behavior".</p>
+      <p class="note">Code references come from the June copy of the repository, so read the changes as "replace this behavior". Good news from Oct 11: unknown category addresses such as <code>/ar/properties/test/</code> now answer 404 correctly, so the same pattern works for products.</p>
 
       <h3>Change 1: one function for the official slug</h3>
       <p>Every place that builds a product address must use the same function: the sitemap, the product cards, the canonical tag, the hreflang tags, the JSON-LD <code>url</code> and <code>offers.url</code>, and the Merchant feed. The official slug is the one the sitemap and the product cards use today. Put that logic in one server-safe file (no <code>'use client'</code>), for example <code>src/lib/product-url.ts</code>:</p>
 <pre>// The official slug of a product: the SAME value the sitemap uses today.
-// Expected results (Sep 27):
+// Expected results (Oct 11):
 //   2545 -&gt; "kamyra-kanwn-4000d"
 //   311  -&gt; "frn-shwyh"
 //   2822 -&gt; "doosan-mega400v"
@@ -288,7 +288,7 @@ if (title !== officialSlug) {
       <p>Add a friendly "not found" page so the visitor is not stuck: <code>src/app/[locale]/not-found.tsx</code> with a short message such as "هذا الإعلان لم يعد متاحًا" and links to the categories and the search. It keeps the 404 code.</p>
 
       <h3>Change 4: the sitemap lists live products only</h3>
-      <p><a href="https://renter.net/sitemap/ar/products.xml">/sitemap/ar/products.xml</a> and <a href="https://renter.net/sitemap/en/products.xml">/sitemap/en/products.xml</a> list 169 deleted products each. Build them from the same rule the product page uses: if the page would answer 404, the product is not in the sitemap.</p>
+      <p><a href="https://renter.net/sitemap/ar/products.xml">/sitemap/ar/products.xml</a> and <a href="https://renter.net/sitemap/en/products.xml">/sitemap/en/products.xml</a> list 99 deleted products each. Build them from the same rule the product page uses: if the page would answer 404, the product is not in the sitemap.</p>
 
       <h2 id="done">Done when</h2>
       <p>Run these 4 checks after the deploy:</p>

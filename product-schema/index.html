@@ -200,32 +200,33 @@ h3{color:var(--primary-dark);margin:22px 0 8px}
 <div class="page">
   <header class="doc-header">
     <a class="backbtn" href="../head-metadata/">&#8592; Back to the dev board</a>
-    <p class="kicker">Renter × TMD · Dev ticket · verified live Sep 27, 2026</p>
+    <p class="kicker">Renter × TMD · Dev ticket · verified live Oct 11, 2026</p>
   </header>
   <div class="doc-body">
       <div class="statusbar"><span class="pill progress">1 FIELD LEFT</span><span class="txt">Checked Oct 11, 2026 on all 1,061 live products: <code>url</code>, <code>offers.url</code>, <code>name</code>, <code>description</code> and <code>sku</code> are correct on 1,060. One fix remains: <code>offers.price</code> (fix 4) is still the first term's price on 51 products with more than one lease term. Example: 2852 says 10,500 (monthly) although it rents per day. Rule: the daily price when a daily term exists, else the lowest price.</span></div>
-      <h1>Product schema: 4 fields to correct in one template</h1>
+      <h1>Product schema: one field left, the main price</h1>
 
       <div class="inshort">
         <h2>In short</h2>
         <dl>
           <dt>What it is</dt><dd>Each product page carries a hidden code block (JSON-LD, schema type Product). It gives Google the product name, photos, price and address.</dd>
-          <dt>What is wrong</dt><dd>4 fields are wrong on most products: the address, the name, the description and the main price.</dd>
-          <dt>Why it matters</dt><dd>Google uses this block for product results with price and availability. Today 690 products give Google an address that answers "not found", 91 have an empty name, and the name is right on only 31 of 968. Google treats a Product block without a name as invalid.</dd>
-          <dt>The fix</dt><dd>4 field changes in the one template that renders every product page. Replace the block; never add a second one.</dd>
+          <dt>Done so far</dt><dd>Checked Oct 11 on all 1,061 live products: <code>url</code>, <code>offers.url</code>, <code>name</code>, <code>description</code> and <code>sku</code> are correct on 1,060. Good work.</dd>
+          <dt>What is wrong</dt><dd>One field: <code>offers.price</code>, the single main price Google shows in results. On 51 products with more than one lease term it is the first term's price, not the daily price.</dd>
+          <dt>Why it matters</dt><dd>Google shows this one number as the product price in search results. Product 2852 shows 10,500 (the monthly price) although it rents per day.</dd>
+          <dt>The fix</dt><dd>One rule in the template: <code>offers.price</code> = the daily price when a daily term exists, else the lowest price among the terms.</dd>
           <dt>Owner</dt><dd>Dev team. Paulo and Jan decide who takes it.</dd>
-          <dt>Done when</dt><dd>The output equals the two complete blocks below, and the Rich Results Test shows no errors for both products.</dd>
+          <dt>Done when</dt><dd><code>/ar/product/311/frn-shwyh/</code> shows <code>"price": 5</code> (its daily price), and the Rich Results Test shows no errors.</dd>
         </dl>
       </div>
 
-      <h2 id="fields">The 4 fixes, with live evidence</h2>
+      <h2 id="fields">The 4 fixes: 3 done, 1 open</h2>
       <div class="tablebox"><table>
-        <thead><tr><th>#</th><th>Field</th><th>Live now (Sep 27)</th><th>Must be</th><th>Wrong on</th></tr></thead>
+        <thead><tr><th>#</th><th>Field</th><th>Live now (Oct 11)</th><th>Must be</th><th>Wrong on</th></tr></thead>
         <tbody>
-          <tr><td>1</td><td><code>url</code> and <code>offers.url</code></td><td>690 products: an empty slug, for example <code>https://renter.net/ar/product/311//</code>, which answers 404.<br>222 products: the short-slug copy, for example <code>/ar/product/2545/4000d/</code>.<br>56 products: correct.</td><td>The page canonical. Build it with the same function as the canonical tag (<code>productSlug</code> on the <a href="../product-urls/">product addresses page</a>)</td><td>912 of 968</td></tr>
-          <tr><td>2</td><td><code>name</code></td><td>The description text: 311 says "فرن شواء كهربائي", the title is "فرن شوية".<br>91 products: empty (for example 2693). 8 products: 1 or 2 characters (2728: "K5"; 2512: ".")</td><td>The API <code>title</code> field: the product name the page shows</td><td>937 of 968</td></tr>
-          <tr><td>3</td><td><code>description</code></td><td>HTML codes stay in the text, such as <code>&amp;nbsp;</code> on 2545</td><td>Plain text: strip tags, decode all HTML codes, collapse spaces</td><td>405 of 968</td></tr>
-          <tr><td>4</td><td><code>offers.price</code></td><td>The price of the first lease term. 311 says 100 (its monthly price) although it rents for 5 a day</td><td>The daily price when a daily term exists, else the lowest price</td><td>every product whose first term is not daily</td></tr>
+          <tr><td>1</td><td><code>url</code> and <code>offers.url</code></td><td><strong>Done.</strong> Equal to the page canonical on 1,060 of 1,061 products.</td><td>The page canonical</td><td>1 of 1,061</td></tr>
+          <tr><td>2</td><td><code>name</code></td><td><strong>Done.</strong> Equal to the product title on 1,060 of 1,061.</td><td>The API <code>title</code> field</td><td>1 of 1,061</td></tr>
+          <tr><td>3</td><td><code>description</code></td><td><strong>Done.</strong> No HTML codes left on any product.</td><td>Plain text</td><td>0</td></tr>
+          <tr><td>4</td><td><code>offers.price</code></td><td><strong>Open.</strong> Still the price of the first lease term. 311 says 100 (monthly) although it rents for 5 a day. 2852 says 10,500 (monthly).</td><td>The daily price when a daily term exists, else the lowest price</td><td>51 of 1,061 (the ones whose first term is not daily)</td></tr>
         </tbody>
       </table></div>
 

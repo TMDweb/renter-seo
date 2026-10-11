@@ -200,33 +200,34 @@ h3{color:var(--primary-dark);margin:22px 0 8px}
 <div class="page">
   <header class="doc-header">
     <a class="backbtn" href="../head-metadata/">&#8592; Back to the dev board</a>
-    <p class="kicker">Renter × TMD · Dev ticket · verified in Merchant Center and the feed, Sep 27, 2026</p>
+    <p class="kicker">Renter × TMD · Dev ticket · verified in Merchant Center and the feed, Oct 11, 2026</p>
   </header>
   <div class="doc-body">
       <div class="statusbar"><span class="pill open">NOT DONE</span><span class="txt">Checked Oct 11, 2026: 896 approved, 264 not approved, all vehicles. The price 0 and missing photo issues are gone. Return policy still rejected: Merchant Center says "1 day, customer pays"; the page still says "end of the rental, no fees". A wording from Mr. Mohamed is awaited. New and urgent: all 24 feed files are empty since the server changes of Oct 3 to 5 (board issue 14).</span></div>
-      <h1>Google Shopping: the return policy is rejected, and 331 products are not approved</h1>
+      <h1>Google Shopping: the return policy is rejected, 264 vehicles are not approved, and the feed is empty</h1>
 
       <div class="inshort">
         <h2>In short</h2>
         <dl>
-          <dt>What is wrong</dt><dd>(1) Google rejected the return policy: "Return information provided does not match your online store." Our Merchant Center settings and our return policy page say different things. (2) 331 of 1,470 products are not approved: 289 vehicles (Google policy), 18 with a price of 0, 17 with broken photo links, 15 with no photo.</dd>
-          <dt>Why it matters</dt><dd>Google Shopping brought 678 clicks in the 28 days to Sep 27. A product that is not approved never shows. A rejected return policy can limit or stop listings: on Aug 25, the missing return policy took all products off Google Shopping.</dd>
-          <dt>The fix</dt><dd>Part 1: Mr. Mohamed chooses the return terms; the page and Merchant Center then say the same thing. Part 2: three feed rules and one data repair. Part 3: Ahmed takes the vehicle products out of Google Shopping.</dd>
-          <dt>Owners</dt><dd>Mr. Mohamed decides Part 1. Ahmed: Part 3. Dev team: page text and feed rules. Jan: the missing photo files. Saiaf: Merchant Center settings and the resubmission.</dd>
+          <dt>Done so far</dt><dd>The price 0, broken photo and missing photo issues are gone from Merchant Center (Oct 11).</dd>
+          <dt>What is wrong</dt><dd>(1) Google rejected the return policy: "Return information provided does not match your online store." The Merchant Center settings say "1 day, customer pays the return"; the page says "end of the rental, no fees". (2) 264 of 1,160 products are not approved, all under Google's vehicle policy. (3) New and urgent: all 24 feed files are empty since the server changes of Oct 3 to 5. Google already dropped the product count from 1,470 to 1,160 and will drop the rest.</dd>
+          <dt>Why it matters</dt><dd>Google Shopping brought 718 clicks in the 28 days to Oct 11, up 22%. An empty feed loses all of them. A rejected return policy can limit or stop listings: on Aug 25, the missing return policy took all products off Google Shopping.</dd>
+          <dt>The fix</dt><dd>Part 0, first: the dev team restores the feed (<a href="../merchant-feed/">feed ticket</a>, board issue 14). Part 1: Mr. Mohamed sends a return wording with a number of days that creates no legal duty; the page and Merchant Center then say the same thing. Part 3: Ahmed takes the vehicle products out of Google Shopping. Part 2 is done.</dd>
+          <dt>Owners</dt><dd>Dev team: the feed. Mr. Mohamed: the return wording. Ahmed: the vehicles. Saiaf: Merchant Center settings and the resubmission.</dd>
           <dt>Done when</dt><dd>The return policy shows "Approved", and the only products not approved are the ones the team chose to keep out.</dd>
         </dl>
       </div>
 
       <h2 id="return">Part 1: the return policy</h2>
-      <p>Google compares the Merchant Center settings with the page, field by field: "Confirm that the return policies are consistent in Merchant Center and across your website." (<a href="https://support.google.com/merchants/answer/14011730">Google: set up return policies</a>). Today they differ in 6 fields:</p>
+      <p>Google compares the Merchant Center settings with the page, field by field: "Confirm that the return policies are consistent in Merchant Center and across your website." (<a href="https://support.google.com/merchants/answer/14011730">Google: set up return policies</a>). On Oct 4 the settings were changed to "1 day" as a test; Google rejected that too, because the page still has no number of days. In the Oct 4 meeting Mr. Mohamed declined "10 days" and "3 days" for legal reasons and will send a wording. Today the two still differ:</p>
       <div class="tablebox"><table>
         <thead><tr><th>Field</th><th>Merchant Center today</th><th><a href="https://renter.net/ar/return-policy/">Return policy page</a> today</th></tr></thead>
         <tbody>
           <tr><td>Returns</td><td>Accepted, for defective and non-defective products</td><td>The item goes back to the lessor at the end of the rental. Nothing about a return for a refund</td></tr>
-          <tr><td>Return window</td><td>10 days</td><td>"the end of the rental period"</td></tr>
+          <tr><td>Return window</td><td>1 day</td><td>"the end of the rental period"</td></tr>
           <tr><td>Return method</td><td>In store, at a drop-off point, by mail</td><td>Not stated (handed back to the lessor)</td></tr>
           <tr><td>Return cost</td><td>The customer pays the return label</td><td>No fees, 0 SAR</td></tr>
-          <tr><td>Refund time</td><td>10 days</td><td>Business days, 8:00 to 14:00, through SARIE</td></tr>
+          <tr><td>Refund time</td><td>1 day</td><td>Business days, 8:00 to 14:00, through SARIE</td></tr>
           <tr><td>Exchanges</td><td>Accepted</td><td>Not stated</td></tr>
         </tbody>
       </table></div>
@@ -283,14 +284,14 @@ h3{color:var(--primary-dark);margin:22px 0 8px}
 &lt;p&gt;Email: support@renter.net · Phone: 011 500 3615&lt;/p&gt;</pre>
       <p><strong>Then Saiaf</strong>, after the new text is live: Merchant Center, Return policies, "Standard for Saudi Arabia", Edit. Set "No, I don't accept returns" and "No, I don't accept exchanges". Keep the policy URL <code>https://renter.net/ar/return-policy/</code>. Save. Google's review can take up to 10 days.</p>
 
-      <h2 id="products">Part 2: products not approved, cause and fix</h2>
+      <h2 id="products">Part 2: products not approved (price and photo issues done, vehicles open)</h2>
       <div class="tablebox"><table>
-        <thead><tr><th>Merchant Center issue</th><th>Products</th><th>Cause, verified Sep 27</th><th>Fix</th><th>Owner</th></tr></thead>
+        <thead><tr><th>Merchant Center issue</th><th>Products, Oct 11</th><th>Cause</th><th>Fix</th><th>Owner</th></tr></thead>
         <tbody>
-          <tr><td>Vehicles</td><td>289</td><td>Google does not allow vehicles in Shopping (Part 3)</td><td>Task in Part 3</td><td>Ahmed</td></tr>
-          <tr><td>Invalid price</td><td>18 (16 in the feed today)</td><td>The product price is 0</td><td>Feed rule: leave out every product with a price of 0 or less</td><td>Dev team</td></tr>
-          <tr><td>Unsupported image type</td><td>17 (18 in the feed today)</td><td>The photo links return "404 Not Found": the files are missing on <code>admin-production.renter.net/storage</code>. All photos of these 18 products are missing, so visitors also see no photos on their pages</td><td>Jan: restore the files from a backup if one exists; if not, ask the lessors to upload new photos. Feed rule: leave out products with no working photo</td><td>Jan, Dev team</td></tr>
-          <tr><td>Missing product image</td><td>15</td><td>The product has no photo</td><td>Feed rule: leave out products with no photo</td><td>Dev team</td></tr>
+          <tr><td>Vehicles</td><td>264 (215 in the priority list)</td><td>Google does not allow vehicles in Shopping (Part 3)</td><td>Task in Part 3</td><td>Ahmed</td></tr>
+          <tr><td>Invalid price</td><td><strong>Done</strong>, 0 (was 18)</td><td>The product price is 0</td><td>Feed rule: leave out every product with a price of 0 or less</td><td>Dev team</td></tr>
+          <tr><td>Unsupported image type</td><td><strong>Done</strong>, 0 (was 17)</td><td>The photo links return "404 Not Found": the files are missing on <code>admin-production.renter.net/storage</code>. All photos of these 18 products are missing, so visitors also see no photos on their pages</td><td>Jan: restore the files from a backup if one exists; if not, ask the lessors to upload new photos. Feed rule: leave out products with no working photo</td><td>Jan, Dev team</td></tr>
+          <tr><td>Missing product image</td><td><strong>Done</strong>, 0 (was 15)</td><td>The product has no photo</td><td>Feed rule: leave out products with no photo</td><td>Dev team</td></tr>
         </tbody>
       </table></div>
       <p>The 18 products with missing photo files, all in one number range: 1252, 1253, 1254, 1255, 1257, 1258, 1259, 1261, 1263, 1264, 1266, 1267, 1268, 1269, 1276, 1279, 1295, 1298. Example: <a href="https://admin-production.renter.net/storage/post_images_17790936669896840623.jpg">the first photo of product 1298</a> answers 404.</p>
