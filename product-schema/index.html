@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
-<title>Renter · Dev Ticket · Product schema: 4 fields to correct</title>
-<link rel="stylesheet" href="../assets/ticket.css?v=3">
+<title>Renter · Product schema: one field left, the main price</title>
+<link rel="stylesheet" href="../assets/ticket.css?v=4">
 </head>
 <body>
 <div class="page">
@@ -14,8 +14,8 @@
     <p class="kicker">Renter × TMD · Dev ticket · verified live Oct 11, 2026</p>
   </header>
   <div class="doc-body">
-      <div class="statusbar"><span class="pill progress">1 FIELD LEFT</span><span class="txt">Checked Oct 11, 2026 on all 1,061 live products: <code>url</code>, <code>offers.url</code>, <code>name</code>, <code>description</code> and <code>sku</code> are correct on 1,060. One fix remains: <code>offers.price</code> (fix 4) is still the first term's price on 51 products with more than one lease term. Example: 2852 says 10,500 (monthly) although it rents per day. Rule: the daily price when a daily term exists, else the lowest price.</span></div>
       <h1>Product schema: one field left, the main price</h1>
+      <div class="statusbar"><span class="pill progress">1 FIELD LEFT</span><span class="txt">Checked Oct 11, 2026 on all 1,061 live products: <code>url</code>, <code>offers.url</code>, <code>name</code>, <code>description</code> and <code>sku</code> are correct on 1,060. One fix remains: <code>offers.price</code> (fix 4) is still the first term's price on 51 products with more than one lease term. Example: 2852 says 10,500 (monthly) although it rents per day. Rule: the daily price when a daily term exists, else the lowest price.</span></div>
 
       <div class="inshort">
         <h2>In short</h2>
