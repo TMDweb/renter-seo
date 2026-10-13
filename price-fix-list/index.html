@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Renter · Product price in schema: the 49 products to correct</title>
+<link rel="stylesheet" href="../assets/ticket.css?v=5">
+</head>
+<body>
+<div class="page">
+  <header class="doc-header">
+    <a class="backbtn" href="../head-metadata/">&#8592; Back to the dev board</a>
+    <p class="kicker">Renter × TMD · From the Oct 11 meeting · written Oct 13, 2026</p>
+  </header>
+  <div class="doc-body">
+      <h1>Product price in schema: the 49 products to correct</h1>
+      <div class="statusbar"><span class="pill open">OPEN, FOR PAULO</span><span class="txt">Checked live Oct 13, 2026. Saiaf promised this list in the Oct 11 meeting, so Paulo does not have to guess. 49 products still send Google the wrong main price.</span></div>
+      <div class="inshort">
+        <h2>In short</h2>
+        <dl>
+          <dt>What is wrong</dt><dd>On these products the single <code>offers.price</code> in the Product schema is the price of the first lease term in the list. It must be the daily price.</dd>
+          <dt>The pattern</dt><dd>48 of the 49 have a daily term that is not first in the list; the code takes the first term. One product, 2674, has no daily term and shows its monthly price (4,500) instead of its lowest price (350 per hour). On the other 1,000 products the right term is first, so they are already correct.</dd>
+          <dt>The fix</dt><dd>Do not take the first term. Search the terms for the daily one and use its price. If a product has no daily term, use the lowest price.</dd>
+          <dt>Do not change</dt><dd>The <code>priceSpecification</code> entries are correct on all of these. Keep them.</dd>
+          <dt>Done when</dt><dd>Every row below shows the value in the last column. TMD re-runs the check on all products.</dd>
+        </dl>
+      </div>
+      <h2 id="code">The rule in code</h2>
+      <pre>const terms = product.post_lease_terms.filter((t) =&gt; t.type === &quot;available&quot;);
+const daily = terms.find((t) =&gt; t.lease_term === &quot;daily&quot;);
+const mainPrice = daily
+  ? Number(daily.price)
+  : Math.min(...terms.map((t) =&gt; Number(t.price)));
+// offers.price = mainPrice</pre>
+      <p class="note">Field names follow the June copy of the API query (<code>post_lease_terms</code>, <code>lease_term</code>, <code>type</code>). Adjust them if the live names differ.</p>
+      <h2 id="list">The products</h2>
+      <div class="tablebox"><table>
+        <thead><tr><th>ID</th><th>Product</th><th>Lease terms, in the order the schema lists them</th><th>Price now</th><th>Must be</th></tr></thead>
+        <tbody>
+          <tr><td>2893</td><td><a href="https://renter.net/ar/product/2893/syarh-bsaeq-tahw-2026/">سيارة بسائق تاهو 2026</a></td><td>300 per hour, 1,300 per day</td><td>300</td><td><strong>1,300</strong></td></tr>
+          <tr><td>2892</td><td><a href="https://renter.net/ar/product/2892/syarh-bsaeq-lkzs-es300/">سيارة بسائق لكزس es300</a></td><td>180 per hour, 900 per day</td><td>180</td><td><strong>900</strong></td></tr>
+          <tr><td>2852</td><td><a href="https://renter.net/ar/product/2852/bwb-kat-ktr-blr-216b/">بوب كات كتر بلر 216B</a></td><td>10,500 per month, 500 per day</td><td>10,500</td><td><strong>500</strong></td></tr>
+          <tr><td>2849</td><td><a href="https://renter.net/ar/product/2849/dyna-thlajh-tbryd-3-tn/">دينا ثلاجة تبريد  3 طن</a></td><td>10,000 per month, 500 per day</td><td>10,000</td><td><strong>500</strong></td></tr>
+          <tr><td>2788</td><td><a href="https://renter.net/ar/product/2788/wayt-alby-llayjar/">وايت البي للايجار</a></td><td>15,000 per month, 1,000 per day</td><td>15,000</td><td><strong>1,000</strong></td></tr>
+          <tr><td>2775</td><td><a href="https://renter.net/ar/product/2775/aalh-ayskrym/">آله ايسكريم </a></td><td>350 per hour, 450 per day</td><td>350</td><td><strong>450</strong></td></tr>
+          <tr><td>2747</td><td><a href="https://renter.net/ar/product/2747/llayjar-bwklyn-hywnday-220/">للايجار بوكلين هيونداي 220 </a></td><td>16,000 per month, 1,000 per day</td><td>16,000</td><td><strong>1,000</strong></td></tr>
+          <tr><td>2712</td><td><a href="https://renter.net/ar/product/2712/drajh-hwaeyh/">دراجة هوائية</a></td><td>25 per hour, 100 per day, 999 per month</td><td>25</td><td><strong>100</strong></td></tr>
+          <tr><td>2695</td><td><a href="https://renter.net/ar/product/2695/rwafa-shwkyh-llayjar-alshhry-aw-almshawyr-alywmyh/">روافع شوكيه للايجار الشهري او المشاوير اليوميه</a></td><td>4,000 per month, 300 per day</td><td>4,000</td><td><strong>300</strong></td></tr>
+          <tr><td>2690</td><td><a href="https://renter.net/ar/product/2690/shqh-mfrwshh-fakhrh/">شقة مفروشة فاخرة </a></td><td>3,000 per month, 250 per day</td><td>3,000</td><td><strong>250</strong></td></tr>
+          <tr><td>2674</td><td><a href="https://renter.net/ar/product/2674/tajyr-aysyzw-thlajh/">تاجير ايسيزو ثلاجه</a></td><td>4,500 per month, 350 per hour</td><td>4,500</td><td><strong>350</strong></td></tr>
+          <tr><td>2668</td><td><a href="https://renter.net/ar/product/2668/tajyr-syarat/">تأجير سيارات </a></td><td>2,300 per month, 100 per day</td><td>2,300</td><td><strong>100</strong></td></tr>
+          <tr><td>2659</td><td><a href="https://renter.net/ar/product/2659/syzr-lft-llayjar-fy-aldmam-aljbyl-walqtyf-or-rwafa-nmaa/">سيزر لفت للايجار في الدمام، الجبيل، والقطيف | روافع نماء</a></td><td>6,000 per month, 300 per day, 200 per hour</td><td>6,000</td><td><strong>300</strong></td></tr>
+          <tr><td>2456</td><td><a href="https://renter.net/ar/product/2456/wnsh-kryn-rafah-baskt/">ونش كرين رافعه باسكت </a></td><td>200 per hour, 500 per day, 12,000 per month</td><td>200</td><td><strong>500</strong></td></tr>
+          <tr><td>2372</td><td><a href="https://renter.net/ar/product/2372/lkhdmat-nql-mbrd-nhn-alkhyar-almatmd/">لخدمات نقل مبرد …نحن الخيار المعتمد </a></td><td>9,000 per month, 400 per day</td><td>9,000</td><td><strong>400</strong></td></tr>
+          <tr><td>2360</td><td><a href="https://renter.net/ar/product/2360/fylybs-mrwhh-brjyh-aalyh-aladaa-40-wat-tqnyh-blydlys-bmatr-hwaa-aswd/">فيليبس مروحة برجية عالية الأداء 40 واط تقنية بليدليس بمعطر هواء أسود </a></td><td>25 per hour, 129 per day, 299 per month</td><td>25</td><td><strong>129</strong></td></tr>
+          <tr><td>2332</td><td><a href="https://renter.net/ar/product/2332/ajar-twrs-2026/">أجار تورس 2026</a></td><td>5,600 per month, 550 per day</td><td>5,600</td><td><strong>550</strong></td></tr>
+          <tr><td>2202</td><td><a href="https://renter.net/ar/product/2202/fan-bdhaah-fyat/">فان بضاعة فيات </a></td><td>1,200 per month, 100 per day</td><td>1,200</td><td><strong>100</strong></td></tr>
+          <tr><td>2182</td><td><a href="https://renter.net/ar/product/2182/mwldat-khrbaa/">مولدات كهرباء</a></td><td>5,000 per month, 700 per day</td><td>5,000</td><td><strong>700</strong></td></tr>
+          <tr><td>2147</td><td><a href="https://renter.net/ar/product/2147/dyna-thlajh/">دينا ثلاجة </a></td><td>7,500 per month, 600 per day</td><td>7,500</td><td><strong>600</strong></td></tr>
+          <tr><td>2114</td><td><a href="https://renter.net/ar/product/2114/rsash-25-tn/">رصاصة 25 طن </a></td><td>13,000 per month, 600 per day</td><td>13,000</td><td><strong>600</strong></td></tr>
+          <tr><td>2107</td><td><a href="https://renter.net/ar/product/2107/fwdtrk-mqtwrh-shb-w-mjhzh-balmadat/">فودترك مقطورة سحب و مجهزة بالمعدات </a></td><td>2,500 per month, 200 per day</td><td>2,500</td><td><strong>200</strong></td></tr>
+          <tr><td>2022</td><td><a href="https://renter.net/ar/product/2022/jrydr-mwdyl-2024/">جريدر موديل 2024</a></td><td>26,000 per month, 1,000 per day</td><td>26,000</td><td><strong>1,000</strong></td></tr>
+          <tr><td>2008</td><td><a href="https://renter.net/ar/product/2008/bwklyn/">بوكلين</a></td><td>18,000 per month, 850 per day</td><td>18,000</td><td><strong>850</strong></td></tr>
+          <tr><td>1916</td><td><a href="https://renter.net/ar/product/1916/bklynat/">بكلينات </a></td><td>17,000 per month, 700 per day</td><td>17,000</td><td><strong>700</strong></td></tr>
+          <tr><td>1803</td><td><a href="https://renter.net/ar/product/1803/gpu-180kva/">GPU 180KVA</a></td><td>25,000 per month, 1,000 per day</td><td>25,000</td><td><strong>1,000</strong></td></tr>
+          <tr><td>1743</td><td><a href="https://renter.net/ar/product/1743/shqh-hadeh-thlath-ghrf-balmdynh-almnwrh/">شقة هادئة ثلاث غرف بالمدينة المنورة</a></td><td>8,500 per month, 600 per day</td><td>8,500</td><td><strong>600</strong></td></tr>
+          <tr><td>1732</td><td><a href="https://renter.net/ar/product/1732/astdyw-fundqy-alslymanyh/">أستديو فُندقي السليمانية</a></td><td>4,000 per month, 220 per day</td><td>4,000</td><td><strong>220</strong></td></tr>
+          <tr><td>1731</td><td><a href="https://renter.net/ar/product/1731/astdyw-fundqy-balmrwj/">أستديو فُندقي بالمروج </a></td><td>4,000 per month, 230 per day</td><td>4,000</td><td><strong>230</strong></td></tr>
+          <tr><td>1724</td><td><a href="https://renter.net/ar/product/1724/mkynh-ghsyl-dhght-aaly-mn-karshr-120-bar/">مكينة غسيل ضغط عالي من كارشر 120 بار </a></td><td>50 per hour, 150 per day</td><td>50</td><td><strong>150</strong></td></tr>
+          <tr><td>1719</td><td><a href="https://renter.net/ar/product/1719/rafah-khmsh-tn/">رافعه خمسه طن</a></td><td>11,000 per month, 700 per day</td><td>11,000</td><td><strong>700</strong></td></tr>
+          <tr><td>1637</td><td><a href="https://renter.net/ar/product/1637/bwklyn-hfr-wtrhyl-wajar/">بوكلين حفر وترحيل واجار </a></td><td>17,000 per month, 700 per day</td><td>17,000</td><td><strong>700</strong></td></tr>
+          <tr><td>1594</td><td><a href="https://renter.net/ar/product/1594/lliyjar-basat-nql-mwzfyn-wamal/">للإيجار باصات نقل موظفين وعمال </a></td><td>10,000 per month, 400 per day</td><td>10,000</td><td><strong>400</strong></td></tr>
+          <tr><td>1582</td><td><a href="https://renter.net/ar/product/1582/shywl-66/">شيول 66</a></td><td>18,200 per month, 800 per day</td><td>18,200</td><td><strong>800</strong></td></tr>
+          <tr><td>1494</td><td><a href="https://renter.net/ar/product/1494/wayt-maa-sks-man-llayjar-fy-alryadh/">وايت ماء سكس مان للايجار في الرياض</a></td><td>14,000 per month, 550 per day</td><td>14,000</td><td><strong>550</strong></td></tr>
+          <tr><td>1447</td><td><a href="https://renter.net/ar/product/1447/syyra-nql-aghradh-dakhl-alryadh/">سييرا نقل اغراض داخل الرياض </a></td><td>150 per hour, 400 per day</td><td>150</td><td><strong>400</strong></td></tr>
+          <tr><td>1446</td><td><a href="https://renter.net/ar/product/1446/maykrwfwn-laslky/">مايكروفون لاسلكي  </a></td><td>2.5 per hour, 10 per day, 50 per month</td><td>2.5</td><td><strong>10</strong></td></tr>
+          <tr><td>1445</td><td><a href="https://renter.net/ar/product/1445/maykrfwn-qymnq-mn-asa/">مايكرفون قيمنق من ASA </a></td><td>5 per hour, 25 per day, 100 per month</td><td>5</td><td><strong>25</strong></td></tr>
+          <tr><td>1426</td><td><a href="https://renter.net/ar/product/1426/syarh-fan-lnql-albdhaea-alkhfyfh/">سيارة فان لنقل البضائع الخفيفة </a></td><td>25 per hour, 1,500 per month, 100 per day</td><td>25</td><td><strong>100</strong></td></tr>
+          <tr><td>1420</td><td><a href="https://renter.net/ar/product/1420/ghrfh-wsalh/">غرفة وصالة </a></td><td>4,500 per month, 250 per day</td><td>4,500</td><td><strong>250</strong></td></tr>
+          <tr><td>1398</td><td><a href="https://renter.net/ar/product/1398/bwklynat-jdydh-mwdl-2026/">بوكلينات جديده  مودل 2026</a></td><td>20,000 per month, 800 per day</td><td>20,000</td><td><strong>800</strong></td></tr>
+          <tr><td>1359</td><td><a href="https://renter.net/ar/product/1359/rafah-shwkyh/">رافعة شوكية </a></td><td>3,500 per month, 300 per day</td><td>3,500</td><td><strong>300</strong></td></tr>
+          <tr><td>1335</td><td><a href="https://renter.net/ar/product/1335/bwklyn-dwsan-225/">بوكلين دوسان 225</a></td><td>19,000 per month, 900 per day</td><td>19,000</td><td><strong>900</strong></td></tr>
+          <tr><td>1334</td><td><a href="https://renter.net/ar/product/1334/bwklyn-220/">بوكلين 220</a></td><td>19,000 per month, 900 per day</td><td>19,000</td><td><strong>900</strong></td></tr>
+          <tr><td>1326</td><td><a href="https://renter.net/ar/product/1326/rwatr-hwawy-5g/">رواتر هواوي 5G</a></td><td>50 per month, 4 per day</td><td>50</td><td><strong>4</strong></td></tr>
+          <tr><td>1312</td><td><a href="https://renter.net/ar/product/1312/bwbkat-lliyjar/">بوبكات  للإيجار</a></td><td>8,000 per month, 450 per day, 150 per hour</td><td>8,000</td><td><strong>450</strong></td></tr>
+          <tr><td>311</td><td><a href="https://renter.net/ar/product/311/frn-shwyh/">فرن شوية</a></td><td>100 per month, 5 per day</td><td>100</td><td><strong>5</strong></td></tr>
+          <tr><td>257</td><td><a href="https://renter.net/ar/product/257/jhaz-aljry-wtqwyh-adhlat-alrjl-wtmaryn-alkhsr/">جهاز الجري وتقويه عضلات الرجل وتمارين الخصر</a></td><td>199 per month, 37 per day</td><td>199</td><td><strong>37</strong></td></tr>
+          <tr><td>246</td><td><a href="https://renter.net/ar/product/246/syyra-2010-dbl/">سييرا 2010 دبل</a></td><td>500 per hour, 1,500 per day</td><td>500</td><td><strong>1,500</strong></td></tr>
+        </tbody>
+      </table></div>
+
+      <p><a class="backbtn" href="../head-metadata/">&#8592; Back to the dev board</a></p>
+  </div>
+</div>
+<script>
+document.querySelectorAll('pre').forEach(function(pre){
+  var w=document.createElement('div'); w.className='codewrap'; pre.parentNode.insertBefore(w,pre); w.appendChild(pre);
+  var b=document.createElement('button'); b.className='copybtn'; b.textContent='Copy'; w.appendChild(b);
+  b.addEventListener('click',function(){
+    var t=pre.innerText;
+    function ok(){b.textContent='Copied';setTimeout(function(){b.textContent='Copy'},1500);}
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(ok,function(){fb()});}else{fb()}
+    function fb(){var ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');ok();}catch(e){b.textContent='Failed'}document.body.removeChild(ta);}
+  });
+});
+</script>
+</body>
+</html>

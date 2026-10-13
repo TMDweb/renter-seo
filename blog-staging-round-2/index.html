@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Renter · Blog on staging: the fixes left before launch</title>
+<link rel="stylesheet" href="../assets/ticket.css?v=5">
+</head>
+<body>
+<div class="page">
+  <header class="doc-header">
+    <a class="backbtn" href="../head-metadata/">&#8592; Back to the dev board</a>
+    <p class="kicker">Renter × TMD · From the Oct 11 meeting · written Oct 13, 2026</p>
+  </header>
+  <div class="doc-body">
+      <h1>Blog on staging: the fixes left before launch</h1>
+      <div class="statusbar"><span class="pill open">OPEN, FOR PAULO AND JAN</span><span class="txt">From the staging walk-through in the Oct 11 meeting, where Saiaf said he would put these in the next ticket. Checked on v2-staging on Oct 13, 2026.</span></div>
+      <div class="inshort">
+        <h2>In short</h2>
+        <dl>
+          <dt>Done on staging</dt><dd>Pagination has real addresses (<code>/blog/2/</code>). A page number past the last page answers 404 (<code>/ar/blog/7/</code> checked). A wrong hub or article address answers 404. Hub pages and the category link work.</dd>
+          <dt>Still open</dt><dd>The 7 items below. Items 1 to 4 block the launch.</dd>
+          <dt>Launch rule</dt><dd>The blog goes live with one real article and only the hubs that have an article. No test articles and no empty hubs on renter.net. An empty page that goes live can take Google months to forget.</dd>
+          <dt>Owners</dt><dd>Paulo: items 1 to 6. Jan: the data behind items 1 and 3, and item 7.</dd>
+        </dl>
+      </div>
+      <h2 id="items">The 7 items</h2>
+      <div class="tablebox"><table>
+        <thead><tr><th>#</th><th>Item</th><th>Now on staging</th><th>Must be</th><th>Owner</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Title, meta description, canonical</td><td>None on any blog page</td><td>Each page prints the title and description that Saiaf types in the dashboard, and a canonical that equals its own address</td><td>Paulo, Jan</td></tr>
+          <tr><td>2</td><td>Paginated pages</td><td>No canonical</td><td><code>/ar/blog/2/</code> has a canonical to itself, not to page 1</td><td>Paulo</td></tr>
+          <tr><td>3</td><td>hreflang</td><td>None on blog pages</td><td>Arabic and English versions point to each other, as on the rest of the site. An article with no English version prints no English hreflang</td><td>Paulo</td></tr>
+          <tr><td>4</td><td>Schema (JSON-LD)</td><td>None</td><td>The blocks in the <a href="../blog-schema/">blog schema ticket</a></td><td>Paulo</td></tr>
+          <tr><td>5</td><td>Blog sitemaps</td><td><code>/sitemap/ar/blog.xml</code> answers 500</td><td>200, listing live articles and hubs only</td><td>Paulo</td></tr>
+          <tr><td>6</td><td>Small UI fixes</td><td>Article text is tight on phones. The call-to-action box is not clickable; only its image is. Copy link gives no feedback</td><td>Line height about 1.3 times the current one on phones. The whole call-to-action box is one link. A short "copied" message after copy link</td><td>Paulo</td></tr>
+          <tr><td>7</td><td>Blog events for Google Tag Manager</td><td>Not sent</td><td>The events in section 5 of the <a href="../blog-section/#gtm">blog ticket</a></td><td>Paulo</td></tr>
+        </tbody>
+      </table></div>
+
+      <h2 id="saiaf">What Saiaf owes for the blog</h2>
+      <div class="tablebox"><table>
+        <thead><tr><th>Promise in the meeting</th><th>Where it is</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>Give Paulo the blog schema</td><td><a href="../blog-schema/">blog schema ticket</a></td><td><span class="pill done">READY</span></td></tr>
+          <tr><td>One real article before launch</td><td><a href="../blog-first-article/">first article ticket</a></td><td><span class="pill open">OWED</span></td></tr>
+          <tr><td>Read Jan's API document and send SEO additions</td><td><a href="../blog-api-review/">API review ticket</a></td><td><span class="pill open">OWED</span></td></tr>
+          <tr><td>Tell Paulo how the table of contents will be entered, before the first article that has one</td><td><a href="../blog-first-article/">first article ticket</a></td><td><span class="pill open">OWED</span></td></tr>
+        </tbody>
+      </table></div>
+
+      <h2 id="jan">What Jan owes Saiaf</h2>
+      <ul>
+        <li>A working login to the blog dashboard. The two logins tried so far did not work.</li>
+        <li>A walk-through of the dashboard when he is at his computer.</li>
+        <li>Edit access to product titles and descriptions, on the second phone number Saiaf gave in the meeting.</li>
+      </ul>
+
+      <p><a class="backbtn" href="../head-metadata/">&#8592; Back to the dev board</a></p>
+  </div>
+</div>
+<script>
+document.querySelectorAll('pre').forEach(function(pre){
+  var w=document.createElement('div'); w.className='codewrap'; pre.parentNode.insertBefore(w,pre); w.appendChild(pre);
+  var b=document.createElement('button'); b.className='copybtn'; b.textContent='Copy'; w.appendChild(b);
+  b.addEventListener('click',function(){
+    var t=pre.innerText;
+    function ok(){b.textContent='Copied';setTimeout(function(){b.textContent='Copy'},1500);}
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(ok,function(){fb()});}else{fb()}
+    function fb(){var ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');ok();}catch(e){b.textContent='Failed'}document.body.removeChild(ta);}
+  });
+});
+</script>
+</body>
+</html>

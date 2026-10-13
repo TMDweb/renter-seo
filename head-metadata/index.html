@@ -10,14 +10,14 @@
 <body>
 <div class="page">
   <header class="doc-header">
-    <p class="kicker">Renter × TMD · Dev board · verified live Oct 11, 2026</p>
+    <p class="kicker">Renter × TMD · Dev board · verified live Oct 13, 2026</p>
   </header>
   <div class="doc-body">
       <h1>Renter dev board</h1>
       <p class="lede">One entry per open issue. Each entry says what is wrong, why it matters, the proof, the fix, the owner, and how we check that it is done. Issues that need code have their own page with complete, copy-ready code. Every status was checked live on <strong>Oct 11, 2026</strong> on the live site, in Search Console and in Merchant Center, not taken from meeting notes. The old combined ticket stays in the <a href="archive/">archive</a>.</p>
       <p class="lede"><strong>Rule for every fix:</strong> replace the existing block, never add a second one next to it. After a deploy, tell Saiaf; TMD checks the live site before the next meeting.</p>
 
-      <div class="statusbar"><span class="pill done">RE-CHECKED</span><span class="txt"><strong>Oct 11, 2026:</strong> the server error is gone; every page answers 200 again. Checked live today: all 1,188 product addresses in the sitemap, the home and category pages, Merchant Center and Search Console. Big progress since Oct 4: the product schema is correct on 1,060 of 1,061 products, "not found" pages answer 404, and the hidden H1 is now the only H1. Still open: 9 items below.</span></div>
+      <div class="statusbar"><span class="pill done">UPDATED</span><span class="txt"><strong>Oct 13, 2026:</strong> updated from the full recording of the Oct 11 meeting and a new live check. The Merchant feed is back: 1,200 products in 24 files. Every promise Saiaf made in the meeting now has its own ticket, listed first below.</span></div>
 
       <h2 id="words">Words used on this board</h2>
       <div class="gloss">
@@ -32,23 +32,37 @@
         <p><b>Merchant Center:</b> Google's product account for Google Shopping. It reads our product feed.</p>
       </div>
 
+      <h2 id="promises">What Saiaf promised in the Oct 11 meeting</h2>
+      <div class="tablebox"><table class="board">
+        <thead><tr><th>#</th><th>Promise</th><th>Status</th><th>For</th><th>Ticket</th></tr></thead>
+        <tbody>
+          <tr><td>P1</td><td>The list of products with the wrong price, so Paulo does not guess</td><td><span class="pill done">DELIVERED</span></td><td>Paulo</td><td><a href="../price-fix-list/">price list (49 products)</a></td></tr>
+          <tr><td>P2</td><td>The blog staging fixes "in the next ticket", with the clickable call-to-action</td><td><span class="pill done">DELIVERED</span></td><td>Paulo, Jan</td><td><a href="../blog-staging-round-2/">blog fixes before launch</a></td></tr>
+          <tr><td>P3</td><td>The blog schema for Paulo</td><td><span class="pill done">DELIVERED</span></td><td>Paulo</td><td><a href="../blog-schema/">blog schema</a></td></tr>
+          <tr><td>P4</td><td>Return policy wordings, A, B, C, for Mr. Mohamed to pick</td><td><span class="pill progress">DRAFT READY</span></td><td>Mr. Mohamed</td><td><a href="../return-policy-options/">three wordings</a></td></tr>
+          <tr><td>P5</td><td>One real article before the blog goes live</td><td><span class="pill open">OWED</span></td><td>Launch</td><td><a href="../blog-first-article/">first article</a></td></tr>
+          <tr><td>P6</td><td>Read Jan's API document and send the SEO additions</td><td><span class="pill open">OWED</span></td><td>Jan</td><td><a href="../blog-api-review/">API review</a></td></tr>
+        </tbody>
+      </table></div>
+      <p class="note">Also promised and done in the meeting: a second phone number for Jan, so Saiaf gets edit access to products. Outreach promises (500 more messages on Oct 11, a review call on Thursday) are in the meeting summary, not on this dev board.</p>
+
       <h2 id="open">All issues at a glance, open first</h2>
       <div class="tablebox"><table class="board">
         <thead><tr><th>#</th><th>Issue</th><th>Status</th><th>Owner</th><th>Details</th></tr></thead>
                 <tbody>
-          <tr><td>14</td><td><a href="#i14">Merchant feed files are empty</a></td><td><span class="pill open">NEW, URGENT</span></td><td>Dev team</td><td><a href="#i14">details</a></td></tr>
           <tr><td>4</td><td><a href="#i4">Product addresses: copies of every product, deleted products send visitors home</a></td><td><span class="pill open">NOT DONE</span></td><td>Dev team</td><td><a href="../product-urls/">ticket</a></td></tr>
           <tr><td>6</td><td><a href="#i6">Google Shopping: return policy rejected, 264 vehicles not approved</a></td><td><span class="pill open">NOT DONE</span></td><td>Mr. Mohamed, Ahmed, Saiaf</td><td><a href="../merchant-center/">ticket</a></td></tr>
           <tr><td>10</td><td><a href="#i10">Two wrong meta descriptions</a></td><td><span class="pill open">NOT DONE</span></td><td>Dev team</td><td><a href="#i10">details</a></td></tr>
-          <tr><td>13</td><td><a href="#i13">Pages that need login send visitors to the home page</a></td><td><span class="pill open">NOT DONE</span></td><td>Paulo; Mr. Mohamed confirms the text</td><td><a href="#i13">details</a></td></tr>
+          <tr><td>13</td><td><a href="#i13">Pages that need login send visitors to the home page</a></td><td><span class="pill progress">PARTIAL</span></td><td>Paulo; Mr. Mohamed confirms the text</td><td><a href="#i13">details</a></td></tr>
           <tr><td>1</td><td><a href="#i1">Product pages: the visible product name is not the H1</a></td><td><span class="pill progress">PARTIAL</span></td><td>Dev team</td><td><a href="../product-h1/">ticket</a></td></tr>
           <tr><td>2</td><td><a href="#i2">Home page: the product list block has 5 errors</a></td><td><span class="pill progress">PARTIAL</span></td><td>Dev team</td><td><a href="../home-schema/">ticket</a></td></tr>
           <tr><td>3</td><td><a href="#i3">Category pages: breadcrumbs missing, list errors</a></td><td><span class="pill progress">PARTIAL</span></td><td>Dev team</td><td><a href="../category-schema/">ticket</a></td></tr>
           <tr><td>5</td><td><a href="#i5">Product schema: one field left, the main price</a></td><td><span class="pill progress">1 FIELD LEFT</span></td><td>Dev team</td><td><a href="../product-schema/">ticket</a></td></tr>
           <tr><td>7</td><td><a href="#i7">Lessor data protection</a></td><td><span class="pill progress">PARTIAL</span></td><td>Dev team</td><td><a href="https://tmd.sa/renter/lessor-data-protection/v1/2026-09-21/">ticket (access code)</a></td></tr>
           <tr><td>11</td><td><a href="#i11">Blog section</a></td><td><span class="pill progress">ON STAGING</span></td><td>Paulo, Jan; TMD writes</td><td><a href="../blog-section/">ticket</a></td></tr>
-          <tr><td>9</td><td><a href="#i9">English pages show Arabic text</a></td><td><span class="pill blocked">WAITING JAN</span></td><td>Jan, then Paulo</td><td><a href="#i9">details</a></td></tr>
+          <tr><td>9</td><td><a href="#i9">English pages show Arabic text</a></td><td><span class="pill progress">IN PROGRESS</span></td><td>Jan, then Paulo</td><td><a href="#i9">details</a></td></tr>
           <tr><td>12</td><td><a href="#i12">Bookings in Google Analytics</a></td><td><span class="pill progress">LAST CHECK PENDING</span></td><td>Saiaf</td><td><a href="../booking-confirmation-data-layer/">ticket</a></td></tr>
+          <tr><td>14</td><td><a href="#i14">Merchant feed files are empty</a></td><td><span class="pill done">FIXED</span></td><td>Dev team</td><td><a href="#i14">details</a></td></tr>
           <tr><td>0</td><td><a href="#i0">Server error of Oct 3 to 5</a></td><td><span class="pill done">FIXED</span></td><td>Closed</td><td><a href="#i0">details</a></td></tr>
           <tr><td>8</td><td><a href="#i8">Staging security certificate</a></td><td><span class="pill done">DONE</span></td><td>Closed</td><td><a href="../staging-certificate/">ticket</a></td></tr>
         </tbody>
@@ -75,6 +89,7 @@
           <dt>Proof, Oct 11</dt><dd>1,044 of 1,062 live product pages: one hidden H1, visible name as <code>&lt;p&gt;</code>. Example: <a href="https://renter.net/ar/product/2545/kamyra-kanwn-4000d/">/ar/product/2545/</a>.</dd>
           <dt>Fix</dt><dd>Changes 2 and 3 of the ticket: the visible name becomes the H1, the hidden H1 is deleted.</dd>
           <dt>Done when</dt><dd>Each product page has one H1, and it is the visible product name.</dd>
+          <dt>Oct 11 meeting</dt><dd>Paulo said this was fixed; a branch merge had broken it. Checked Oct 13: product pages have one H1, but it is still the hidden one (<code>class="hidden"</code>) and the visible name is still a paragraph. The home page H1 is hidden the same way. Changes 2 and 3 of the ticket are still needed.</dd>
         </dl>
       </div>
 
@@ -88,6 +103,7 @@
           <dt>Proof, Oct 11</dt><dd><a href="https://renter.net/ar/">/ar/</a> and <a href="https://renter.net/en/">/en/</a>, view-source.</dd>
           <dt>Fix</dt><dd>Part B of the ticket: the 5 list rules, with the shared <code>collectionPageLd</code> function.</dd>
           <dt>Done when</dt><dd>The list check on the ticket passes on both home pages.</dd>
+          <dt>Oct 11 meeting</dt><dd>Saiaf showed Paulo the list errors. Paulo follows the code in the ticket. Checked Oct 13: unchanged.</dd>
         </dl>
       </div>
 
@@ -101,6 +117,7 @@
           <dt>Proof, Oct 11</dt><dd><a href="https://renter.net/ar/cars-and-vehicles/">/ar/cars-and-vehicles/</a> and <a href="https://renter.net/ar/cars-and-vehicles/cars/">/ar/cars-and-vehicles/cars/</a>, view-source.</dd>
           <dt>Fix</dt><dd>Corrections 1 to 5 of the ticket, with complete breadcrumb blocks.</dd>
           <dt>Done when</dt><dd>The validator shows one BreadcrumbList and one list that counts from 1.</dd>
+          <dt>Oct 11 meeting</dt><dd>Paulo will check the missing breadcrumb. He already built a breadcrumb for the blog and can reuse it. Checked Oct 13: still no BreadcrumbList on category pages.</dd>
         </dl>
       </div>
 
@@ -124,6 +141,7 @@
           <dt>Still wrong</dt><dd><code>offers.price</code>, the one price Google shows in results, is the first lease term's price on 51 products with more than one term. Product 2852 shows 10,500 (monthly) although it rents per day.</dd>
           <dt>Fix</dt><dd>One rule: the daily price when a daily term exists, else the lowest price.</dd>
           <dt>Done when</dt><dd><a href="https://renter.net/ar/product/311/frn-shwyh/">/ar/product/311/</a> shows <code>"price": 5</code>.</dd>
+          <dt>Oct 11 meeting</dt><dd>Paulo was not sure why some products are wrong. Saiaf promised the list. Delivered: <a href="../price-fix-list/">49 products</a>, 48 with the same cause: the daily term is not first in the list.</dd>
         </dl>
       </div>
 
@@ -137,6 +155,7 @@
           <dt>Proof, Oct 11</dt><dd>Merchant Center: 896 approved, 264 not approved, return policy "Rejected".</dd>
           <dt>Fix</dt><dd>Mr. Mohamed sends a return wording with a number of days that creates no legal duty (he declined "10 days" and "3 days" on Oct 4). Saiaf puts the same number in Merchant Center. Ahmed excludes the vehicles.</dd>
           <dt>Done when</dt><dd>The policy shows "Approved" and the "Vehicles" issue shows 0.</dd>
+          <dt>Oct 11 meeting</dt><dd>Mr. Mohamed asked for A, B, C wordings to choose from. Draft ready: <a href="../return-policy-options/">three wordings</a>.</dd>
         </dl>
       </div>
 
@@ -149,6 +168,7 @@
           <dt>Proof, Oct 11</dt><dd>Checked on product 2830.</dd>
           <dt>Fix</dt><dd>Parts 1 and 3 of the ticket.</dd>
           <dt>Done when</dt><dd>The checks in the ticket pass.</dd>
+          <dt>Oct 11 meeting</dt><dd>Shown live: a logged-out visitor on a lessor profile now gets the login prompt in the browser. Checked Oct 13: the address still answers 404 to a direct request, and product pages still carry the lessor contact data.</dd>
         </dl>
       </div>
 
@@ -163,13 +183,14 @@
 
       <div class="issue" id="i9">
         <h3>9 · English pages show Arabic text</h3>
-        <div class="meta"><span class="pill blocked">WAITING JAN</span><span>Owners: Jan, then Paulo</span></div>
+        <div class="meta"><span class="pill progress">IN PROGRESS</span><span>Owners: Jan, then Paulo</span></div>
         <dl>
           <dt>What is wrong</dt><dd>English product pages show the Arabic title, main heading and description. Example: <a href="https://renter.net/en/product/2545/kamyra-kanwn-4000d/">/en/product/2545/</a>.</dd>
           <dt>Why it matters</dt><dd>English pages cannot rank for English searches while their text is Arabic.</dd>
           <dt>Proof, Oct 11</dt><dd>Unchanged on the live English product pages.</dd>
           <dt>Fix</dt><dd>Jan is testing the automatic product translation; Paulo is ready to show it. Mr. Mohamed follows this with Jan (Oct 4 meeting).</dd>
           <dt>Done when</dt><dd><code>/en/product/2545/</code> shows an English title, heading and description.</dd>
+          <dt>Oct 11 meeting</dt><dd>Jan finished the product translation in the backend. Paulo shows it on the English pages this week; Mr. Mohamed asked him for a clear date. Saiaf gets edit access to product titles and descriptions to improve the automatic translation. Checked Oct 13: English pages still show Arabic.</dd>
         </dl>
       </div>
 
@@ -193,6 +214,7 @@
           <dt>Still open</dt><dd>Paulo's list of Oct 9: no metadata or JSON-LD on blog pages (Jan's dashboard must let Saiaf enter it), blog sitemaps answer 500 (<code>/sitemap/ar/blog.xml</code> checked Oct 11), blog events do not reach the data layer. Also: <code>/ar/blog/5/</code> answers 200 although only 12 articles exist; it must answer 404.</dd>
           <dt>Not live yet</dt><dd><code>renter.net/ar/blog/</code> answers 404 and the home page has no blog link. Agreed Oct 11: the blog link goes in the top navigation and the footer, label "المدونة".</dd>
           <dt>Done when</dt><dd>The 3 open fixes pass on staging, then the blog goes live with the link.</dd>
+          <dt>Oct 11 meeting</dt><dd>Walk-through on staging. Done: pagination addresses, 404 for wrong addresses and for pages past the last one. Paulo adds metadata, canonical, hreflang and schema next. Launch rule agreed: go live with one real article and no empty hubs. Open items: <a href="../blog-staging-round-2/">blog fixes before launch</a>. Jan still owes Saiaf a working dashboard login.</dd>
         </dl>
       </div>
 
@@ -207,24 +229,26 @@
 
       <div class="issue" id="i14">
         <h3>14 · Merchant feed files are empty</h3>
-        <div class="meta"><span class="pill open">NEW, URGENT</span><span>Owner: dev team</span><span><a href="../merchant-feed/">Feed ticket</a></span></div>
+        <div class="meta"><span class="pill done">FIXED</span><span>Owner: dev team</span><span><a href="../merchant-feed/">Feed ticket</a></span></div>
         <dl>
           <dt>What is wrong</dt><dd>All 24 feed files, <code>/merchant-feed-1.xml</code> to <code>/merchant-feed-24.xml</code>, answer 200 with 0 products. Each file is 248 bytes: an empty channel.</dd>
           <dt>Why it matters</dt><dd>Google Shopping reads the products from these files. It already dropped the count from 1,470 to 1,160 this week; the rest expire as Google re-reads empty files. Google Shopping brought 718 clicks in the last 28 days.</dd>
           <dt>Proof, Oct 11</dt><dd>Checked at 16:40. On Oct 4 the same files held 1,173 products.</dd>
           <dt>Fix</dt><dd>Find why the feed query returns no products since the Oct 3 to 5 server changes, and restore it. Check:<br><code>curl -s https://renter.net/merchant-feed-1.xml | grep -c '&lt;item&gt;'</code></dd>
           <dt>Done when</dt><dd>The command prints about 50 for file 1, and the 24 files hold all live products. Then tell Saiaf.</dd>
+          <dt>Checked Oct 13</dt><dd>Fixed. The 24 files hold 1,200 products again; file 1 has 50. The catalog is now at the 1,200 limit of 24 files, so the next products need file 25 registered in Merchant Center.</dd>
         </dl>
       </div>
 
       <div class="issue" id="i13">
         <h3>13 · Pages that need login send visitors to the home page</h3>
-        <div class="meta"><span class="pill open">NOT DONE</span><span>Owners: Paulo builds; Mr. Mohamed confirms the text</span></div>
+        <div class="meta"><span class="pill progress">PARTIAL</span><span>Owners: Paulo builds; Mr. Mohamed confirms the text</span></div>
         <dl>
           <dt>What is wrong</dt><dd>A visitor who is not logged in and opens a lessor profile link gets "not found" with no explanation.</dd>
           <dt>Proof, Oct 11</dt><dd><code>/ar/lessor-profile/25791/</code> answers 404 for a logged-out visitor.</dd>
           <dt>Fix</dt><dd>Agreed Oct 4: open the login window with a short message that says why. Paulo drafts the Arabic and English text; Mr. Mohamed confirms.</dd>
           <dt>Done when</dt><dd>A logged-out visitor on a lessor profile link sees the login window with that message.</dd>
+          <dt>Oct 11 meeting</dt><dd>Shown live: the login prompt now appears for a logged-out visitor on a lessor profile. Still to confirm: the message that says why, in Arabic and English, approved by Mr. Mohamed.</dd>
         </dl>
       </div>
 

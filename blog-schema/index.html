@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Renter · Blog schema: the blocks for Paulo</title>
+<link rel="stylesheet" href="../assets/ticket.css?v=5">
+</head>
+<body>
+<div class="page">
+  <header class="doc-header">
+    <a class="backbtn" href="../head-metadata/">&#8592; Back to the dev board</a>
+    <p class="kicker">Renter × TMD · From the Oct 11 meeting · written Oct 13, 2026</p>
+  </header>
+  <div class="doc-body">
+      <h1>Blog schema: the blocks for Paulo</h1>
+      <div class="statusbar"><span class="pill done">READY</span><span class="txt">Saiaf promised Paulo the blog schema in the Oct 11 meeting. It is complete and ready to copy.</span></div>
+      <div class="inshort">
+        <h2>In short</h2>
+        <dl>
+          <dt>What it is</dt><dd>The hidden code blocks (JSON-LD) that describe each blog page to Google: the article, its author and dates, and the page path.</dd>
+          <dt>Where the code is</dt><dd>Section 3 of the blog ticket: <a href="../blog-section/#jsonld">complete JSON-LD blocks with one helper function</a>. Two scripts per article: the article block and the breadcrumb block.</dd>
+          <dt>When</dt><dd>Paulo asked if it can wait. It should ship with the launch. If it waits, it must go live in the first week.</dd>
+          <dt>Rules</dt><dd>The publisher points to the Organization block that is already on the home page; do not repeat it. The last breadcrumb entry has no link. No FAQ block.</dd>
+          <dt>Done when</dt><dd>The Rich Results Test finds "Article" and "Breadcrumbs" on a staging article with no errors.</dd>
+        </dl>
+      </div>
+
+      <p><a class="backbtn" href="../head-metadata/">&#8592; Back to the dev board</a></p>
+  </div>
+</div>
+<script>
+document.querySelectorAll('pre').forEach(function(pre){
+  var w=document.createElement('div'); w.className='codewrap'; pre.parentNode.insertBefore(w,pre); w.appendChild(pre);
+  var b=document.createElement('button'); b.className='copybtn'; b.textContent='Copy'; w.appendChild(b);
+  b.addEventListener('click',function(){
+    var t=pre.innerText;
+    function ok(){b.textContent='Copied';setTimeout(function(){b.textContent='Copy'},1500);}
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(ok,function(){fb()});}else{fb()}
+    function fb(){var ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');ok();}catch(e){b.textContent='Failed'}document.body.removeChild(ta);}
+  });
+});
+</script>
+</body>
+</html>

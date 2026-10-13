@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Renter · Blog: the first real article, ready before launch</title>
+<link rel="stylesheet" href="../assets/ticket.css?v=5">
+</head>
+<body>
+<div class="page">
+  <header class="doc-header">
+    <a class="backbtn" href="../head-metadata/">&#8592; Back to the dev board</a>
+    <p class="kicker">Renter × TMD · From the Oct 11 meeting · written Oct 13, 2026</p>
+  </header>
+  <div class="doc-body">
+      <h1>Blog: the first real article, ready before launch</h1>
+      <div class="statusbar"><span class="pill open">OWED BY SAIAF</span><span class="txt">Saiaf promised in the Oct 11 meeting: "I will prepare a real blog post to start with", so the blog does not go live empty.</span></div>
+      <div class="inshort">
+        <h2>In short</h2>
+        <dl>
+          <dt>What</dt><dd>One finished Arabic article, with its hub (blog category), title, meta description, cover image and alt text.</dd>
+          <dt>Why</dt><dd>The blog must not go live with test articles or empty hubs. Google treats empty pages as low quality and takes months to forget them.</dd>
+          <dt>Blocked by</dt><dd>Jan's dashboard login for Saiaf. Until it works, the article cannot be entered.</dd>
+          <dt>Also owed</dt><dd>Before this article goes in, Saiaf tells Paulo how the table of contents is entered. Saiaf tests it by hand in the article HTML first. If that works, Paulo builds nothing.</dd>
+          <dt>Byline</dt><dd>فريق رينتر. TMD writes.</dd>
+          <dt>Done when</dt><dd>The article is saved as a draft in the dashboard and Paulo confirms it displays correctly on staging.</dd>
+        </dl>
+      </div>
+
+      <p><a class="backbtn" href="../head-metadata/">&#8592; Back to the dev board</a></p>
+  </div>
+</div>
+<script>
+document.querySelectorAll('pre').forEach(function(pre){
+  var w=document.createElement('div'); w.className='codewrap'; pre.parentNode.insertBefore(w,pre); w.appendChild(pre);
+  var b=document.createElement('button'); b.className='copybtn'; b.textContent='Copy'; w.appendChild(b);
+  b.addEventListener('click',function(){
+    var t=pre.innerText;
+    function ok(){b.textContent='Copied';setTimeout(function(){b.textContent='Copy'},1500);}
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(ok,function(){fb()});}else{fb()}
+    function fb(){var ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');ok();}catch(e){b.textContent='Failed'}document.body.removeChild(ta);}
+  });
+});
+</script>
+</body>
+</html>

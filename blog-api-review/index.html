@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Renter · Blog API document: SEO additions for Jan</title>
+<link rel="stylesheet" href="../assets/ticket.css?v=5">
+</head>
+<body>
+<div class="page">
+  <header class="doc-header">
+    <a class="backbtn" href="../head-metadata/">&#8592; Back to the dev board</a>
+    <p class="kicker">Renter × TMD · From the Oct 11 meeting · written Oct 13, 2026</p>
+  </header>
+  <div class="doc-body">
+      <h1>Blog API document: SEO additions for Jan</h1>
+      <div class="statusbar"><span class="pill open">OWED BY SAIAF</span><span class="txt">Paulo shared Jan's updated API document in the Slack group during the Oct 11 meeting. Saiaf said he would read it and send Jan what is missing for SEO.</span></div>
+      <div class="inshort">
+        <h2>In short</h2>
+        <dl>
+          <dt>What</dt><dd>Read Jan's blog API document and list the fields SEO needs that are not there yet.</dd>
+          <dt>Check at least</dt><dd>A title and meta description field per article and per hub, in both languages. Image alt text. The link and text of the call-to-action box. Reading time. A draft and published state. Which hubs exist, so a hub shows only when it has an article.</dd>
+          <dt>Why</dt><dd>Saiaf must control these from the dashboard. Paulo confirmed in the meeting that everything on the page comes from the API, so a missing field means a missing control.</dd>
+          <dt>Done when</dt><dd>Saiaf sends Jan the list in Slack, and Jan confirms each field or gives a date.</dd>
+        </dl>
+      </div>
+
+      <p><a class="backbtn" href="../head-metadata/">&#8592; Back to the dev board</a></p>
+  </div>
+</div>
+<script>
+document.querySelectorAll('pre').forEach(function(pre){
+  var w=document.createElement('div'); w.className='codewrap'; pre.parentNode.insertBefore(w,pre); w.appendChild(pre);
+  var b=document.createElement('button'); b.className='copybtn'; b.textContent='Copy'; w.appendChild(b);
+  b.addEventListener('click',function(){
+    var t=pre.innerText;
+    function ok(){b.textContent='Copied';setTimeout(function(){b.textContent='Copy'},1500);}
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(ok,function(){fb()});}else{fb()}
+    function fb(){var ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');ok();}catch(e){b.textContent='Failed'}document.body.removeChild(ta);}
+  });
+});
+</script>
+</body>
+</html>
