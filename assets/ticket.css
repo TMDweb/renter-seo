@@ -298,7 +298,7 @@ code {
   border-radius: 5px;
   background: var(--chip);
   color: var(--primary-dark);
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
 }
