@@ -11,11 +11,11 @@
 <div class="page">
   <header class="doc-header">
     <a class="backbtn" href="../head-metadata/">&#8592; Back to the dev board</a>
-    <p class="kicker">Renter × TMD · Dev ticket · new section · verified against the live site and Google/Next.js docs · Sep 15, 2026</p>
+    <p class="kicker">Renter × TMD · Dev ticket · new section · checked Oct 18, 2026</p>
   </header>
   <div class="doc-body">
       <h1>Blog section: /ar/blog/ and /en/blog/</h1>
-      <div class="statusbar"><span class="pill progress">ON STAGING, 9 FIXES</span><span class="txt">Approved Sep 20. Checked Oct 6, 2026: the blog is live on <code>v2-staging.renter.net</code> in Arabic and English. Nine fixes remain before launch, each with a check, in the <a href="https://tmd.sa/renter/blog-staging-feedback/v1/2026-10-06/">staging feedback</a>.</span></div>
+      <div class="statusbar"><span class="pill progress">READY TO DEPLOY</span><span class="txt">Checked Oct 18, 2026 on <code>v2-staging.renter.net</code>: three of the five Oct 13 blockers are fixed: the blog stays up under load, future posts are out of the lists, and every blog page has its SEO tags. The two dashboard save crashes (a link in the body, a cover not 1600×900) were not rechecked yet. Before deploy: production must not copy the staging <code>noindex</code> tag or the robots <code>Disallow: /</code> rule, the QA test posts (zz-qa-…) are deleted, the dashboard save cases are rechecked, and the first real article is published. Full test: <a href="https://tmd.sa/renter/blog-stress-test/v1/2026-10-13/">stress test report</a> (access code with Saiaf).</span></div>
       <p class="lede">A server-rendered blog in the Next.js App Router, fed by a new Laravel <code>posts</code> API, with hubs that mirror the product categories, Latin slugs shared by both locales, self canonicals, hreflang pairs, paginated URLs, BlogPosting + BreadcrumbList JSON-LD with the existing Organization as publisher, a blog sitemap per locale and 3 GTM events. The full plan (research, editorial calendar, KPIs) is a separate document; this page holds only what you build.</p>
       <p><a class="backbtn" href="mockup/" target="_blank">Open the rendered mockup (article, hub, index)</a> <a class="backbtn" href="mockup-en/" target="_blank">English (LTR) mockup</a></p>
 
