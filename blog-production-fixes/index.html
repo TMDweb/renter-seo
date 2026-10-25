@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Renter · Blog on production: 7 fixes left on the first article</title>
+<link rel="stylesheet" href="../assets/ticket.css?v=5">
+</head>
+<body>
+<div class="page">
+  <header class="doc-header">
+    <a class="backbtn" href="../head-metadata/">&#8592; Back to the dev board</a>
+    <p class="kicker">Renter × TMD · From the Oct 25 meeting · checked live Oct 25, 2026 at 18:00</p>
+  </header>
+  <div class="doc-body">
+      <h1>Blog on production: 7 fixes left on the first article</h1>
+      <div class="statusbar"><span class="pill progress">LIVE, 7 OPEN</span><span class="txt">The first article is live from the production backend since Oct 25, 17:58. Its canonical, hreflang, og:url and schema now point to renter.net, and the top button no longer opens /ar/ar/. Seven items are left. Fix item 1 first: every related product card opens a 404.</span></div>
+      <div class="inshort">
+        <h2>In short</h2>
+        <dl>
+          <dt>Article</dt><dd><a href="https://renter.net/ar/blog/cars-and-vehicles/car-rental-monthly-price-riyadh/">Arabic</a> · <a href="https://renter.net/en/blog/cars-and-vehicles/car-rental-monthly-price-riyadh/">English</a></dd>
+          <dt>API</dt><dd><a href="https://admin-production.renter.net/api/v1/blog/posts/car-rental-monthly-price-riyadh/?locale=ar">locale=ar</a> · <a href="https://admin-production.renter.net/api/v1/blog/posts/car-rental-monthly-price-riyadh/?locale=en">locale=en</a></dd>
+          <dt>Dashboard</dt><dd><a href="https://ops.renter.net/blog/posts/1/edit">ops.renter.net post 1</a></dd>
+          <dt>Owners</dt><dd>Jan: items 1, 3, 4, 5. Paulo: items 2, 5, 6, 7.</dd>
+        </dl>
+      </div>
+      <h2 id="items">The 7 fixes</h2>
+      <div class="tablebox"><table>
+        <thead><tr><th>#</th><th>Problem</th><th>Fix</th><th>Owner</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td><span class="pill open">OPEN</span> The 4 related product cards open a 404. The API sends <code>related_products[].url</code> with no slug: <a href="https://renter.net/ar/product/2894/">/ar/product/2894/</a> (404). Same for 2611, 2612, 1150, in both languages</td><td>Send the full product URL with the slug, as the product page uses it: <a href="https://renter.net/ar/product/2894/kya-byjas-2023/">/ar/product/2894/kya-byjas-2023/</a> (200)</td><td>Jan</td></tr>
+          <tr><td>2</td><td><span class="pill open">OPEN</span> The related products heading shows the raw key <code>Common.related_listing_on_renter</code> on both pages</td><td>Add the key to the ar and en translation files. Arabic: <code>إعلانات ذات صلة على رينتر</code>. English: <code>Related listings on Renter</code></td><td>Paulo</td></tr>
+          <tr><td>3</td><td><span class="pill open">OPEN</span> <code>word_count</code> is 9 in the API, so the BlogPosting schema tells Google <code>wordCount: 9</code></td><td>Count the words of <code>body_html</code> with the tags removed, per locale. Expected: about 1,017 (ar) and 1,198 (en)</td><td>Jan</td></tr>
+          <tr><td>4</td><td><span class="pill open">OPEN</span> Production has no Renter Team author. The dashboard lists only "Saiaf", so the post is under Saiaf for now</td><td>Add the author <code>renter-team</code>: name <code>فريق رينتر</code> (ar) and <code>Renter Team</code> (en), role text as on staging. The en API must return the English name. Saiaf then switches post 1</td><td>Jan</td></tr>
+          <tr><td>5</td><td><span class="pill open">OPEN</span> The author URL in the schema opens a 404: <a href="https://renter.net/ar/blog/author/saiaf/">/ar/blog/author/saiaf/</a></td><td>Build the author page for <code>/ar/blog/author/{slug}/</code> and <code>/en/…</code> (Paulo), or drop <code>author.url</code> from <code>seo.json_ld</code> until it exists (Jan)</td><td>Paulo, Jan</td></tr>
+          <tr><td>6</td><td><span class="pill open">OPEN</span> The API still adds a FAQPage node to <code>seo.json_ld</code></td><td>Remove the FAQPage node. The <a href="https://tmd.sa/renter/blog-plan/v1/2026-09-15/">blog plan</a> uses BlogPosting and BreadcrumbList only. Keep the FAQ on the page</td><td>Jan</td></tr>
+          <tr><td>7</td><td><span class="pill open">OPEN</span> Two small page items. (a) The x-default in the HTTP <code>Link</code> header is <code>https://renter.net/blog/…</code> with no locale, and it 301-redirects. (b) The FAQ H2 reuses <code>id="s1"</code>, the id of the first body H2</td><td>(a) Use the <code>/ar/</code> URL in the header, as the HTML tag already does. (b) Give the FAQ H2 its own id, for example <code>id="faq"</code></td><td>Paulo</td></tr>
+        </tbody>
+      </table></div>
+
+      <h2 id="check">How to check</h2>
+      <ul>
+        <li>Each related product card on the article opens its product page with a 200.</li>
+        <li>No text that starts with <code>Common.</code> shows on the article.</li>
+        <li>In the <a href="https://admin-production.renter.net/api/v1/blog/posts/car-rental-monthly-price-riyadh/?locale=ar">API</a>, <code>word_count</code> is above 1,000, and <code>seo.json_ld</code> has no FAQPage node.</li>
+        <li>The English page and English schema show "Renter Team" after Saiaf switches the author.</li>
+        <li>Every URL in the schema and in the <code>Link</code> header answers 200 with no redirect.</li>
+      </ul>
+
+      <p><a class="backbtn" href="../head-metadata/">&#8592; Back to the dev board</a></p>
+  </div>
+</div>
+</body>
+</html>
