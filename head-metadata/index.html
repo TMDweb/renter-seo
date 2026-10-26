@@ -51,7 +51,6 @@
         <thead><tr><th>#</th><th>Issue</th><th>Status</th><th>Owner</th><th>Details</th></tr></thead>
                 <tbody>
           <tr><td>14</td><td><a href="#i14">Merchant feed files are empty again</a></td><td><span class="pill open">BROKEN AGAIN</span></td><td>Dev team</td><td><a href="../merchant-feed/">ticket</a></td></tr>
-          <tr><td>4</td><td><a href="#i4">Product addresses: copies of every product, deleted products send visitors home</a></td><td><span class="pill open">NOT DONE</span></td><td>Dev team</td><td><a href="../product-urls/">ticket</a></td></tr>
           <tr><td>6</td><td><a href="#i6">Google Shopping: return policy rejected, 264 vehicles not approved</a></td><td><span class="pill open">NOT DONE</span></td><td>Mr. Mohamed, Ahmed, Saiaf</td><td><a href="../merchant-center/">ticket</a></td></tr>
           <tr><td>10</td><td><a href="#i10">Two wrong meta descriptions</a></td><td><span class="pill open">NOT DONE</span></td><td>Dev team</td><td><a href="#i10">details</a></td></tr>
           <tr><td>13</td><td><a href="#i13">Pages that need login send visitors to the home page</a></td><td><span class="pill progress">PARTIAL</span></td><td>Paulo; Mr. Mohamed confirms the text</td><td><a href="#i13">details</a></td></tr>
@@ -64,6 +63,7 @@
           <tr><td>9</td><td><a href="#i9">English pages show Arabic text</a></td><td><span class="pill progress">IN PROGRESS</span></td><td>Jan, then Paulo</td><td><a href="#i9">details</a></td></tr>
           <tr><td>12</td><td><a href="#i12">Bookings in Google Analytics</a></td><td><span class="pill progress">LAST CHECK PENDING</span></td><td>Saiaf</td><td><a href="../booking-confirmation-data-layer/">ticket</a></td></tr>
           
+          <tr><td>4</td><td><a href="#i4">Product addresses: copies of every product, deleted products send visitors home</a></td><td><span class="pill done">DONE OCT 26</span></td><td>Dev team</td><td><a href="../product-urls/">ticket</a></td></tr>
           <tr><td>0</td><td><a href="#i0">Server error of Oct 3 to 5</a></td><td><span class="pill done">FIXED</span></td><td>Closed</td><td><a href="#i0">details</a></td></tr>
           <tr><td>8</td><td><a href="#i8">Staging security certificate</a></td><td><span class="pill done">DONE</span></td><td>Closed</td><td><a href="../staging-certificate/">ticket</a></td></tr>
         </tbody>
@@ -127,13 +127,14 @@
 
       <div class="issue" id="i4">
         <h3>4 · Product addresses: copies of every product, deleted products send visitors home</h3>
-        <div class="meta"><span class="pill open">NOT DONE</span><span>Owner: dev team</span><span><a href="../product-urls/">Ticket with code</a></span></div>
+        <div class="meta"><span class="pill done">DONE OCT 26</span><span>Owner: dev team</span><span><a href="../product-urls/">Ticket with code</a></span></div>
         <dl>
           <dt>What is wrong</dt><dd>Any word after the product number opens the page and calls itself official: <code>/ar/product/2545/4000d/</code> and <code>/ar/product/2545/anything/</code> are copies of <code>/ar/product/2545/kamyra-kanwn-4000d/</code>. Deleted products send the visitor to the home page (307). 99 of the 1,188 product addresses in the sitemap are deleted products.</dd>
           <dt>Why it matters</dt><dd>Google splits a product's ranking across its copies; it indexes two addresses for 11 products. Deleted products stay listed in Google, and a click lands on the home page. Google counts these as soft 404s.</dd>
           <dt>Proof, Oct 11</dt><dd>Live checks of the addresses above. URL Inspection: <code>/ar/product/1662/120/</code> (a copy) and the deleted <code>/ar/product/2797/</code> are still "Submitted and indexed".</dd>
           <dt>Fix</dt><dd>A wrong slug moves for good (308) to the official address. A missing product answers 404, the way unknown category addresses do since Oct 11. The sitemap lists live products only.</dd>
           <dt>Done when</dt><dd>The 4 checks on the ticket give the expected answers.</dd>
+          <dt>Checked Oct 26</dt><dd><strong>Done.</strong> Paulo deployed the fix on Oct 25. All 4 checks on the ticket pass: <code>/ar/product/2545/4000d/</code> answers 308 to <code>/ar/product/2545/kamyra-kanwn-4000d/</code>; the deleted <code>/ar/product/2797/ntyndw-swytsh/</code> and the unknown <code>/ar/product/99999999/x/</code> answer 404; the canonical is the official address. The products sitemap no longer lists 2797, and 5 sampled sitemap products answer 200. One related case stays open: an address with no slug at all, such as <code>/ar/product/2894/</code>, answers 404. The blog related product cards use that form (<a href="../blog-production-fixes/">blog production fixes</a>, item 1).</dd>
           <dt>Checked Oct 18</dt><dd>Copies unchanged: <code>/ar/product/2893/anything-wrong/</code> answers 200 and calls itself official. Deleted products are mixed: <code>/ar/product/2797/</code> now answers 404 (correct), but 10 of the products on the price list answer 307 to the home page.</dd>
         </dl>
       </div>
@@ -271,6 +272,7 @@
       <div class="tablebox"><table>
         <thead><tr><th>Item</th><th>Verified</th></tr></thead>
         <tbody>
+          <tr><td>Product addresses: wrong slugs move to the official address (308), deleted and unknown products answer 404 (issue 4)</td><td><span class="pill done">COMPLETED</span> Oct 26</td></tr>
           <tr><td>Staging security certificate renewed (issue 8)</td><td><span class="pill done">COMPLETED</span> Oct 4</td></tr>
           <tr><td>Home page Organization and WebSite block restored in both languages</td><td><span class="pill done">COMPLETED</span> Sep 29</td></tr>
           <tr><td>Product page section labels back to H2</td><td><span class="pill done">COMPLETED</span> Sep 29</td></tr>
