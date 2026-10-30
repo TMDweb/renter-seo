@@ -50,7 +50,7 @@
       <div class="tablebox"><table class="board">
         <thead><tr><th>#</th><th>Issue</th><th>Status</th><th>Owner</th><th>Details</th></tr></thead>
                 <tbody>
-          <tr><td>15</td><td><a href="#i15">Found while writing blog articles (Oct 30): 2 sub-tickets</a></td><td><span class="pill open">NOT DONE</span></td><td>Paulo, Jan</td><td><a href="#i15a">15a</a> · <a href="#i15b">15b</a></td></tr>
+          <tr><td>15</td><td><a href="#i15">Found while writing blog articles (Oct 30): 4 sub-tickets</a></td><td><span class="pill open">NOT DONE</span></td><td>Paulo, Jan; Mr. Mohamed (15d)</td><td><a href="#i15a">15a</a> · <a href="#i15b">15b</a> · <a href="#i15c">15c</a> · <a href="#i15d">15d</a></td></tr>
           <tr><td>14</td><td><a href="#i14">Merchant feed files are empty again</a></td><td><span class="pill open">BROKEN AGAIN</span></td><td>Dev team</td><td><a href="../merchant-feed/">ticket</a></td></tr>
           <tr><td>6</td><td><a href="#i6">Google Shopping: return policy rejected, 264 vehicles not approved</a></td><td><span class="pill open">NOT DONE</span></td><td>Mr. Mohamed, Ahmed, Saiaf</td><td><a href="../merchant-center/">ticket</a></td></tr>
           <tr><td>10</td><td><a href="#i10">Two wrong meta descriptions</a></td><td><span class="pill open">NOT DONE</span></td><td>Dev team</td><td><a href="#i10">details</a></td></tr>
@@ -245,7 +245,7 @@
 
       <div class="issue" id="i15">
         <h3>15 · Found while writing blog articles (Oct 30)</h3>
-        <div class="meta"><span class="pill open">NOT DONE</span><span>Owner: Paulo, Jan</span><span>2 sub-tickets</span></div>
+        <div class="meta"><span class="pill open">NOT DONE</span><span>Owner: Paulo, Jan; Mr. Mohamed (15d)</span><span>4 sub-tickets</span></div>
         <p>We found these while collecting prices from live listings for the blog. Each one is a separate fix.</p>
 
         <div class="issue" id="i15a">
@@ -269,6 +269,35 @@
             <dt>Blocked</dt><dd>Post 2 (the lessor guide) is a draft without its 11 images (2 infographics, 9 step screenshots). The next articles need images too.</dd>
             <dt>Fix</dt><dd>1. An image upload in the blog post editor, or a small media page under Blog. 2. JPEG, PNG and WebP, up to 5 MB each, several files at once. 3. Store the files on renter.net, the same storage the cover uses. 4. Show each file's full URL with a copy button. 5. Keep <code>src</code>, <code>alt</code>, <code>width</code>, <code>height</code> and <code>loading</code> on <code>img</code> when the body is saved.</dd>
             <dt>Done when</dt><dd>Saiaf uploads a WebP, gets a renter.net URL that opens in the browser, pastes a figure with it into the body, saves, and the image shows on the article page on mobile and desktop.</dd>
+          </dl>
+        </div>
+
+        <div class="issue" id="i15c">
+          <h3>15c · Listing prices: zero, placeholder and unclear prices go live</h3>
+          <div class="meta"><span class="pill open">NOT DONE</span><span>Owner: Jan (form checks), Paulo (page and schema)</span></div>
+          <dl>
+            <dt>What is wrong</dt><dd>The listing form accepts prices that cannot be right, and the page publishes them as real prices, in the schema too. Counts are from the 836 available listings in the public feed, read Oct 30, 2026.</dd>
+            <dt>1. Placeholder prices</dt><dd>25 listings have a monthly or weekly price of 100 SAR or less. Example: <a href="https://renter.net/ar/product/2911/tajyr-syzr-lft-fy-mkh-almkrmh-2027/">product 2911</a>, a scissor lift at 6 SAR a month (schema <code>price: 6, unitCode: MON</code>). Another: product 471 at 1 SAR a month.</dd>
+            <dt>2. Zero prices</dt><dd>7 available listings have every price at 0 (price on request). Example: <a href="https://renter.net/ar/product/2898/tajyr-wbya-khyam-awrbyh-jmya-almqasat-walashkal/">product 2898</a> is available in the feed, but the page shows "0 / باليوم" and the schema says <code>price: 0</code> and <code>OutOfStock</code>.</dd>
+            <dt>3. Fixed term with no days</dt><dd>65 listings use a fixed-term price with no number of days, so the page shows "700 / أيام ثابتة". Example: <a href="https://renter.net/ar/product/2420/rafaat-shwkyh-llajar/">product 2420</a>.</dd>
+            <dt>4. Monthly equal to daily</dt><dd>2 listings show the same price per day and per month. Example: <a href="https://renter.net/ar/product/2513/shywl-966e-ma-saeq-jahz-llaml/">product 2513</a>, 750 SAR a day and 750 SAR a month.</dd>
+            <dt>Why it matters</dt><dd>Renters see prices that look wrong, Google reads them from the schema, and an available listing marked out of stock can drop from Google Shopping.</dd>
+            <dt>Fix</dt><dd>1. Form checks: block a monthly price under a sensible floor (for example 100 SAR) and a monthly price equal to the daily price, unless the lessor confirms; require the number of days for a fixed term. 2. Price on request: show "السعر عند الطلب" on the page, leave <code>price</code> out of the schema, and keep <code>InStock</code> when the listing is available. 3. Fix the existing listings above.</dd>
+            <dt>Done when</dt><dd>Product 2898 shows "السعر عند الطلب" and the schema says <code>InStock</code>; product 2911 shows a real monthly price; product 2420 shows the number of days. Then tell Saiaf.</dd>
+          </dl>
+        </div>
+
+        <div class="issue" id="i15d">
+          <h3>15d · Listing quality: duplicates, phone numbers in titles, wrong subcategory, no location</h3>
+          <div class="meta"><span class="pill open">NOT DONE</span><span>Owner: Mr. Mohamed (listings review), Jan (checks)</span></div>
+          <dl>
+            <dt>What is wrong</dt><dd>Counts are from the public feed, read Oct 30, 2026.</dd>
+            <dt>1. Duplicate reposts</dt><dd>19 available listings repeat another listing's title and price. Example: <a href="https://renter.net/ar/product/3038/">product 3038</a> and <a href="https://renter.net/ar/product/3066/">product 3066</a>, the same scissor lift at 450 SAR a day.</dd>
+            <dt>2. Phone numbers in titles</dt><dd>2 listings put a mobile number in the title, so it also shows in the URL and in Google. Example: <a href="https://renter.net/ar/product/1707/bwbkat-rsash-120-rqm-altwasl-0547429730/">product 1707</a>. This also goes against <a href="#i7">issue 7, lessor data protection</a>.</dd>
+            <dt>3. Wrong subcategory</dt><dd>The <a href="https://renter.net/ar/equipment-and-tools/camping-equipment/">camping equipment page</a> promises "خيام وكشاتات" but shows one product, 471, which is unavailable and priced at 1 SAR. The tent listings sit under "Other", "Outdoor Seating" and "Seaters". The tent season starts in November.</dd>
+            <dt>4. No location</dt><dd>13 available listings have no location, so they cannot show a city. Example: <a href="https://renter.net/ar/product/1036/khymh/">product 1036</a>.</dd>
+            <dt>Fix</dt><dd>1. Review and merge or remove the duplicates. 2. Remove phone numbers from titles, and block them in the form. 3. Move the tent listings to camping equipment. 4. Ask the lessors without a location to add one, and make location required.</dd>
+            <dt>Done when</dt><dd>No duplicate pairs in the feed, no phone numbers in titles, the camping equipment page shows the tent listings, and every available listing has a city. Then tell Saiaf.</dd>
           </dl>
         </div>
       </div>
