@@ -50,6 +50,7 @@
       <div class="tablebox"><table class="board">
         <thead><tr><th>#</th><th>Issue</th><th>Status</th><th>Owner</th><th>Details</th></tr></thead>
                 <tbody>
+          <tr><td>15</td><td><a href="#i15">Found while writing blog articles (Oct 30): 2 sub-tickets</a></td><td><span class="pill open">NOT DONE</span></td><td>Paulo, Jan</td><td><a href="#i15a">15a</a> · <a href="#i15b">15b</a></td></tr>
           <tr><td>14</td><td><a href="#i14">Merchant feed files are empty again</a></td><td><span class="pill open">BROKEN AGAIN</span></td><td>Dev team</td><td><a href="../merchant-feed/">ticket</a></td></tr>
           <tr><td>6</td><td><a href="#i6">Google Shopping: return policy rejected, 264 vehicles not approved</a></td><td><span class="pill open">NOT DONE</span></td><td>Mr. Mohamed, Ahmed, Saiaf</td><td><a href="../merchant-center/">ticket</a></td></tr>
           <tr><td>10</td><td><a href="#i10">Two wrong meta descriptions</a></td><td><span class="pill open">NOT DONE</span></td><td>Dev team</td><td><a href="#i10">details</a></td></tr>
@@ -240,6 +241,36 @@
           <dt>State</dt><dd>Nothing to build. The site tells Google Analytics when a booking is paid, tested with a simulated payment. Google Tag Manager version 19 is published.</dd>
           <dt>Done when</dt><dd>One real paid booking shows in Google Analytics with its booking number.</dd>
         </dl>
+      </div>
+
+      <div class="issue" id="i15">
+        <h3>15 · Found while writing blog articles (Oct 30)</h3>
+        <div class="meta"><span class="pill open">NOT DONE</span><span>Owner: Paulo, Jan</span><span>2 sub-tickets</span></div>
+        <p>We found these while collecting prices from live listings for the blog. Each one is a separate fix.</p>
+
+        <div class="issue" id="i15a">
+          <h3>15a · Yearly rent is saved as a monthly price</h3>
+          <div class="meta"><span class="pill open">NOT DONE</span><span>Owner: Jan (data), Paulo (page)</span></div>
+          <dl>
+            <dt>What is wrong</dt><dd>Some property listings store the full yearly rent in the monthly price, with a 12-month term. The page then shows the yearly total as a price per month, and the product schema marks it as monthly (<code>unitCode: MON</code>).</dd>
+            <dt>Example</dt><dd><a href="https://renter.net/ar/product/2947/shqh-lliyjar-awael-zhrh-lbn/">Product 2947</a> shows 37,000 SAR per month. The API returns <code>{"price": "37000", "duration": "12", "lease_term": "monthly"}</code>, and the page schema says <code>unitCode: MON</code>.</dd>
+            <dt>How many</dt><dd>21 property listings have a monthly price of 15,000 SAR or more with this pattern (public listings feed, read Oct 30, 2026). Other examples: 2914 (90,000), 2577 (80,000), 2011 (120,000), 1825 (200,000).</dd>
+            <dt>Why it matters</dt><dd>Renters see a monthly price 12 times too high. Google reads the wrong price from the schema. The blog price tables cannot use these listings.</dd>
+            <dt>Fix</dt><dd>1. In the listing form, when the lessor enters a 12-month term, save it as a yearly lease term (or divide by 12), and show "per year" on the page. 2. Fix the 21 existing listings. 3. Set the schema unit to match: <code>ANN</code> for yearly, <code>MON</code> for monthly.</dd>
+            <dt>Done when</dt><dd>Product 2947 shows 37,000 SAR per year, its schema says <code>ANN</code>, and no property listing in the feed shows a monthly price of 15,000 SAR or more unless the lessor confirms it is monthly. Then tell Saiaf.</dd>
+          </dl>
+        </div>
+
+        <div class="issue" id="i15b">
+          <h3>15b · Blog: no image upload for the article body</h3>
+          <div class="meta"><span class="pill open">NOT DONE</span><span>Owner: Paulo</span><span><a href="#i11">Blog section</a></span></div>
+          <dl>
+            <dt>What is wrong</dt><dd>In Ops, the blog post form uploads only the cover. The body field takes HTML, so each image needs a URL on renter.net, and there is no way to upload one. Images from other domains are not allowed in the body.</dd>
+            <dt>Blocked</dt><dd>Post 2 (the lessor guide) is a draft without its 11 images (2 infographics, 9 step screenshots). The next articles need images too.</dd>
+            <dt>Fix</dt><dd>1. An image upload in the blog post editor, or a small media page under Blog. 2. JPEG, PNG and WebP, up to 5 MB each, several files at once. 3. Store the files on renter.net, the same storage the cover uses. 4. Show each file's full URL with a copy button. 5. Keep <code>src</code>, <code>alt</code>, <code>width</code>, <code>height</code> and <code>loading</code> on <code>img</code> when the body is saved.</dd>
+            <dt>Done when</dt><dd>Saiaf uploads a WebP, gets a renter.net URL that opens in the browser, pastes a figure with it into the body, saves, and the image shows on the article page on mobile and desktop.</dd>
+          </dl>
+        </div>
       </div>
 
       <div class="issue" id="i14">
