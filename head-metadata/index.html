@@ -263,12 +263,13 @@
 
         <div class="issue" id="i15b">
           <h3>15b · Blog: no image upload for the article body</h3>
-          <div class="meta"><span class="pill open">NOT DONE</span><span>Owner: Paulo</span><span><a href="#i11">Blog section</a></span></div>
+          <div class="meta"><span class="pill progress">ON STAGING</span><span>Owner: Paulo</span><span><a href="#i11">Blog section</a></span></div>
           <dl>
             <dt>What is wrong</dt><dd>In Ops, the blog post form uploads only the cover. The body field takes HTML, so each image needs a URL on renter.net, and there is no way to upload one. Images from other domains are not allowed in the body.</dd>
             <dt>Blocked</dt><dd>Post 2 (the lessor guide) is a draft without its 11 images (2 infographics, 9 step screenshots). The next articles need images too.</dd>
             <dt>Fix</dt><dd>1. An image upload in the blog post editor, or a small media page under Blog. 2. JPEG, PNG and WebP, up to 5 MB each, several files at once. 3. Store the files on renter.net, the same storage the cover uses. 4. Show each file's full URL with a copy button. 5. Keep <code>src</code>, <code>alt</code>, <code>width</code>, <code>height</code> and <code>loading</code> on <code>img</code> when the body is saved.</dd>
             <dt>Done when</dt><dd>Saiaf uploads a WebP, gets a renter.net URL that opens in the browser, pastes a figure with it into the body, saves, and the image shows on the article page on mobile and desktop.</dd>
+            <dt>Checked Oct 31</dt><dd><strong>Works on staging.</strong> The new Blog Media page uploaded a WebP, returned <code>developer-v2.renter.net/storage/blog/media/...webp</code> (200, image/webp) and a ready figure. On post 70 the figure saved with <code>src</code>, <code>alt</code>, <code>width</code>, <code>height</code> and <code>loading</code> (only <code>decoding</code> is stripped, which is fine) and showed on the staging article on mobile and desktop. Left: ship it to production (ops.renter.net), and center figures and captions in the article template.</dd>
           </dl>
         </div>
 
