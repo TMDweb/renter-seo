@@ -21,11 +21,11 @@
 <div class="page">
   <header class="doc-header">
     <a class="backbtn" href="../head-metadata/">&#8592; Back to the dev board</a>
-    <p class="kicker">Renter × TMD · From the Oct 11 meeting · written Oct 18, 2026</p>
+    <p class="kicker">Renter × TMD · From the Oct 11 meeting · checked live Nov 1, 2026</p>
   </header>
   <div class="doc-body">
       <h1>Blog: the first real article, ready to enter</h1>
-      <div class="statusbar"><span class="pill progress">READY TO ENTER</span><span class="txt">Written Oct 18, 2026 from keyword research, the Google results page, 33 live Renter listings and the Transport General Authority regulation. Arabic and English, with the cover, FAQ and every dashboard field below. Next: Saiaf enters it as a draft, Paulo checks it on staging, then it publishes with the blog launch.</span></div>
+      <div class="statusbar"><span class="pill done">LIVE ON RENTER.NET</span><span class="txt">Checked live Nov 1, 2026. The article is live in <a href="https://renter.net/ar/blog/cars-and-vehicles/car-rental-monthly-price-riyadh/">Arabic</a> and <a href="https://renter.net/en/blog/cars-and-vehicles/car-rental-monthly-price-riyadh/">English</a> from the production dashboard (<a href="https://ops.renter.net/blog/posts/1/edit">post 1</a>, published Oct 25, 17:58). Google has both pages indexed, but its last crawl was Oct 22, before the move to production. Two items are left: the byline is "Saiaf" until Jan adds the Renter Team author, and the page shows no table of contents.</span></div>
 
       <div class="inshort">
         <h2>In short</h2>
@@ -34,8 +34,8 @@
           <dt>Address</dt><dd><code>/ar/blog/cars-and-vehicles/car-rental-monthly-price-riyadh/</code> and the same under <code>/en/</code></dd>
           <dt>Keyword</dt><dd><bdi>ايجار سيارة شهري</bdi>: 1,900 searches a month in Saudi Arabia; the cluster is about 8,000.</dd>
           <dt>Why this one first</dt><dd>It is article 1 of the editorial calendar, it has the most demand in the cars cluster, and Renter can answer it with real listing prices that no ranking page publishes.</dd>
-          <dt>Length</dt><dd>About 1015 words in Arabic, plus 5 FAQ answers.</dd>
-          <dt>Byline</dt><dd><bdi>فريق رينتر</bdi> / Renter Team</dd>
+          <dt>Length</dt><dd>About 1015 words in Arabic, plus 5 FAQ answers. The live schema says <code>wordCount</code> 1012 (ar) and 1193 (en).</dd>
+          <dt>Byline</dt><dd><bdi>فريق رينتر</bdi> / Renter Team. Live now: "Saiaf" in both languages, because production has no Renter Team author yet (Jan). Saiaf switches post 1 when it exists.</dd>
         </dl>
       </div>
 
@@ -167,8 +167,8 @@
           <tr><td><code>hub</code></td><td><code>cars-and-vehicles</code></td><td></td></tr>
           <tr><td><code>title_ar</code></td><td dir="rtl">سعر إيجار السيارات الشهري في الرياض 2026: أسعار حقيقية حسب الفئة</td><td>64</td></tr><tr><td><code>meta_title_ar</code></td><td dir="rtl">سعر إيجار السيارات الشهري في الرياض 2026 | رينتر</td><td>48</td></tr><tr><td><code>excerpt_ar</code></td><td dir="rtl">إيجار سيارة اقتصادية في الرياض بنحو 2,000 ريال شهريًا. أسعار حقيقية من 33 إعلانًا على رينتر حسب الفئة، ومتى يكون الإيجار الشهري أوفر من اليومي.</td><td>143</td></tr><tr><td><code>cover_alt_ar</code></td><td dir="rtl">رسم لسيارة بيضاء بجانب تقويم شهري على خلفية زرقاء</td><td>49</td></tr><tr><td><code>title_en</code></td><td>Monthly Car Rental Prices in Riyadh 2026: Real Prices by Class</td><td>62</td></tr><tr><td><code>meta_title_en</code></td><td>Monthly Car Rental Prices in Riyadh 2026 | Renter</td><td>49</td></tr><tr><td><code>excerpt_en</code></td><td>An economy car rents for about SAR 2,000 a month in Riyadh. Real prices from 33 Renter listings by class, and when monthly beats daily rental.</td><td>142</td></tr><tr><td><code>cover_alt_en</code></td><td>Illustration of a white car next to a monthly calendar on a blue background</td><td>75</td></tr>
           <tr><td><code>related_product_ids</code></td><td><code>2894, 2611, 2612, 1150</code> (Kia Pegas 2023, Hyundai Grand i10 2026, Kia K4 2026, Kia Sportage 2026)</td><td></td></tr>
-          <tr><td><code>related_category_slug</code></td><td><code>cars</code> (button to <code>/ar/cars-and-vehicles/cars/</code>)</td><td></td></tr>
-          <tr><td><code>author</code></td><td><bdi>فريق رينتر</bdi> / Renter Team</td><td></td></tr>
+          <tr><td><code>related_category_slug</code></td><td><code>cars</code>. On production the CTA field is <code>/cars-and-vehicles/cars/</code> with no locale; the page adds <code>/ar/</code> or <code>/en/</code>. Both buttons open <a href="https://renter.net/ar/cars-and-vehicles/cars/">/ar/cars-and-vehicles/cars/</a> (200)</td><td></td></tr>
+          <tr><td><code>author</code></td><td><bdi>فريق رينتر</bdi> / Renter Team. Live: Saiaf, until Jan adds the author</td><td></td></tr>
           <tr><td><code>tags</code></td><td dir="rtl">إيجار شهري، الرياض، أسعار السيارات</td><td></td></tr>
           <tr><td><code>en_published</code></td><td>Yes</td><td></td></tr>
         </tbody>
@@ -186,7 +186,7 @@
       <h2 id="body">Article body, to copy</h2>
       <p>Paste into <code>body_ar</code> and <code>body_en</code>. Allowed tags only: h2, p, strong, ul, ol, li, a, table. The H2s feed the table of contents.</p>
       <h3>Arabic, <code>body_ar</code></h3>
-      <pre><code>&lt;p&gt;إذا كنت تحتاج سيارة في الرياض لأكثر من أسبوعين، فالإيجار الشهري غالبًا أوفر من الإيجار اليومي. في هذا الدليل نعرض أسعار الإيجار الشهري كما يكتبها المؤجرون أنفسهم على رينتر، حسب فئة السيارة وموديلها، ثم نشرح متى يكون الإيجار الشهري هو الخيار الأفضل، وما الذي يجب أن تتأكد منه في العقد قبل أن تستلم السيارة.&lt;/p&gt;
+      <pre><code>&lt;p&gt;إذا كنت تحتاج سيارة في الرياض لأكثر من أسبوعين، فإن إيجار سيارة شهري غالبًا أوفر من الإيجار اليومي. في هذا الدليل نعرض أسعار الإيجار الشهري كما يكتبها المؤجرون أنفسهم على رينتر، حسب فئة السيارة وموديلها، ثم نشرح متى يكون الإيجار الشهري هو الخيار الأفضل، وما الذي يجب أن تتأكد منه في العقد قبل أن تستلم السيارة.&lt;/p&gt;
 
 &lt;h2&gt;كم سعر إيجار سيارة شهري في الرياض؟&lt;/h2&gt;
 &lt;p&gt;&lt;strong&gt;الجواب المختصر:&lt;/strong&gt; السيارة الاقتصادية الصغيرة، مثل كيا بيجاس وهيونداي أكسنت، تُؤجَّر في الرياض بنحو 2,000 ريال شهريًا، والأسعار بين 1,300 و3,000 ريال حسب الموديل وسنة الصنع. السيدان المتوسطة بين 2,500 و3,240 ريالًا، والسيارات العائلية من نوع SUV بين 1,900 و4,900 ريال، والسيدان الكبيرة مثل فورد تورس بين 5,600 و6,500 ريال.&lt;/p&gt;
@@ -282,7 +282,7 @@
 &lt;li&gt;عند الاستلام، راجع العقد بالنقاط السبع أعلاه، وصوّر السيارة.&lt;/li&gt;
 &lt;/ol&gt;</code></pre>
       <h3>English, <code>body_en</code></h3>
-      <pre><code>&lt;p&gt;If you need a car in Riyadh for more than two weeks, a monthly rental is usually cheaper than renting by the day. This guide shows monthly car rental prices as lessors list them on Renter, by car class and model. It then explains when a monthly rental makes sense and what to check in the contract before you drive away.&lt;/p&gt;
+      <pre><code>&lt;p&gt;If you need a car in Riyadh for more than two weeks, a monthly car rental is usually cheaper than renting by the day. This guide shows monthly car rental prices as lessors list them on Renter, by car class and model. It then explains when a monthly rental makes sense and what to check in the contract before you drive away.&lt;/p&gt;
 
 &lt;h2&gt;How much is a monthly car rental in Riyadh?&lt;/h2&gt;
 &lt;p&gt;&lt;strong&gt;Short answer:&lt;/strong&gt; a small economy car, such as a Kia Pegas or Hyundai Accent, rents for about SAR 2,000 a month in Riyadh. Prices run from SAR 1,300 to SAR 3,000, depending on the model and year. Mid-size sedans cost SAR 2,500 to 3,240, SUVs SAR 1,900 to 4,900, and large sedans such as the Ford Taurus SAR 5,600 to 6,500.&lt;/p&gt;
@@ -380,7 +380,7 @@
 
       <h2 id="preview">Preview</h2>
       <h3>Arabic</h3>
-      <div class="preview" dir="rtl" lang="ar"><h1 style="font-size:1.6rem">سعر إيجار السيارات الشهري في الرياض 2026: أسعار حقيقية حسب الفئة</h1><p>إذا كنت تحتاج سيارة في الرياض لأكثر من أسبوعين، فالإيجار الشهري غالبًا أوفر من الإيجار اليومي. في هذا الدليل نعرض أسعار الإيجار الشهري كما يكتبها المؤجرون أنفسهم على رينتر، حسب فئة السيارة وموديلها، ثم نشرح متى يكون الإيجار الشهري هو الخيار الأفضل، وما الذي يجب أن تتأكد منه في العقد قبل أن تستلم السيارة.</p>
+      <div class="preview" dir="rtl" lang="ar"><h1 style="font-size:1.6rem">سعر إيجار السيارات الشهري في الرياض 2026: أسعار حقيقية حسب الفئة</h1><p>إذا كنت تحتاج سيارة في الرياض لأكثر من أسبوعين، فإن إيجار سيارة شهري غالبًا أوفر من الإيجار اليومي. في هذا الدليل نعرض أسعار الإيجار الشهري كما يكتبها المؤجرون أنفسهم على رينتر، حسب فئة السيارة وموديلها، ثم نشرح متى يكون الإيجار الشهري هو الخيار الأفضل، وما الذي يجب أن تتأكد منه في العقد قبل أن تستلم السيارة.</p>
 
 <h2>كم سعر إيجار سيارة شهري في الرياض؟</h2>
 <p><strong>الجواب المختصر:</strong> السيارة الاقتصادية الصغيرة، مثل كيا بيجاس وهيونداي أكسنت، تُؤجَّر في الرياض بنحو 2,000 ريال شهريًا، والأسعار بين 1,300 و3,000 ريال حسب الموديل وسنة الصنع. السيدان المتوسطة بين 2,500 و3,240 ريالًا، والسيارات العائلية من نوع SUV بين 1,900 و4,900 ريال، والسيدان الكبيرة مثل فورد تورس بين 5,600 و6,500 ريال.</p>
@@ -476,7 +476,7 @@
 <li>عند الاستلام، راجع العقد بالنقاط السبع أعلاه، وصوّر السيارة.</li>
 </ol><h2>الأسئلة الشائعة</h2><h3>كم سعر إيجار سيارة لمدة شهر في الرياض؟</h3><p>حوالي 2,000 ريال لسيارة اقتصادية صغيرة. الأسعار على رينتر في الرياض بين 1,300 ريال لسيارة اقتصادية قديمة و6,500 ريال لسيدان كبيرة موديل 2026.</p><h3>كم إيجار الأكسنت شهري؟</h3><p>على رينتر في الرياض: 1,300 ريال لموديل 2011، و1,800 ريال لموديل 2016، و2,000 ريال لموديل 2023، وبين 2,460 و3,000 ريال لموديل 2026.</p><h3>ما هي شروط استئجار سيارة شهري؟</h3><p>إثبات هوية ساري، ورخصة قيادة سارية طوال مدة العقد، وأن تنطبق عليك شروط وثيقة تأمين السيارة. هذه شروط المادة التاسعة والثلاثين من لائحة الهيئة العامة للنقل.</p><h3>هل أحتاج بطاقة ائتمانية لاستئجار سيارة؟</h3><p>تسمح اللائحة لمكتب التأجير أن يطلب بطاقة ائتمانية وأن يرفض التأجير بدونها. الشرط يختلف من مؤجر لآخر، فاسأل المؤجر قبل الحجز.</p><h3>هل يُطلب تأمين مسترد في الإيجار الشهري؟</h3><p>20 من 33 إعلانًا راجعناها لا تطلب تأمينًا. الباقي يطلب بين 500 و5,000 ريال، ويُرد بعد إعادة السيارة سليمة وخصم المستحقات فقط.</p></div>
       <h3>English</h3>
-      <div class="preview" lang="en"><h1 style="font-size:1.6rem">Monthly Car Rental Prices in Riyadh 2026: Real Prices by Class</h1><p>If you need a car in Riyadh for more than two weeks, a monthly rental is usually cheaper than renting by the day. This guide shows monthly car rental prices as lessors list them on Renter, by car class and model. It then explains when a monthly rental makes sense and what to check in the contract before you drive away.</p>
+      <div class="preview" lang="en"><h1 style="font-size:1.6rem">Monthly Car Rental Prices in Riyadh 2026: Real Prices by Class</h1><p>If you need a car in Riyadh for more than two weeks, a monthly car rental is usually cheaper than renting by the day. This guide shows monthly car rental prices as lessors list them on Renter, by car class and model. It then explains when a monthly rental makes sense and what to check in the contract before you drive away.</p>
 
 <h2>How much is a monthly car rental in Riyadh?</h2>
 <p><strong>Short answer:</strong> a small economy car, such as a Kia Pegas or Hyundai Accent, rents for about SAR 2,000 a month in Riyadh. Prices run from SAR 1,300 to SAR 3,000, depending on the model and year. Mid-size sedans cost SAR 2,500 to 3,240, SUVs SAR 1,900 to 4,900, and large sedans such as the Ford Taurus SAR 5,600 to 6,500.</p>
@@ -577,8 +577,8 @@
         <dt>Prices</dt><dd>All 1,028 live product pages read on Oct 18, 2026. Kept: 33 passenger cars in Riyadh with a monthly price. Left out: trucks, lifts, cars with a driver, listings with no city, luxury cars (Land Cruiser, Bentley), and prices that look like entry errors (for example 70 riyals a month, or a Camry at 15,000).</dd>
         <dt>Rules</dt><dd>Transport General Authority, <a href="https://tga.gov.sa/ar/regulations/regulation/4801">executive regulation for private car rental</a>: Article 30 (electronic contract), 31 (contract contents), 35 (late return), 39 (renter conditions, amended June 29, 2026), 40 (office obligations).</dd>
         <dt>Lease prices</dt><dd><a href="https://www.iyelo.com/ar/long-term-car-rental">Yelo long-term rental page</a>, read Oct 18, 2026. Prices before VAT.</dd>
-        <dt>Booking claims</dt><dd>The 24-hour refund rule is the text the Renter site shows on bookings. Mr. Mohamed should confirm it before publishing.</dd>
-        <dt>Links</dt><dd>All 22 renter.net links answer 200 on Oct 18, 2026.</dd>
+        <dt>Booking claims</dt><dd>The 24-hour refund rule is the text the Renter site shows on bookings. The article is live with it. It matches the return policy text Saiaf sent on <a href="https://slack.com/archives/C09VDMYL1M1/p1792936596380929">Oct 25</a>.</dd>
+        <dt>Links</dt><dd>All 22 renter.net links answer 200 on Oct 18, 2026. Nov 1: the 4 related product cards open their full product URLs, for example <a href="https://renter.net/ar/product/2894/kya-byjas-2023/">/ar/product/2894/kya-byjas-2023/</a> (200).</dd>
         <dt>Update</dt><dd>Every January: refresh the prices from live listings, change the year, keep the slug.</dd>
       </dl>
 

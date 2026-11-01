@@ -11,19 +11,21 @@
 <div class="page">
   <header class="doc-header">
     <a class="backbtn" href="../head-metadata/">&#8592; Back to the dev board</a>
-    <p class="kicker">Renter × TMD · From the Oct 11 meeting · checked Oct 18, 2026</p>
+    <p class="kicker">Renter × TMD · From the Oct 11 meeting · checked live Nov 1, 2026</p>
   </header>
   <div class="doc-body">
       <h1>Blog schema: the blocks for Paulo</h1>
-      <div class="statusbar"><span class="pill done">LIVE ON STAGING</span><span class="txt">Saiaf promised Paulo the blog schema in the Oct 11 meeting. Checked Oct 18, 2026: article, blog home and category pages on staging all carry structured data. One field left: the English author name.</span></div>
+      <div class="statusbar"><span class="pill done">LIVE ON RENTER.NET</span><span class="txt">Checked live Nov 1, 2026. The <a href="https://renter.net/ar/blog/cars-and-vehicles/car-rental-monthly-price-riyadh/">article</a> has BlogPosting and BreadcrumbList, with renter.net URLs, <code>wordCount</code> 1012 (ar) and 1193 (en), and no FAQPage. The <a href="https://renter.net/ar/blog/">blog home</a> and <a href="https://renter.net/ar/blog/cars-and-vehicles/">hub</a> have CollectionPage and BreadcrumbList. Search Console finds Breadcrumbs with no errors. Two items are left, both for Jan: the author is the Person "Saiaf" until the Renter Team author exists, and <code>dateModified</code> (17:48) is earlier than <code>datePublished</code> (17:58).</span></div>
       <div class="inshort">
         <h2>In short</h2>
         <dl>
           <dt>What it is</dt><dd>The hidden code blocks (JSON-LD) that describe each blog page to Google: the article, its author and dates, and the page path.</dd>
           <dt>Where the code is</dt><dd>Section 3 of the blog ticket: <a href="../blog-section/#jsonld">complete JSON-LD blocks with one helper function</a>. Two scripts per article: the article block and the breadcrumb block.</dd>
-          <dt>When</dt><dd>Paulo asked if it can wait. It should ship with the launch. If it waits, it must go live in the first week.</dd>
+          <dt>When</dt><dd>Shipped with the launch. Live on renter.net from the production backend since Oct 25, 2026.</dd>
           <dt>Rules</dt><dd>The publisher points to the Organization block that is already on the home page; do not repeat it. The last breadcrumb entry has no link. No FAQ block.</dd>
           <dt>Done when</dt><dd>The Rich Results Test finds "Article" and "Breadcrumbs" on a staging article with no errors.</dd>
+          <dt>Nov 1 check</dt><dd><span class="pill done">DONE</span> The API sends <code>seo.json_ld</code> with BlogPosting and BreadcrumbList only (<a href="https://admin-production.renter.net/api/v1/blog/posts/car-rental-monthly-price-riyadh/?locale=ar">ar</a>, <a href="https://admin-production.renter.net/api/v1/blog/posts/car-rental-monthly-price-riyadh/?locale=en">en</a>). The FAQPage node is gone. <code>author.url</code> is gone, so the schema no longer links the 404 author page. The publisher is the Organization "رينتر" / "Renter". <a href="https://search.google.com/search-console/inspect?resource_id=sc-domain:renter.net&amp;id=BKWUdBTH-OcHls7j8SeyiA&amp;utm_medium=link&amp;utm_source=api">Search Console URL Inspection</a>: Breadcrumbs valid, last crawl Oct 22.</dd>
+          <dt>Still open</dt><dd><span class="pill open">OPEN</span> Jan: add the Renter Team author (English name "Renter Team"), then Saiaf switches post 1. <span class="pill open">OPEN</span> Jan: <code>dateModified</code> must not be earlier than <code>datePublished</code>.</dd>
         </dl>
       </div>
 

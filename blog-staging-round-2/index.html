@@ -11,31 +11,31 @@
 <div class="page">
   <header class="doc-header">
     <a class="backbtn" href="../head-metadata/">&#8592; Back to the dev board</a>
-    <p class="kicker">Renter × TMD · From the Oct 11 meeting · checked Oct 18, 2026</p>
+    <p class="kicker">Renter × TMD · From the Oct 11 meeting · checked live Nov 1, 2026</p>
   </header>
   <div class="doc-body">
       <h1>Blog on staging: the fixes left before launch</h1>
-      <div class="statusbar"><span class="pill progress">MOSTLY DONE</span><span class="txt">Checked on v2-staging on Oct 18, 2026, after Paulo finished the updates: titles, descriptions, canonical, hreflang and structured data are on every blog page. The English button opens the English page. The blog stays up under load. Future posts are out of the lists and the sitemap. Three notes stay open: future posts open by direct link, the English author name is Arabic, and the guide article button text and link need agreement.</span></div>
+      <div class="statusbar"><span class="pill progress">LIVE, 3 OPEN</span><span class="txt">Checked live on renter.net on Nov 1, 2026. The blog launched about Oct 21 and reads the production backend since Oct 25. Items 1, 3, 4 and 5 are done on production. Item 2 cannot be tested yet: there is no page 2. Open: the GTM blog events (item 7), the call-to-action box is not one link (item 6), and the launch rule: 8 hubs with no article are live and indexable. The open work for the first article is in the <a href="../blog-production-fixes/">blog production fixes ticket</a>.</span></div>
       <div class="inshort">
         <h2>In short</h2>
         <dl>
           <dt>Done on staging</dt><dd>Pagination has real addresses (<code>/blog/2/</code>). A page number past the last page answers 404 (<code>/ar/blog/7/</code> checked). A wrong hub or article address answers 404. Hub pages and the category link work.</dd>
-          <dt>Still open</dt><dd>The 7 items below. Items 1 to 4 block the launch.</dd>
-          <dt>Launch rule</dt><dd>The blog goes live with one real article and only the hubs that have an article. No test articles and no empty hubs on renter.net. An empty page that goes live can take Google months to forget.</dd>
-          <dt>Owners</dt><dd>Paulo: items 1 to 6. Jan: the data behind items 1 and 3, and item 7.</dd>
+          <dt>Still open</dt><dd>Nov 1: items 6 and 7 below, and the launch rule. Items 1, 3, 4 and 5 are done on renter.net.</dd>
+          <dt>Launch rule</dt><dd>The blog goes live with one real article and only the hubs that have an article. No test articles and no empty hubs on renter.net. An empty page that goes live can take Google months to forget. <span class="pill open">OPEN</span> Nov 1: no test articles are live, but the <a href="https://renter.net/ar/blog/">blog home</a> links all 10 hubs. 8 of them have no article and answer 200 with <code>index, follow</code>, for example <a href="https://renter.net/ar/blog/properties/">/ar/blog/properties/</a>. The blog sitemap lists only the 2 hubs with articles. Owner: Paulo. Fix: hide hubs with 0 posts from the blog home, and answer 404 (or <code>noindex</code>) until a hub has a post.</dd>
+          <dt>Owners</dt><dd>Paulo: items 1 to 6. Jan: the data behind items 1 and 3, and item 7. Nov 1: Paulo owns items 6 and 7 and the empty hubs.</dd>
         </dl>
       </div>
       <h2 id="items">The 7 items</h2>
       <div class="tablebox"><table>
-        <thead><tr><th>#</th><th>Item</th><th>Now on staging</th><th>Must be</th><th>Owner</th></tr></thead>
+        <thead><tr><th>#</th><th>Item</th><th>Now on renter.net (Nov 1)</th><th>Must be</th><th>Owner</th></tr></thead>
         <tbody>
-          <tr><td>1</td><td>Title, meta description, canonical</td><td>None on any blog page</td><td>Each page prints the title and description that Saiaf types in the dashboard, and a canonical that equals its own address</td><td>Paulo, Jan</td></tr>
-          <tr><td>2</td><td>Paginated pages</td><td>No canonical</td><td><code>/ar/blog/2/</code> has a canonical to itself, not to page 1</td><td>Paulo</td></tr>
-          <tr><td>3</td><td>hreflang</td><td>None on blog pages</td><td>Arabic and English versions point to each other, as on the rest of the site. An article with no English version prints no English hreflang</td><td>Paulo</td></tr>
-          <tr><td>4</td><td>Schema (JSON-LD)</td><td>None</td><td>The blocks in the <a href="../blog-schema/">blog schema ticket</a></td><td>Paulo</td></tr>
-          <tr><td>5</td><td>Blog sitemaps</td><td><code>/sitemap/ar/blog.xml</code> answers 500</td><td>200, listing live articles and hubs only</td><td>Paulo</td></tr>
-          <tr><td>6</td><td>Small UI fixes</td><td>Article text is tight on phones. The call-to-action box is not clickable; only its image is. Copy link gives no feedback</td><td>Line height about 1.3 times the current one on phones. The whole call-to-action box is one link. A short "copied" message after copy link</td><td>Paulo</td></tr>
-          <tr><td>7</td><td>Blog events for Google Tag Manager</td><td>Not sent</td><td>The events in section 5 of the <a href="../blog-section/#gtm">blog ticket</a></td><td>Paulo</td></tr>
+          <tr><td>1</td><td>Title, meta description, canonical</td><td><span class="pill done">DONE</span> The <a href="https://renter.net/ar/blog/cars-and-vehicles/car-rental-monthly-price-riyadh/">article</a>, <a href="https://renter.net/ar/blog/">blog home</a> and hubs print the dashboard title and description, and a self canonical on renter.net</td><td>Each page prints the title and description that Saiaf types in the dashboard, and a canonical that equals its own address</td><td>Paulo, Jan</td></tr>
+          <tr><td>2</td><td>Paginated pages</td><td><span class="pill done">DONE ON STAGING</span> Oct 18 on staging. Not testable on renter.net yet: 2 posts, so there is no page 2. <a href="https://renter.net/ar/blog/2/">/ar/blog/2/</a> answers 404</td><td><code>/ar/blog/2/</code> has a canonical to itself, not to page 1</td><td>Paulo</td></tr>
+          <tr><td>3</td><td>hreflang</td><td><span class="pill done">DONE</span> ar, en and x-default in the HTML and in the HTTP <code>Link</code> header. The x-default now has <code>/ar/</code>. The Arabic-only <a href="https://renter.net/ar/blog/guides/list-your-item-on-renter/">post 2</a> prints no en hreflang, and its <code>/en/</code> URL answers 404</td><td>Arabic and English versions point to each other, as on the rest of the site. An article with no English version prints no English hreflang</td><td>Paulo</td></tr>
+          <tr><td>4</td><td>Schema (JSON-LD)</td><td><span class="pill done">DONE</span> BlogPosting and BreadcrumbList on the article, CollectionPage and BreadcrumbList on the home and hubs. No FAQPage</td><td>The blocks in the <a href="../blog-schema/">blog schema ticket</a></td><td>Paulo</td></tr>
+          <tr><td>5</td><td>Blog sitemaps</td><td><span class="pill done">DONE</span> <a href="https://renter.net/sitemap/ar/blog.xml">/sitemap/ar/blog.xml</a> and <a href="https://renter.net/sitemap/en/blog.xml">/sitemap/en/blog.xml</a> answer 200 and list live posts and hubs only. Post 2 was in the sitemap about 15 minutes after it went live</td><td>200, listing live articles and hubs only</td><td>Paulo</td></tr>
+          <tr><td>6</td><td>Small UI fixes</td><td><span class="pill open">OPEN</span> The call-to-action box is still not one link: in the HTML, only its <bdi>اعرض السيارات</bdi> button is a link. Tables now align to the start and scroll sideways. Line height and copy-link feedback were not rechecked</td><td>Line height about 1.3 times the current one on phones. The whole call-to-action box is one link. A short "copied" message after copy link</td><td>Paulo</td></tr>
+          <tr><td>7</td><td>Blog events for Google Tag Manager</td><td><span class="pill open">OPEN</span> GTM-WXTFBJCJ loads on the article, but <code>dataLayer</code> has only <code>gtm.js</code>, <code>gtm.dom</code> and <code>gtm.load</code>. No <code>article_view</code></td><td>The events in section 5 of the <a href="../blog-section/#gtm">blog ticket</a></td><td>Paulo</td></tr>
         </tbody>
       </table></div>
 
@@ -44,15 +44,15 @@
         <thead><tr><th>Promise in the meeting</th><th>Where it is</th><th>Status</th></tr></thead>
         <tbody>
           <tr><td>Give Paulo the blog schema</td><td><a href="../blog-schema/">blog schema ticket</a></td><td><span class="pill done">READY</span></td></tr>
-          <tr><td>One real article before launch</td><td><a href="../blog-first-article/">first article ticket</a></td><td><span class="pill open">OWED</span></td></tr>
-          <tr><td>Read Jan's API document and send SEO additions</td><td><a href="../blog-api-review/">API review ticket</a></td><td><span class="pill open">OWED</span></td></tr>
-          <tr><td>Tell Paulo how the table of contents will be entered, before the first article that has one</td><td><a href="../blog-first-article/">first article ticket</a></td><td><span class="pill open">OWED</span></td></tr>
+          <tr><td>One real article before launch</td><td><a href="../blog-first-article/">first article ticket</a></td><td><span class="pill done">LIVE OCT 25</span></td></tr>
+          <tr><td>Read Jan's API document and send SEO additions</td><td><a href="../blog-api-review/">API review ticket</a></td><td><span class="pill done">SENT OCT 13</span></td></tr>
+          <tr><td>Tell Paulo how the table of contents will be entered, before the first article that has one</td><td><a href="../blog-first-article/">first article ticket</a></td><td><span class="pill done">NOT NEEDED</span> The dashboard adds <code>id="s1"</code> to <code>id="s8"</code> to the H2s and the API sends them in <code>toc</code>. The page still shows no table of contents (Paulo)</td></tr>
         </tbody>
       </table></div>
 
       <h2 id="jan">What Jan owes Saiaf</h2>
       <ul>
-        <li>A working login to the blog dashboard. The two logins tried so far did not work.</li>
+        <li><span class="pill done">DONE</span> A working login to the blog dashboard. Saiaf uses the production dashboard, <a href="https://ops.renter.net/">ops.renter.net</a>, since Oct 25.</li>
         <li>A walk-through of the dashboard when he is at his computer.</li>
         <li>Edit access to product titles and descriptions, on the second phone number Saiaf gave in the meeting.</li>
       </ul>
