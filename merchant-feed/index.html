@@ -11,14 +11,15 @@
 <div class="page">
   <header class="doc-header">
     <a class="backbtn" href="../head-metadata/">&#8592; Back to the dev board</a>
-    <p class="kicker">Renter × TMD · Dev ticket · checked live Oct 18, 2026</p>
+    <p class="kicker">Renter × TMD · Dev ticket · checked live Nov 1, 2026</p>
   </header>
   <div class="doc-body">
       <h1>Merchant feed: three fixes</h1>
-      <div class="statusbar"><span class="pill open">EMPTY AGAIN, OCT 18</span><span class="txt">Checked Oct 18, 2026: all feed files answer 200 with 0 products (248 bytes each). On Oct 13 they held 1,200 products, so the feed broke again after the fix. Google Shopping drops products as it re-reads empty files. Restore the feed query and add an alert when file 1 has 0 products. Check: <code>curl -s https://renter.net/merchant-feed-1.xml | grep -c '&lt;item&gt;'</code> must print about 50.</span></div>
-      <p class="lede">State verified <strong>Sep 5, 2026</strong>: the feed is re-partitioned to 24 files of 50 products, descriptions are now clean text, and <code>g:condition</code> is set. Three faults remain. Change ONE feed first (feed-1), back up before changing, and ping Saiaf to test it in Merchant Center before rolling out to all 24; the feed system is unified, so a bad change hits everything at once.</p>
+      <div class="statusbar"><span class="pill progress">FULL AGAIN, 5 FILES TO REGISTER</span><span class="txt">Checked Nov 1, 2026: the feed is full. 29 files hold 1,430 products: files 1 to 28 have 50 each, file 29 has 30, and file 30 is empty. Merchant Center reads only files 1 to 24, so files 25 to 29 (about 230 products) are not in Google Shopping until Saiaf registers them. Extra photos (Fix 1) are done. Still open: the empty-file guard (Fix 2), 16 products at 0 SAR back in the feed, and product 849 in two files.</span></div>
+      <p class="lede">State verified <strong>Nov 1, 2026</strong>: the feed has 29 files of 50 products, descriptions are clean text (no <code>&amp;nbsp;</code> or other codes in any of the 1,430 items), and <code>g:condition</code> is set on every item. Fix 1 is done, Fix 2 is open, and Fix 3 now needs files 25 to 29. Change ONE feed first (feed-1), back up before changing, and ping Saiaf to test it in Merchant Center before rolling out to all 24; the feed system is unified, so a bad change hits everything at once.</p>
 
-      <h2 id="f1">Fix 1: include ALL product photos</h2>
+      <h2 id="f1">Fix 1: include ALL product photos (done, checked Nov 1)</h2>
+      <p class="note">Checked Nov 1, 2026: 845 of 1,430 items carry <code>g:additional_image_link</code> lines. Some items carry up to 31 extra photos; Google reads only the first 10, so the feed can stop at 10. Product 2797 below is no longer in the feed.</p>
       <p>Every item today carries one <code>g:image_link</code> and nothing else (verified across feed-1 on Sep 5). Google Shopping converts on photos; add one <code>g:additional_image_link</code> line per extra photo of the product, up to 10 extra. The photo URLs are the same <code>post_images[].image</code> list the product schema already renders; a one-photo product simply gets no extra lines.</p>
       <p>A real item from feed-1 on Sep 5, corrected and complete. Product 2797 has 3 photos; the two <code>g:additional_image_link</code> lines carry its real second and third photo URLs. The description is also fully decoded (the live feed still ships <code>&amp;nbsp;</code>, <code>&amp;mdash;</code>, <code>&amp;zwj;</code>; decode entities in the feed exactly as in the schema):</p>
       <pre>&lt;item&gt;
@@ -36,17 +37,24 @@
 &lt;/item&gt;</pre>
       <p>Spec: <a href="https://support.google.com/merchants/answer/7052112">Google product data specification, additional_image_link</a>.</p>
 
-      <h2 id="f2">Fix 2: never return an empty file</h2>
+      <h2 id="f2">Fix 2: never return an empty file (open)</h2>
       <p>Feed files intermittently return a valid RSS shell with zero items and HTTP 200 (reproduced again Sep 5: feed-24 returned 0 items in one run and 50 in another). Merchant Center accepts the empty file and silently drops those 50 products for the day; this is what emptied Google Shopping on Aug 25. Required behaviour: when product data cannot be fetched, return HTTP 500, never an empty 200, and log the failure. Merchant Center then keeps the last good version instead of deleting the products.</p>
+      <p>All files were empty again between Oct 5 and Oct 13, and again on Oct 18. The feed was full again on Oct 25 and on Nov 1. Also add an alert when file 1 has 0 products. Check: <code>curl -s https://renter.net/merchant-feed-1.xml | grep -c '&lt;item&gt;'</code> must print 50.</p>
+      <p>Two small feed faults found on Nov 1, for the dev team:</p>
+      <ul>
+        <li>16 products have <code>&lt;g:price&gt;0 SAR&lt;/g:price&gt;</code>. Merchant Center marks them "Invalid price". Leave out every product with a price of 0 or less. IDs: 2898, 2624, 2617, 1762, 1583, 1580, 1476, 1341, 1314, 832, 645, 553, 420, 324, 305, 182. Example: <a href="https://renter.net/merchant-feed-5.xml">feed 5</a> carries 2898.</li>
+        <li>Product 849 is in both <a href="https://renter.net/merchant-feed-24.xml">feed 24</a> and <a href="https://renter.net/merchant-feed-25.xml">feed 25</a>. The files must split the list with no overlap, so check that the split uses a stable order and that no product is left out.</li>
+      </ul>
 
-      <h2 id="f3">Fix 3: register feeds 6 to 24 (done Sep 7)</h2>
-      <p>All 24 Arabic feed files are registered in Merchant Center with daily updates. Feed 24 shows 0 products because the catalog has 1,125 products: feeds 1 to 22 carry 50 each and feed 23 carries the last 25. It fills as the catalog grows; no action.</p>
+      <h2 id="f3">Fix 3: register feeds 25 to 29 (Saiaf)</h2>
+      <p>Files 1 to 24 were registered in Merchant Center with daily updates on Sep 7. The catalog has grown to 1,430 products, so the feed now runs to file 29: <a href="https://renter.net/merchant-feed-25.xml">25</a>, <a href="https://renter.net/merchant-feed-26.xml">26</a>, <a href="https://renter.net/merchant-feed-27.xml">27</a>, <a href="https://renter.net/merchant-feed-28.xml">28</a> and <a href="https://renter.net/merchant-feed-29.xml">29</a> (30 products). Register these five with daily updates. File 30 is empty today and fills when the catalog passes 1,450 products.</p>
 
       <h2 id="done">Definition of done</h2>
       <ol>
-        <li>feed-1 items show every product photo; verified by Saiaf in Merchant Center on the test feed.</li>
-        <li>Six consecutive fetches of all 24 files return their full item counts or a 500, never an empty 200.</li>
-        <li>All 24 feeds registered and fetching in Merchant Center (done Sep 7).</li>
+        <li>feed-1 items show every product photo. Done: checked in the live feed on Nov 1.</li>
+        <li>Six consecutive fetches of all files return their full item counts or a 500, never an empty 200. Open.</li>
+        <li>All feed files registered and fetching in Merchant Center. Files 1 to 24 done Sep 7; files 25 to 29 open.</li>
+        <li>No product at 0 SAR and no product in two files. Open.</li>
       </ol>
       <p><a class="backbtn" href="../head-metadata/">&#8592; Back to the dev board</a></p>
   </div>

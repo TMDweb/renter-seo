@@ -4,33 +4,33 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
-<title>Renter · Google Shopping: the return policy is rejected, 264 vehicles are not approved, and the feed is empty</title>
+<title>Renter · Google Shopping: the return policy is rejected and 264 vehicles are not approved</title>
 <link rel="stylesheet" href="../assets/ticket.css?v=5">
 </head>
 <body>
 <div class="page">
   <header class="doc-header">
     <a class="backbtn" href="../head-metadata/">&#8592; Back to the dev board</a>
-    <p class="kicker">Renter × TMD · Dev ticket · status Oct 18, 2026</p>
+    <p class="kicker">Renter × TMD · Dev ticket · checked live Nov 1, 2026</p>
   </header>
   <div class="doc-body">
-      <h1>Google Shopping: the return policy is rejected, 264 vehicles are not approved, and the feed is empty</h1>
-      <div class="statusbar"><span class="pill open">NOT DONE</span><span class="txt">Last full check in Merchant Center on Oct 11, 2026: 896 approved, 264 not approved, all vehicles. Return policy still rejected. New on Oct 18: the feed is empty again, so the approved count will fall until it is restored. Mr. Mohamed's return wording is on the agenda of the Oct 18 meeting: <a href="../return-policy-options/">three wordings</a>.</span></div>
+      <h1>Google Shopping: the return policy is rejected and 264 vehicles are not approved</h1>
+      <div class="statusbar"><span class="pill open">NOT DONE</span><span class="txt">Checked Nov 1, 2026. The Merchant Center numbers below are old: the last full check was Oct 11 (896 approved, 264 not approved, all vehicles), and the Merchant API was not reachable today. Since then: the feed is full again (1,430 products in 29 files), and Mr. Mohamed approved the return wording on Oct 18. The wording is not on the <a href="https://renter.net/ar/return-policy/">return policy page</a> yet, so the policy stays rejected.</span></div>
 
       <div class="inshort">
         <h2>In short</h2>
         <dl>
           <dt>Done so far</dt><dd>The price 0, broken photo and missing photo issues are gone from Merchant Center (Oct 11).</dd>
-          <dt>What is wrong</dt><dd>(1) Google rejected the return policy: "Return information provided does not match your online store." The Merchant Center settings say "1 day, customer pays the return"; the page says "end of the rental, no fees". (2) 264 of 1,160 products are not approved, all under Google's vehicle policy. (3) New and urgent: all 24 feed files are empty since the server changes of Oct 3 to 5. Google already dropped the product count from 1,470 to 1,160 and will drop the rest.</dd>
+          <dt>What is wrong</dt><dd>(1) Google rejected the return policy: "Return information provided does not match your online store." The Merchant Center settings say "1 day, customer pays the return"; the page says "end of the rental, no fees". (2) 264 of 1,160 products were not approved on Oct 11, all under Google's vehicle policy. (3) The feed was empty from Oct 5 to Oct 13 and on Oct 18. It is full again since Oct 25 (1,430 products on Nov 1), but files 25 to 29 are not registered yet.</dd>
           <dt>Why it matters</dt><dd>Google Shopping brought 718 clicks in the 28 days to Oct 11, up 22%. An empty feed loses all of them. A rejected return policy can limit or stop listings: on Aug 25, the missing return policy took all products off Google Shopping.</dd>
-          <dt>The fix</dt><dd>Part 0, first: the dev team restores the feed (<a href="../merchant-feed/">feed ticket</a>, board issue 14). Part 1: Mr. Mohamed sends a return wording with a number of days that creates no legal duty; the page and Merchant Center then say the same thing. Part 3: Ahmed takes the vehicle products out of Google Shopping. Part 2 is done.</dd>
-          <dt>Owners</dt><dd>Dev team: the feed. Mr. Mohamed: the return wording. Ahmed: the vehicles. Saiaf: Merchant Center settings and the resubmission.</dd>
+          <dt>The fix</dt><dd>Part 0: the feed is restored; Saiaf registers files 25 to 29 (<a href="../merchant-feed/">feed ticket</a>, board issue 14). Part 1: Paulo puts the wording Mr. Mohamed approved on Oct 18 on the page; Saiaf then sets the same values in Merchant Center. Part 3: Ahmed takes the vehicle products out of Google Shopping. Part 2 was done on Oct 11; 16 products at 0 SAR are back in the feed.</dd>
+          <dt>Owners</dt><dd>Paulo: the return policy page. Dev team: the 0 SAR products in the feed. Ahmed: the vehicles. Saiaf: feed files 25 to 29, Merchant Center settings and the resubmission.</dd>
           <dt>Done when</dt><dd>The return policy shows "Approved", and the only products not approved are the ones the team chose to keep out.</dd>
         </dl>
       </div>
 
       <h2 id="return">Part 1: the return policy</h2>
-      <p>Google compares the Merchant Center settings with the page, field by field: "Confirm that the return policies are consistent in Merchant Center and across your website." (<a href="https://support.google.com/merchants/answer/14011730">Google: set up return policies</a>). On Oct 4 the settings were changed to "1 day" as a test; Google rejected that too, because the page still has no number of days. In the Oct 4 meeting Mr. Mohamed declined "10 days" and "3 days" for legal reasons and will send a wording. Today the two still differ:</p>
+      <p>Google compares the Merchant Center settings with the page, field by field: "Confirm that the return policies are consistent in Merchant Center and across your website." (<a href="https://support.google.com/merchants/answer/14011730">Google: set up return policies</a>). On Oct 4 the settings were changed to "1 day" as a test; Google rejected that too, because the page still has no number of days. In the Oct 4 meeting Mr. Mohamed declined "10 days" and "3 days" for legal reasons. On Oct 18 he approved a wording (below). Checked Nov 1: the page does not carry it yet, so the two still differ:</p>
       <div class="tablebox"><table>
         <thead><tr><th>Field</th><th>Merchant Center today</th><th><a href="https://renter.net/ar/return-policy/">Return policy page</a> today</th></tr></thead>
         <tbody>
@@ -43,64 +43,17 @@
         </tbody>
       </table></div>
 
-      <h3>Decision for Mr. Mohamed: which return terms are true for Renter?</h3>
-      <div class="tablebox"><table>
-        <thead><tr><th>Option</th><th>What it says</th><th>What changes</th></tr></thead>
-        <tbody>
-          <tr><td><strong>1. No returns after the rental starts</strong> (TMD recommends)</td><td>A booking can be cancelled before the rental starts, with a full refund. After the rental starts, there is no refund. This is what the current terms and the page already say.</td><td>Merchant Center: "No, I don't accept returns" and "No, I don't accept exchanges". The page gets a short summary at the top (text below). Google can show "no returns" next to the listings; for rentals that is true.</td></tr>
-          <tr><td><strong>2. Returns with a refund window</strong></td><td>Only if Renter really refunds after the rental starts, for example for a defective item.</td><td>Mr. Mohamed sets the number of days, who pays, and how the item goes back. The page and Merchant Center both get these exact values.</td></tr>
-        </tbody>
-      </table></div>
+      <h3>Approved by Mr. Mohamed on Oct 18</h3>
+      <p>The renter returns the item at the end of the rental. The return fee is 0 SAR. If the item does not match the listing, the renter may return it within 1 day for a full refund. Saiaf sent this text to Paulo in Slack on Oct 25. Checked Nov 1: neither <a href="https://renter.net/ar/return-policy/">/ar/return-policy/</a> nor <a href="https://renter.net/en/return-policy/">/en/return-policy/</a> carries the 1-day sentence. The exact text to paste is in the <a href="../return-policy-page/#approved">return policy page ticket</a>.</p>
 
-      <h3>Option 1: the complete page text</h3>
-      <p>For the dev team, only if Mr. Mohamed chooses option 1. Replace the content of <code>/ar/return-policy/</code> with this. The page keeps its layout, its <code>noindex, nofollow</code> tag and its address. What changes: a summary on top, and the section "إرجاع المنتج المستأجر" becomes "تسليم المنتج في نهاية الإيجار", so the word "return" means one thing only.</p>
-<pre>&lt;h1&gt;سياسة الإرجاع والاسترداد&lt;/h1&gt;
-&lt;p&gt;تنطبق هذه السياسة على جميع عمليات الإيجار عبر منصة رينتر (شركة المؤجر الذكي للتسويق).&lt;/p&gt;
-&lt;h2&gt;ملخص السياسة&lt;/h2&gt;
-&lt;ul&gt;
-  &lt;li&gt;الإرجاع: لا يمكن إرجاع المنتج مقابل استرداد المبلغ بعد بدء مدة الإيجار.&lt;/li&gt;
-  &lt;li&gt;الإلغاء: يمكن إلغاء الحجز في أي وقت قبل تاريخ ووقت بدء الإيجار، ويسترد المستأجر المبلغ المدفوع كاملاً.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2&gt;تسليم المنتج في نهاية الإيجار&lt;/h2&gt;
-&lt;p&gt;يسلّم المستأجر المنتج إلى المؤجر عند نهاية مدة الإيجار المتفق عليها وبالحالة المتفق عليها، دون أي رسوم.&lt;/p&gt;
-&lt;h2&gt;الإلغاء والاسترداد&lt;/h2&gt;
-&lt;p&gt;يمكن إلغاء الحجز في أي وقت قبل تاريخ ووقت بدء الإيجار، ويسترد المستأجر المبلغ المدفوع كاملاً.&lt;/p&gt;
-&lt;h2&gt;مبلغ التأمين&lt;/h2&gt;
-&lt;p&gt;يعاد مبلغ التأمين إلى المستأجر بعد مراجعة المؤجر لحالة المنتج والتأكد من إعادته بالحالة المتفق عليها. في حال عدم إعادة المنتج بشكل صحيح، قد يحول مبلغ التأمين إلى المؤجر بعد المراجعة ووفقاً لشروط الحجز.&lt;/p&gt;
-&lt;h2&gt;مدة معالجة الاستردادات&lt;/h2&gt;
-&lt;p&gt;تعالج الاستردادات وتحويلات مبالغ التأمين عبر شبكة المدفوعات السعودية (سريع) خلال أيام العمل بين الساعة 8:00 صباحاً و2:00 مساءً بتوقيت المملكة العربية السعودية. الطلبات خارج هذه الأوقات أو خلال عطلات نهاية الأسبوع والعطل الرسمية تعالج في نافذة المعالجة التالية.&lt;/p&gt;
-&lt;h2&gt;المنتجات المفقودة أو التالفة&lt;/h2&gt;
-&lt;p&gt;إذا تعرض المنتج للفقدان أو التلف أثناء فترة الإيجار، يتواصل الطرفان مع فريق رينتر عبر قنوات الدعم، ويراجع الفريق الحالة ويجمع المعلومات اللازمة للوصول إلى حل مناسب.&lt;/p&gt;
-&lt;h2&gt;التواصل&lt;/h2&gt;
-&lt;p&gt;البريد الإلكتروني: support@renter.net · الهاتف: 3615 500 011&lt;/p&gt;</pre>
-      <p>The same change for <code>/en/return-policy/</code>:</p>
-<pre>&lt;h1&gt;Return and Refund Policy&lt;/h1&gt;
-&lt;p&gt;This Return and Refund Policy applies to all rental transactions conducted through the Renter platform, operated by Smart Lessor Marketing Company.&lt;/p&gt;
-&lt;h2&gt;Policy summary&lt;/h2&gt;
-&lt;ul&gt;
-  &lt;li&gt;Returns: a rented product cannot be returned for a refund after the rental period starts.&lt;/li&gt;
-  &lt;li&gt;Cancellation: the Lessee may cancel a booking at any time before the scheduled rental start date and time, and gets a full refund of the amount paid.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2&gt;Handing the Product Back at the End of the Rental&lt;/h2&gt;
-&lt;p&gt;The Lessee hands the rented product back to the Lessor at the end of the agreed rental period and in the condition specified in the booking terms. No fees are charged.&lt;/p&gt;
-&lt;h2&gt;Cancellation and Refunds&lt;/h2&gt;
-&lt;p&gt;The Lessee may cancel a booking at any time before the scheduled rental start date and time. In such cases, the Lessee is entitled to a full refund of the amount paid.&lt;/p&gt;
-&lt;h2&gt;Security Deposit&lt;/h2&gt;
-&lt;p&gt;The security deposit will be refunded to the Lessee after the Lessor has inspected the returned product and confirmed that it has been returned in the condition agreed upon in the booking. If the product is not returned in the required condition, the security deposit may be transferred to the Lessor following a review of the case and in accordance with the applicable booking terms.&lt;/p&gt;
-&lt;h2&gt;Refund Processing&lt;/h2&gt;
-&lt;p&gt;Refunds and security deposit transfers are processed through the Saudi Payments network (SARIE) during business days between 8:00 AM and 2:00 PM Saudi Arabia time. Requests submitted outside these processing hours, on weekends, or during official public holidays will be processed during the next available processing window.&lt;/p&gt;
-&lt;h2&gt;Lost or Damaged Products&lt;/h2&gt;
-&lt;p&gt;If a rented product is lost or damaged during the rental period, the Lessee and Lessor should contact the Renter support team through the available support channels. Renter will review the circumstances, collect the necessary information from the parties involved, and facilitate an appropriate resolution in accordance with the applicable booking terms.&lt;/p&gt;
-&lt;h2&gt;Contact Us&lt;/h2&gt;
-&lt;p&gt;Email: support@renter.net · Phone: 011 500 3615&lt;/p&gt;</pre>
-      <p><strong>Then Saiaf</strong>, after the new text is live: Merchant Center, Return policies, "Standard for Saudi Arabia", Edit. Set "No, I don't accept returns" and "No, I don't accept exchanges". Keep the policy URL <code>https://renter.net/ar/return-policy/</code>. Save. Google's review can take up to 10 days.</p>
+      <p><strong>Then Saiaf</strong>, after the new text is live: Merchant Center, Return policies, "Standard for Saudi Arabia", Edit. Set returns for defective products only (the item does not match the listing), return window 1 day, free returns, and no exchanges. Keep the policy URL <code>https://renter.net/ar/return-policy/</code>. Save. Google's review can take up to 10 days.</p>
 
       <h2 id="products">Part 2: products not approved (price and photo issues done, vehicles open)</h2>
       <div class="tablebox"><table>
         <thead><tr><th>Merchant Center issue</th><th>Products, Oct 11</th><th>Cause</th><th>Fix</th><th>Owner</th></tr></thead>
         <tbody>
           <tr><td>Vehicles</td><td>264 (215 in the priority list)</td><td>Google does not allow vehicles in Shopping (Part 3)</td><td>Task in Part 3</td><td>Ahmed</td></tr>
-          <tr><td>Invalid price</td><td><strong>Done</strong>, 0 (was 18)</td><td>The product price is 0</td><td>Feed rule: leave out every product with a price of 0 or less</td><td>Dev team</td></tr>
+          <tr><td>Invalid price</td><td><strong>Done</strong> Oct 11, 0 (was 18). Back in the feed Nov 1: 16 products at 0 SAR, listed in the <a href="../merchant-feed/#f2">feed ticket</a></td><td>The product price is 0</td><td>Feed rule: leave out every product with a price of 0 or less</td><td>Dev team</td></tr>
           <tr><td>Unsupported image type</td><td><strong>Done</strong>, 0 (was 17)</td><td>The photo links return "404 Not Found": the files are missing on <code>admin-production.renter.net/storage</code>. All photos of these 18 products are missing, so visitors also see no photos on their pages</td><td>Jan: restore the files from a backup if one exists; if not, ask the lessors to upload new photos. Feed rule: leave out products with no working photo</td><td>Jan, Dev team</td></tr>
           <tr><td>Missing product image</td><td><strong>Done</strong>, 0 (was 15)</td><td>The product has no photo</td><td>Feed rule: leave out products with no photo</td><td>Dev team</td></tr>
         </tbody>
@@ -108,7 +61,7 @@
       <p>The 18 products with missing photo files, all in one number range: 1252, 1253, 1254, 1255, 1257, 1258, 1259, 1261, 1263, 1264, 1266, 1267, 1268, 1269, 1276, 1279, 1295, 1298. Example: <a href="https://admin-production.renter.net/storage/post_images_17790936669896840623.jpg">the first photo of product 1298</a> answers 404.</p>
 
       <h2 id="vehicles">Part 3: vehicles in Google Shopping</h2>
-      <p>Merchant Center says: "You are not allowed to display motor or sail-powered vehicles used for public transportation on your website." (<a href="https://support.google.com/merchants/answer/17233951#vehicles">Google: unsupported Shopping content, vehicles</a>). The feed carries 297 products from the category سيارات ومركبات:</p>
+      <p>Merchant Center says: "You are not allowed to display motor or sail-powered vehicles used for public transportation on your website." (<a href="https://support.google.com/merchants/answer/17233951#vehicles">Google: unsupported Shopping content, vehicles</a>). On Oct 11 the feed carried 297 products from the category سيارات ومركبات; on Nov 1 it carries 345. The split on Oct 11:</p>
       <div class="tablebox"><table>
         <thead><tr><th>Subcategory</th><th>Products in the feed</th></tr></thead>
         <tbody>
