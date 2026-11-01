@@ -443,7 +443,8 @@
         <p class="subhead">A concise handoff for Paulo: publish one root sitemap index for renter.net, then split the final URL-list XML files by language and URL type.</p>
         <div class="meta-row" aria-label="handoff metadata">
           <span class="tag">Target: live renter.net sitemap</span>
-          <span class="tag">Checked: 2026-07-07</span>
+          <span class="tag">Status: Done, 1 small gap</span>
+          <span class="tag">Checked live: Nov 1, 2026</span>
           <span class="tag">Production URL: https://renter.net/sitemap.xml</span>
           <span class="tag">Test URL: https://v2-staging.renter.net/sitemap.xml</span>
         </div>
@@ -452,8 +453,24 @@
 
     <main>
       <section>
+        <h2>Status, checked live Nov 1, 2026</h2>
+        <div class="callout success">
+          <p><strong>Done.</strong> <a href="https://renter.net/sitemap.xml">/sitemap.xml</a> is a sitemap index of 10 files: the 8 below plus <a href="https://renter.net/sitemap/ar/blog.xml">/sitemap/ar/blog.xml</a> and <a href="https://renter.net/sitemap/en/blog.xml">/sitemap/en/blog.xml</a>. All 11 files answer 200 as <span class="inline-code">application/xml</span>. <a href="https://renter.net/robots.txt">robots.txt</a> points to the index. No file has hreflang alternates, and every <span class="inline-code">&lt;lastmod&gt;</span> is an ISO 8601 UTC date.</p>
+        </div>
+        <div class="grid-3">
+          <div class="metric"><strong>1,430</strong><span>products per language; all 1,430 Arabic ones answer 200 with a self canonical, no deleted product listed</span></div>
+          <div class="metric"><strong>10 + 87</strong><span>categories and subcategories per language; all 97 Arabic ones answer 200</span></div>
+          <div class="metric"><strong>7 + 5 + 3</strong><span>pages per language, Arabic blog addresses, English blog addresses; all answer 200 with a self canonical</span></div>
+        </div>
+        <p style="margin-top:18px">The blog sitemaps work now. They answered 500 on Oct 11.</p>
+        <div class="callout">
+          <p><strong>Small gap, owner Paulo:</strong> <a href="https://renter.net/en/blog/guides/">/en/blog/guides/</a> answers 200 but is not in <a href="https://renter.net/sitemap/en/blog.xml">/sitemap/en/blog.xml</a>. The Arabic file lists <a href="https://renter.net/ar/blog/guides/">/ar/blog/guides/</a>. Add the English hub. The English guide article <a href="https://renter.net/en/blog/guides/list-your-item-on-renter/">/en/blog/guides/list-your-item-on-renter/</a> answers 404, so it is correctly left out until it is published.</p>
+        </div>
+      </section>
+
+      <section>
         <h2>Structure To Implement</h2>
-        <p class="lead">For the live renter.net site, <span class="inline-code">/sitemap.xml</span> should be the only sitemap index. It should list these eight final URL-list XML files directly.</p>
+        <p class="lead">For the live renter.net site, <span class="inline-code">/sitemap.xml</span> should be the only sitemap index. It should list these final URL-list XML files directly: the eight below, plus one blog file per language since the blog launched on Oct 25.</p>
 
         <div class="tree">
           <div class="tree-row">
@@ -467,6 +484,8 @@
               <div class="node lang-en">/sitemap/en/products.xml</div>
               <div class="node lang-en">/sitemap/en/product-subcategories.xml</div>
               <div class="node lang-en">/sitemap/en/product-categories.xml</div>
+              <div class="node lang-ar">/sitemap/ar/blog.xml</div>
+              <div class="node lang-en">/sitemap/en/blog.xml</div>
             </div>
           </div>
         </div>
@@ -475,8 +494,8 @@
       <section>
         <h2>Root Sitemap</h2>
         <div class="callout">
-          <p><strong><span class="inline-code">/sitemap.xml</span> is a sitemap index.</strong> It contains only <span class="inline-code">&lt;sitemap&gt;</span> entries that point to the eight XML files. It does not contain page URLs directly.</p>
-          <p>The eight child XML files are the URL-list files. Each one uses <span class="inline-code">&lt;urlset&gt;</span> and contains the canonical URLs for one language and one URL type.</p>
+          <p><strong><span class="inline-code">/sitemap.xml</span> is a sitemap index.</strong> It contains only <span class="inline-code">&lt;sitemap&gt;</span> entries that point to the ten XML files. It does not contain page URLs directly.</p>
+          <p>The ten child XML files are the URL-list files. Each one uses <span class="inline-code">&lt;urlset&gt;</span> and contains the canonical URLs for one language and one URL type.</p>
         </div>
       </section>
 

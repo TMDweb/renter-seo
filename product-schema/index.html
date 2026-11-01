@@ -11,18 +11,18 @@
 <div class="page">
   <header class="doc-header">
     <a class="backbtn" href="../head-metadata/">&#8592; Back to the dev board</a>
-    <p class="kicker">Renter × TMD · Dev ticket · checked live Oct 18, 2026</p>
+    <p class="kicker">Renter × TMD · Dev ticket · checked live Nov 1, 2026</p>
   </header>
   <div class="doc-body">
       <h1>Product schema: one field left, the main price</h1>
-      <div class="statusbar"><span class="pill progress">1 FIELD LEFT</span><span class="txt">Checked Oct 18, 2026: unchanged since Oct 11. <code>url</code>, <code>name</code>, <code>description</code> and <code>sku</code> are correct. <code>offers.price</code> (fix 4) is still the first lease term's price on 37 live products. The list is on the <a href="../price-fix-list/">price ticket</a>.</span></div>
+      <div class="statusbar"><span class="pill progress">1 FIELD LEFT</span><span class="txt">Checked Nov 1, 2026 on all 1,430 products in the sitemap: <code>url</code>, <code>offers.url</code>, <code>name</code>, <code>description</code> and <code>sku</code> are correct. <code>offers.price</code> (fix 4) is unchanged: it is still the first lease term's price on 59 products. The list is on the <a href="../price-fix-list/">price ticket</a>. 3 products with no lease term print <code>"price": null</code> (fix 5).</span></div>
 
       <div class="inshort">
         <h2>In short</h2>
         <dl>
           <dt>What it is</dt><dd>Each product page carries a hidden code block (JSON-LD, schema type Product). It gives Google the product name, photos, price and address.</dd>
-          <dt>Done so far</dt><dd>Checked Oct 11 on all 1,061 live products: <code>url</code>, <code>offers.url</code>, <code>name</code>, <code>description</code> and <code>sku</code> are correct on 1,060. Good work.</dd>
-          <dt>What is wrong</dt><dd>One field: <code>offers.price</code>, the single main price Google shows in results. On 51 products with more than one lease term it is the first term's price, not the daily price.</dd>
+          <dt>Done so far</dt><dd>Checked Nov 1 on all 1,430 live products: <code>url</code>, <code>offers.url</code> and <code>sku</code> are correct on all 1,430, <code>name</code> equals the visible product name on 1,429, and no block has HTML codes. Good work.</dd>
+          <dt>What is wrong</dt><dd>One field: <code>offers.price</code>, the single main price Google shows in results. On 59 of the 175 products with more than one lease term it is the first term's price, not the daily price. On 3 products with no lease term it is <code>null</code>.</dd>
           <dt>Why it matters</dt><dd>Google shows this one number as the product price in search results. Product 2852 shows 10,500 (the monthly price) although it rents per day.</dd>
           <dt>The fix</dt><dd>One rule in the template: <code>offers.price</code> = the daily price when a daily term exists, else the lowest price among the terms.</dd>
           <dt>Owner</dt><dd>Dev team. Paulo and Jan decide who takes it.</dd>
@@ -30,14 +30,15 @@
         </dl>
       </div>
 
-      <h2 id="fields">The 4 fixes: 3 done, 1 open</h2>
+      <h2 id="fields">The 5 fixes: 3 done, 2 open</h2>
       <div class="tablebox"><table>
-        <thead><tr><th>#</th><th>Field</th><th>Live now (Oct 11)</th><th>Must be</th><th>Wrong on</th></tr></thead>
+        <thead><tr><th>#</th><th>Field</th><th>Live now (Nov 1)</th><th>Must be</th><th>Wrong on</th></tr></thead>
         <tbody>
-          <tr><td>1</td><td><code>url</code> and <code>offers.url</code></td><td><strong>Done.</strong> Equal to the page canonical on 1,060 of 1,061 products.</td><td>The page canonical</td><td>1 of 1,061</td></tr>
-          <tr><td>2</td><td><code>name</code></td><td><strong>Done.</strong> Equal to the product title on 1,060 of 1,061.</td><td>The API <code>title</code> field</td><td>1 of 1,061</td></tr>
-          <tr><td>3</td><td><code>description</code></td><td><strong>Done.</strong> No HTML codes left on any product.</td><td>Plain text</td><td>0</td></tr>
-          <tr><td>4</td><td><code>offers.price</code></td><td><strong>Open.</strong> Still the price of the first lease term. 311 says 100 (monthly) although it rents for 5 a day. 2852 says 10,500 (monthly).</td><td>The daily price when a daily term exists, else the lowest price</td><td>51 of 1,061 (the ones whose first term is not daily)</td></tr>
+          <tr><td>1</td><td><code>url</code> and <code>offers.url</code></td><td><strong>Done.</strong> Equal to the page canonical on 1,430 of 1,430 products.</td><td>The page canonical</td><td>0 of 1,430</td></tr>
+          <tr><td>2</td><td><code>name</code></td><td><strong>Done.</strong> Equal to the visible product name on 1,429 of 1,430.</td><td>The API <code>title</code> field</td><td>1 of 1,430</td></tr>
+          <tr><td>3</td><td><code>description</code></td><td><strong>Done.</strong> No HTML codes left on any product.</td><td>Plain text</td><td>0 of 1,430</td></tr>
+          <tr><td>4</td><td><code>offers.price</code></td><td><strong>Open.</strong> Still the price of the first lease term. 311 says 100 (monthly) although it rents for 5 a day. 2852 says 10,500 (monthly).</td><td>The daily price when a daily term exists, else the lowest price</td><td>59 of 1,430 (the ones whose first term is not daily)</td></tr>
+          <tr><td>5</td><td><code>offers.price</code> with no lease term</td><td><strong>Open.</strong> 3 products have no lease term and print <code>"price": null</code>: <a href="https://renter.net/ar/product/1476/shywl-ktr-blr-938/">1476</a>, <a href="https://renter.net/ar/product/1314/mwldat-khrbaa-generators/">1314</a>, <a href="https://renter.net/ar/product/182/shn-thbyhh/">182</a>.</td><td>Never <code>null</code>. If a product has no price, leave the <code>offers</code> block out, or hide the product until the lessor adds a price</td><td>3 of 1,430</td></tr>
         </tbody>
       </table></div>
 
@@ -154,7 +155,7 @@
         <li>View-source on <a href="https://renter.net/ar/product/2545/kamyra-kanwn-4000d/">/ar/product/2545/</a> matches block 1, and on <a href="https://renter.net/ar/product/311/frn-shwyh/">/ar/product/311/</a> matches block 2.</li>
         <li>The <a href="https://search.google.com/test/rich-results?url=https%3A%2F%2Frenter.net%2Far%2Fproduct%2F311%2Ffrn-shwyh%2F">Rich Results Test</a> shows no errors for both pages.</li>
         <li>No <code>null</code> values and no HTML codes such as <code>&amp;nbsp;</code> anywhere in the block.</li>
-        <li>Tell Saiaf after the deploy; TMD re-checks all 968 products.</li>
+        <li>Tell Saiaf after the deploy; TMD re-checks all 1,430 products.</li>
       </ol>
 
       <p><a class="backbtn" href="../head-metadata/">&#8592; Back to the dev board</a></p>

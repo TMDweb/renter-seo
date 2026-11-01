@@ -11,11 +11,11 @@
 <div class="page">
   <header class="doc-header">
     <a class="backbtn" href="../head-metadata/">&#8592; Back to the dev board</a>
-    <p class="kicker">Renter × TMD · Dev ticket · checked live Oct 18, 2026</p>
+    <p class="kicker">Renter × TMD · Dev ticket · checked live Nov 1, 2026</p>
   </header>
   <div class="doc-body">
       <h1>Category and subcategory pages: put the breadcrumbs back and correct the product list</h1>
-      <div class="statusbar"><span class="pill progress">PARTIAL</span><span class="txt">Checked Oct 18, 2026: correction 6 is done, unknown addresses answer 404. Corrections 1 to 5 are unchanged on every category and subcategory page: no BreadcrumbList, the list printed twice, <code>item</code> instead of <code>url</code>, positions from 3.</span></div>
+      <div class="statusbar"><span class="pill progress">PARTIAL</span><span class="txt">Checked Nov 1, 2026 on all 20 category pages (Arabic and English) and all 87 Arabic subcategory pages: correction 6 is still done, unknown addresses answer 404. Corrections 1 to 5 are unchanged on every page: no BreadcrumbList, the list printed twice, <code>item</code> instead of <code>url</code>, positions from 3, and "| رينتر" in all 87 subcategory list names. The wrong meta description of <a href="https://renter.net/ar/cars-and-vehicles/">/ar/cars-and-vehicles/</a> is fixed.</span></div>
 
       <div class="inshort">
         <h2>In short</h2>
@@ -31,16 +31,19 @@
 
       <h2 id="now">Corrections 1 to 5 open, 6 done</h2>
       <div class="tablebox"><table>
-        <thead><tr><th>#</th><th>Live now (Oct 11)</th><th>Must be</th></tr></thead>
+        <thead><tr><th>#</th><th>Live now (Nov 1)</th><th>Must be</th></tr></thead>
         <tbody>
-          <tr><td>1</td><td>No BreadcrumbList block</td><td>One BreadcrumbList script per page, as before the Sep 16 deploy (complete blocks below)</td></tr>
+          <tr><td>1</td><td>No BreadcrumbList block on any of the 107 pages checked</td><td>One BreadcrumbList script per page, as before the Sep 16 deploy (complete blocks below)</td></tr>
           <tr><td>2</td><td>The list is printed twice: inside <code>CollectionPage</code> and again as a separate <code>ItemList</code> script</td><td>One script: the <code>CollectionPage</code> with the list inside <code>mainEntity</code>. Delete the separate <code>ItemList</code> script</td></tr>
           <tr><td>3</td><td>Each list entry links with <code>item</code></td><td>Each list entry links with <code>url</code>. (The breadcrumb uses <code>item</code>: that is correct there. The two formats differ.)</td></tr>
-          <tr><td>4</td><td>Positions run 3 to 14</td><td>Positions run 1 to N</td></tr>
-          <tr><td>5</td><td>Subcategory <code>name</code> is the page title with "| رينتر" (<code>/ar/cars-and-vehicles/cars/</code>)</td><td><code>name</code> = the page H1, on category and subcategory pages</td></tr>
-          <tr><td>6</td><td><strong>Done.</strong> <a href="https://renter.net/ar/cars-and-vehicles/2/">/ar/cars-and-vehicles/2/</a> answers 404 with <code>noindex</code></td><td>404</td></tr>
+          <tr><td>4</td><td>Positions start at 3 (3 to 14 on a page with 12 products)</td><td>Positions run 1 to N</td></tr>
+          <tr><td>5</td><td>Subcategory <code>name</code> is the page title with "| رينتر" on all 87 subcategories, for example <a href="https://renter.net/ar/cars-and-vehicles/cars/">/ar/cars-and-vehicles/cars/</a>. On the 20 category pages the name already equals the H1</td><td><code>name</code> = the page H1, on category and subcategory pages</td></tr>
+          <tr><td>6</td><td><strong>Done.</strong> <a href="https://renter.net/ar/cars-and-vehicles/2/">/ar/cars-and-vehicles/2/</a> answers 404 (checked Nov 1)</td><td>404</td></tr>
         </tbody>
       </table></div>
+
+      <p class="note">Also seen Nov 1: 7 subcategories have no products and print a <code>CollectionPage</code> with an empty list, for example <a href="https://renter.net/ar/courts-and-arenas/volleyball-courts/">/ar/courts-and-arenas/volleyball-courts/</a>. The others are parking-spaces, aircraft, tennis-courts, basketball-courts, squash-courts and swimming-pools. With <code>collectionPageLd</code>, leave out <code>mainEntity</code> when there are no products.</p>
+      <p class="note">Meta descriptions, Nov 1: <a href="https://renter.net/ar/cars-and-vehicles/">/ar/cars-and-vehicles/</a> now has its own cars text, and <a href="https://renter.net/en/">/en/</a> has the English text. Both match the texts on the dev board (issue 10). Done.</p>
 
       <h3>Correction 1: the breadcrumb block, complete</h3>
       <p>Category page <code>/ar/cars-and-vehicles/</code>. The last entry is the current page, so it has no <code>item</code> (Google then uses the page address):</p>

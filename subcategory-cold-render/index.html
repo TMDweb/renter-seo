@@ -129,18 +129,28 @@
 <div class="container">
   <div class="doc">
     <div class="doc-header">
-      <span class="section-kicker">Renter × TMD · Dev Ticket · July 12, 2026</span>
+      <span class="section-kicker">Renter × TMD · Dev Ticket · checked live Nov 1, 2026</span>
       <h1 class="doc-title">Subcategory pages: the first server render after cache expiry ships polluted HTML (9 H1s, info-page content inlined)</h1>
-      <p class="doc-subtitle">The first build of a subcategory page after its cached copy expires merges the full content of the info pages (Founder's Message, Terms, Cancellation, Privacy, both languages) into the page HTML. The broken copy is then served to every visitor until the next regeneration. Reproduced today on 5 of 5 quiet subcategories.</p>
+      <p class="doc-subtitle">The first build of a subcategory page after its cached copy expires merges the full content of the info pages (Founder's Message, Terms, Cancellation, Privacy, both languages) into the page HTML. The broken copy is then served to every visitor until the next regeneration. Reproduced on Jul 12 on 5 of 5 quiet subcategories. Not reproduced on Nov 1: 87 of 87 subcategories were clean on the first request.</p>
       <div class="pill-row">
         <span class="pill crit">Priority: High (SEO)</span>
         <span class="pill">Area: Next.js SSR / ISR, subcategory routes</span>
-        <span class="pill">Status: Open</span>
+        <span class="pill">Status: Clean on Nov 1, 87 of 87</span>
         <span class="pill">Reported: Jul 12, 2026</span>
       </div>
     </div>
 
     <div class="doc-body">
+
+      <section>
+        <h2><span class="num">00</span>Status, checked live Nov 1, 2026</h2>
+        <div class="callout ok">
+          <h3>Not reproduced: 87 of 87 subcategories clean</h3>
+          <p>We requested each of the 87 Arabic subcategories in <a href="https://renter.net/sitemap/ar/product-subcategories.xml">/sitemap/ar/product-subcategories.xml</a> once, before any other request to them that day. Every first answer was 200 with exactly <strong>1 <code>&lt;h1&gt;</code></strong>, the subcategory heading. This includes the 6 pages in the table below, for example <a href="https://renter.net/ar/courts-and-arenas/volleyball-courts/">/ar/courts-and-arenas/volleyball-courts/</a>. Answer times were 3.6 to 7.6 seconds.</p>
+        </div>
+        <p><strong>Still there, but not shown:</strong> the full text of the 4 info pages (Founder's Message, Terms, Cancellation, Privacy) still travels in the page's script data (the Next.js data inside <code>&lt;script&gt;</code> tags), on subcategory and product pages alike. It is not printed as headings or text in the HTML, so it is no longer a duplicate-content or H1 problem. It does add weight to every page. Owner: Dev team, low priority.</p>
+        <p><strong>Next step:</strong> TMD runs the acceptance loop again at the next check. If it stays clean, this ticket closes.</p>
+      </section>
 
       <section>
         <h2><span class="num">01</span>Summary</h2>
@@ -188,7 +198,7 @@
 <span class="good">&lt;h1 class="allproductscontainer-module__XAsvkq__productssectiontitleheader"&gt;ملاعب كرة طائرة للإيجار في السعودية&lt;/h1&gt;</span>
 <span class="cm"># 1 h1 tag · page healed on regeneration</span></code></pre>
 
-        <p>Same behavior reproduced today, first hit, on every quiet subcategory tested:</p>
+        <p>Same behavior reproduced on Jul 12, first hit, on every quiet subcategory tested:</p>
         <div class="tablebox"><table>
           <thead><tr><th>URL</th><th>First (cold) fetch</th><th>Later fetch</th></tr></thead>
           <tbody>
@@ -243,7 +253,7 @@
 
     </div>
   </div>
-  <p class="footer-note">Prepared by TMD · verified live against renter.net on July 12, 2026 · questions in #renter-seo</p>
+  <p class="footer-note">Prepared by TMD · reported Jul 12, 2026 · checked live against renter.net on Nov 1, 2026 · questions in #renter-seo</p>
 </div>
 </body>
 </html>

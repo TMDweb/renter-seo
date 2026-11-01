@@ -11,11 +11,11 @@
 <div class="page">
   <header class="doc-header">
     <a class="backbtn" href="../head-metadata/">&#8592; Back to the dev board</a>
-    <p class="kicker">Renter × TMD · Dev ticket · checked live Oct 18, 2026</p>
+    <p class="kicker">Renter × TMD · Dev ticket · checked live Nov 1, 2026</p>
   </header>
   <div class="doc-body">
       <h1>Home page: correct the product list block</h1>
-      <div class="statusbar"><span class="pill progress">PARTIAL</span><span class="txt">Checked Oct 18, 2026: Part A is done, the Organization and WebSite block is live on <code>/ar/</code> and <code>/en/</code>. Part B is open and unchanged: the product list still has all 5 errors listed below.</span></div>
+      <div class="statusbar"><span class="pill progress">PARTIAL</span><span class="txt">Checked Nov 1, 2026: Part A is done, the Organization and WebSite block is live on <a href="https://renter.net/ar/">/ar/</a> and <a href="https://renter.net/en/">/en/</a>. Part B is open and unchanged since Oct 11: the product list still has all 5 errors listed below. The page H1 is still hidden (<code>class="hidden"</code>), while product pages now show a visible H1.</span></div>
 
       <div class="inshort">
         <h2>In short</h2>
@@ -29,7 +29,7 @@
         </dl>
       </div>
 
-      <h2 id="proof">Proof, Oct 11</h2>
+      <h2 id="proof">Proof, Nov 1 (the same as Oct 11)</h2>
       <div class="tablebox"><table>
         <thead><tr><th>Check</th><th>/ar/</th><th>/en/</th><th>Must be</th></tr></thead>
         <tbody>
@@ -40,6 +40,7 @@
           <tr><td>Product list: link field in each entry</td><td><code>item</code></td><td><code>item</code></td><td><code>url</code></td></tr>
           <tr><td>Product list: positions</td><td>3 to 14</td><td>3 to 14</td><td>1 to N</td></tr>
           <tr><td>Product list: products</td><td>12 of the 32 on the page</td><td>12 of 32</td><td>all product cards on the page</td></tr>
+          <tr><td>Page H1</td><td>hidden (<code>class="hidden"</code>)</td><td>hidden</td><td>visible, as on product pages since Nov 1</td></tr>
         </tbody>
       </table></div>
 
@@ -213,7 +214,7 @@ export function homeIdentityLd(locale: "ar" | "en") {
         <li><strong><code>name</code> = the page H1.</strong> Arabic: <code>رينتر | منصة تأجير كل شي في السعودية | أجر واستأجر</code>. English: <code>Renter | Rent Anything in Saudi Arabia | Rent &amp; Lease</code>.</li>
         <li><strong><code>url</code> = the home page address</strong>, <code>https://renter.net/ar/</code> or <code>https://renter.net/en/</code>, with one slash at the end.</li>
         <li><strong>Each entry</strong> has <code>"@type": "ListItem"</code>, <code>position</code> from 1, and <code>url</code> = the full product address. Use <code>url</code>, not <code>item</code>.</li>
-        <li><strong>The entries</strong> are all the product cards the server renders on the page, in display order, each product once (31 today).</li>
+        <li><strong>The entries</strong> are all the product cards the server renders on the page, in display order, each product once (32 on Nov 1).</li>
       </ol>
       <p>The same two functions serve the home page and the 194 category and subcategory pages. Add them to <code>src/lib/jsonld.tsx</code>:</p>
 <pre>export function JsonLd({ data }: { data: object }) {
@@ -247,7 +248,7 @@ export function collectionPageLd(name: string, pageUrl: string, productUrls: str
       <p>Use them in the home page server component (<code>src/app/[locale]/page.tsx</code>). <code>h1Text</code> is the text the page prints in its H1. <code>productUrls</code> are the full addresses of the product cards, in the order the page shows them:</p>
 <pre>&lt;JsonLd data={homeIdentityLd(locale)} /&gt;
 &lt;JsonLd data={collectionPageLd(h1Text, `https://renter.net/${locale}/`, productUrls)} /&gt;</pre>
-      <p>Rendered output for <code>/ar/</code> with the 31 products on the page on Sep 27 (32 on Oct 11). The list changes when the products change; that is correct:</p>
+      <p>Rendered output for <code>/ar/</code> with the 31 products on the page on Sep 27 (32 on Nov 1). The list changes when the products change; that is correct:</p>
 <pre>&lt;script type="application/ld+json"&gt;
 {
   "@context": "https://schema.org",

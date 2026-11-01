@@ -4,23 +4,23 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
-<title>Renter · Product price in schema: the 49 products to correct</title>
+<title>Renter · Product price in schema: the 59 products to correct</title>
 <link rel="stylesheet" href="../assets/ticket.css?v=5">
 </head>
 <body>
 <div class="page">
   <header class="doc-header">
     <a class="backbtn" href="../head-metadata/">&#8592; Back to the dev board</a>
-    <p class="kicker">Renter × TMD · From the Oct 11 meeting · checked live Oct 18, 2026</p>
+    <p class="kicker">Renter × TMD · From the Oct 11 meeting · checked live Nov 1, 2026</p>
   </header>
   <div class="doc-body">
-      <h1>Product price in schema: the 49 products to correct</h1>
-      <div class="statusbar"><span class="pill open">OPEN, FOR PAULO</span><span class="txt">Checked live Oct 18, 2026: 0 of the 49 are fixed. 37 products still send Google the wrong main price. 10 products on the list were deleted since Oct 13 and need no fix. Saiaf promised this list in the Oct 11 meeting, so Paulo does not have to guess.</span></div>
+      <h1>Product price in schema: the 59 products to correct</h1>
+      <div class="statusbar"><span class="pill open">OPEN, FOR PAULO</span><span class="txt">Checked live Nov 1, 2026 on all 1,430 products in the sitemap: 0 of the 49 are fixed. All 49 are live again, including the 10 that were deleted on Oct 18, and all 49 still send Google the wrong main price. 10 more products have the same error, so the total is 59. Saiaf promised this list in the Oct 11 meeting, so Paulo does not have to guess.</span></div>
       <div class="inshort">
         <h2>In short</h2>
         <dl>
           <dt>What is wrong</dt><dd>On these products the single <code>offers.price</code> in the Product schema is the price of the first lease term in the list. It must be the daily price.</dd>
-          <dt>The pattern</dt><dd>48 of the 49 have a daily term that is not first in the list; the code takes the first term. One product, 2674, has no daily term and shows its monthly price (4,500) instead of its lowest price (350 per hour). On the other 1,000 products the right term is first, so they are already correct.</dd>
+          <dt>The pattern</dt><dd>58 of the 59 have a daily term that is not first in the list; the code takes the first term. One product, 2674, has no daily term and shows its monthly price (4,500) instead of its lowest price (350 per hour). On the other 1,368 products with a price, the right term is first, so they are already correct. 3 products have no available term and print <code>"price": null</code> (see the <a href="../product-schema/">product schema ticket</a>).</dd>
           <dt>The fix</dt><dd>Do not take the first term. Search the terms for the daily one and use its price. If a product has no daily term, use the lowest price.</dd>
           <dt>Do not change</dt><dd>The <code>priceSpecification</code> entries are correct on all of these. Keep them.</dd>
           <dt>Done when</dt><dd>Every row below shows the value in the last column. TMD re-runs the check on all products.</dd>
@@ -34,7 +34,7 @@ const mainPrice = daily
   : Math.min(...terms.map((t) =&gt; Number(t.price)));
 // offers.price = mainPrice</pre>
       <p class="note">Field names follow the June copy of the API query (<code>post_lease_terms</code>, <code>lease_term</code>, <code>type</code>). Adjust them if the live names differ.</p>
-      <h2 id="list">The products</h2>
+      <h2 id="list">The 49 products from the Oct 11 list</h2>
       <div class="tablebox"><table>
         <thead><tr><th>ID</th><th>Product</th><th>Lease terms, in the order the schema lists them</th><th>Price now</th><th>Must be</th></tr></thead>
         <tbody>
@@ -87,6 +87,24 @@ const mainPrice = daily
           <tr><td>311</td><td><a href="https://renter.net/ar/product/311/frn-shwyh/">فرن شوية</a></td><td>100 per month, 5 per day</td><td>100</td><td><strong>5</strong></td></tr>
           <tr><td>257</td><td><a href="https://renter.net/ar/product/257/jhaz-aljry-wtqwyh-adhlat-alrjl-wtmaryn-alkhsr/">جهاز الجري وتقويه عضلات الرجل وتمارين الخصر</a></td><td>199 per month, 37 per day</td><td>199</td><td><strong>37</strong></td></tr>
           <tr><td>246</td><td><a href="https://renter.net/ar/product/246/syyra-2010-dbl/">سييرا 2010 دبل</a></td><td>500 per hour, 1,500 per day</td><td>500</td><td><strong>1,500</strong></td></tr>
+        </tbody>
+      </table></div>
+
+      <h2 id="new">10 more products, found Nov 1</h2>
+      <p>Same error, same fix. These were not on the Oct 11 list. Some are new products; the others changed their lease terms since then.</p>
+      <div class="tablebox"><table>
+        <thead><tr><th>ID</th><th>Product</th><th>Lease terms, in the order the schema lists them</th><th>Price now</th><th>Must be</th></tr></thead>
+        <tbody>
+          <tr><td>3033</td><td><a href="https://renter.net/ar/product/3033/gelly-colray-2025-full-option/">جيلي كولراي 2025 كاملة المواصفات</a></td><td>4,500 per month, 500 per day</td><td>4,500</td><td><strong>500</strong></td></tr>
+          <tr><td>2988</td><td><a href="https://renter.net/ar/product/2988/tajyr-syzr-lft-10-mtr-dyzl-fy-alryadh-rafah-mqsyh-aamnh-llayjar-btwsyl-fwry/">تأجير سيزر لفت 10 متر ديزل في الرياض رافعة مقصية آمنة للايجار بتوصيل فوري</a></td><td>700 per month, 100 per hour, 50 per day</td><td>700</td><td><strong>50</strong></td></tr>
+          <tr><td>2932</td><td><a href="https://renter.net/ar/product/2932/tajyr-basat/">تأجير باصات </a></td><td>10,000 per month, 1,000 per day</td><td>10,000</td><td><strong>1,000</strong></td></tr>
+          <tr><td>2923</td><td><a href="https://renter.net/ar/product/2923/kryn-bwm-trk-rafah-wnsh-slh-faybr-lliyjar-nzafh-mbany-msharya/">كرين بوم ترك رافعه ونش سله فايبر للإيجار نظافة مباني مشاريع</a></td><td>18,000 per month, 200 per hour, 800 per day</td><td>18,000</td><td><strong>800</strong></td></tr>
+          <tr><td>2915</td><td><a href="https://renter.net/ar/product/2915/sthh-3tn-llabjar-fy-alryadh-bwm-trak-llayjar-alshhry-boom-trouk-rental-3t-20t/">سطحة 3طن للابجار في الرياض - بوم تراك للايجار الشهري - Boom Trouk Rental 3T - 20T</a></td><td>12,000 per month, 500 per day</td><td>12,000</td><td><strong>500</strong></td></tr>
+          <tr><td>2636</td><td><a href="https://renter.net/ar/product/2636/asywzw-thlajh/">اسيوزو ثلاجة </a></td><td>4,800 per month, 250 per day</td><td>4,800</td><td><strong>250</strong></td></tr>
+          <tr><td>2256</td><td><a href="https://renter.net/ar/product/2256/adh-khfyfh/">عدة خفيفة</a></td><td>5 per hour, 30 per day</td><td>5</td><td><strong>30</strong></td></tr>
+          <tr><td>2081</td><td><a href="https://renter.net/ar/product/2081/dbab-dyhatsw/">دباب ديهاتسو </a></td><td>1,600 per month, 150 per day</td><td>1,600</td><td><strong>150</strong></td></tr>
+          <tr><td>1667</td><td><a href="https://renter.net/ar/product/1667/nql-khfyf-ajar-balmshwar-aw-ywmy/">نقل خفيف اجار بالمشوار او يومي</a></td><td>100 per hour, 500 per day</td><td>100</td><td><strong>500</strong></td></tr>
+          <tr><td>110</td><td><a href="https://renter.net/ar/product/110/myny-jyb/">ميني جيب</a></td><td>450 per hour, 1,000 per day</td><td>450</td><td><strong>1,000</strong></td></tr>
         </tbody>
       </table></div>
 

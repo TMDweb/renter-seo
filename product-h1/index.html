@@ -11,21 +11,21 @@
 <div class="page">
   <header class="doc-header">
     <a class="backbtn" href="../head-metadata/">&#8592; Back to the dev board</a>
-    <p class="kicker">Renter × TMD · Dev ticket · checked live Oct 18, 2026</p>
+    <p class="kicker">Renter × TMD · Dev ticket · checked live Nov 1, 2026</p>
   </header>
   <div class="doc-body">
       <h1>Product pages: the visible product name must be the H1</h1>
-      <div class="statusbar"><span class="pill progress">PARTIAL</span><span class="txt">Checked Oct 18, 2026: unchanged. Product pages have one H1, but it is the hidden one (<code>class="hidden"</code>), and the visible product name is a paragraph. Change 1 is done. Changes 2 and 3 are still needed. The home page H1 is hidden the same way.</span></div>
+      <div class="statusbar"><span class="pill progress">MOSTLY DONE</span><span class="txt">Checked Nov 1, 2026 on all 1,430 products in the sitemap: changes 2 and 3 are live. The hidden H1 is gone from every product page, and the visible product name is the H1 on 1,429 of 1,430. 1,410 pages have exactly one H1. 20 pages have a second H1 that comes from the lessor's own description text (change 4, below). The home page H1 is still hidden; that is on the <a href="../home-schema/">home page ticket</a>.</span></div>
 
       <div class="inshort">
         <h2>In short</h2>
         <dl>
-          <dt>What is wrong</dt><dd>Every product page has one H1, but it is hidden from visitors (<code>class="hidden"</code>). The product name that visitors see is a paragraph. 17 products have two H1s.</dd>
+          <dt>What is wrong</dt><dd>On Oct 18 every product page had one H1, but it was hidden from visitors (<code>class="hidden"</code>), and the visible name was a paragraph. That is fixed. Left: 20 products have a second H1 inside the product description.</dd>
           <dt>Why it matters</dt><dd>Google's spam policies name text hidden with CSS as "hidden text" when it is there only for search engines. Product pages bring most of the site's Google clicks.</dd>
-          <dt>Done so far</dt><dd>Change 1 is live since Sep 29: the section labels (الوصف، السعر، …) are H2 again.</dd>
-          <dt>The fix</dt><dd>Two code changes remain: the visible product name becomes the H1 (change 2), and the hidden H1 is deleted (change 3).</dd>
+          <dt>Done so far</dt><dd>Change 1 is live since Sep 29: the section labels (الوصف، السعر، …) are H2 again. Changes 2 and 3 are live on Nov 1: the visible name is the H1, and the hidden H1 is deleted. English pages show the English name as the H1, for example <a href="https://renter.net/en/product/2545/kamyra-kanwn-4000d/">/en/product/2545/</a> shows "Canon 4000D camera".</dd>
+          <dt>The fix</dt><dd>One small change remains: a heading inside the description text prints as H2, never as H1 (change 4).</dd>
           <dt>Owner</dt><dd>Dev team. Paulo and Jan decide who takes it.</dd>
-          <dt>Done when</dt><dd>Every product page has exactly one H1, and it is the visible product name. The check command is at the end of this page.</dd>
+          <dt>Done when</dt><dd>Every product page has exactly one H1, and it is the visible product name. Today 1,410 of 1,430 pass. The check command is at the end of this page.</dd>
         </dl>
       </div>
 
@@ -46,7 +46,28 @@
         </tbody>
       </table></div>
 
-      <h2 id="fix">The fix: changes 2 and 3 (change 1 is done)</h2>
+      <h2 id="now">Live now, Nov 1</h2>
+      <div class="tablebox"><table>
+        <thead><tr><th>H1 headings per page</th><th>Oct 11</th><th>Nov 1</th></tr></thead>
+        <tbody>
+          <tr><td>1, and it is the visible name</td><td>0</td><td>1,410</td></tr>
+          <tr><td>1, hidden</td><td>1,044</td><td>0</td></tr>
+          <tr><td>2 (the name, plus one from the description)</td><td>17</td><td>20</td></tr>
+          <tr><td>0</td><td>1</td><td>0</td></tr>
+          <tr><td>Products checked</td><td>1,062</td><td>1,430</td></tr>
+        </tbody>
+      </table></div>
+      <p>The 20 products with a second H1 in the description: <a href="https://renter.net/ar/product/2981/">2981</a>, <a href="https://renter.net/ar/product/2959/">2959</a>, <a href="https://renter.net/ar/product/2693/">2693</a>, <a href="https://renter.net/ar/product/2658/">2658</a>, <a href="https://renter.net/ar/product/2326/">2326</a>, <a href="https://renter.net/ar/product/2097/">2097</a>, <a href="https://renter.net/ar/product/2040/">2040</a>, <a href="https://renter.net/ar/product/1932/">1932</a>, <a href="https://renter.net/ar/product/1911/">1911</a>, <a href="https://renter.net/ar/product/1898/">1898</a>, <a href="https://renter.net/ar/product/1733/">1733</a>, <a href="https://renter.net/ar/product/1722/">1722</a>, <a href="https://renter.net/ar/product/1718/">1718</a>, <a href="https://renter.net/ar/product/1665/">1665</a>, <a href="https://renter.net/ar/product/1601/">1601</a>, <a href="https://renter.net/ar/product/1556/">1556</a>, <a href="https://renter.net/ar/product/1508/">1508</a>, <a href="https://renter.net/ar/product/1420/">1420</a>, <a href="https://renter.net/ar/product/1419/">1419</a>, <a href="https://renter.net/ar/product/1416/">1416</a>. Some of these H1s are empty (<code>&amp;nbsp;</code>), for example on 2693, 2326, 1911 and 1718.</p>
+
+      <h3>Change 4: headings inside the description print as H2</h3>
+      <p>The description comes from the lessor's text editor and is printed as HTML. When a lessor uses the editor's biggest heading, the page gets a second H1. In the component that prints the description, change every <code>&lt;h1</code> in the description HTML to <code>&lt;h2</code> before it is printed, and drop headings that hold no text:</p>
+<pre>const descriptionHtml = (post?.description ?? "")
+  .replace(/&lt;h1(\s|&gt;)/gi, "&lt;h2$1")
+  .replace(/&lt;\/h1&gt;/gi, "&lt;/h2&gt;")
+  .replace(/&lt;h2[^&gt;]*&gt;(\s|&amp;nbsp;)*&lt;\/h2&gt;/gi, "");</pre>
+      <p>Better still, remove the H1 button from the description editor, so new descriptions cannot add one.</p>
+
+      <h2 id="fix">Changes 1 to 3 (all done, kept for reference)</h2>
       <p class="note">File paths and line numbers come from the June copy of the repository. The lines can have moved since then.</p>
 
       <h3>Change 1: section labels back to H2 (done, live since Sep 29)</h3>
@@ -54,7 +75,7 @@
 <pre>{title &amp;&amp; &lt;h2&gt;{title}{subtitle &amp;&amp; &lt;span className={`${styles.subtitle}`}&gt;{subtitle}&lt;/span&gt;}&lt;/h2&gt;}</pre>
       <p>If <code>productsectioncontainer.module.css</code> styles the label as <code>h1</code>, change that selector to <code>h2</code> so the look stays the same.</p>
 
-      <h3>Change 2: the visible product name becomes the H1</h3>
+      <h3>Change 2: the visible product name becomes the H1 (done, live Nov 1)</h3>
       <p>File: <code>src/sections/product_details_section/index.tsx</code> (line 289 in June). Today the name is a paragraph:</p>
 <pre>&lt;div className={`${styles.productdetail_product_title}`}&gt;
     &lt;p&gt;
@@ -74,7 +95,7 @@
     margin: 0;
 }</pre>
 
-      <h3>Change 3: delete the hidden H1</h3>
+      <h3>Change 3: delete the hidden H1 (done, live Nov 1)</h3>
       <p>File: <code>src/app/[locale]/product/[id]/[title]/page.tsx</code> (line 146 in June). Delete this line:</p>
 <pre>&lt;h1 className="hidden"&gt;{rawProduct?.title} للايجار بالسعودية&lt;/h1&gt;</pre>
       <p>Nothing is lost. "للايجار بالسعودية" stays in the page title (the <code>&lt;title&gt;</code> tag), which Google uses for the result title.</p>
@@ -82,7 +103,7 @@
       <h2 id="done">Done when</h2>
       <p>Run this after the deploy. It prints every H1 on the page:</p>
 <pre>curl -s https://renter.net/ar/product/2545/kamyra-kanwn-4000d/ | grep -o '&lt;h1[^&gt;]*&gt;[^&lt;]*'</pre>
-      <p>Expected: exactly one line, <code>&lt;h1&gt;كاميرا كانون 4000d</code>. Run the same for <code>/en/product/2545/kamyra-kanwn-4000d/</code>: one line. The name stays Arabic there until the English translation is done. Then tell Saiaf; TMD re-checks all product pages.</p>
+      <p>Expected: exactly one line, <code>&lt;h1&gt;كاميرا كانون 4000d</code>. This passes on Nov 1. Run the same on the 20 products above after change 4: one line each. Then tell Saiaf; TMD re-checks all product pages.</p>
 
       <p><a class="backbtn" href="../head-metadata/">&#8592; Back to the dev board</a></p>
   </div>
