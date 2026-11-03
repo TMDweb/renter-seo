@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Renter · Blog article template: 4 display fixes</title>
+<link rel="stylesheet" href="../assets/ticket.css?v=5">
+</head>
+<body>
+<div class="page">
+  <header class="doc-header">
+    <a class="backbtn" href="../head-metadata/">&#8592; Back to the dev board</a>
+    <p class="kicker">Renter × TMD · Sub-ticket of issue 11 · checked live Nov 3, 2026</p>
+  </header>
+  <div class="doc-body">
+      <h1>Blog article template: 4 display fixes</h1>
+      <div class="statusbar"><span class="pill open">4 OPEN</span><span class="txt">Checked live Nov 3, 2026 on all 6 posts. The article HTML is correct: every list is an <code>ol</code> or <code>ul</code>, and every image is a <code>figure</code> with a <code>figcaption</code>. The template CSS hides or flattens them. Readers noticed: the Renter reviewer flagged these 4 items 21 times across the 6 posts on Nov 2. All 4 are CSS in the post body template, for Paulo. First sent to Paulo on Slack on Nov 1 (items 1 to 3).</span></div>
+      <div class="inshort">
+        <h2>In short</h2>
+        <dl>
+          <dt>Where</dt><dd>The post body container <code>div.category-module__hgwSIq__postBody</code> on every article, both languages</dd>
+          <dt>Examples</dt><dd><a href="https://renter.net/ar/blog/cars-and-vehicles/car-rental-monthly-price-riyadh/">Post 1</a> (lists, FAQ title) · <a href="https://renter.net/ar/blog/guides/list-your-item-on-renter/">Post 2</a> (11 figures) · <a href="https://renter.net/ar/blog/occasions-and-entertainment/tent-rental-guide-prices/">Tents post</a> (figures)</dd>
+          <dt>Owner</dt><dd>Paulo</dd>
+          <dt>Done when</dt><dd>All 4 checks below pass on renter.net, on desktop and on a phone, in Arabic and English</dd>
+        </dl>
+      </div>
+      <h2 id="items">The 4 fixes</h2>
+      <div class="tablebox"><table>
+        <thead><tr><th>#</th><th>Problem (measured Nov 3)</th><th>Fix</th><th>Done when</th></tr></thead>
+        <tbody>
+          <tr id="t1"><td>1</td><td><span class="pill open">OPEN</span> Numbered lists show no numbers. In the post body, <code>ol</code> has <code>list-style-type: none</code> and <code>padding-inline-start: 0</code>. Bullet lists (<code>ul</code>) keep <code>disc</code> but also have 0 padding, so the bullets hang outside the text column. 17 numbered lists across the 6 posts are affected, for example the steps under <bdi>كيف تستأجر سيارة شهريًا من رينتر</bdi> in post 1.</td><td><code>.postBody ol { list-style: decimal; padding-inline-start: 1.5em; }</code><br><code>.postBody ul { list-style: disc; padding-inline-start: 1.5em; }</code><br><code>.postBody li { margin-block: 4px; }</code></td><td>Each numbered list in post 1 shows 1, 2, 3 at the start of each line, on the right in Arabic and the left in English. Bullets sit inside the text column.</td></tr>
+          <tr id="t2"><td>2</td><td><span class="pill open">OPEN</span> Figures are not centered. The <code>figure</code> spans the full column (1,260 px at a 1,280 px window) with <code>text-align: start</code> and margin 0, so the 1,000 px image sits against the right edge.</td><td><code>.postBody figure { margin: 24px auto 32px; text-align: center; }</code><br><code>.postBody figure img { margin-inline: auto; height: auto; }</code></td><td>On the tents post, both infographics sit in the middle of the column on desktop, and fill the width on a phone.</td></tr>
+          <tr id="t3"><td>3</td><td><span class="pill open">OPEN</span> Captions look like stray body text. <code>figcaption</code> is 16 px, color #333, margin 0, aligned to the start, and the next element is often an <code>h2</code>. Readers read the caption as a loose sentence glued to the next heading, for example <bdi>3 طرق لتسعير تأجير الخيام</bdi> on the tents post.</td><td><code>.postBody figcaption { font-size: 14px; color: #6b7280; margin-top: 8px; text-align: center; }</code><br>The figure bottom margin in fix 2 gives the space before the next heading.</td><td>Each caption is centered under its image, smaller and grey, with clear space before the next heading.</td></tr>
+          <tr id="t4"><td>4</td><td><span class="pill open">OPEN</span> The FAQ section title looks like body text. <code>h2#faq</code> (<bdi>الأسئلة الشائعة</bdi>, "FAQ") is 16 px, weight 400. The body H2s are 28 px, weight 700, and the questions under it (<code>h3</code>) are 22 px, weight 700, so the title is smaller than its own questions. New: the FAQ title was not in the Nov 1 Slack message.</td><td>Give <code>h2#faq</code> the same style as the body H2: 28 px, weight 700, with the same top margin.</td><td>On post 1, the FAQ title looks like the other section titles and is larger than the questions under it.</td></tr>
+        </tbody>
+      </table></div>
+      <h2 id="shots">Annotated screenshots</h2>
+      <figure class="shot"><a href="issue-3-list-has-no-numbers.webp"><img src="issue-3-list-has-no-numbers.webp" alt="Numbered steps in a post with no numbers" style="max-width:100%;height:auto;border:1px solid #ddd;border-radius:6px"></a><figcaption>Fix 1: a numbered list with no numbers (post 2, Nov 1)</figcaption></figure>
+      <figure class="shot"><a href="issue-1-figure-not-centered.webp"><img src="issue-1-figure-not-centered.webp" alt="An image placed against the right edge of the column" style="max-width:100%;height:auto;border:1px solid #ddd;border-radius:6px"></a><figcaption>Fix 2: the figure sits against the right edge (post 2, Nov 1)</figcaption></figure>
+      <figure class="shot"><a href="issue-2-caption-runs-into-text.webp"><img src="issue-2-caption-runs-into-text.webp" alt="A caption with no spacing that runs into the next text" style="max-width:100%;height:auto;border:1px solid #ddd;border-radius:6px"></a><figcaption>Fix 3: the caption runs into the next heading (post 2, Nov 1)</figcaption></figure>
+      <figure class="shot"><a href="issue-4-faq-title-looks-like-text.webp"><img src="issue-4-faq-title-looks-like-text.webp" alt="The FAQ title shown in small body text above larger questions" style="max-width:100%;height:auto;border:1px solid #ddd;border-radius:6px"></a><figcaption>Fix 4: the FAQ title is smaller than the questions under it (post 1, Nov 3)</figcaption></figure>
+      <h2 id="check">How to check</h2>
+      <ol>
+        <li>Open <a href="https://renter.net/ar/blog/cars-and-vehicles/car-rental-monthly-price-riyadh/">post 1</a>: the 3 numbered lists show numbers, and the FAQ title matches the other H2s.</li>
+        <li>Open the <a href="https://renter.net/ar/blog/occasions-and-entertainment/tent-rental-guide-prices/">tents post</a>: both figures are centered, with a small grey caption and space before the next heading.</li>
+        <li>Repeat both on the English pages and on a phone.</li>
+      </ol>
+      <a class="backbtn" href="../head-metadata/">&#8592; Back to the dev board</a>
+  </div>
+</div>
+</body>
+</html>
