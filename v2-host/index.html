@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Renter · v2.renter.net: a full copy of the site that Google indexes</title>
+<link rel="stylesheet" href="../assets/ticket.css?v=5">
+</head>
+<body>
+<div class="page">
+  <header class="doc-header">
+    <a class="backbtn" href="../head-metadata/">&#8592; Back to the dev board</a>
+    <p class="kicker">Renter × TMD · Dev ticket · urgent · checked live Nov 5, 2026</p>
+  </header>
+  <div class="doc-body">
+      <h1>v2.renter.net: a full copy of the site that Google indexes</h1>
+      <div class="statusbar"><span class="pill open">URGENT</span><span class="txt">Checked Nov 5, 2026: <a href="https://v2.renter.net/robots.txt">v2.renter.net/robots.txt</a> allows Google to crawl everything, and every page says "index, follow". Google already lists 181 v2.renter.net pages, and for at least one it picked the v2 address over renter.net.</span></div>
+
+      <div class="inshort">
+        <h2>In short</h2>
+        <dl>
+          <dt>What is wrong</dt><dd>The address v2.renter.net points to the same server as renter.net and shows the whole live site: home, products and blog. It is a second copy of renter.net that is open to Google.</dd>
+          <dt>Why it matters</dt><dd>Google sees two copies of every page and splits the ranking between them. On the product page we inspected, Google chose the v2 address as the official one and ignored our canonical tag. Visitors who click a v2 result also get a browser security warning, because the certificate only covers renter.net.</dd>
+          <dt>The fix</dt><dd>Send every v2.renter.net address to the same address on renter.net with a permanent 301 redirect, at the server level.</dd>
+          <dt>Owner</dt><dd>Jan (server). Saiaf requests removal in Search Console after the redirect is live.</dd>
+          <dt>Done when</dt><dd>The 4 checks at the end pass.</dd>
+        </dl>
+      </div>
+
+      <h2 id="proof">Proof, Nov 5</h2>
+      <p>These are the live answers from v2.renter.net today:</p>
+      <div class="tablebox"><table>
+        <thead><tr><th>Check</th><th>Result</th></tr></thead>
+        <tbody>
+          <tr><td><a href="https://v2.renter.net/robots.txt">/robots.txt</a></td><td>200, the same file as renter.net: <code>Allow: /</code></td></tr>
+          <tr><td><a href="https://v2.renter.net/ar/blog/cars-and-vehicles/car-rental-monthly-price-riyadh/">The first blog article</a></td><td>200, <code>index, follow</code>, canonical renter.net</td></tr>
+          <tr><td><a href="https://v2.renter.net/en/product/1876/bwklynat-liyjar/">Product 1876 (EN)</a></td><td>200, <code>index, follow</code>, canonical renter.net</td></tr>
+          <tr><td>DNS</td><td>v2.renter.net and renter.net both answer from 13.60.219.239</td></tr>
+          <tr><td>Certificate</td><td>Issued for renter.net only. A strict https request to v2.renter.net fails: "no alternative certificate subject name matches"</td></tr>
+          <tr><td>Search Console, Aug 1 to Nov 2</td><td>181 v2.renter.net pages had 716 views in results and 19 clicks</td></tr>
+          <tr><td>URL Inspection, <a href="https://v2.renter.net/en/product/1733/haylks-lliyjar-alshhry-walasbway/">product 1733 (EN)</a></td><td>"Submitted and indexed". Google canonical: the v2 address. Our canonical: renter.net. Last crawl Nov 3</td></tr>
+        </tbody>
+      </table></div>
+
+      <h2 id="fix">The fix</h2>
+      <p>The redirect has to keep the path, so each v2 page lands on its own renter.net page and keeps its ranking. In nginx, as a separate server block for the v2 host:</p>
+<pre><code>server {
+    listen 80;
+    listen 443 ssl;
+    server_name v2.renter.net;
+    # a certificate that covers v2.renter.net is needed for the 443 block
+    return 301 https://renter.net$request_uri;
+}</code></pre>
+      <p>Three rules for this fix:</p>
+      <ul>
+        <li><strong>Do not block v2 in robots.txt first.</strong> If Google cannot crawl v2, it never sees the redirect, and the 181 pages stay in its index.</li>
+        <li><strong>The certificate must cover v2.renter.net,</strong> or browsers and Google stop at the warning before they reach the redirect. A Let's Encrypt certificate for v2.renter.net is enough.</li>
+        <li><strong>If v2.renter.net must stay a working site</strong> for the team, protect it with a password and send the header <code>X-Robots-Tag: noindex</code> instead. The redirect is still the better fix.</li>
+      </ul>
+
+      <h2 id="check">Done when</h2>
+      <p>Run these 4 checks after the change:</p>
+      <ol>
+        <li><code>curl -sI https://v2.renter.net/ar/</code> answers <code>301</code> with <code>location: https://renter.net/ar/</code>.</li>
+        <li><code>curl -sI https://v2.renter.net/en/product/1876/bwklynat-liyjar/</code> answers <code>301</code> to the same path on renter.net.</li>
+        <li><code>curl -sI http://v2.renter.net/robots.txt</code> answers <code>301</code> to renter.net, not a second robots file.</li>
+        <li>A strict https request to v2.renter.net shows no certificate error.</li>
+      </ol>
+      <p>After that, Saiaf checks the v2 pages in Search Console. They should drop out over the following weeks.</p>
+
+      <p><a class="backbtn" href="../head-metadata/">&#8592; Back to the dev board</a></p>
+  </div>
+</div>
+<script>
+document.querySelectorAll('pre').forEach(function(pre){
+  var w=document.createElement('div'); w.className='codewrap'; pre.parentNode.insertBefore(w,pre); w.appendChild(pre);
+  var b=document.createElement('button'); b.className='copybtn'; b.textContent='Copy'; w.appendChild(b);
+  b.addEventListener('click',function(){
+    var t=pre.innerText;
+    function ok(){b.textContent='Copied';setTimeout(function(){b.textContent='Copy'},1500);}
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(ok,function(){fb()});}else{fb()}
+    function fb(){var ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');ok();}catch(e){b.textContent='Failed'}document.body.removeChild(ta);}
+  });
+});
+</script>
+</body>
+</html>
