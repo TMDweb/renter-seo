@@ -129,13 +129,13 @@
 <div class="container">
   <div class="doc">
     <div class="doc-header">
-      <span class="section-kicker">Renter × TMD · Dev Ticket · checked live Nov 1, 2026</span>
+      <span class="section-kicker">Renter × TMD · Dev Ticket · checked live Nov 5, 2026</span>
       <h1 class="doc-title">Subcategory pages: the first server render after cache expiry ships polluted HTML (9 H1s, info-page content inlined)</h1>
       <p class="doc-subtitle">The first build of a subcategory page after its cached copy expires merges the full content of the info pages (Founder's Message, Terms, Cancellation, Privacy, both languages) into the page HTML. The broken copy is then served to every visitor until the next regeneration. Reproduced on Jul 12 on 5 of 5 quiet subcategories. Not reproduced on Nov 1: 87 of 87 subcategories were clean on the first request.</p>
       <div class="pill-row">
         <span class="pill crit">Priority: High (SEO)</span>
         <span class="pill">Area: Next.js SSR / ISR, subcategory routes</span>
-        <span class="pill">Status: Clean on Nov 1, 87 of 87</span>
+        <span class="pill">Status: Closed Nov 5, clean 87 of 87 twice</span>
         <span class="pill">Reported: Jul 12, 2026</span>
       </div>
     </div>
@@ -143,13 +143,13 @@
     <div class="doc-body">
 
       <section>
-        <h2><span class="num">00</span>Status, checked live Nov 1, 2026</h2>
+        <h2><span class="num">00</span>Status, checked live Nov 5, 2026</h2>
         <div class="callout ok">
-          <h3>Not reproduced: 87 of 87 subcategories clean</h3>
-          <p>We requested each of the 87 Arabic subcategories in <a href="https://renter.net/sitemap/ar/product-subcategories.xml">/sitemap/ar/product-subcategories.xml</a> once, before any other request to them that day. Every first answer was 200 with exactly <strong>1 <code>&lt;h1&gt;</code></strong>, the subcategory heading. This includes the 6 pages in the table below, for example <a href="https://renter.net/ar/courts-and-arenas/volleyball-courts/">/ar/courts-and-arenas/volleyball-courts/</a>. Answer times were 3.6 to 7.6 seconds.</p>
+          <h3>Closed: clean on Nov 1 and Nov 5, 87 of 87 subcategories</h3>
+          <p>On Nov 5 we requested each of the 87 Arabic subcategories in <a href="https://renter.net/sitemap/ar/product-subcategories.xml">/sitemap/ar/product-subcategories.xml</a> once, before any other TMD request to them that day. Every first answer was 200 with exactly <strong>1 <code>&lt;h1&gt;</code></strong>, the subcategory heading. This includes the 6 pages in the table below, for example <a href="https://renter.net/ar/courts-and-arenas/volleyball-courts/">/ar/courts-and-arenas/volleyball-courts/</a>. Answer times were 0.7 to 2.0 seconds (3.6 to 7.6 seconds on Nov 1). This is the second clean check in a row, so the ticket closes.</p>
         </div>
-        <p><strong>Still there, but not shown:</strong> the full text of the 4 info pages (Founder's Message, Terms, Cancellation, Privacy) still travels in the page's script data (the Next.js data inside <code>&lt;script&gt;</code> tags), on subcategory and product pages alike. It is not printed as headings or text in the HTML, so it is no longer a duplicate-content or H1 problem. It does add weight to every page. Owner: Dev team, low priority.</p>
-        <p><strong>Next step:</strong> TMD runs the acceptance loop again at the next check. If it stays clean, this ticket closes.</p>
+        <p><strong>Still there, but not shown (low priority):</strong> the full text of the info pages (Terms, Privacy and the others) still travels in the page's script data (the Next.js data inside <code>&lt;script&gt;</code> tags). For example, every paragraph of <a href="https://renter.net/ar/privacy-policy/">/ar/privacy-policy/</a> and <a href="https://renter.net/ar/terms-and-conditions/">/ar/terms-and-conditions/</a> is in the script data of the volleyball courts page. It is not printed as headings or text in the HTML, so it is not a duplicate-content or H1 problem. It does add weight to every page. Owner: Dev team.</p>
+        <p><strong>Next step:</strong> none for this ticket. If a page shows more than 1 H1 again, TMD reopens it with the new evidence.</p>
       </section>
 
       <section>
@@ -216,6 +216,7 @@
 
       <section>
         <h2><span class="num">04</span>How to reproduce</h2>
+        <p>On Jul 12 these 4 steps showed the problem:</p>
         <ol>
           <li>Pick a low-traffic subcategory that has not been visited recently (any of the URLs in the table above).</li>
           <li>Request it once and count the H1 tags in the raw response: <code>curl -s -A "Mozilla/5.0" &lt;url&gt; | grep -c '&lt;h1'</code> → expect up to 9.</li>
@@ -227,6 +228,7 @@
 
       <section>
         <h2><span class="num">05</span>Observations that may help locate it</h2>
+        <p>These 3 observations come from the Jul 12 captures:</p>
         <ul>
           <li>The injected content is always the same four info pages, in both locales, in the same order, suggesting a deterministic source (shared layout, prefetched routes, or a cache-key collision during the regeneration build) rather than a random race.</li>
           <li>Product pages had a similar first-render/hydration issue that was fixed on July 5; subcategory routes appear to have the same class of problem on their first server render after revalidation.</li>
@@ -253,7 +255,7 @@
 
     </div>
   </div>
-  <p class="footer-note">Prepared by TMD · reported Jul 12, 2026 · checked live against renter.net on Nov 1, 2026 · questions in #renter-seo</p>
+  <p class="footer-note">Prepared by TMD · reported Jul 12, 2026 · checked live against renter.net on Nov 5, 2026 · questions in #renter-seo</p>
 </div>
 </body>
 </html>

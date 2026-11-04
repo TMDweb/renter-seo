@@ -11,25 +11,27 @@
 <div class="page">
   <header class="doc-header">
     <a class="backbtn" href="../head-metadata/">&#8592; Back to the dev board</a>
-    <p class="kicker">Renter × TMD · Dev ticket · checked live Nov 4, 2026</p>
+    <p class="kicker">Renter × TMD · Dev ticket · checked live Nov 5, 2026</p>
   </header>
   <div class="doc-body">
       <h1>Home page: correct the product list block</h1>
-      <div class="statusbar"><span class="pill done">DONE NOV 4</span><span class="txt">Checked live Nov 4, 2026: Part B is on production. All 5 rules pass on <a href="https://renter.net/ar/">/ar/</a> and <a href="https://renter.net/en/">/en/</a>, and on the category and subcategory pages we checked. Part A is still correct. One item is left outside the 5 rules: the home page H1 is still hidden (<code>class="hidden"</code>). Category pages show a visible H1.</span></div>
+      <div class="statusbar"><span class="pill done">DONE NOV 4</span><span class="txt">Checked live Nov 5, 2026: Part B is on production since Nov 4, and all 5 rules still pass on <a href="https://renter.net/ar/">/ar/</a> and <a href="https://renter.net/en/">/en/</a>. Each home page prints the list once, with 32 entries at positions 1 to 32, each with <code>url</code>, in the same order as the 32 product cards. Part A is still correct. One item is left outside the 5 rules: the home page H1 is still hidden (<code>class="hidden"</code>) on both pages. Category pages show a visible H1.</span></div>
 
       <div class="inshort">
         <h2>In short</h2>
         <dl>
           <dt>Done so far</dt><dd>Part A is live since Sep 29: the Organization and WebSite block is back on <code>/ar/</code> and <code>/en/</code>, as specified below. Keep it. Part B is live on production since Nov 4.</dd>
-          <dt>What is wrong</dt><dd>The product list block (CollectionPage) on both home pages has 5 errors: no name, an address with a double slash, printed twice, the wrong link field, and positions that start at 3. It lists 12 of the 32 products on the page.</dd>
+          <dt>What was wrong</dt><dd>Until Nov 4 the product list block (CollectionPage) on both home pages had 5 errors: no name, an address with a double slash, printed twice, the wrong link field, and positions that started at 3. It listed 12 of the 32 products on the page. All 5 are fixed.</dd>
+          <dt>What is left</dt><dd>The home page H1 is hidden with <code>class="hidden"</code>. Make it visible, as on product and category pages.</dd>
           <dt>Why it matters</dt><dd>A list with errors can be misread or ignored by Google. The same list template is used on the 194 category pages, so one fix corrects all of them.</dd>
           <dt>The fix</dt><dd>Part B: correct the product list with the 5 rules below, using the shared <code>collectionPageLd</code> function. Part A below is kept as the reference for the live identity block.</dd>
           <dt>Owner</dt><dd>Dev team. Paulo and Jan decide who takes it.</dd>
-          <dt>Done when</dt><dd>The list check at the end of this page passes on <code>/ar/</code> and <code>/en/</code>.</dd>
+          <dt>Done when</dt><dd>The list check at the end of this page passes on <code>/ar/</code> and <code>/en/</code>. It passes on Nov 4 and Nov 5.</dd>
         </dl>
       </div>
 
-      <h2 id="proof">Proof, Nov 4: production passes</h2>
+      <h2 id="proof">Proof, Nov 5: production passes</h2>
+      <p>This table gives each rule and the live answer on both home pages on Nov 5:</p>
       <div class="tablebox"><table>
         <thead><tr><th>Check</th><th>/ar/</th><th>/en/</th><th>Must be</th></tr></thead>
         <tbody>
@@ -39,11 +41,11 @@
           <tr><td>Product list: printed</td><td>once</td><td>once</td><td>once</td></tr>
           <tr><td>Product list: link field in each entry</td><td><code>url</code></td><td><code>url</code></td><td><code>url</code></td></tr>
           <tr><td>Product list: positions</td><td>1 to 32</td><td>1 to 32</td><td>1 to N</td></tr>
-          <tr><td>Product list: products</td><td>32 of the 32 on the page, same order</td><td>32 of 32, same order</td><td>all product cards on the page</td></tr>
+          <tr><td>Product list: products</td><td>32 of the 32 on the page, same order</td><td>32 of the 32, same order</td><td>all product cards on the page</td></tr>
           <tr><td>Page H1</td><td>hidden (<code>class="hidden"</code>)</td><td>hidden</td><td>visible, as on product and category pages</td></tr>
         </tbody>
       </table></div>
-      <p>Types on each home page: Organization, WebSite, CollectionPage and ItemList once each, and 32 ListItem entries, one per product card. The same list is correct on <a href="https://renter.net/ar/cars-and-vehicles/">/ar/cars-and-vehicles/</a>, <a href="https://renter.net/en/equipment-and-tools/">/en/equipment-and-tools/</a> and <a href="https://renter.net/en/properties/apartments/">/en/properties/apartments/</a>: one script, positions from 1, <code>url</code> in each entry, and all 12 cards. On the subcategory page the list name has " | Renter" at the end and the H1 does not. That is a small difference and needs no action.</p>
+      <p>Types on each home page: Organization, WebSite, CollectionPage and ItemList once each, and 32 ListItem entries, one per product card. The same list is correct on <a href="https://renter.net/ar/cars-and-vehicles/">/ar/cars-and-vehicles/</a>, <a href="https://renter.net/en/equipment-and-tools/">/en/equipment-and-tools/</a> and <a href="https://renter.net/en/properties/apartments/">/en/properties/apartments/</a>: one script, positions from 1, <code>url</code> in each entry, and all 12 cards. On subcategory pages the list name still has " | Renter" or "| رينتر" at the end and the H1 does not. That is correction 5 on the <a href="../category-schema/">category ticket</a>.</p>
 
       <h2 id="identity">Part A: the identity block (done, live since Sep 29, kept for reference)</h2>
       <p>This block is live next to the product list. One script per language. Checked Oct 11: the logo URL answers 200, the search URL <code>/ar/search/?q=</code> answers 200 with results, the social links are the ones in the site footer, and the phone and email are the ones on the return policy page.</p>
@@ -209,7 +211,8 @@ export function homeIdentityLd(locale: "ar" | "en") {
 &lt;/script&gt;</pre>
       <p class="note"><code>Organization.url</code> is <code>https://renter.net/</code> on both pages: one business, one identifier. The <code>WebSite</code> part carries the address and name of each language. The search box part (<code>SearchAction</code>) no longer shows a search box in Google (retired in 2024). It stays because it is valid and tells crawlers where the site search is.</p>
 
-      <h2 id="list">Part B: the product list, 5 rules</h2>
+      <h2 id="list">Part B: the product list, 5 rules (done Nov 4, kept for reference)</h2>
+      <p>The product list follows these 5 rules:</p>
       <ol>
         <li><strong>One script.</strong> Keep the <code>CollectionPage</code> with the list inside <code>mainEntity</code>. Delete the second, separate <code>ItemList</code> script.</li>
         <li><strong><code>name</code> = the page H1.</strong> Arabic: <code>رينتر | منصة تأجير كل شي في السعودية | أجر واستأجر</code>. English: <code>Renter | Rent Anything in Saudi Arabia | Rent &amp; Lease</code>.</li>
@@ -420,6 +423,7 @@ export function collectionPageLd(name: string, pageUrl: string, productUrls: str
 &lt;/script&gt;</pre>
 
       <h2 id="done">Done when</h2>
+      <p>Run these checks after any change to the home page:</p>
       <ol>
         <li><a href="https://search.google.com/test/rich-results?url=https%3A%2F%2Frenter.net%2Far%2F">Rich Results Test for /ar/</a> and <a href="https://search.google.com/test/rich-results?url=https%3A%2F%2Frenter.net%2Fen%2F">for /en/</a>: "Organization" is found, with no errors.</li>
         <li>This command lists the schema types on the page:

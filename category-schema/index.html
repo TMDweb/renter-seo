@@ -11,39 +11,40 @@
 <div class="page">
   <header class="doc-header">
     <a class="backbtn" href="../head-metadata/">&#8592; Back to the dev board</a>
-    <p class="kicker">Renter × TMD · Dev ticket · checked live Nov 1, 2026</p>
+    <p class="kicker">Renter × TMD · Dev ticket · checked live Nov 5, 2026</p>
   </header>
   <div class="doc-body">
       <h1>Category and subcategory pages: put the breadcrumbs back and correct the product list</h1>
-      <div class="statusbar"><span class="pill progress">PARTIAL</span><span class="txt">Checked Nov 1, 2026 on all 20 category pages (Arabic and English) and all 87 Arabic subcategory pages: correction 6 is still done, unknown addresses answer 404. Corrections 1 to 5 are unchanged on every page: no BreadcrumbList, the list printed twice, <code>item</code> instead of <code>url</code>, positions from 3, and "| رينتر" in all 87 subcategory list names. The wrong meta description of <a href="https://renter.net/ar/cars-and-vehicles/">/ar/cars-and-vehicles/</a> is fixed.</span></div>
+      <div class="statusbar"><span class="pill progress">PARTIAL</span><span class="txt">Checked Nov 5, 2026 on all 20 category pages (Arabic and English), all 87 Arabic subcategory pages and 15 English subcategory pages: corrections 2, 3 and 4 are now done on every page. The list is printed once, each entry uses <code>url</code>, positions run from 1, and the list equals the product cards. Correction 6 is still done. Open: correction 1 (no BreadcrumbList on any of the 122 pages) and correction 5 ("| رينتر" or "| Renter" in all 102 subcategory list names). The meta descriptions of <a href="https://renter.net/ar/cars-and-vehicles/">/ar/cars-and-vehicles/</a> and <a href="https://renter.net/en/">/en/</a> are still correct.</span></div>
 
       <div class="inshort">
         <h2>In short</h2>
         <dl>
-          <dt>Done so far</dt><dd>Correction 6 is live since Oct 11: addresses that do not exist, such as <code>/ar/cars-and-vehicles/2/</code>, answer 404 with <code>noindex</code>.</dd>
-          <dt>What is wrong</dt><dd>(1) The breadcrumb code block (schema type BreadcrumbList) is still missing from all 194 category and subcategory pages. (2) The product list block is printed twice, uses the wrong link field, starts counting at 3, and on subcategories its name is not the H1.</dd>
+          <dt>Done so far</dt><dd>Correction 6 is live since Oct 11: addresses that do not exist, such as <code>/ar/cars-and-vehicles/2/</code>, answer 404 with <code>noindex</code>. Corrections 2, 3 and 4 are live on production (first seen in the Nov 4 home check, confirmed on all 122 pages on Nov 5): one list, <code>url</code> in each entry, positions from 1. On the 20 category pages the list name equals the H1, so the list is fully correct there.</dd>
+          <dt>What is wrong</dt><dd>(1) The breadcrumb code block (schema type BreadcrumbList) is still missing from all 194 category and subcategory pages. (2) On subcategory pages the list name is the page title with "| رينتر" or "| Renter" at the end, not the H1.</dd>
           <dt>Why it matters</dt><dd>Google uses the breadcrumb block to show the page path (رينتر › سيارات ومركبات › سيارات) in desktop results and to understand how pages relate. A list with errors can be misread or ignored.</dd>
-          <dt>The fix</dt><dd>Put back the breadcrumb block as it was, and keep one corrected list. Both sit in the shared category and subcategory templates.</dd>
+          <dt>The fix</dt><dd>Put back the breadcrumb block as it was, and set the subcategory list name to the H1. Both sit in the shared category and subcategory templates.</dd>
           <dt>Owner</dt><dd>Dev team. Paulo and Jan decide who takes it.</dd>
           <dt>Done when</dt><dd>The checks at the end of this page pass on <code>/ar/cars-and-vehicles/</code> and <code>/ar/cars-and-vehicles/cars/</code>.</dd>
         </dl>
       </div>
 
-      <h2 id="now">Corrections 1 to 5 open, 6 done</h2>
+      <h2 id="now">Corrections 1 and 5 open; 2, 3, 4 and 6 done</h2>
+      <p>This table gives each correction, what is live on Nov 5, and what it must be:</p>
       <div class="tablebox"><table>
-        <thead><tr><th>#</th><th>Live now (Nov 1)</th><th>Must be</th></tr></thead>
+        <thead><tr><th>#</th><th>Live now (Nov 5)</th><th>Must be</th></tr></thead>
         <tbody>
-          <tr><td>1</td><td>No BreadcrumbList block on any of the 107 pages checked</td><td>One BreadcrumbList script per page, as before the Sep 16 deploy (complete blocks below)</td></tr>
-          <tr><td>2</td><td>The list is printed twice: inside <code>CollectionPage</code> and again as a separate <code>ItemList</code> script</td><td>One script: the <code>CollectionPage</code> with the list inside <code>mainEntity</code>. Delete the separate <code>ItemList</code> script</td></tr>
-          <tr><td>3</td><td>Each list entry links with <code>item</code></td><td>Each list entry links with <code>url</code>. (The breadcrumb uses <code>item</code>: that is correct there. The two formats differ.)</td></tr>
-          <tr><td>4</td><td>Positions start at 3 (3 to 14 on a page with 12 products)</td><td>Positions run 1 to N</td></tr>
-          <tr><td>5</td><td>Subcategory <code>name</code> is the page title with "| رينتر" on all 87 subcategories, for example <a href="https://renter.net/ar/cars-and-vehicles/cars/">/ar/cars-and-vehicles/cars/</a>. On the 20 category pages the name already equals the H1</td><td><code>name</code> = the page H1, on category and subcategory pages</td></tr>
-          <tr><td>6</td><td><strong>Done.</strong> <a href="https://renter.net/ar/cars-and-vehicles/2/">/ar/cars-and-vehicles/2/</a> answers 404 (checked Nov 1)</td><td>404</td></tr>
+          <tr><td>1</td><td>No BreadcrumbList block on any of the 122 pages checked</td><td>One BreadcrumbList script per page, as before the Sep 16 deploy (complete blocks below)</td></tr>
+          <tr><td>2</td><td><strong>Done.</strong> One script per page: the <code>CollectionPage</code> with the list inside <code>mainEntity</code>. The separate <code>ItemList</code> script is gone</td><td>One script: the <code>CollectionPage</code> with the list inside <code>mainEntity</code>. Delete the separate <code>ItemList</code> script</td></tr>
+          <tr><td>3</td><td><strong>Done.</strong> Each list entry links with <code>url</code></td><td>Each list entry links with <code>url</code>. (The breadcrumb uses <code>item</code>: that is correct there. The two formats differ.)</td></tr>
+          <tr><td>4</td><td><strong>Done.</strong> Positions run 1 to N, for example 1 to 12 on <a href="https://renter.net/ar/cars-and-vehicles/">/ar/cars-and-vehicles/</a>, and the list equals the product cards in display order</td><td>Positions run 1 to N</td></tr>
+          <tr><td>5</td><td>Subcategory <code>name</code> is the page title with "| رينتر" on all 87 Arabic subcategories, for example <a href="https://renter.net/ar/cars-and-vehicles/cars/">/ar/cars-and-vehicles/cars/</a>, and with "| Renter" on all 15 English subcategories checked, for example <a href="https://renter.net/en/cars-and-vehicles/cars/">/en/cars-and-vehicles/cars/</a>. On <a href="https://renter.net/en/furniture-and-accessories/offices/">/en/furniture-and-accessories/offices/</a> the name says "Office Furniture Rental" but the H1 says "Offices Rental". On the 20 category pages the name already equals the H1</td><td><code>name</code> = the page H1, on category and subcategory pages</td></tr>
+          <tr><td>6</td><td><strong>Done.</strong> <a href="https://renter.net/ar/cars-and-vehicles/2/">/ar/cars-and-vehicles/2/</a> answers 404 (checked Nov 5)</td><td>404</td></tr>
         </tbody>
       </table></div>
 
-      <p class="note">Also seen Nov 1: 7 subcategories have no products and print a <code>CollectionPage</code> with an empty list, for example <a href="https://renter.net/ar/courts-and-arenas/volleyball-courts/">/ar/courts-and-arenas/volleyball-courts/</a>. The others are parking-spaces, aircraft, tennis-courts, basketball-courts, squash-courts and swimming-pools. With <code>collectionPageLd</code>, leave out <code>mainEntity</code> when there are no products.</p>
-      <p class="note">Meta descriptions, Nov 1: <a href="https://renter.net/ar/cars-and-vehicles/">/ar/cars-and-vehicles/</a> now has its own cars text, and <a href="https://renter.net/en/">/en/</a> has the English text. Both match the texts on the dev board (issue 10). Done.</p>
+      <p class="note">Still seen Nov 5: the same 7 Arabic subcategories have no products and print a <code>CollectionPage</code> with an empty list (<code>"itemListElement": []</code>), for example <a href="https://renter.net/ar/courts-and-arenas/volleyball-courts/">/ar/courts-and-arenas/volleyball-courts/</a>. The others are parking-spaces, aircraft, tennis-courts, basketball-courts, squash-courts and swimming-pools. With <code>collectionPageLd</code>, leave out <code>mainEntity</code> when there are no products.</p>
+      <p class="note">Meta descriptions, Nov 5: <a href="https://renter.net/ar/cars-and-vehicles/">/ar/cars-and-vehicles/</a> still has its own cars text, and <a href="https://renter.net/en/">/en/</a> still has the English text. Both match the texts on the dev board (issue 10). Done since Nov 1.</p>
 
       <h3>Correction 1: the breadcrumb block, complete</h3>
       <p>Category page <code>/ar/cars-and-vehicles/</code>. The last entry is the current page, so it has no <code>item</code> (Google then uses the page address):</p>
@@ -111,7 +112,7 @@
   return { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: trail };
 }</pre>
 
-      <h3>Corrections 2 to 5: the product list, complete</h3>
+      <h3>Corrections 2 to 5: the product list, complete (2 to 4 done Nov 5, 5 open)</h3>
       <p>Use the shared <code>JsonLd</code> and <code>collectionPageLd</code> functions from the <a href="../home-schema/#list">home page ticket</a>. On each category and subcategory page, print these two scripts from the server component:</p>
 <pre>&lt;JsonLd data={breadcrumbLd(locale, category, subcategory)} /&gt;
 &lt;JsonLd data={collectionPageLd(h1Text, canonicalUrl, productUrls)} /&gt;</pre>
@@ -203,6 +204,7 @@ if (!sub) {
       <p>The check must run before the page starts streaming, or the answer stays 200. Next.js: "To return a real 404 status, the resource has to be checked before the response streams." (<a href="https://nextjs.org/docs/app/api-reference/functions/not-found">Next.js: notFound</a>). If the answer is still 200 after the deploy, run the same check in <code>src/proxy.ts</code>.</p>
 
       <h2 id="why">Why the list holds only the products the server renders, in Google's words</h2>
+      <p>Each Google rule below explains one part of the list design:</p>
       <div class="tablebox"><table>
         <thead><tr><th>Google says</th><th>What it means for us</th><th>Source</th></tr></thead>
         <tbody>
@@ -223,11 +225,13 @@ if (!sub) {
       </ul>
 
       <h2 id="done">Done when</h2>
+      <p>Run these two commands after the deploy:</p>
 <pre>curl -s https://renter.net/ar/cars-and-vehicles/cars/ | grep -o '"@type":"[A-Za-z]*"' | sort | uniq -c
 # expected: BreadcrumbList 1, CollectionPage 1, ItemList 1, ListItem = 3 (breadcrumb) + the products in the grid
 
 curl -s -o /dev/null -w '%{http_code}\n' https://renter.net/ar/cars-and-vehicles/2/
 # expected: 404</pre>
+      <p>Then confirm these three points:</p>
       <ol>
         <li>In <a href="https://validator.schema.org/#url=https%3A%2F%2Frenter.net%2Far%2Fcars-and-vehicles%2Fcars%2F">validator.schema.org</a>: one BreadcrumbList and one CollectionPage, list positions from 1, each list entry with <code>url</code>, zero errors.</li>
         <li>Scrolling adds products to the grid and does not change the script.</li>
