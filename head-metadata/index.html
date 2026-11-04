@@ -55,7 +55,7 @@
           <tr><td>7</td><td><a href="#i7">Lessor data protection</a></td><td><span class="pill progress">PARTIAL</span></td><td>Dev team</td><td><a href="https://tmd.sa/renter/lessor-data-protection/v1/2026-09-21/">ticket (access code)</a></td></tr>
           <tr><td>13</td><td><a href="#i13">Pages that need login send visitors to the home page</a></td><td><span class="pill progress">PARTIAL</span></td><td>Paulo; Mr. Mohamed confirms the text</td><td><a href="#i13">details</a></td></tr>
           <tr><td>5</td><td><a href="#i5">Product schema: one field left, the main price</a></td><td><span class="pill progress">1 FIELD LEFT</span></td><td>Dev team</td><td><a href="../product-schema/">ticket</a></td></tr>
-          <tr><td>2</td><td><a href="#i2">Home page: the product list block has 5 errors</a></td><td><span class="pill progress">PARTIAL</span></td><td>Dev team</td><td><a href="../home-schema/">ticket</a></td></tr>
+          <tr><td>2</td><td><a href="#i2">Home page: the product list block has 5 errors</a></td><td><span class="pill done">DONE NOV 4</span></td><td>Dev team</td><td><a href="../home-schema/">ticket</a></td></tr>
           <tr><td>3</td><td><a href="#i3">Category pages: breadcrumbs missing, list errors</a></td><td><span class="pill progress">PARTIAL</span></td><td>Dev team</td><td><a href="../category-schema/">ticket</a></td></tr>
           <tr><td>1</td><td><a href="#i1">Product pages: the visible product name is not the H1</a></td><td><span class="pill progress">FIXED ON PAGES CHECKED</span></td><td>Dev team; TMD runs the full check</td><td><a href="../product-h1/">ticket</a></td></tr>
           <tr><td>11</td><td><a href="#i11">Blog section</a></td><td><span class="pill progress">LIVE, 4 OPEN</span></td><td>Paulo, Jan; TMD writes</td><td><a href="../blog-section/">ticket</a> · <a href="../blog-production-fixes/">production fixes</a> · <a href="../blog-article-template/">article template</a></td></tr>
@@ -100,10 +100,10 @@
 
       <div class="issue" id="i2">
         <h3>2 · Home page: the product list block has 5 errors</h3>
-        <div class="meta"><span class="pill progress">PARTIAL</span><span>Owner: dev team</span><span><a href="../home-schema/">Ticket with code</a></span></div>
+        <div class="meta"><span class="pill done">DONE NOV 4</span><span>Owner: dev team</span><span><a href="../home-schema/">Ticket with code</a></span></div>
         <dl>
           <dt>Done</dt><dd>The Organization and WebSite block (business name, logo, contacts) is live on <code>/ar/</code> and <code>/en/</code> since Sep 29.</dd>
-          <dt>Still wrong</dt><dd>The product list block on both home pages: no name, address <code>https://renter.net/ar//</code> (double slash), printed twice, <code>item</code> instead of <code>url</code>, positions 3 to 14, and 12 of the 32 products on the page.</dd>
+          <dt>Nov 4</dt><dd>The product list block is correct on production on <code>/ar/</code>, <code>/en/</code> and the category pages: one script, name, one slash, <code>url</code> in each entry, positions from 1, and all product cards. Left outside this issue: the home page H1 is still hidden.</dd>
           <dt>Why it matters</dt><dd>A list with errors can be misread or ignored by Google. The same template serves the 194 category pages.</dd>
           <dt>Proof, Oct 11</dt><dd><a href="https://renter.net/ar/">/ar/</a> and <a href="https://renter.net/en/">/en/</a>, view-source.</dd>
           <dt>Fix</dt><dd>Part B of the ticket: the 5 list rules, with the shared <code>collectionPageLd</code> function.</dd>

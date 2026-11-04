@@ -11,16 +11,16 @@
 <div class="page">
   <header class="doc-header">
     <a class="backbtn" href="../head-metadata/">&#8592; Back to the dev board</a>
-    <p class="kicker">Renter × TMD · Dev ticket · checked live Nov 2, 2026</p>
+    <p class="kicker">Renter × TMD · Dev ticket · checked live Nov 4, 2026</p>
   </header>
   <div class="doc-body">
       <h1>Home page: correct the product list block</h1>
-      <div class="statusbar"><span class="pill progress">PARTIAL</span><span class="txt">Checked Nov 2, 2026: Part B passes on staging. All 5 rules pass on <a href="https://v2-staging.renter.net/ar/">staging /ar/</a> and <a href="https://v2-staging.renter.net/en/">staging /en/</a>. Production <a href="https://renter.net/ar/">/ar/</a> and <a href="https://renter.net/en/">/en/</a> is unchanged and still has the 5 errors. Next step: push to production, then we check again. The page H1 is still hidden (<code>class="hidden"</code>) on staging and production.</span></div>
+      <div class="statusbar"><span class="pill done">DONE NOV 4</span><span class="txt">Checked live Nov 4, 2026: Part B is on production. All 5 rules pass on <a href="https://renter.net/ar/">/ar/</a> and <a href="https://renter.net/en/">/en/</a>, and on the category and subcategory pages we checked. Part A is still correct. One item is left outside the 5 rules: the home page H1 is still hidden (<code>class="hidden"</code>). Category pages show a visible H1.</span></div>
 
       <div class="inshort">
         <h2>In short</h2>
         <dl>
-          <dt>Done so far</dt><dd>Part A is live since Sep 29: the Organization and WebSite block is back on <code>/ar/</code> and <code>/en/</code>, as specified below. Keep it. Part B is correct on staging since Nov 1 (checked Nov 2). It is not on production yet.</dd>
+          <dt>Done so far</dt><dd>Part A is live since Sep 29: the Organization and WebSite block is back on <code>/ar/</code> and <code>/en/</code>, as specified below. Keep it. Part B is live on production since Nov 4.</dd>
           <dt>What is wrong</dt><dd>The product list block (CollectionPage) on both home pages has 5 errors: no name, an address with a double slash, printed twice, the wrong link field, and positions that start at 3. It lists 12 of the 32 products on the page.</dd>
           <dt>Why it matters</dt><dd>A list with errors can be misread or ignored by Google. The same list template is used on the 194 category pages, so one fix corrects all of them.</dd>
           <dt>The fix</dt><dd>Part B: correct the product list with the 5 rules below, using the shared <code>collectionPageLd</code> function. Part A below is kept as the reference for the live identity block.</dd>
@@ -29,21 +29,21 @@
         </dl>
       </div>
 
-      <h2 id="proof">Proof, Nov 2: staging passes, production unchanged</h2>
+      <h2 id="proof">Proof, Nov 4: production passes</h2>
       <div class="tablebox"><table>
-        <thead><tr><th>Check</th><th>Staging /ar/</th><th>Staging /en/</th><th>Production /ar/ and /en/</th><th>Must be</th></tr></thead>
+        <thead><tr><th>Check</th><th>/ar/</th><th>/en/</th><th>Must be</th></tr></thead>
         <tbody>
-          <tr><td>Organization and WebSite block</td><td>present</td><td>present</td><td>present</td><td>present (Part A, done)</td></tr>
-          <tr><td>Product list: address (<code>url</code>)</td><td><code>https://renter.net/ar/</code></td><td><code>https://renter.net/en/</code></td><td><code>https://renter.net/ar//</code>, <code>/en//</code></td><td>one slash at the end</td></tr>
-          <tr><td>Product list: <code>name</code></td><td>the H1 text</td><td>the H1 text</td><td>missing</td><td>the page H1</td></tr>
-          <tr><td>Product list: printed</td><td>once</td><td>once</td><td>twice</td><td>once</td></tr>
-          <tr><td>Product list: link field in each entry</td><td><code>url</code></td><td><code>url</code></td><td><code>item</code></td><td><code>url</code></td></tr>
-          <tr><td>Product list: positions</td><td>1 to 30</td><td>1 to 30</td><td>3 to 14</td><td>1 to N</td></tr>
-          <tr><td>Product list: products</td><td>30 of the 30 on the page, same order</td><td>30 of 30, same order</td><td>12 of the 32 on the page</td><td>all product cards on the page</td></tr>
-          <tr><td>Page H1</td><td>hidden (<code>class="hidden"</code>)</td><td>hidden</td><td>hidden</td><td>visible, as on product pages since Nov 1</td></tr>
+          <tr><td>Organization and WebSite block</td><td>present</td><td>present</td><td>present (Part A, done)</td></tr>
+          <tr><td>Product list: address (<code>url</code>)</td><td><code>https://renter.net/ar/</code></td><td><code>https://renter.net/en/</code></td><td>one slash at the end</td></tr>
+          <tr><td>Product list: <code>name</code></td><td>the H1 text</td><td>the H1 text</td><td>the page H1</td></tr>
+          <tr><td>Product list: printed</td><td>once</td><td>once</td><td>once</td></tr>
+          <tr><td>Product list: link field in each entry</td><td><code>url</code></td><td><code>url</code></td><td><code>url</code></td></tr>
+          <tr><td>Product list: positions</td><td>1 to 32</td><td>1 to 32</td><td>1 to N</td></tr>
+          <tr><td>Product list: products</td><td>32 of the 32 on the page, same order</td><td>32 of 32, same order</td><td>all product cards on the page</td></tr>
+          <tr><td>Page H1</td><td>hidden (<code>class="hidden"</code>)</td><td>hidden</td><td>visible, as on product and category pages</td></tr>
         </tbody>
       </table></div>
-      <p>Staging types on each page: Organization, WebSite, CollectionPage and ItemList once each, and 30 ListItem entries, one per product card. The list URLs use <code>https://renter.net/</code>, as production needs. Staging shows 30 product cards and production shows 32 because the two sites have different products.</p>
+      <p>Types on each home page: Organization, WebSite, CollectionPage and ItemList once each, and 32 ListItem entries, one per product card. The same list is correct on <a href="https://renter.net/ar/cars-and-vehicles/">/ar/cars-and-vehicles/</a>, <a href="https://renter.net/en/equipment-and-tools/">/en/equipment-and-tools/</a> and <a href="https://renter.net/en/properties/apartments/">/en/properties/apartments/</a>: one script, positions from 1, <code>url</code> in each entry, and all 12 cards. On the subcategory page the list name has " | Renter" at the end and the H1 does not. That is a small difference and needs no action.</p>
 
       <h2 id="identity">Part A: the identity block (done, live since Sep 29, kept for reference)</h2>
       <p>This block is live next to the product list. One script per language. Checked Oct 11: the logo URL answers 200, the search URL <code>/ar/search/?q=</code> answers 200 with results, the social links are the ones in the site footer, and the phone and email are the ones on the return policy page.</p>
