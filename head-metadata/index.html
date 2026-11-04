@@ -10,14 +10,14 @@
 <body>
 <div class="page">
   <header class="doc-header">
-    <p class="kicker">Renter × TMD · Dev board · verified live Nov 1, 2026</p>
+    <p class="kicker">Renter × TMD · Dev board · verified live Nov 5, 2026</p>
   </header>
   <div class="doc-body">
       <h1>Renter dev board</h1>
-      <p class="lede">One entry per open issue. Each entry says what is wrong, why it matters, the proof, the fix, the owner, and how we check that it is done. Issues that need code have their own page with complete, copy-ready code. Every status was checked live on <strong>Nov 1, 2026</strong> on the live site and in Search Console, not taken from meeting notes. Merchant Center numbers are from Oct 11. Where an item could not be checked today, its card says so and gives the last check date. The old combined ticket stays in the <a href="archive/">archive</a>.</p>
+      <p class="lede">One entry per open issue. Each entry says what is wrong, why it matters, the proof, the fix, the owner, and how we check that it is done. Issues that need code have their own page with complete, copy-ready code. Every status was checked live on <strong>Nov 5, 2026</strong> on the live site and in Search Console, not taken from meeting notes. Merchant Center numbers are from Oct 11. Where an item could not be checked today, its card says so and gives the last check date. The old combined ticket stays in the <a href="archive/">archive</a>.</p>
       <p class="lede"><strong>Rule for every fix:</strong> replace the existing block, never add a second one next to it. After a deploy, tell Saiaf; TMD checks the live site before the next meeting.</p>
 
-      <div class="statusbar"><span class="pill progress">NOV 1</span><span class="txt"><strong>Nov 1, 2026, before the 4:30 PM meeting:</strong> the blog runs from the production server with 2 posts; 4 template items are open (issue 11). The body image upload works on production (15b). The Merchant feed is full again: 1,430 products in 29 files, and files 25 to 29 must be registered in Merchant Center (issue 14). Done today: English product pages show English text (issue 9) and both meta descriptions are fixed (issue 10). Product pages now show the visible name as the H1 on the pages we checked (issue 1). Still the same: prices, home and category lists, the return policy sentence, lessor data. The site was slow at 15:50: a product page took 11.8 seconds and two requests timed out; at 16:05 pages took 2 to 6 seconds.</span></div>
+      <div class="statusbar"><span class="pill progress">NOV 5</span><span class="txt"><strong>Nov 5, 2026, checked live:</strong> new and urgent: v2.renter.net is a full copy of the site that Google can index (issue 16). Done since Nov 1: the return policy page carries the approved 1-day text, so Merchant Center settings are next (issue 6); the home page product list is correct (issue 2); category lists are printed once from position 1 (issue 3, breadcrumbs still missing); no product page has a hidden H1 (issue 1, 20 still have a second H1); the blog has 6 live posts with the Renter Team author and the 4 template fixes (issue 11). Still open: the main price is wrong on 60 products (issue 5), feed files 25 to 27 to register and files 28 and 29 to empty (issue 14), table of contents, empty hubs and blog events (issue 11), listing data (15a, 15c, 15d) and lessor data (issue 7). The site went down on Nov 2; the backend fix is ready and frontend caching is next (issue 0). On Nov 5 at 01:30 all 1,321 product pages answered 200, median 1.0 seconds.</span></div>
 
       <h2 id="words">Words used on this board</h2>
       <div class="gloss">
@@ -32,14 +32,18 @@
         <p><b>Merchant Center:</b> Google's product account for Google Shopping. It reads our product feed.</p>
       </div>
 
-      <h2 id="promises">What Saiaf promised in the Oct 25 meeting, status Nov 1</h2>
+      <h2 id="promises">What Saiaf promised in the Oct 25 and Nov 1 meetings, status Nov 5</h2>
       <div class="tablebox"><table class="board">
         <thead><tr><th>#</th><th>Promise</th><th>Status</th><th>For</th><th>Ticket</th></tr></thead>
         <tbody>
+          <tr><td>P3</td><td>Check the return policy page once the text is added, then update Merchant Center</td><td><span class="pill progress">PAGE CHECKED, SETTINGS NEXT</span></td><td>Mr. Mohamed</td><td><a href="../merchant-center/">Merchant Center</a></td></tr>
+          <tr><td>P9</td><td>Nov 1: send Paulo and Jan a sheet of duplicate listings, with the address to keep and the addresses to redirect</td><td><span class="pill open">NOT SENT YET</span></td><td>Paulo, Jan</td><td><a href="#i15d">15d</a></td></tr>
           <tr><td>P1</td><td>Add the first article in the production dashboard with the same address, and report the test result</td><td><span class="pill done">DONE OCT 25</span></td><td>Paulo, Jan</td><td><a href="../blog-first-article/">first article</a></td></tr>
-          <tr><td>P2</td><td>Send the approved return policy text in Arabic and English for the page</td><td><span class="pill done">SENT OCT 25</span></td><td>Paulo</td><td><a href="../return-policy-page/">return policy page</a></td></tr>
-          <tr><td>P3</td><td>Check the return policy page once the text is added, then update Merchant Center</td><td><span class="pill progress">WAITING FOR THE PAGE</span></td><td>Mr. Mohamed</td><td><a href="../merchant-center/">Merchant Center</a></td></tr>
-          <tr><td>P4</td><td>At least 5 blog articles live by the end of that week</td><td><span class="pill progress">2 LIVE</span></td><td>Mr. Mohamed</td><td><a href="../blog-section/">blog</a></td></tr>
+          <tr><td>P2</td><td>Send the approved return policy text in Arabic and English for the page</td><td><span class="pill done">LIVE NOV 1</span></td><td>Paulo</td><td><a href="../return-policy-page/">return policy page</a></td></tr>
+          <tr><td>P4</td><td>At least 5 blog articles live by the end of that week</td><td><span class="pill done">6 LIVE NOV 2</span></td><td>Mr. Mohamed</td><td><a href="../blog-section/">blog</a></td></tr>
+          <tr><td>P7</td><td>Nov 1: give Jan the Arabic name for the Renter Team author</td><td><span class="pill done">DONE NOV 1</span></td><td>Jan</td><td><a href="../blog-production-fixes/">production fixes</a></td></tr>
+          <tr><td>P8</td><td>Nov 1: post the author "null" text and the hub cover issue in #renter-seo for Paulo</td><td><span class="pill done">SENT NOV 2</span></td><td>Paulo</td><td><a href="../blog-production-fixes/">production fixes</a></td></tr>
+          <tr><td>P10</td><td>Nov 1: send Paulo the open blog items as sub-tickets</td><td><span class="pill done">SENT NOV 3</span></td><td>Paulo</td><td><a href="../blog-article-template/">article template</a></td></tr>
           <tr><td>P5</td><td>Share the full blog article plan</td><td><span class="pill done">SENT OCT 28</span></td><td>Mr. Mohamed</td><td><a href="https://tmd.sa/renter/blog-cluster-plan/v1/2026-10-28/">blog plan (access code)</a></td></tr>
           <tr><td>P6</td><td>Ask the TMD UX specialist for recommendations on the app sign-up flow</td><td><span class="pill progress">NO UPDATE YET</span></td><td>Mr. Mohamed, Ahmed</td><td>none yet</td></tr>
         </tbody>
@@ -51,17 +55,20 @@
         <thead><tr><th>#</th><th>Issue</th><th>Status</th><th>Owner</th><th>Details</th></tr></thead>
                 <tbody>
           <tr><td>16</td><td><a href="../v2-host/">v2.renter.net is a full copy of the site that Google indexes</a></td><td><span class="pill open">URGENT</span></td><td>Jan; Saiaf (Search Console)</td><td><a href="../v2-host/">ticket</a></td></tr>
+          <tr><td>16</td><td><a href="#i16">v2.renter.net is a full copy of the site that Google indexes</a></td><td><span class="pill open">URGENT</span></td><td>Jan; Saiaf (Search Console)</td><td><a href="../v2-host/">ticket</a></td></tr>
           <tr><td>15</td><td><a href="#i15">Found while writing blog articles (Oct 30): 15a, 15c, 15d open; 15b done</a></td><td><span class="pill open">3 OF 4 OPEN</span></td><td>Jan, Paulo; Mr. Mohamed (15d)</td><td><a href="#i15a">15a</a> · <a href="#i15b">15b</a> · <a href="#i15c">15c</a> · <a href="#i15d">15d</a></td></tr>
-          <tr><td>6</td><td><a href="#i6">Google Shopping: return policy rejected, vehicles not approved</a></td><td><span class="pill open">NOT DONE</span></td><td>Paulo (page), Saiaf (settings), Ahmed (vehicles)</td><td><a href="../merchant-center/">ticket</a></td></tr>
+          <tr><td>5</td><td><a href="#i5">Product schema: one field left, the main price</a></td><td><span class="pill open">1 FIELD LEFT, 60 WRONG</span></td><td>Dev team</td><td><a href="../product-schema/">ticket</a> · <a href="../price-fix-list/">price list</a></td></tr>
+          <tr><td>6</td><td><a href="#i6">Google Shopping: return policy rejected, vehicles not approved</a></td><td><span class="pill progress">PAGE FIXED, SETTINGS NEXT</span></td><td>Saiaf (settings), Ahmed (vehicles)</td><td><a href="../merchant-center/">ticket</a></td></tr>
+          <tr><td>0</td><td><a href="#i0">Server errors and speed</a></td><td><span class="pill progress">FIXED, WATCH SPEED</span></td><td>Dev team (caching)</td><td><a href="#i0">details</a></td></tr>
+          <tr><td>11</td><td><a href="#i11">Blog section</a></td><td><span class="pill progress">LIVE, 5 OPEN</span></td><td>Paulo, Jan; TMD writes</td><td><a href="../blog-section/">ticket</a> · <a href="../blog-staging-round-2/">fixes before launch</a> · <a href="../blog-api-review/">API review</a></td></tr>
+          <tr><td>14</td><td><a href="#i14">Merchant feed</a></td><td><span class="pill progress">FULL, 3 FILES TO REGISTER, 2 STALE FILES</span></td><td>Saiaf (register), dev team (stale files, empty-file guard)</td><td><a href="../merchant-feed/">ticket</a></td></tr>
+          <tr><td>3</td><td><a href="#i3">Category pages: breadcrumbs missing, list errors</a></td><td><span class="pill progress">PARTIAL</span></td><td>Dev team</td><td><a href="../category-schema/">ticket</a></td></tr>
           <tr><td>7</td><td><a href="#i7">Lessor data protection</a></td><td><span class="pill progress">PARTIAL</span></td><td>Dev team</td><td><a href="https://tmd.sa/renter/lessor-data-protection/v1/2026-09-21/">ticket (access code)</a></td></tr>
           <tr><td>13</td><td><a href="#i13">Pages that need login send visitors to the home page</a></td><td><span class="pill progress">PARTIAL</span></td><td>Paulo; Mr. Mohamed confirms the text</td><td><a href="#i13">details</a></td></tr>
-          <tr><td>5</td><td><a href="#i5">Product schema: one field left, the main price</a></td><td><span class="pill progress">1 FIELD LEFT</span></td><td>Dev team</td><td><a href="../product-schema/">ticket</a></td></tr>
-          <tr><td>2</td><td><a href="#i2">Home page: the product list block has 5 errors</a></td><td><span class="pill done">DONE NOV 4</span></td><td>Dev team</td><td><a href="../home-schema/">ticket</a></td></tr>
-          <tr><td>3</td><td><a href="#i3">Category pages: breadcrumbs missing, list errors</a></td><td><span class="pill progress">PARTIAL</span></td><td>Dev team</td><td><a href="../category-schema/">ticket</a></td></tr>
-          <tr><td>1</td><td><a href="#i1">Product pages: the visible product name is not the H1</a></td><td><span class="pill progress">FIXED ON PAGES CHECKED</span></td><td>Dev team; TMD runs the full check</td><td><a href="../product-h1/">ticket</a></td></tr>
-          <tr><td>11</td><td><a href="#i11">Blog section</a></td><td><span class="pill progress">LIVE, 4 OPEN</span></td><td>Paulo, Jan; TMD writes</td><td><a href="../blog-section/">ticket</a> · <a href="../blog-production-fixes/">production fixes</a> · <a href="../blog-article-template/">article template</a></td></tr>
-          <tr><td>14</td><td><a href="#i14">Merchant feed</a></td><td><span class="pill progress">FULL, 5 FILES TO REGISTER</span></td><td>Saiaf (register), dev team (empty-file guard)</td><td><a href="../merchant-feed/">ticket</a></td></tr>
+          <tr><td>1</td><td><a href="#i1">Product pages: the visible product name is not the H1</a></td><td><span class="pill progress">MOSTLY DONE</span></td><td>Dev team</td><td><a href="../product-h1/">ticket</a></td></tr>
           <tr><td>12</td><td><a href="#i12">Bookings in Google Analytics</a></td><td><span class="pill progress">LAST CHECK PENDING</span></td><td>Saiaf</td><td><a href="../booking-confirmation-data-layer/">ticket</a></td></tr>
+
+          <tr><td>2</td><td><a href="#i2">Home page: the product list block has 5 errors</a></td><td><span class="pill done">DONE NOV 4</span></td><td>Closed; hidden home H1 left</td><td><a href="../home-schema/">ticket</a></td></tr>
 
           <tr><td>9</td><td><a href="#i9">English pages show Arabic text</a></td><td><span class="pill done">DONE NOV 1</span></td><td>Closed; wording check by Saiaf, Jan</td><td><a href="#i9">details</a></td></tr>
           <tr><td>10</td><td><a href="#i10">Two wrong meta descriptions</a></td><td><span class="pill done">DONE NOV 1</span></td><td>Closed</td><td><a href="#i10">details</a></td></tr>
@@ -73,11 +80,24 @@
 
       <h2 id="details">Each issue in detail</h2>
 
+      <div class="issue" id="i16">
+        <h3>16 · v2.renter.net is a full copy of the site that Google indexes</h3>
+        <div class="meta"><span class="pill open">URGENT</span><span>Owners: Jan (server); Saiaf (Search Console)</span><span><a href="../v2-host/">Ticket with checks</a></span></div>
+        <dl>
+          <dt>What is wrong</dt><dd>v2.renter.net shows the whole live site. Its <a href="https://v2.renter.net/robots.txt">robots.txt</a> says <code>Allow: /</code>, and every page says <code>index, follow</code>. The certificate covers renter.net only, so browsers show a security warning on v2.</dd>
+          <dt>Why it matters</dt><dd>Google sees two copies of every page and splits the ranking. For product 1733 (English), URL Inspection shows Google chose the v2 address as the official one, not renter.net.</dd>
+          <dt>Fix</dt><dd>A permanent 301 from every v2.renter.net address to the same path on renter.net, at the server level. Do not block v2 in robots.txt first: Google must crawl v2 to see the redirect.</dd>
+          <dt>Done when</dt><dd>The 4 checks on the ticket pass.</dd>
+          <dt>Checked Nov 5</dt><dd><strong>Urgent, new.</strong> <code>/robots.txt</code> on v2 answers 200 with <code>Allow: /</code>; <a href="https://v2.renter.net/ar/blog/cars-and-vehicles/car-rental-monthly-price-riyadh/">the first blog article on v2</a> answers 200 with <code>index, follow</code> and a renter.net canonical; a strict https request fails on the certificate. Search Console, Aug 1 to Nov 2: 181 v2.renter.net pages had 716 views and 19 clicks.</dd>
+        </dl>
+      </div>
+
       <div class="issue" id="i0">
-        <h3>0 · Server error of Oct 3 to 5</h3>
-        <div class="meta"><span class="pill done">FIXED</span><span>Closed</span></div>
+        <h3>0 · Server errors and speed</h3>
+        <div class="meta"><span class="pill progress">FIXED, WATCH SPEED</span><span>Owner: dev team (caching)</span></div>
         <dl>
           <dt>What happened</dt><dd>From Oct 3 to Oct 5 every page answered status 500 (server error) although it opened in the browser.</dd>
+          <dt>Checked Nov 5</dt><dd>No server error on 16 sample addresses at 01:32, and all 1,321 product pages answered 200 (median 1.0 seconds, max 5.2). The home page took 3.25 seconds even at that quiet hour; we check again in the afternoon. On Nov 2 the site was down from about 15:20 to 15:43. Jan said each product page made 4 uncached API calls, one of about 1.3 seconds, and an Ahrefs crawl used up the server workers. The backend fix is ready; frontend caching is next. The Ahrefs crawl is paused until Jan says both are live.</dd>
           <dt>Checked Nov 1</dt><dd>No server error on 10 sample addresses: <code>/</code> answers 301; <code>/ar/</code>, <code>/en/</code>, two category pages, FAQ, blog, return policy, product 2545 and <code>/sitemap.xml</code> answer 200. Speed needs watching: at 15:50 product 2894 took 11.8 seconds and two requests timed out after 15 and 20 seconds; home and category pages took 4.5 to 5.9 seconds.</dd>
           <dt>Checked Oct 11</dt><dd>Every page answers 200 again: home, categories, products, FAQ, return policy. Google still indexes the home page (last crawl Oct 10) and clicks did not drop. One side effect remains: the Merchant feed files are empty since then (issue 14).</dd>
         </dl>
@@ -85,7 +105,7 @@
 
       <div class="issue" id="i1">
         <h3>1 · Product pages: the visible product name is not the H1</h3>
-        <div class="meta"><span class="pill progress">FIXED ON PAGES CHECKED</span><span>Owner: dev team; TMD runs the full check</span><span><a href="../product-h1/">Ticket with code</a></span></div>
+        <div class="meta"><span class="pill progress">MOSTLY DONE</span><span>Owner: dev team</span><span><a href="../product-h1/">Ticket with code</a></span></div>
         <dl>
           <dt>Done</dt><dd>The section labels (الوصف، السعر، …) are H2 again since Sep 29. Product pages went from 5 H1s to 1.</dd>
           <dt>Still wrong</dt><dd>The one H1 is hidden from visitors (<code>class="hidden"</code>). The product name that visitors see is a paragraph. 17 products have two H1s.</dd>
@@ -94,6 +114,7 @@
           <dt>Fix</dt><dd>Changes 2 and 3 of the ticket: the visible name becomes the H1, the hidden H1 is deleted.</dd>
           <dt>Done when</dt><dd>Each product page has one H1, and it is the visible product name.</dd>
           <dt>Oct 11 meeting</dt><dd>Paulo said this was fixed; a branch merge had broken it. Checked Oct 13: product pages have one H1, but it is still the hidden one (<code>class="hidden"</code>) and the visible name is still a paragraph. The home page H1 is hidden the same way. Changes 2 and 3 of the ticket are still needed.</dd>
+          <dt>Checked Nov 5</dt><dd><strong>Full scan done.</strong> 0 of 1,321 product pages have a hidden H1, and the first H1 is the visible name on all 1,321, for example <a href="https://renter.net/ar/product/2545/kamyra-kanwn-4000d/">/ar/product/2545/</a>. Left: the same 20 products have a second H1 from the lessor's description text, 4 of them empty, in Arabic and English (change 4 of the ticket), for example <a href="https://renter.net/ar/product/2693/">/ar/product/2693/</a>.</dd>
           <dt>Checked Nov 1</dt><dd><strong>Fixed on the pages checked.</strong> <a href="https://renter.net/ar/product/2893/syarh-bsaeq-tahw-2026/">/ar/product/2893/</a> and <a href="https://renter.net/ar/product/311/frn-shwyh/">/ar/product/311/</a> have one H1, with no <code>hidden</code> class, and it is the visible product name. The full scan of all product pages (and the 17 with two H1s) did not run today because the site was slow; it closes this issue. Not part of this issue: the home page H1 on <code>/ar/</code> and <code>/en/</code> is still <code>class="hidden"</code>.</dd>
           <dt>Checked Oct 18</dt><dd>Unchanged. The H1 is still the hidden one, for example on <a href="https://renter.net/ar/product/2893/syarh-bsaeq-tahw-2026/">/ar/product/2893/</a>. The home page H1 is hidden too.</dd>
         </dl>
@@ -110,6 +131,7 @@
           <dt>Fix</dt><dd>Part B of the ticket: the 5 list rules, with the shared <code>collectionPageLd</code> function.</dd>
           <dt>Done when</dt><dd>The list check on the ticket passes on both home pages.</dd>
           <dt>Oct 11 meeting</dt><dd>Saiaf showed Paulo the list errors. Paulo follows the code in the ticket. Checked Oct 13: unchanged.</dd>
+          <dt>Checked Nov 5</dt><dd><strong>Still done.</strong> On <a href="https://renter.net/ar/">/ar/</a> and <a href="https://renter.net/en/">/en/</a> the list is printed once, its name is the H1 text, the address has one end slash, and it has 32 entries at positions 1 to 32, the same as the 32 product cards. Organization and WebSite are still there. Left outside this issue: the home H1 is still <code>class="hidden"</code> on both pages.</dd>
           <dt>Checked Nov 1</dt><dd>Unchanged. <a href="https://renter.net/ar/">/ar/</a> still has the address <code>https://renter.net/ar//</code> twice, the list printed twice, and positions from 3. <a href="https://renter.net/en/">/en/</a> also prints the list twice from position 3.</dd>
           <dt>Checked Oct 18</dt><dd>Unchanged. Address <code>https://renter.net/ar//</code>, the list printed twice, <code>item</code>, positions from 3.</dd>
         </dl>
@@ -126,6 +148,7 @@
           <dt>Fix</dt><dd>Corrections 1 to 5 of the ticket, with complete breadcrumb blocks.</dd>
           <dt>Done when</dt><dd>The validator shows one BreadcrumbList and one list that counts from 1.</dd>
           <dt>Oct 11 meeting</dt><dd>Paulo will check the missing breadcrumb. He already built a breadcrumb for the blog and can reuse it. Checked Oct 13: still no BreadcrumbList on category pages.</dd>
+          <dt>Checked Nov 5</dt><dd><strong>Lists fixed, breadcrumbs open.</strong> On all 122 category and subcategory pages checked, the list is printed once, each entry uses <code>url</code>, positions run from 1, and the list equals the product cards; <a href="https://renter.net/ar/cars-and-vehicles/">/ar/cars-and-vehicles/</a> has 12 entries at positions 1 to 12. Still open: no page has a BreadcrumbList (<a href="https://renter.net/ar/cars-and-vehicles/cars/">/ar/cars-and-vehicles/cars/</a>); all 87 Arabic and 15 English subcategory list names end with "| رينتر" or "| Renter"; 7 empty subcategories print <code>"itemListElement": []</code>, for example <a href="https://renter.net/ar/courts-and-arenas/volleyball-courts/">volleyball courts</a>.</dd>
           <dt>Checked Nov 1</dt><dd>Unchanged. <a href="https://renter.net/ar/cars-and-vehicles/">/ar/cars-and-vehicles/</a> has no BreadcrumbList, prints the list twice, and starts at position 3.</dd>
           <dt>Checked Oct 18</dt><dd>Unchanged. <a href="https://renter.net/ar/cars-and-vehicles/">/ar/cars-and-vehicles/</a> has no BreadcrumbList, and its list starts at position 3.</dd>
         </dl>
@@ -140,6 +163,7 @@
           <dt>Proof, Oct 11</dt><dd>Live checks of the addresses above. URL Inspection: <code>/ar/product/1662/120/</code> (a copy) and the deleted <code>/ar/product/2797/</code> are still "Submitted and indexed".</dd>
           <dt>Fix</dt><dd>A wrong slug moves for good (308) to the official address. A missing product answers 404, the way unknown category addresses do since Oct 11. The sitemap lists live products only.</dd>
           <dt>Done when</dt><dd>The 4 checks on the ticket give the expected answers.</dd>
+          <dt>Checked Nov 5</dt><dd><strong>Still done, in Arabic and English.</strong> <a href="https://renter.net/ar/product/2893/anything-wrong/">/ar/product/2893/anything-wrong/</a> and <a href="https://renter.net/en/product/2545/x/">/en/product/2545/x/</a> answer 308 to the official address. The no-slug addresses <a href="https://renter.net/ar/product/2894/">/ar/product/2894/</a> and <a href="https://renter.net/en/product/2894/">/en/product/2894/</a> now answer 308 too. The deleted 2797 and the unknown 99999999 answer 404. All 1,321 sitemap products answer 200 with a self canonical.</dd>
           <dt>Checked Nov 1</dt><dd>Not rechecked today: the product sweep stopped because renter.net was too slow at 15:50. The blog related product cards now use full product addresses, and all 4 answer 200, so the no-slug case no longer affects the blog.</dd>
           <dt>Checked Oct 26</dt><dd><strong>Done.</strong> Paulo deployed the fix on Oct 25. All 4 checks on the ticket pass: <code>/ar/product/2545/4000d/</code> answers 308 to <code>/ar/product/2545/kamyra-kanwn-4000d/</code>; the deleted <code>/ar/product/2797/ntyndw-swytsh/</code> and the unknown <code>/ar/product/99999999/x/</code> answer 404; the canonical is the official address. The products sitemap no longer lists 2797, and 5 sampled sitemap products answer 200. One related case stays open: an address with no slug at all, such as <code>/ar/product/2894/</code>, answers 404. The blog related product cards use that form (<a href="../blog-production-fixes/">blog production fixes</a>, item 1).</dd>
           <dt>Checked Oct 18</dt><dd>Copies unchanged: <code>/ar/product/2893/anything-wrong/</code> answers 200 and calls itself official. Deleted products are mixed: <code>/ar/product/2797/</code> now answers 404 (correct), but 10 of the products on the price list answer 307 to the home page.</dd>
@@ -148,13 +172,14 @@
 
       <div class="issue" id="i5">
         <h3>5 · Product schema: one field left, the main price</h3>
-        <div class="meta"><span class="pill progress">1 FIELD LEFT</span><span>Owner: dev team</span><span><a href="../product-schema/">Ticket with code</a></span></div>
+        <div class="meta"><span class="pill open">1 FIELD LEFT, 60 WRONG</span><span>Owner: dev team</span><span><a href="../product-schema/">Ticket with code</a> · <a href="../price-fix-list/">Price fix list</a></span></div>
         <dl>
           <dt>Done</dt><dd>Checked Oct 11 on all 1,061 live products: address, name, description and sku are correct on 1,060. No HTML codes left.</dd>
           <dt>Still wrong</dt><dd><code>offers.price</code>, the one price Google shows in results, is the first lease term's price on 51 products with more than one term. Product 2852 shows 10,500 (monthly) although it rents per day.</dd>
           <dt>Fix</dt><dd>One rule: the daily price when a daily term exists, else the lowest price.</dd>
           <dt>Done when</dt><dd><a href="https://renter.net/ar/product/311/frn-shwyh/">/ar/product/311/</a> shows <code>"price": 5</code>.</dd>
           <dt>Oct 11 meeting</dt><dd>Paulo was not sure why some products are wrong. Saiaf promised the list. Delivered: <a href="../price-fix-list/">49 products</a>, 48 with the same cause: the daily term is not first in the list.</dd>
+          <dt>Checked Nov 5</dt><dd><strong>Full scan: 60 wrong.</strong> <code>url</code>, <code>offers.url</code>, <code>sku</code> and <code>name</code> are correct on 1,321 of 1,321. <code>offers.price</code> is the first term's price on 60 products: 0 of the 59 on the list are fixed, and <a href="https://renter.net/ar/product/3566/dyna-nql-b-almshwar-aw-ayjar-shhry-2024-5mtr-tbryd-tjmyd/">3566</a> is new (shows 10,000, must be 500). <a href="https://renter.net/ar/product/311/frn-shwyh/">311</a> still shows 100, must be 5. Also: <a href="https://renter.net/ar/product/1476/shywl-ktr-blr-938/">1476</a>, 1314 and 182 print <code>"price": null</code>.</dd>
           <dt>Checked Nov 1</dt><dd>Unchanged on the two pages checked: <a href="https://renter.net/ar/product/311/frn-shwyh/">311</a> shows <code>"price": 100</code>, must be 5; <a href="https://renter.net/ar/product/2893/syarh-bsaeq-tahw-2026/">2893</a> shows 300, must be 1,300. The full list of 49 was not rechecked today because the site was slow.</dd>
           <dt>Checked Oct 18</dt><dd>Unchanged. 0 of the 49 are fixed: 37 still show the wrong price and 10 were deleted. Example: <a href="https://renter.net/ar/product/2893/syarh-bsaeq-tahw-2026/">2893</a> shows 300, must be 1,300.</dd>
         </dl>
@@ -162,7 +187,7 @@
 
       <div class="issue" id="i6">
         <h3>6 · Google Shopping: return policy rejected, vehicles not approved</h3>
-        <div class="meta"><span class="pill open">NOT DONE</span><span>Owners: Paulo (page text), Saiaf (settings), Ahmed (vehicles)</span><span><a href="../merchant-center/">Ticket with details</a></span></div>
+        <div class="meta"><span class="pill progress">PAGE FIXED, SETTINGS NEXT</span><span>Owners: Saiaf (settings), Ahmed (vehicles)</span><span><a href="../merchant-center/">Ticket with details</a></span></div>
         <dl>
           <dt>Done</dt><dd>The price 0, broken photo and missing photo issues are gone (Oct 11).</dd>
           <dt>Still wrong</dt><dd>(1) Return policy rejected: Merchant Center says "1 day, customer pays" (a test from Oct 4); the page says "end of the rental, no fees". Google needs the same number of days in both. (2) 264 of 1,160 products not approved, all vehicles.</dd>
@@ -171,6 +196,7 @@
           <dt>Fix</dt><dd>Mr. Mohamed sends a return wording with a number of days that creates no legal duty (he declined "10 days" and "3 days" on Oct 4). Saiaf puts the same number in Merchant Center. Ahmed excludes the vehicles.</dd>
           <dt>Done when</dt><dd>The policy shows "Approved" and the "Vehicles" issue shows 0.</dd>
           <dt>Oct 11 meeting</dt><dd>Mr. Mohamed asked for A, B, C wordings to choose from. Draft ready: <a href="../return-policy-options/">three wordings</a>.</dd>
+          <dt>Checked Nov 5</dt><dd><strong>The page is fixed.</strong> <a href="https://renter.net/ar/return-policy/">/ar/return-policy/</a> and <a href="https://renter.net/en/return-policy/">/en/return-policy/</a> carry the approved option A text word for word: return within 1 day of receipt, full refund, return cost 0 SAR (Paulo, Nov 1). Next: Saiaf sets Merchant Center to match (defective only, 1 day, free, no exchanges), registers feed files 25 to 27 and asks for a new review. Vehicles: 359 products under <bdi>سيارات ومركبات</bdi> in the feed (Ahmed). The Merchant Center counts are still from Oct 11 (896 approved, 264 not approved).</dd>
           <dt>Checked Nov 1</dt><dd>Mr. Mohamed approved option A on Oct 18, and Saiaf sent Paulo the Arabic and English text on Oct 25. The page does not carry it yet: <a href="https://renter.net/ar/return-policy/">/ar/return-policy/</a> and <a href="https://renter.net/en/return-policy/">/en/return-policy/</a> have the end-of-rental line and the 0 SAR line, but not the 1-day sentence. Next: Paulo adds the sentence, then Saiaf sets Merchant Center to match (defective only, 1 day, free, no exchanges) and resubmits. Vehicles: the feed now carries 345 products under سيارات ومركبات (297 on Oct 11). The Merchant Center counts are still from Oct 11; a fresh read needs Merchant Center access with the right scope.</dd>
           <dt>Checked Oct 18</dt><dd>Merchant Center was not reopened today. The empty feed (issue 14) will lower the approved count as Google re-reads the files. The return wording still waits for Mr. Mohamed: <a href="../return-policy-options/">three wordings</a>.</dd>
         </dl>
@@ -186,6 +212,7 @@
           <dt>Fix</dt><dd>Parts 1 and 3 of the ticket.</dd>
           <dt>Done when</dt><dd>The checks in the ticket pass.</dd>
           <dt>Oct 11 meeting</dt><dd>Shown live: a logged-out visitor on a lessor profile now gets the login prompt in the browser. Checked Oct 13: the address still answers 404 to a direct request, and product pages still carry the lessor contact data.</dd>
+          <dt>Checked Nov 5</dt><dd>Unchanged. Lessor profile 25791 answers 404 to a logged-out visitor. Product pages still carry the lessor contact data in the page source for logged-out visitors: found on <a href="https://renter.net/ar/product/2830/">product 2830</a> and on all 4 English product pages that still exist. Details in the access-protected ticket.</dd>
           <dt>Checked Nov 1</dt><dd>Unchanged. The lessor profile answers 404 to a logged-out visitor. Product pages still carry the lessor contact data for logged-out visitors: found on product 2830 and on 5 English product pages. Details in the access-protected ticket.</dd>
           <dt>Checked Oct 18</dt><dd>The lessor profile answers 404 for a logged-out visitor. Product pages still carry the lessor contact data. Details in the access-protected ticket.</dd>
         </dl>
@@ -196,6 +223,7 @@
         <div class="meta"><span class="pill done">DONE</span><span>Closed</span><span><a href="../staging-certificate/">Ticket</a></span></div>
         <dl>
           <dt>What happened</dt><dd>The certificate of <code>v2-staging.renter.net</code> ended on Sep 23. Jan renewed it on Sep 27.</dd>
+          <dt>Checked Nov 5</dt><dd>Unchanged. Valid until Dec 26, 2026 (51 days left), and staging keeps <code>noindex, nofollow</code> and <code>Disallow: /</code>. The renewals should run near Nov 22 (renter.net) and Nov 26 (staging); we check both after Nov 26.</dd>
           <dt>Checked Nov 1</dt><dd>Valid until Dec 26, 2026 (Let's Encrypt). Staging keeps <code>noindex, nofollow</code> and <code>Disallow: /</code>. Automatic renewal should run near Nov 26; we check it after that date. The renter.net certificate is valid until Dec 22, 2026.</dd>
           <dt>Checked Oct 11</dt><dd>Valid until Dec 26, 2026. Staging keeps <code>noindex, nofollow</code>.</dd>
         </dl>
@@ -203,7 +231,7 @@
 
       <div class="issue" id="i9">
         <h3>9 · English pages show Arabic text</h3>
-        <div class="meta"><span class="pill done">DONE NOV 1</span><span>Closed; wording check by Saiaf and Jan</span></div>
+        <div class="meta"><span class="pill done">DONE, CHECK WORDING</span><span>Closed; wording check by Saiaf and Jan</span></div>
         <dl>
           <dt>What is wrong</dt><dd>English product pages show the Arabic title, main heading and description. Example: <a href="https://renter.net/en/product/2545/kamyra-kanwn-4000d/">/en/product/2545/</a>.</dd>
           <dt>Why it matters</dt><dd>English pages cannot rank for English searches while their text is Arabic.</dd>
@@ -211,6 +239,7 @@
           <dt>Fix</dt><dd>Jan is testing the automatic product translation; Paulo is ready to show it. Mr. Mohamed follows this with Jan (Oct 4 meeting).</dd>
           <dt>Done when</dt><dd><code>/en/product/2545/</code> shows an English title, heading and description.</dd>
           <dt>Oct 11 meeting</dt><dd>Jan finished the product translation in the backend. Paulo shows it on the English pages this week; Mr. Mohamed asked him for a clear date. Saiaf gets edit access to product titles and descriptions to improve the automatic translation. Checked Oct 13: English pages still show Arabic.</dd>
+          <dt>Checked Nov 5</dt><dd><strong>Still done.</strong> The 4 pages that still exist have an English title, H1 and description: <a href="https://renter.net/en/product/2545/kamyra-kanwn-4000d/">2545</a>, <a href="https://renter.net/en/product/2893/syarh-bsaeq-tahw-2026/">2893</a>, <a href="https://renter.net/en/product/2027/smaah-ma-mkrfwn/">2027</a> and <a href="https://renter.net/en/product/2761/syarh-kyky-ltajyr-alshhry-2000-ryal/">2761</a>. Product 3155 now answers 404 and is out of the feed. The wording errors remain: 2761 still reads "Kicks and Eggs for Rent".</dd>
           <dt>Checked Nov 1</dt><dd><strong>Done.</strong> All 5 English product pages checked have an English title, H1 and description: <a href="https://renter.net/en/product/2545/kamyra-kanwn-4000d/">2545</a> ("Canon 4000D camera"), <a href="https://renter.net/en/product/2893/syarh-bsaeq-tahw-2026/">2893</a> ("Tahoe 2026 car with driver"), 3155, 2761 and <a href="https://renter.net/en/product/2027/smaah-ma-mkrfwn/">2027</a> ("Headset with microphone"). Follow-up, not a blocker: the automatic translation has errors. On <a href="https://renter.net/en/product/2761/syarh-kyky-ltajyr-alshhry-2000-ryal/">2761</a> the title is "Kiki car" and the description reads "Kicks and Eggs for Rent". The addresses still use the Arabic transliteration.</dd>
           <dt>Checked Oct 18</dt><dd>Unchanged. <a href="https://renter.net/en/product/2893/syarh-bsaeq-tahw-2026/">/en/product/2893/</a> still has an Arabic title and heading. Mr. Mohamed asked Jan and Paulo again on Oct 16: "Translation?"</dd>
         </dl>
@@ -225,6 +254,7 @@
           <dt>Proof, Oct 11</dt><dd>Unchanged in the live meta tags.</dd>
           <dt>Fix</dt><dd>Replace the two texts:<br><code>/ar/cars-and-vehicles/</code>: تأجير سيارات في السعودية عبر رينتر: سيارات ودبابات وحافلات ويخوت. قارن الأسعار وتواصل مع المالك مباشرة واحجز خلال دقائق.<br><code>/en/</code>: Discover thousands of items for rent in Saudi Arabia. Choose from cars, real estate, equipment, event supplies and more, with simple, fast renting, payment and tracking.</dd>
           <dt>Done when</dt><dd>View-source shows the new texts on both pages.</dd>
+          <dt>Checked Nov 5</dt><dd><strong>Still done.</strong> Both meta descriptions still match the texts above.</dd>
           <dt>Checked Nov 1</dt><dd><strong>Done.</strong> View-source shows the new texts: <a href="https://renter.net/ar/cars-and-vehicles/">/ar/cars-and-vehicles/</a> starts "تأجير سيارات في السعودية عبر رينتر", and <a href="https://renter.net/en/">/en/</a> starts "Discover thousands of items for rent in Saudi Arabia".</dd>
           <dt>Checked Oct 18</dt><dd>Unchanged on both pages.</dd>
         </dl>
@@ -232,7 +262,7 @@
 
       <div class="issue" id="i11">
         <h3>11 · Blog section</h3>
-        <div class="meta"><span class="pill progress">LIVE, 4 OPEN</span><span>Owners: Paulo and Jan build; TMD writes</span><span><a href="../blog-section/">Dev ticket</a> · <a href="../blog-production-fixes/">Production fixes</a> · <a href="../blog-article-template/">Article template</a> · <a href="https://tmd.sa/renter/blog-plan/v1/2026-09-15/">plan</a></span></div>
+        <div class="meta"><span class="pill progress">LIVE, 5 OPEN</span><span>Owners: Paulo and Jan build; TMD writes</span><span><a href="../blog-section/">Dev ticket</a> · <a href="../blog-staging-round-2/">Fixes before launch</a> · <a href="../blog-production-fixes/">Production fixes (done)</a> · <a href="../blog-article-template/">Article template (done)</a></span></div>
         <dl>
           <dt>Done</dt><dd>The blog index, category hubs and articles are on <a href="https://v2-staging.renter.net/ar/blog/">v2-staging</a> in Arabic and English. 6 of the 9 fixes from the Oct 6 staging feedback are done.</dd>
           <dt>Still open</dt><dd>Paulo's list of Oct 9: no metadata or JSON-LD on blog pages (Jan's dashboard must let Saiaf enter it), blog sitemaps answer 500 (<code>/sitemap/ar/blog.xml</code> checked Oct 11), blog events do not reach the data layer. Also: <code>/ar/blog/5/</code> answers 200 although only 12 articles exist; it must answer 404.</dd>
@@ -241,6 +271,7 @@
           <dt>Oct 13 stress test</dt><dd>Saiaf got the dashboard login and tested the website, the API and the dashboard on staging. Five blockers: about 8 blog page views in one minute return 500 on every blog page for up to a minute (the API allows 60 requests a minute and the website keeps no cache); a link in the article body crashes the save; a cover that is not 1600×900 crashes the save; posts with a future date are public at once; metadata, schema and sitemaps are still missing (the API now returns a ready <code>seo</code> object). 28 smaller items follow, among them: one article opens under every category, a renamed slug answers 404 instead of a redirect, wide tables still break phones. Full list with checks: <a href="https://tmd.sa/renter/blog-stress-test/v1/2026-10-13/">stress test</a> (access code from Saiaf). It also covers the <a href="../blog-api-review/">API review</a> Saiaf owed Jan.</dd>
           <dt>Oct 14 stress test, round 2</dt><dd>New areas: speed, security, accessibility, crawl paths, language switching, article styles. The 5 blockers of Oct 13 are unchanged. No new blocker. Passed: every article is reachable from the index (66 Arabic, 62 English), the API holds against malformed requests, no exposed files, sign-in and security token enforced. Found: the largest image appears after 5 to 17 seconds on phones (target 2.5); images inside an article spill past the column; the language switch on an Arabic-only article opens a 404; the HTTP <code>Link</code> header announces an English version that does not exist; the dashboard signs the editor out after 2 hours and the save then loses the text. Whole site: no page is cached (<code>no-store</code>), no security headers, every page asks for the visitor's location. Full list: <a href="https://tmd.sa/renter/blog-stress-test/v1/2026-10-13/round-2/">round 2</a>.</dd>
           <dt>Oct 11 meeting</dt><dd>Walk-through on staging. Done: pagination addresses, 404 for wrong addresses and for pages past the last one. Paulo adds metadata, canonical, hreflang and schema next. Launch rule agreed: go live with one real article and no empty hubs. Open items: <a href="../blog-staging-round-2/">blog fixes before launch</a>. Jan still owes Saiaf a working dashboard login.</dd>
+          <dt>Checked Nov 5</dt><dd><strong>6 posts live in Arabic, 1 in English.</strong> All 7 pages answer 200 with self canonical, BlogPosting and BreadcrumbList, one H1, no "null" text and no staging addresses. The author shows <bdi>فريق رينتر</bdi> in Arabic and Renter Team in English, with the bio. The publisher logo answers 200, and dateModified is later than datePublished. All 7 production fixes and the 4 <a href="../blog-article-template/">article template</a> fixes are live (lists show numbers, images and captions centered, FAQ title 28 px bold). Google indexed the car rental article in both languages and <a href="https://renter.net/ar/blog/cars-and-vehicles/car-rental-requirements-saudi/">the rental requirements article</a>; the other 4 Arabic posts are not known to Google yet, and TMD requests indexing. <strong>5 open, for Paulo:</strong> (1) no table of contents, the API sends 7 to 12 items; (2) empty hubs answer 200 with <code>index, follow</code> (6 Arabic, 9 English), for example <a href="https://renter.net/ar/blog/services/">/ar/blog/services/</a>; (3) new: Arabic-only posts send <code>hreflang="en"</code> to a 404 in the HTTP Link header; (4) no blog events reach Google Tag Manager; (5) the 60-second update was not retested (15 minutes on Nov 1, with Jan). Smaller: <code>/ar/blog/page/1/</code> moves to a 404; the CTA box is not one link; 3 English hubs are missing from the English blog sitemap; <code>price_label</code> of related products is null in the API (Jan).</dd>
           <dt>Checked Nov 1</dt><dd><strong>The blog runs from the production server with 2 posts.</strong> The pages use the production API only (0 staging addresses). Article 1 is "Submitted and indexed" in Search Console in both languages, with the renter.net canonical. <a href="https://renter.net/ar/blog/guides/list-your-item-on-renter/">Post 2, the lessor guide</a>, is live in Arabic with its 11 images. Of the 7 production fixes from Oct 25, 6 are done: related product cards (4 cards, all 200), translation key, word count (1,012 Arabic, 1,193 English), FAQPage removed, author address removed from the schema, x-default header and duplicate id. Item 4 is open: production has no "Renter Team" author, so the byline reads "Saiaf". <strong>4 open, all for Paulo:</strong> (1) no table of contents: the API sends 8 items, the page shows 0; (2) 8 hubs with no article answer 200 and can be indexed, for example <a href="https://renter.net/ar/blog/properties/">/ar/blog/properties/</a>; the launch rule was no empty hubs; (3) no blog events reach Google Tag Manager; (4) a new post took about 15 minutes to show on the blog home and in the sitemap, the spec says 60 seconds (with Jan). <strong>Smaller:</strong> post 2 figures and captions are not centered and its numbered lists show no numbers (sub-ticket with 4 CSS fixes, <a href="../blog-article-template/">article template</a>; Nov 4: all 4 pass on staging, waiting for production); <code>/ar/blog/page/1/</code> moves to a 404; the CTA box is not one link; <code>dateModified</code> is earlier than <code>datePublished</code> (Jan). TMD requests indexing for article 1 and post 2.</dd>
           <dt>Checked Oct 25</dt><dd><strong>Live on production since Oct 25, 17:58.</strong> renter.net reads the blog from the production backend, and the <a href="https://renter.net/ar/blog/cars-and-vehicles/car-rental-monthly-price-riyadh/">first article</a> is post 1 in the production dashboard. Its canonical, hreflang and schema point to renter.net. 7 fixes left, with owners: <a href="../blog-production-fixes/">production fixes ticket</a>.</dd>
           <dt>Checked Oct 18</dt><dd><strong>Paulo finished the updates on Oct 18. Checked on staging today:</strong> the blog home and category pages now have title, description, canonical, hreflang and structured data. The English button opens the English category page. Option A (one row under the byline: button and both store badges) is built. The blog stays up under load. Future posts no longer appear in lists or the sitemap. <strong>Notes, not blockers:</strong> a future post still opens by its direct link (publish only on the date); the English author name shows "فريق رينتر" (needs an English name field, backend); the guide article button reads "Get started for rent" and links to the home page. <strong>Before deploy:</strong> production must not copy the staging <code>noindex</code> tag or the <code>Disallow: /</code> robots rule; delete the QA test posts (zz-qa-…); recheck the dashboard save cases; publish the first real article.</dd>
@@ -253,6 +284,7 @@
         <dl>
           <dt>State</dt><dd>Nothing to build. The site tells Google Analytics when a booking is paid, tested with a simulated payment. Google Tag Manager version 19 is published.</dd>
           <dt>Done when</dt><dd>One real paid booking shows in Google Analytics with its booking number.</dd>
+          <dt>Checked Nov 5</dt><dd>Unchanged. Google Tag Manager is still version 19 with the <code>booking_confirmed</code> trigger. Google Analytics was not read today (no access scope). One real paid booking is still needed.</dd>
           <dt>Checked Nov 1</dt><dd>Unchanged. The live Google Tag Manager container is still version 19 and carries the <code>booking_confirmed</code> trigger. A real paid booking is still needed.</dd>
         </dl>
       </div>
@@ -261,6 +293,7 @@
         <h3>15 · Found while writing blog articles (Oct 30)</h3>
         <div class="meta"><span class="pill open">3 OF 4 OPEN</span><span>Owner: Jan, Paulo; Mr. Mohamed (15d)</span><span>4 sub-tickets, 15b done</span></div>
         <p>We found these while collecting prices from live listings for the blog. Each one is a separate fix.</p>
+        <dl><dt>Checked Nov 5</dt><dd>15a, 15c and 15d are unchanged on the pages checked; 15b stays done. Details in each card below.</dd></dl>
 
         <div class="issue" id="i15a">
           <h3>15a · Yearly rent is saved as a monthly price</h3>
@@ -272,6 +305,7 @@
             <dt>Why it matters</dt><dd>Renters see a monthly price 12 times too high. Google reads the wrong price from the schema. The blog price tables cannot use these listings.</dd>
             <dt>Fix</dt><dd>1. In the listing form, when the lessor enters a 12-month term, save it as a yearly lease term (or divide by 12), and show "per year" on the page. 2. Fix the 21 existing listings. 3. Set the schema unit to match: <code>ANN</code> for yearly, <code>MON</code> for monthly.</dd>
             <dt>Done when</dt><dd>Product 2947 shows 37,000 SAR per year, its schema says <code>ANN</code>, and no property listing in the feed shows a monthly price of 15,000 SAR or more unless the lessor confirms it is monthly. Then tell Saiaf.</dd>
+            <dt>Checked Nov 5</dt><dd>Unchanged. <a href="https://renter.net/ar/product/2947/shqh-lliyjar-awael-zhrh-lbn/">Product 2947</a> schema still says <code>price: 37000</code>, <code>unitCode: MON</code>. In the Nov 1 meeting the team agreed to add a yearly lease term and opened a ticket on their side.</dd>
             <dt>Checked Nov 1</dt><dd>Unchanged. <a href="https://renter.net/ar/product/2947/shqh-lliyjar-awael-zhrh-lbn/">Product 2947</a> schema still says <code>price: 37000</code>, <code>unitCode: MON</code>.</dd>
           </dl>
         </div>
@@ -284,6 +318,7 @@
             <dt>Blocked</dt><dd>Post 2 (the lessor guide) is a draft without its 11 images (2 infographics, 9 step screenshots). The next articles need images too.</dd>
             <dt>Fix</dt><dd>1. An image upload in the blog post editor, or a small media page under Blog. 2. JPEG, PNG and WebP, up to 5 MB each, several files at once. 3. Store the files on renter.net, the same storage the cover uses. 4. Show each file's full URL with a copy button. 5. Keep <code>src</code>, <code>alt</code>, <code>width</code>, <code>height</code> and <code>loading</code> on <code>img</code> when the body is saved.</dd>
             <dt>Done when</dt><dd>Saiaf uploads a WebP, gets a renter.net URL that opens in the browser, pastes a figure with it into the body, saves, and the image shows on the article page on mobile and desktop.</dd>
+            <dt>Checked Nov 5</dt><dd><strong>Still done.</strong> The 4 posts added on Nov 2 carry their body images, and on <a href="https://renter.net/ar/blog/occasions-and-entertainment/tent-rental-guide-prices/">the tents post</a> the images are centered with small grey captions (issue 11).</dd>
             <dt>Checked Nov 1</dt><dd><strong>Done on production.</strong> <a href="https://renter.net/ar/blog/guides/list-your-item-on-renter/">Post 2</a> is live with its 11 body images, all stored on <code>ops.renter.net/storage/blog/media/</code>. The images open (200, image/webp), and each keeps <code>src</code>, <code>alt</code>, <code>width</code>, <code>height</code> and <code>loading</code>. Left for Paulo under issue 11: center figures and captions in the article template.</dd>
             <dt>Checked Oct 31</dt><dd><strong>Works on staging.</strong> The new Blog Media page uploaded a WebP, returned <code>developer-v2.renter.net/storage/blog/media/...webp</code> (200, image/webp) and a ready figure. On post 70 the figure saved with <code>src</code>, <code>alt</code>, <code>width</code>, <code>height</code> and <code>loading</code> (only <code>decoding</code> is stripped, which is fine) and showed on the staging article on mobile and desktop. Left: ship it to production (ops.renter.net), and center figures and captions in the article template.</dd>
           </dl>
@@ -301,6 +336,7 @@
             <dt>Why it matters</dt><dd>Renters see prices that look wrong, Google reads them from the schema, and an available listing marked out of stock can drop from Google Shopping.</dd>
             <dt>Fix</dt><dd>1. Form checks: block a monthly price under a sensible floor (for example 100 SAR) and a monthly price equal to the daily price, unless the lessor confirms; require the number of days for a fixed term. 2. Price on request: show "السعر عند الطلب" on the page, leave <code>price</code> out of the schema, and keep <code>InStock</code> when the listing is available. 3. Fix the existing listings above.</dd>
             <dt>Done when</dt><dd>Product 2898 shows "السعر عند الطلب" and the schema says <code>InStock</code>; product 2911 shows a real monthly price; product 2420 shows the number of days. Then tell Saiaf.</dd>
+            <dt>Checked Nov 5</dt><dd>Unchanged. <a href="https://renter.net/ar/product/2898/tajyr-wbya-khyam-awrbyh-jmya-almqasat-walashkal/">2898</a>: schema <code>price: 0</code>, <code>OutOfStock</code>, and it is one of the same 16 products at 0 SAR in the feed. <a href="https://renter.net/ar/product/2911/tajyr-syzr-lft-fy-mkh-almkrmh-2027/">2911</a>: still <code>price: 6</code>, <code>unitCode: MON</code>. In the Nov 1 meeting the team said update 252 sets a minimum price of 10 SAR for new listings; existing listings keep their prices.</dd>
             <dt>Checked Nov 1</dt><dd>Unchanged. <a href="https://renter.net/ar/product/2898/tajyr-wbya-khyam-awrbyh-jmya-almqasat-walashkal/">2898</a>: schema <code>price: 0</code>, <code>OutOfStock</code>; it is also one of 16 products at 0 SAR in the Merchant feed. <a href="https://renter.net/ar/product/2911/tajyr-syzr-lft-fy-mkh-almkrmh-2027/">2911</a>: still <code>price: 6</code>, <code>unitCode: MON</code>. <a href="https://renter.net/ar/product/2420/rafaat-shwkyh-llajar/">2420</a>: still 700 with "أيام ثابتة".</dd>
           </dl>
         </div>
@@ -316,6 +352,7 @@
             <dt>4. No location</dt><dd>13 available listings have no location, so they cannot show a city. Example: <a href="https://renter.net/ar/product/1036/khymh/">product 1036</a>.</dd>
             <dt>Fix</dt><dd>1. Review and merge or remove the duplicates. 2. Remove phone numbers from titles, and block them in the form. 3. Move the tent listings to camping equipment. 4. Ask the lessors without a location to add one, and make location required.</dd>
             <dt>Done when</dt><dd>No duplicate pairs in the feed, no phone numbers in titles, the camping equipment page shows the tent listings, and every available listing has a city. Then tell Saiaf.</dd>
+            <dt>Checked Nov 5</dt><dd><a href="https://renter.net/ar/product/1707/bwbkat-rsash-120-rqm-altwasl-0547429730/">Product 1707</a> still has the mobile number in its title and address. The duplicate example pair, 3038 and 3066, now answers 404. <a href="https://renter.net/ar/product/1036/khymh/">Product 1036</a> is still live. Agreed in the Nov 1 meeting: TMD sends a sheet of exact duplicates with the address to keep and the addresses to redirect (301), and the backend removes the copies. The sheet is not sent yet.</dd>
             <dt>Checked Nov 1</dt><dd>Unchanged on the page checked: <a href="https://renter.net/ar/product/1707/bwbkat-rsash-120-rqm-altwasl-0547429730/">product 1707</a> still has the mobile number in its title, description and address. Duplicates, the camping page and missing locations were not rechecked today because the site was slow.</dd>
           </dl>
         </div>
@@ -323,7 +360,7 @@
 
       <div class="issue" id="i14">
         <h3>14 · Merchant feed</h3>
-        <div class="meta"><span class="pill progress">FULL, 5 FILES TO REGISTER</span><span>Owners: Saiaf (register files), dev team (empty-file guard)</span><span><a href="../merchant-feed/">Feed ticket</a></span></div>
+        <div class="meta"><span class="pill progress">FULL, 3 FILES TO REGISTER, 2 STALE FILES</span><span>Owners: Saiaf (register files), dev team (stale files, empty-file guard)</span><span><a href="../merchant-feed/">Feed ticket</a></span></div>
         <dl>
           <dt>What is wrong</dt><dd>All 24 feed files, <code>/merchant-feed-1.xml</code> to <code>/merchant-feed-24.xml</code>, answer 200 with 0 products. Each file is 248 bytes: an empty channel.</dd>
           <dt>Why it matters</dt><dd>Google Shopping reads the products from these files. It already dropped the count from 1,470 to 1,160 this week; the rest expire as Google re-reads empty files. Google Shopping brought 718 clicks in the last 28 days.</dd>
@@ -331,6 +368,7 @@
           <dt>Fix</dt><dd>Find why the feed query returns no products since the Oct 3 to 5 server changes, and restore it. Check:<br><code>curl -s https://renter.net/merchant-feed-1.xml | grep -c '&lt;item&gt;'</code></dd>
           <dt>Done when</dt><dd>The command prints about 50 for file 1, and the 24 files hold all live products. Then tell Saiaf.</dd>
           <dt>Checked Oct 13</dt><dd>Fixed. The 24 files hold 1,200 products again; file 1 has 50. The catalog is now at the 1,200 limit of 24 files, so the next products need file 25 registered in Merchant Center.</dd>
+          <dt>Checked Nov 5</dt><dd><strong>Full, 1,321 products.</strong> Files 1 to 26 hold 50 each and <a href="https://renter.net/merchant-feed-27.xml">file 27</a> holds 21; the IDs match the product sitemap exactly. Product 849 is in one file only now. <strong>Open:</strong> (1) register files 25 to 27 (171 products) in Merchant Center (Saiaf); (2) <a href="https://renter.net/merchant-feed-28.xml">file 28</a> and <a href="https://renter.net/merchant-feed-29.xml">file 29</a> still serve an old copy, so 80 products are in two files; files past the last page must be empty (dev team); (3) the empty-file guard cannot be tested from outside; (4) the same 16 products at 0 SAR (see 15c); (5) 62 items carry more than 10 extra photos.</dd>
           <dt>Checked Nov 1</dt><dd><strong>Full again.</strong> Files 1 to 28 hold 50 products each, <a href="https://renter.net/merchant-feed-29.xml">file 29</a> holds 30, and file 30 is empty: 1,430 products. 845 items carry extra photos, descriptions are clean and every item has <code>g:condition</code>. <strong>Open:</strong> (1) Merchant Center reads only files 1 to 24, so about 230 products in files 25 to 29 are not in Google Shopping until Saiaf registers them; (2) the guard against an empty file and the alert cannot be tested from outside, and the feed was empty from Oct 5 to 13 and on Oct 18 (dev team); (3) 16 products at 0 SAR are back in the feed, for example 2898 (see 15c); (4) product 849 is in files 24 and 25; (5) some items carry up to 31 extra photos, Google reads 10.</dd>
           <dt>Checked Oct 18</dt><dd><strong>Empty again.</strong> Files 1, 2, 5, 12, 24 and 25 answer 200 with 0 products (248 bytes, an empty channel). This is the second time since Oct 5. Google drops products as it re-reads the empty files. Please find the cause and add a check that alerts when file 1 has 0 products.</dd>
         </dl>
@@ -345,6 +383,7 @@
           <dt>Fix</dt><dd>Agreed Oct 4: open the login window with a short message that says why. Paulo drafts the Arabic and English text; Mr. Mohamed confirms.</dd>
           <dt>Done when</dt><dd>A logged-out visitor on a lessor profile link sees the login window with that message.</dd>
           <dt>Oct 11 meeting</dt><dd>Shown live: the login prompt now appears for a logged-out visitor on a lessor profile. Still to confirm: the message that says why, in Arabic and English, approved by Mr. Mohamed.</dd>
+          <dt>Checked Nov 5</dt><dd>Unchanged. <a href="https://renter.net/ar/lessor-profile/25791/">/ar/lessor-profile/25791/</a> still answers 404 to a direct logged-out request. The short message that says why is not added yet (Paulo), and Mr. Mohamed confirms it.</dd>
           <dt>Checked Nov 1</dt><dd>Unchanged. <a href="https://renter.net/ar/lessor-profile/25791/">/ar/lessor-profile/25791/</a> still answers 404 to a direct logged-out request; the page holds the login text. The short message that says why is not added yet.</dd>
         </dl>
       </div>
@@ -353,6 +392,14 @@
       <div class="tablebox"><table>
         <thead><tr><th>Item</th><th>Verified</th></tr></thead>
         <tbody>
+          <tr><td>Return policy page carries the approved 1-day text in Arabic and English (issue 6 keeps the Merchant Center settings)</td><td><span class="pill done">COMPLETED</span> Nov 5</td></tr>
+          <tr><td>Home page product list block correct on <code>/ar/</code> and <code>/en/</code>: printed once, positions 1 to 32, one end slash (issue 2; the hidden home H1 is left)</td><td><span class="pill done">COMPLETED</span> Nov 5</td></tr>
+          <tr><td>Category and subcategory lists printed once, with <code>url</code>, from position 1, on all 122 pages checked (issue 3 keeps breadcrumbs and list names)</td><td><span class="pill done">COMPLETED</span> Nov 5</td></tr>
+          <tr><td>No hidden H1 on any of the 1,321 product pages; the visible name is the first H1 (issue 1 keeps the 20 second H1s)</td><td><span class="pill done">COMPLETED</span> Nov 5</td></tr>
+          <tr><td>Blog production fixes: all 7 live, including the Renter Team author per language and the publisher logo (<a href="../blog-production-fixes/">ticket</a>)</td><td><span class="pill done">COMPLETED</span> Nov 5</td></tr>
+          <tr><td>Blog article template: numbered lists, centered images, small grey captions, FAQ title size, on desktop and phone (<a href="../blog-article-template/">ticket</a>)</td><td><span class="pill done">COMPLETED</span> Nov 5</td></tr>
+          <tr><td>Subcategory pages give 200 and one H1 on the first request, clean twice in a row (<a href="../subcategory-cold-render/">ticket</a>)</td><td><span class="pill done">COMPLETED</span> Nov 5</td></tr>
+          <tr><td>Product addresses with no slug answer 308 to the official address, in Arabic and English (issue 4)</td><td><span class="pill done">COMPLETED</span> Nov 5</td></tr>
           <tr><td>English product pages show an English title, heading and description (issue 9; translation wording still to improve)</td><td><span class="pill done">COMPLETED</span> Nov 1</td></tr>
           <tr><td>Two meta descriptions replaced: <code>/ar/cars-and-vehicles/</code> and <code>/en/</code> (issue 10)</td><td><span class="pill done">COMPLETED</span> Nov 1</td></tr>
           <tr><td>Blog body image upload works on production; post 2 is live with its 11 images (issue 15b)</td><td><span class="pill done">COMPLETED</span> Nov 1</td></tr>
