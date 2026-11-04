@@ -11,14 +11,15 @@
 <div class="page">
   <header class="doc-header">
     <a class="backbtn" href="../head-metadata/">&#8592; Back to the dev board</a>
-    <p class="kicker">Renter × TMD · Dev ticket · checked live Nov 1, 2026</p>
+    <p class="kicker">Renter × TMD · Dev ticket · checked live Nov 5, 2026</p>
   </header>
   <div class="doc-body">
       <h1>Return policy page for Merchant Center</h1>
-      <div class="statusbar"><span class="pill progress">PAGE LIVE, APPROVED SENTENCE MISSING</span><span class="txt">Checked Nov 1, 2026: <a href="https://renter.net/ar/return-policy/">/ar/return-policy/</a> and <a href="https://renter.net/en/return-policy/">/en/return-policy/</a> answer 200 with <code>noindex, nofollow</code>, and both carry the end-of-rental and 0 SAR lines. They do not carry the 1-day sentence Mr. Mohamed approved on Oct 18, so Google still rejects the policy. Paulo: add the sentence below (sent in Slack on Oct 25).</span></div>
+      <div class="statusbar"><span class="pill done">DONE ON THE PAGE</span><span class="txt">Checked Nov 5, 2026: <a href="https://renter.net/ar/return-policy/">/ar/return-policy/</a> and <a href="https://renter.net/en/return-policy/">/en/return-policy/</a> answer 200 with <code>noindex, nofollow</code>, and both now carry the approved text word for word: return at the end of the rental, 0 SAR return cost, and a full refund within 1 day (EN: "the first 24 hours") if the item does not match the listing. Paulo put it live on Nov 1. Last step, Saiaf: set the same values in Merchant Center and ask for a new review.</span></div>
       <div class="callout"><strong>Approved by Mr. Mohamed on Sep 7, 2026. Build it.</strong> Context: Google Merchant Center requires a return policy page regardless of business type; the cancellation-policy substitute was rejected, and the gap took every product off Google Shopping on Aug 25 before they returned. This can repeat at any review.</div>
 
-      <h2 id="what">What to do (Paulo)</h2>
+      <h2 id="what">What to do (Paulo, done in September)</h2>
+      <p>The page was built in four steps:</p>
       <ol>
         <li>Create a new page at slug <code>return-policy</code>: <code>https://renter.net/ar/return-policy/</code> (and <code>/en/return-policy/</code> with the same Arabic content for now; the English text can follow later).</li>
         <li>Use the same page layout as the FAQ page (header, footer, typography), agreed in the meeting. Paste the content below into it. Do not add the page to any menu or navigation.</li>
@@ -26,7 +27,8 @@
         <li>Tell Saiaf. Saiaf then sets the URL in Merchant Center's return policy settings to match the page (see the <a href="../merchant-center/#return">Merchant Center ticket</a>).</li>
       </ol>
 
-      <h2 id="approved">Change approved Oct 18 (Paulo, open)</h2>
+      <h2 id="approved">Change approved Oct 18 (Paulo, done Nov 1)</h2>
+      <p class="note">Checked Nov 5, 2026: both pages carry the two paragraphs below, word for word.</p>
       <p>In the section "إرجاع المنتج المستأجر" on <code>/ar/return-policy/</code>, replace the paragraph with this text. It keeps the current lines and adds the last two sentences:</p>
       <pre dir="rtl" lang="ar">يعيد المستأجر المنتج إلى المؤجر عند نهاية مدة الإيجار المتفق عليها وبالحالة المتفق عليها. نافذة الإرجاع هي نهاية مدة الإيجار المحددة في الحجز. لا توجد رسوم إرجاع؛ تكلفة الإرجاع 0 ريال سعودي. وإذا كان المنتج عند الاستلام غير مطابق للوصف في الإعلان، يحق للمستأجر إرجاعه خلال يوم واحد من الاستلام واسترداد المبلغ كاملاً. تكلفة الإرجاع: 0 ريال.</pre>
       <p>In the section "Return of Rented Products" on <code>/en/return-policy/</code>, replace the paragraph with this text:</p>
@@ -70,11 +72,12 @@
 &lt;/html&gt;</pre>
 
       <h2 id="done">Definition of done</h2>
+      <p>The ticket is done when all four checks pass:</p>
       <ol>
-        <li><code>https://renter.net/ar/return-policy/</code> returns 200 with the <code>noindex</code> meta, visible in view-source. Done: checked Nov 1.</li>
-        <li>Both pages carry the 1-day sentence approved on Oct 18. Open.</li>
-        <li>Merchant Center accepts the return policy (Saiaf verifies in the diagnostics screen). Open.</li>
-        <li>No product disapprovals citing return window or return cost.</li>
+        <li><code>https://renter.net/ar/return-policy/</code> returns 200 with the <code>noindex</code> meta, visible in view-source. Done: checked Nov 5.</li>
+        <li>Both pages carry the 1-day sentence approved on Oct 18. Done: live Nov 1, checked Nov 5.</li>
+        <li>Merchant Center accepts the return policy (Saiaf verifies in the diagnostics screen). Open: Saiaf first sets the settings to match the page.</li>
+        <li>No product disapprovals citing return window or return cost. Open, checked after the review.</li>
       </ol>
       <p><a class="backbtn" href="../head-metadata/">&#8592; Back to the dev board</a></p>
   </div>
