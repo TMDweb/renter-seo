@@ -123,13 +123,17 @@
   td.mono { font-family: var(--mono); font-size: 0.85em; white-space: nowrap; }
 
   .footer-note { text-align: center; color: var(--text-muted); font-size: 0.85em; margin-top: 26px; }
+  .statusbar { display: flex; align-items: flex-start; gap: 14px; padding: 14px 18px; margin: 0 0 18px; background: #fff; border: 1px solid #d9dee8; border-radius: 8px; }
+  .statusbar .pill { flex: none; margin-top: 2px; padding: 3px 9px; font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em; white-space: nowrap; border: 0; }
+  .statusbar .pill.done { background: #e6f4ec; color: #1f6b4a; }
+  @media (max-width: 620px) { .statusbar { flex-direction: column; gap: 8px; } }
 </style>
 </head>
 <body>
 <div class="container">
   <div class="doc">
     <div class="doc-header">
-      <span class="section-kicker">Renter × TMD · Dev Ticket · checked live Nov 5, 2026</span>
+      <span class="section-kicker"><span class="kicker">Renter × TMD · Dev Ticket · checked live Nov 5, 2026</span></span>
       <h1 class="doc-title">Subcategory pages: the first server render after cache expiry ships polluted HTML (9 H1s, info-page content inlined)</h1>
       <p class="doc-subtitle">The first build of a subcategory page after its cached copy expires merges the full content of the info pages (Founder's Message, Terms, Cancellation, Privacy, both languages) into the page HTML. The broken copy is then served to every visitor until the next regeneration. Reproduced on Jul 12 on 5 of 5 quiet subcategories. Not reproduced on Nov 1: 87 of 87 subcategories were clean on the first request.</p>
       <div class="pill-row">
@@ -144,6 +148,7 @@
 
       <section>
         <h2><span class="num">00</span>Status, checked live Nov 5, 2026</h2>
+        <div class="statusbar"><span class="pill done">CLOSED NOV 5</span><span class="txt">Clean on Nov 1 and Nov 5: the first request to each of the 87 Arabic subcategories gave 200 and exactly 1 H1. Low priority item left: the info-page text still travels in the script data.</span></div>
         <div class="callout ok">
           <h3>Closed: clean on Nov 1 and Nov 5, 87 of 87 subcategories</h3>
           <p>On Nov 5 we requested each of the 87 Arabic subcategories in <a href="https://renter.net/sitemap/ar/product-subcategories.xml">/sitemap/ar/product-subcategories.xml</a> once, before any other TMD request to them that day. Every first answer was 200 with exactly <strong>1 <code>&lt;h1&gt;</code></strong>, the subcategory heading. This includes the 6 pages in the table below, for example <a href="https://renter.net/ar/courts-and-arenas/volleyball-courts/">/ar/courts-and-arenas/volleyball-courts/</a>. Answer times were 0.7 to 2.0 seconds (3.6 to 7.6 seconds on Nov 1). This is the second clean check in a row, so the ticket closes.</p>
