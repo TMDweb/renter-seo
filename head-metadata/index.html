@@ -54,7 +54,7 @@
       <div class="tablebox"><table class="board">
         <thead><tr><th>#</th><th>Issue</th><th>Status</th><th>Owner</th><th>Details</th></tr></thead>
                 <tbody>
-          <tr><td>16</td><td><a href="../v2-host/">v2.renter.net is a full copy of the site that Google indexes</a></td><td><span class="pill open">URGENT</span></td><td>Jan; Saiaf (Search Console)</td><td><a href="../v2-host/">ticket</a></td></tr>
+          
           <tr><td>16</td><td><a href="#i16">v2.renter.net is a full copy of the site that Google indexes</a></td><td><span class="pill open">URGENT</span></td><td>Jan; Saiaf (Search Console)</td><td><a href="../v2-host/">ticket</a></td></tr>
           <tr><td>15</td><td><a href="#i15">Found while writing blog articles (Oct 30): 15a, 15c, 15d open; 15b done</a></td><td><span class="pill open">3 OF 4 OPEN</span></td><td>Jan, Paulo; Mr. Mohamed (15d)</td><td><a href="#i15a">15a</a> · <a href="#i15b">15b</a> · <a href="#i15c">15c</a> · <a href="#i15d">15d</a></td></tr>
           <tr><td>5</td><td><a href="#i5">Product schema: one field left, the main price</a></td><td><span class="pill open">1 FIELD LEFT, 60 WRONG</span></td><td>Dev team</td><td><a href="../product-schema/">ticket</a> · <a href="../price-fix-list/">price list</a></td></tr>
@@ -75,6 +75,7 @@
           <tr><td>4</td><td><a href="#i4">Product addresses: copies of every product, deleted products send visitors home</a></td><td><span class="pill done">DONE OCT 26</span></td><td>Dev team</td><td><a href="../product-urls/">ticket</a></td></tr>
           <tr><td>0</td><td><a href="#i0">Server error of Oct 3 to 5</a></td><td><span class="pill done">FIXED</span></td><td>Closed</td><td><a href="#i0">details</a></td></tr>
           <tr><td>8</td><td><a href="#i8">Staging security certificate</a></td><td><span class="pill done">DONE</span></td><td>Closed</td><td><a href="../staging-certificate/">ticket</a></td></tr>
+        <tr><td>16</td><td><a href="../v2-host/">v2.renter.net is a full copy of the site that Google indexes</a></td><td><span class="pill done">DONE NOV 5</span></td><td>Jan; Saiaf (Search Console)</td><td><a href="../v2-host/">ticket</a></td></tr>
         </tbody>
       </table></div>
 
@@ -82,13 +83,14 @@
 
       <div class="issue" id="i16">
         <h3>16 · v2.renter.net is a full copy of the site that Google indexes</h3>
-        <div class="meta"><span class="pill open">URGENT</span><span>Owners: Jan (server); Saiaf (Search Console)</span><span><a href="../v2-host/">Ticket with checks</a></span></div>
+        <div class="meta"><span class="pill done">DONE</span><span>Owners: Jan (server); Saiaf (Search Console)</span><span><a href="../v2-host/">Ticket with checks</a></span></div>
         <dl>
           <dt>What is wrong</dt><dd>v2.renter.net shows the whole live site. Its <a href="https://v2.renter.net/robots.txt">robots.txt</a> says <code>Allow: /</code>, and every page says <code>index, follow</code>. The certificate covers renter.net only, so browsers show a security warning on v2.</dd>
           <dt>Why it matters</dt><dd>Google sees two copies of every page and splits the ranking. For product 1733 (English), URL Inspection shows Google chose the v2 address as the official one, not renter.net.</dd>
           <dt>Fix</dt><dd>A permanent 301 from every v2.renter.net address to the same path on renter.net, at the server level. Do not block v2 in robots.txt first: Google must crawl v2 to see the redirect.</dd>
           <dt>Done when</dt><dd>The 4 checks on the ticket pass.</dd>
           <dt>Checked Nov 5</dt><dd><strong>Urgent, new.</strong> <code>/robots.txt</code> on v2 answers 200 with <code>Allow: /</code>; <a href="https://v2.renter.net/ar/blog/cars-and-vehicles/car-rental-monthly-price-riyadh/">the first blog article on v2</a> answers 200 with <code>index, follow</code> and a renter.net canonical; a strict https request fails on the certificate. Search Console, Aug 1 to Nov 2: 181 v2.renter.net pages had 716 views and 19 clicks.</dd>
+          <dt>Checked Nov 5, 2026</dt><dd>Fixed by Jan. All 4 checks pass: 301 from every v2 address to the same path on renter.net, robots.txt redirected, certificate covers v2.renter.net. <a href="../v2-host/">Ticket</a></dd>
         </dl>
       </div>
 

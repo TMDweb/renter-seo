@@ -11,11 +11,11 @@
 <div class="page">
   <header class="doc-header">
     <a class="backbtn" href="../head-metadata/">&#8592; Back to the dev board</a>
-    <p class="kicker">Renter × TMD · Dev ticket · urgent · checked live Nov 5, 2026</p>
+    <p class="kicker">Renter × TMD · Dev ticket · checked live Nov 5, 2026</p>
   </header>
   <div class="doc-body">
       <h1>v2.renter.net: a full copy of the site that Google indexes</h1>
-      <div class="statusbar"><span class="pill open">URGENT</span><span class="txt">Checked Nov 5, 2026: <a href="https://v2.renter.net/robots.txt">v2.renter.net/robots.txt</a> allows Google to crawl everything, and every page says "index, follow". Google already lists 181 v2.renter.net pages, and for at least one it picked the v2 address over renter.net.</span></div>
+      <div class="statusbar"><span class="pill done">DONE</span><span class="txt">Jan fixed it. Checked Nov 5, 2026: every v2.renter.net address answers a 301 to the same path on renter.net, including robots.txt over http and https. The certificate now covers v2.renter.net, valid until Feb 3, 2027. The 181 v2 pages should drop out of Google over the next weeks; Saiaf checks Search Console.</span></div>
 
       <div class="inshort">
         <h2>In short</h2>
@@ -27,6 +27,15 @@
           <dt>Done when</dt><dd>The 4 checks at the end pass.</dd>
         </dl>
       </div>
+
+            <h2 id="verified">Verified, Nov 5, 2026</h2>
+      <p>All 4 checks pass:</p>
+      <ol>
+        <li><code>https://v2.renter.net/ar/</code> answers <code>301</code> to <code>https://renter.net/ar/</code>.</li>
+        <li><code>https://v2.renter.net/en/product/1876/bwklynat-liyjar/</code> answers <code>301</code> to the same path on renter.net. Query strings are kept.</li>
+        <li><code>http://v2.renter.net/robots.txt</code> and the https version answer <code>301</code> to <code>https://renter.net/robots.txt</code>.</li>
+        <li>A strict https request shows no certificate error. The certificate lists renter.net, v2.renter.net and www.renter.net.</li>
+      </ol>
 
       <h2 id="proof">Proof, Nov 5</h2>
       <p>These are the live answers from v2.renter.net today:</p>
