@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Renter · Merchant sign-up: UX recommendations</title>
+<link rel="stylesheet" href="../assets/ticket.css?v=5">
+</head>
+<body>
+<div class="page">
+  <header class="doc-header">
+    <a class="backbtn" href="../head-metadata/">&#8592; Back to the dev board</a>
+    <p class="kicker">Renter × TMD · Promise P6 · checked live Nov 8, 2026</p>
+  </header>
+  <div class="doc-body">
+      <h1>Merchant sign-up: UX recommendations</h1>
+      <div class="statusbar"><span class="pill progress">READY FOR REVIEW</span><span class="txt"><strong>Checked live Nov 8, 2026.</strong> A merchant who taps our WhatsApp link goes through about 15 screens before the button <bdi>«نشر العنصر»</bdi>. The two biggest blocks are a registration step that can hang with no message (Oct 22), and the bank IBAN, which the lessor account asks for before the merchant can add a single item. The home page and the app store pages do not tell a merchant that listing is free or how to start. Below are 11 changes in order of impact on merchant sign-ups, each with an owner and a check, plus a short landing flow for merchants who come from WhatsApp.</span></div>
+      <div class="inshort">
+        <h2>In short</h2>
+        <dl>
+          <dt>What</dt><dd>The path from "I got a WhatsApp message" to "my first item is published", on the web and in the app</dd>
+          <dt>Checked</dt><dd>renter.net in Arabic on a phone (375 px) and desktop, Nov 8; the WhatsApp app link; the App Store and Google Play pages for Saudi Arabia; merchant questions in WhatsApp since Oct 13; #renter-seo since Oct 20</dd>
+          <dt>Owners</dt><dd>Kim (app), Paulo (web), Jan (backend), TMD (content and the WhatsApp message)</dd>
+          <dt>Done when</dt><dd>A new merchant who taps the WhatsApp link can publish a first item in 6 screens or fewer after the code, with no endless loading, and we can count each step in GA4</dd>
+        </dl>
+      </div>
+
+      <h2 id="first">What a WhatsApp merchant sees first</h2>
+      <p>The steps below are what a Haraj merchant meets today, in order, after our WhatsApp message.</p>
+      <ol>
+        <li>The WhatsApp message has two links: the app link and <a href="https://renter.net/ar/">renter.net/ar/</a>.</li>
+        <li>The app link opens the App Store or Google Play. On a computer it also opens the App Store, with no web option.</li>
+        <li>Both store pages describe Renter in English only. The App Store lists English as the only language. The app is 180 MB.</li>
+        <li>The app or the site opens on the renter home page. Nothing on it says "list your item", "free" or "lessor". The word <bdi>مؤجر</bdi> does not appear on the home page.</li>
+        <li>The first box on the home page is a notice that one account can switch roles. It does not tell a merchant why to sign up.</li>
+        <li>The only way in is the button <bdi>«ابدأ الآن»</bdi>, which opens a phone number box.</li>
+      </ol>
+
+      <h2 id="path">The path today: 15 screens to publish</h2>
+      <p>The table below lists each screen in order. Screens 1 and 2 were checked live on Nov 8. We stopped at the code step so as not to create a test account. Screens 3 to 15 come from Renter's own lessor guide screenshots, published on <a href="https://renter.net/ar/blog/guides/list-your-item-on-renter/">the blog</a> on Nov 1.</p>
+      <div class="tablebox"><table>
+        <thead><tr><th>#</th><th>Screen</th><th>What the merchant must do</th><th>Friction</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Home, <bdi>«ابدأ الآن»</bdi></td><td>Find the button</td><td>No lessor wording anywhere on the page</td></tr>
+          <tr><td>2</td><td>Phone number</td><td>Type the number, tap <bdi>«متابعة»</bdi></td><td>Full text keyboard, not a number pad. The mask shows 10 digits (XX XXXX XXXX), so it is not clear whether to type the 0. An empty tap shows no message. No terms link, no "free" note, no help link</td></tr>
+          <tr><td>3</td><td>Code (OTP)</td><td>Type the SMS code</td><td>Not checked live</td></tr>
+          <tr><td>4</td><td><bdi>«أكمل حسابك»</bdi></td><td>Name, email, gender, optional photo</td><td>Email and gender are asked of every user. Placeholders are in English (Name, Email). Oct 22: this step hung on loading for a merchant, with a validation error on <code>updateUser</code></td></tr>
+          <tr><td>5</td><td><bdi>«التبديل إلى المؤجر»</bdi></td><td>Find and tap the switch</td><td>The merchant must know the word "lessor" and that a switch exists</td></tr>
+          <tr><td>6</td><td>Bank alert</td><td>Tap the red alert</td><td>The lessor account is blocked until an IBAN is saved</td></tr>
+          <tr><td>7</td><td>IBAN and bank</td><td>IBAN, bank, <bdi>«حفظ ومتابعة»</bdi></td><td>Titled "refund account", with English text (Add Refund Account, Select Bank). Both fields are labelled IBAN. Bank data before any item feels unsafe to a new merchant</td></tr>
+          <tr><td>8</td><td>Lessor dashboard</td><td>Tap <bdi>«العناصر»</bdi></td><td>Opens on Rentals: "no active contracts", with no publish button</td></tr>
+          <tr><td>9</td><td>Items</td><td>Tap <bdi>«نشر عنصر جديد»</bdi></td><td>The publish button is 2 taps deep, inside an empty state</td></tr>
+          <tr><td>10 to 14</td><td>New item: category, name and text, photos, price and deposit, extras, availability, delivery</td><td>Fill 7 steps</td><td>Long, but each step is clear. Oct 27: photo upload hung for about an hour for a bus merchant</td></tr>
+          <tr><td>15</td><td><bdi>«تحقق من عنصرك»</bdi></td><td>Tap <bdi>«نشر العنصر»</bdi></td><td>None</td></tr>
+        </tbody>
+      </table></div>
+
+      <h2 id="voice">What merchants asked us</h2>
+      <p>These are questions merchants sent in reply to our WhatsApp messages between Oct 10 and Nov 3. Each one matches a screen in the table above.</p>
+      <ul>
+        <li><bdi>«كيف اسجل»</bdi>, <bdi>«كيف اشترك»</bdi>, <bdi>«سجلني»</bdi>: the message and the home page do not show the steps (screens 1 and 2).</li>
+        <li><bdi>«مافي خانه الحساب وين زر النشر»</bdi>: the publish button is behind the lessor switch, the IBAN and the Items tab (screens 5 to 9).</li>
+        <li><bdi>«سجلت ماقدرت اعمل اعلانات»</bdi> and <bdi>«مو راضي يسجل»</bdi>: registration or listing stopped with no message (screens 4 and 7).</li>
+        <li><bdi>«انا خايف ممكن هذا الرابط هكر»</bdi> and <bdi>«تطبيق نصب هذا او كيف»</bdi>: the link and the first page give no sign that Renter is a real Saudi company.</li>
+      </ul>
+      <p>Public reviews on Google Play in Saudi Arabia (3.7 stars, 71 reviews) say the same things: sign-in is complicated, the app is not in Arabic, and the language button sits behind the Android navigation bar.</p>
+
+      <h2 id="recs">Recommendations, by impact on merchant sign-ups</h2>
+      <p>The table below lists each change, the owner and the check that closes it. Numbers 1 to 4 remove the points where merchants stop today.</p>
+      <div class="tablebox"><table>
+        <thead><tr><th>#</th><th>Change</th><th>Owner</th><th>Done when</th></tr></thead>
+        <tbody>
+          <tr id="r1"><td>1</td><td><strong>Never hang without a message.</strong> When <code>updateUser</code> or a photo upload fails, the backend returns which field failed, and the app stops the spinner and shows it in Arabic with a retry button. Check whether the Oct 22 failure came from the email or gender rule.</td><td>Jan, Kim</td><td>On a test account, an empty name, a bad email and a failed photo each show an Arabic message within 10 seconds. No spinner runs longer than 15 seconds.</td></tr>
+          <tr id="r2"><td>2</td><td><strong>Publish first, bank details later.</strong> Let a new lessor add and publish items with no IBAN. Ask for the IBAN when the first booking request comes in, before any payout, and call it "where we send your money" (<bdi>حساب استلام أرباحك</bdi>), not "refund account".</td><td>Jan, Kim, Paulo</td><td>A new account reaches <bdi>«نشر عنصر جديد»</bdi> without an IBAN. The IBAN screen appears on the first booking, in Arabic only.</td></tr>
+          <tr id="r3"><td>3</td><td><strong>A lessor door on every home screen.</strong> Add a second header button, <bdi>«أجّر منتجك»</bdi>, on web and app. It works when logged out: phone, code, then straight into step 1 of a new item, already in lessor mode. No separate switch.</td><td>Paulo, Kim</td><td>From the home page, logged out, 1 tap opens the phone screen, and after the code the merchant is on the category step.</td></tr>
+          <tr id="r4"><td>4</td><td><strong>A landing page for WhatsApp merchants</strong> (flow below), and an app link that opens that flow, not the renter home page. On a computer, the link opens the web page, not the App Store.</td><td>Paulo, Kim, TMD content</td><td>The WhatsApp link opens the landing page on web and the lessor flow in the app, with <code>utm_source=whatsapp</code> kept to sign-up.</td></tr>
+          <tr id="r5"><td>5</td><td><strong>Count every step.</strong> Send GA4 and Adjust events: <code>signup_start</code>, <code>otp_sent</code>, <code>otp_verified</code>, <code>profile_saved</code>, <code>listing_start</code>, <code>listing_published</code>, with the source.</td><td>Paulo, Kim</td><td>A GA4 funnel shows how many WhatsApp visitors reach each step, for one full week.</td></tr>
+          <tr id="r6"><td>6</td><td><strong>Ask less on <bdi>«أكمل حسابك»</bdi>.</strong> Name only. Make email optional and remove gender, or move both to the profile. Arabic placeholders.</td><td>Jan, Kim, Paulo</td><td>The step has 1 required field and saves with no email.</td></tr>
+          <tr id="r7"><td>7</td><td><strong>A clear phone field.</strong> Number pad (<code>inputmode="numeric"</code>, <code>autocomplete="tel"</code>), mask <bdi>5X XXX XXXX</bdi>, accept 05 or 5, an Arabic message for an empty or short number, and one line under the button: free, terms link, help on WhatsApp.</td><td>Paulo, Kim</td><td>On a phone the number pad opens, "0501234567" and "501234567" both pass, and an empty tap shows a message.</td></tr>
+          <tr id="r8"><td>8</td><td><strong>Put publish where the merchant looks.</strong> A lessor with 0 items opens on Items, with one large button <bdi>«انشر أول إعلان»</bdi>. The Rentals empty state gets the same button.</td><td>Kim, Paulo</td><td>A new lessor sees the publish button on the first screen of the dashboard.</td></tr>
+          <tr id="r9"><td>9</td><td><strong>Arabic everywhere.</strong> Translate the bank screen (Add Refund Account, Select Bank, the second IBAN label is the bank), all placeholders, and both store pages. Move the Android language button above the navigation bar.</td><td>Kim, Paulo, TMD content</td><td>No English text on any Arabic sign-up or listing screen. Both store pages have an Arabic description.</td></tr>
+          <tr id="r10"><td>10</td><td><strong>Trust signs at the start.</strong> On the landing page and the phone screen: commercial registration, the support number 0115003615 and WhatsApp, the 3% fee in plain words, and how payouts work.</td><td>TMD content, Paulo</td><td>Each item shows on the landing page and the phone screen.</td></tr>
+          <tr id="r11"><td>11</td><td><strong>One link in the WhatsApp message.</strong> Send only the landing page link, and the 3 steps in one short message. Keep "reply here if you get stuck".</td><td>TMD content</td><td>The message has 1 link, and fewer replies ask "how do I register" over 2 weeks of sends.</td></tr>
+        </tbody>
+      </table></div>
+
+      <h2 id="landing">Landing flow for WhatsApp merchants</h2>
+      <p>The flow below is the short path we suggest for merchants who come from WhatsApp. It needs changes 2, 3, 4 and 6. Suggested address: <code>renter.net/ar/lessors/</code>.</p>
+      <ol>
+        <li><strong>Landing page, one screen on a phone.</strong> Title: <bdi>«اعرض أغراضك للإيجار على رينتر مجاناً»</bdi>. Three lines: free to list, 3% only when you rent, money to your bank. One button: <bdi>«ابدأ بإعلانك الأول»</bdi>. Under it: support phone, WhatsApp help, commercial registration.</li>
+        <li><strong>Phone and code.</strong> Number pad, the button text <bdi>«أرسل الرمز»</bdi>, and the code read from the SMS where the phone allows it.</li>
+        <li><strong>Your name.</strong> One field. Nothing else.</li>
+        <li><strong>What do you rent?</strong> Category and sub-category on one screen, with large icons.</li>
+        <li><strong>Photos, title and price.</strong> One screen, with the price per day or month and an example from the same category.</li>
+        <li><strong>Where and when.</strong> Pickup location from "my location", and "available every day" as the default. Then <bdi>«نشر العنصر»</bdi>.</li>
+        <li><strong>After publish.</strong> "Your item is live" with its link to share, and a note that we ask for bank details when the first booking comes in.</li>
+      </ol>
+      <p>Description, deposit, extras and exact hours stay in the item edit page, so the merchant can add them after the first item is live.</p>
+
+      <h2 id="shots">Annotated screenshots</h2>
+      <figure class="shot"><a href="1-home-phone.webp"><img src="1-home-phone.webp" alt="Renter home page on a phone, with the Start now button and the role notice marked" style="max-width:360px;width:100%;height:auto;border:1px solid #ddd;border-radius:6px"></a><figcaption>Home, phone, Nov 8. 1: the only way in, with no lessor wording. 2: the first box is a notice about roles, not a reason to list.</figcaption></figure>
+      <figure class="shot"><a href="2-phone-step.webp"><img src="2-phone-step.webp" alt="Phone number step with the field, the Continue button and the empty area below it marked" style="max-width:360px;width:100%;height:auto;border:1px solid #ddd;border-radius:6px"></a><figcaption>Phone step, phone, Nov 8. 1: text keyboard and a 10-digit mask. 2: an empty tap shows no message. 3: no terms, no "free", no help.</figcaption></figure>
+      <figure class="shot"><a href="3-complete-account.webp"><img src="3-complete-account.webp" alt="Complete your account form with email, gender and the English name placeholder marked" style="max-width:100%;height:auto;border:1px solid #ddd;border-radius:6px"></a><figcaption>Complete your account (Renter's lessor guide). 1: email asked of every merchant. 2: gender. 3: English placeholders.</figcaption></figure>
+      <figure class="shot"><a href="4-iban-before-listing.webp"><img src="4-iban-before-listing.webp" alt="Bank alert and IBAN form with the English labels marked" style="max-width:100%;height:auto;border:1px solid #ddd;border-radius:6px"></a><figcaption>Bank details (Renter's lessor guide). 1: the lessor account is blocked until an IBAN is saved. 2: English title and "refund account". 3: the bank field is labelled IBAN, placeholder in English.</figcaption></figure>
+      <figure class="shot"><a href="5-where-publish-is.webp"><img src="5-where-publish-is.webp" alt="Lessor dashboard opening on an empty Rentals tab, with the Items tab and the publish button marked" style="max-width:100%;height:auto;border:1px solid #ddd;border-radius:6px"></a><figcaption>Lessor dashboard (Renter's lessor guide). 1: opens on an empty Rentals tab. 2: the Items tab. 3: the publish button, 2 taps in.</figcaption></figure>
+
+      <h2 id="check">How to check</h2>
+      <p>Run these checks on a phone that has never signed in to Renter, once changes 1 to 4 are live.</p>
+      <ol>
+        <li>Tap the link from the WhatsApp message. The landing page or the lessor flow opens, in Arabic.</li>
+        <li>Count the screens from the code to <bdi>«نشر العنصر»</bdi>. The target is 6 or fewer, with no IBAN.</li>
+        <li>Turn off the network on the name step and on a photo upload. An Arabic message appears and the spinner stops.</li>
+        <li>Open GA4 the next day. The test shows in each funnel step with source whatsapp.</li>
+      </ol>
+      <a class="backbtn" href="../head-metadata/">&#8592; Back to the dev board</a>
+  </div>
+</div>
+</body>
+</html>
