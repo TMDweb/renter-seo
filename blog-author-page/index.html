@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Renter · Blog author page: build /blog/author/renter-team/</title>
+<link rel="stylesheet" href="../assets/ticket.css?v=5">
+</head>
+<body>
+<div class="page">
+  <header class="doc-header">
+    <a class="backbtn" href="../head-metadata/">&#8592; Back to the dev board</a>
+    <p class="kicker">Renter × TMD · Sub-ticket of issue 11 · checked live Nov 8, 2026</p>
+  </header>
+  <div class="doc-body">
+      <h1>Blog author page: build /blog/author/renter-team/</h1>
+      <div class="statusbar"><span class="pill open">NOT BUILT</span><span class="txt"><strong>Checked live Nov 8, 2026: both author pages answer 404.</strong> <a href="https://renter.net/ar/blog/author/renter-team/">/ar/blog/author/renter-team/</a> and <a href="https://renter.net/en/blog/author/renter-team/">/en/blog/author/renter-team/</a> return 404. The data is ready: the <a href="https://admin-production.renter.net/api/v1/blog/authors/renter-team/?locale=ar">author API</a> returns the name, the bio and the 6 live posts in <a href="https://admin-production.renter.net/api/v1/blog/authors/renter-team/?locale=en">both languages</a>. Because the page does not exist, the BlogPosting schema on the 6 posts gives the author a name only, with no <code>url</code>, and the author box under each post does not link anywhere. Neither blog sitemap lists an author page. This ticket gives the mockup, the head tags, the JSON-LD and the sitemap entry.</span></div>
+      <div class="inshort">
+        <h2>In short</h2>
+        <dl>
+          <dt>Build</dt><dd><code>/ar/blog/author/{slug}/</code> and <code>/en/blog/author/{slug}/</code>, server-rendered, with <code>/page/N/</code> for page 2 and later</dd>
+          <dt>Mockup</dt><dd><a href="mockup-ar.html">Arabic</a> · <a href="mockup-en.html">English</a> · <a href="mockup-ar.html?state=page2">page 2</a> · <a href="mockup-ar.html?state=empty">empty state</a> · <a href="mockup-ar.html?notes=1">Arabic with numbered notes</a></dd>
+          <dt>Data</dt><dd><code>GET /api/v1/blog/authors/{slug}/?locale=ar|en</code> (exists). Paging fields are missing, see <a href="#api">API</a>.</dd>
+          <dt>Owner</dt><dd>Paulo (page); Jan (API paging)</dd>
+          <dt>Done when</dt><dd>All checks in <a href="#done">Done when</a> pass on renter.net, in Arabic and English, on desktop and phone.</dd>
+        </dl>
+      </div>
+
+      <h2 id="mockup">Mockup</h2>
+      <p>The mockup reuses the live blog parts: the Cairo font, the <code>#2049ee</code> blue, the breadcrumb, the author box from the article page, and the hub card and grid with no change. The dark bar at the top of the mockup is not part of the page; it switches between the states.</p>
+      <figure class="shot"><a href="mock-ar-desktop-notes.webp"><img src="mock-ar-desktop-notes.webp" alt="Arabic author page mockup at 1,200 px with numbered notes" style="max-width:100%;height:auto;border:1px solid #ddd;border-radius:6px"></a><figcaption>Arabic, 1,200 px, with the numbered notes used in the table below</figcaption></figure>
+      <figure class="shot"><a href="mock-ar-phone.webp"><img src="mock-ar-phone.webp" alt="Arabic author page mockup at 375 px" style="max-width:360px;width:100%;height:auto;border:1px solid #ddd;border-radius:6px"></a><figcaption>Arabic, 375 px: one card per row, author box stacks</figcaption></figure>
+      <figure class="shot"><a href="mock-en-desktop.webp"><img src="mock-en-desktop.webp" alt="English author page mockup at 1,200 px" style="max-width:100%;height:auto;border:1px solid #ddd;border-radius:6px"></a><figcaption>English, 1,200 px</figcaption></figure>
+      <figure class="shot"><a href="mock-ar-page2-desktop.webp"><img src="mock-ar-page2-desktop.webp" alt="Page 2 of the Arabic author page with numbered pager links" style="max-width:100%;height:auto;border:1px solid #ddd;border-radius:6px"></a><figcaption>Page 2 (illustration: page 2 exists only when the author has 13 or more posts)</figcaption></figure>
+      <figure class="shot"><a href="mock-ar-empty-desktop.webp"><img src="mock-ar-empty-desktop.webp" alt="Arabic author page with no posts, showing the empty state" style="max-width:100%;height:auto;border:1px solid #ddd;border-radius:6px"></a><figcaption>Empty state, Arabic, 1,200 px</figcaption></figure>
+      <figure class="shot"><a href="mock-en-empty-phone.webp"><img src="mock-en-empty-phone.webp" alt="English author page with no posts on a phone" style="max-width:360px;width:100%;height:auto;border:1px solid #ddd;border-radius:6px"></a><figcaption>Empty state, English, 375 px</figcaption></figure>
+
+      <h2 id="parts">Page parts</h2>
+      <p>The table below maps each numbered note in the mockup to its content and rule.</p>
+      <div class="tablebox"><table>
+        <thead><tr><th>#</th><th>Part</th><th>Content</th><th>Rule</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Breadcrumb</td><td><bdi>الرئيسية &gt; المدونة &gt; فريق رينتر</bdi> · Home &gt; Blog &gt; Renter Team</td><td>Same component as the hub. The last item is plain text with <code>aria-current="page"</code>. Same 3 items on page 2.</td></tr>
+          <tr><td>2</td><td>Author header</td><td>Initial in a blue circle (the article author box, at 88 px), H1 = author <code>name</code>, then <code>bio</code>, then the post count (<bdi>6 مقالات</bdi> · 6 articles)</td><td>One H1. On page 2 and later the H1 adds the page: <bdi>فريق رينتر، الصفحة 2</bdi> · Renter Team, page 2. The API sends the same text in <code>role</code> and <code>bio</code>: show it once. When <code>photo</code> is set, show the photo in place of the initial.</td></tr>
+          <tr><td>3</td><td>Post list</td><td>H2 <bdi>مقالات فريق رينتر</bdi> · Articles by Renter Team, then the hub card grid</td><td>The same card component as the hub: 16:9 cover, hub chip, title link, excerpt, reading time. 3 columns, 2 under 1,024 px, 1 under 640 px. 12 cards per page. Order: newest <code>publish_at</code> first, then the same tie order as the hub. English lists only posts with <code>en_published</code>.</td></tr>
+          <tr><td>4</td><td>Pager</td><td>Previous, page numbers, Next, as real <code>&lt;a href&gt;</code> links</td><td>Same style as the hub pager. Page 1 lives at the base URL; <code>/page/1/</code> answers 301 to it. A page past the last answers 404. Today there are 6 posts, so only "1" shows and <code>/page/2/</code> must answer 404.</td></tr>
+          <tr><td>5</td><td>Empty state</td><td>Icon, <bdi>لم ينشر فريق رينتر أي مقال بعد</bdi> · Renter Team has not published any articles yet, a short line, and a button to the blog home</td><td>Shown when the author exists but has 0 published posts in that language. See the head rules for this state below.</td></tr>
+        </tbody>
+      </table></div>
+
+      <h2 id="head">Head tags</h2>
+      <p>The Arabic page 1 head is below. The values come from the blog plan, section 4 (author title formula with the "|" separator), and the same pattern as the live hub and article pages.</p>
+<pre><code>&lt;title&gt;مقالات فريق رينتر | مدونة رينتر&lt;/title&gt;
+&lt;meta name="description" content="فريق رينتر يكتب أدلة عملية عن الإيجار في السعودية، بأسعار حقيقية من إعلانات المؤجرين على رينتر."&gt;
+&lt;meta name="robots" content="index, follow, max-image-preview:large"&gt;
+&lt;link rel="canonical" href="https://renter.net/ar/blog/author/renter-team/"&gt;
+&lt;link rel="alternate" hreflang="ar" href="https://renter.net/ar/blog/author/renter-team/"&gt;
+&lt;link rel="alternate" hreflang="en" href="https://renter.net/en/blog/author/renter-team/"&gt;
+&lt;link rel="alternate" hreflang="x-default" href="https://renter.net/ar/blog/author/renter-team/"&gt;
+&lt;meta property="og:type" content="profile"&gt;
+&lt;meta property="og:title" content="مقالات فريق رينتر | مدونة رينتر"&gt;
+&lt;meta property="og:description" content="فريق رينتر يكتب أدلة عملية عن الإيجار في السعودية، بأسعار حقيقية من إعلانات المؤجرين على رينتر."&gt;
+&lt;meta property="og:url" content="https://renter.net/ar/blog/author/renter-team/"&gt;
+&lt;meta property="og:site_name" content="رينتر"&gt;
+&lt;meta property="og:locale" content="ar_SA"&gt;
+&lt;meta property="og:locale:alternate" content="en_US"&gt;
+&lt;meta property="og:image" content="https://renter.net/renterlogo.png"&gt;
+&lt;meta property="og:image:width" content="1731"&gt;
+&lt;meta property="og:image:height" content="909"&gt;
+&lt;meta name="twitter:card" content="summary_large_image"&gt;
+&lt;meta name="twitter:title" content="مقالات فريق رينتر | مدونة رينتر"&gt;
+&lt;meta name="twitter:description" content="فريق رينتر يكتب أدلة عملية عن الإيجار في السعودية، بأسعار حقيقية من إعلانات المؤجرين على رينتر."&gt;
+&lt;meta name="twitter:image" content="https://renter.net/renterlogo.png"&gt;</code></pre>
+      <p>The English page uses the same tags with these values.</p>
+      <ul>
+        <li><code>title</code>, <code>og:title</code>, <code>twitter:title</code>: Articles by Renter Team | Renter Blog</li>
+        <li><code>description</code>: The Renter Team writes practical rental guides for Saudi Arabia, with real prices from lessor listings on Renter.</li>
+        <li><code>canonical</code> and <code>og:url</code>: <a href="https://renter.net/en/blog/author/renter-team/">https://renter.net/en/blog/author/renter-team/</a></li>
+        <li><code>og:site_name</code> Renter, <code>og:locale</code> en_US, <code>og:locale:alternate</code> ar_SA. The 3 hreflang lines are the same as in Arabic.</li>
+      </ul>
+      <p>These rules cover page 2, the empty state and errors.</p>
+      <ul>
+        <li>Page 2 and later: title <bdi>مقالات فريق رينتر، الصفحة 2 | مدونة رينتر</bdi> · Articles by Renter Team, page 2 | Renter Blog. Self canonical (<code>/page/2/</code>), never page 1. hreflang points to page 2 in the other language only if that page exists.</li>
+        <li>Empty state (0 posts in that language): <code>noindex, follow</code>, no hreflang line that points to it from the other language, and no sitemap entry.</li>
+        <li>Unknown author slug: 404 (the API already answers 404 for an unknown slug).</li>
+        <li>The HTTP <code>Link</code> header must carry the same hreflang set as the HTML head. On posts today it announces English pages that do not exist (issue 11, open).</li>
+      </ul>
+
+      <h2 id="jsonld">JSON-LD</h2>
+      <p>Put one <code>@graph</code> with a ProfilePage and a BreadcrumbList on the page. Renter Team is a team, so <code>mainEntity</code> is an Organization. If a named writer is added later, use Person for that author.</p>
+<pre><code>{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "ProfilePage",
+      "@id": "https://renter.net/ar/blog/author/renter-team/",
+      "url": "https://renter.net/ar/blog/author/renter-team/",
+      "name": "مقالات فريق رينتر",
+      "description": "فريق رينتر يكتب أدلة عملية عن الإيجار في السعودية، بأسعار حقيقية من إعلانات المؤجرين على رينتر.",
+      "inLanguage": "ar",
+      "isPartOf": { "@type": "WebSite", "name": "Renter", "url": "https://renter.net/ar/" },
+      "breadcrumb": { "@id": "https://renter.net/ar/blog/author/renter-team/#breadcrumb" },
+      "mainEntity": {
+        "@type": "Organization",
+        "@id": "https://renter.net/ar/blog/author/renter-team/#author",
+        "name": "فريق رينتر",
+        "alternateName": "Renter Team",
+        "description": "فريق رينتر يكتب أدلة عملية عن الإيجار في السعودية، بأسعار حقيقية من إعلانات المؤجرين على رينتر.",
+        "url": "https://renter.net/ar/blog/author/renter-team/",
+        "parentOrganization": { "@type": "Organization", "name": "رينتر", "url": "https://renter.net/" }
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://renter.net/ar/blog/author/renter-team/#breadcrumb",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "الرئيسية", "item": "https://renter.net/ar/" },
+        { "@type": "ListItem", "position": 2, "name": "المدونة", "item": "https://renter.net/ar/blog/" },
+        { "@type": "ListItem", "position": 3, "name": "فريق رينتر", "item": "https://renter.net/ar/blog/author/renter-team/" }
+      ]
+    }
+  ]
+}</code></pre>
+      <p>The English page uses the same graph with <code>/en/</code> URLs, <code>"inLanguage": "en"</code>, name "Articles by Renter Team", author name "Renter Team" with <code>alternateName</code> <bdi>فريق رينتر</bdi>, the English bio, and the crumbs Home, Blog, Renter Team. When the API adds the author <code>updated_at</code>, add it as <code>dateModified</code> on the ProfilePage.</p>
+      <p>Once the page answers 200, change the <code>author</code> in the BlogPosting on every post to point at it. The block below shows the Arabic version; English uses the <code>/en/</code> URL and "Renter Team".</p>
+<pre><code>"author": {
+  "@type": "Organization",
+  "@id": "https://renter.net/ar/blog/author/renter-team/#author",
+  "name": "فريق رينتر",
+  "url": "https://renter.net/ar/blog/author/renter-team/"
+}</code></pre>
+
+      <h2 id="sitemap">Sitemap entry</h2>
+      <p>Add one entry per author to each blog sitemap (<a href="https://renter.net/sitemap/ar/blog.xml">Arabic</a>, <a href="https://renter.net/sitemap/en/blog.xml">English</a>), as the blog plan already asks. <code>lastmod</code> is the newest <code>updated_at</code> of that author's published posts in that language. List only authors with 1 or more posts in that language, and do not list <code>/page/N/</code>.</p>
+<pre><code>&lt;url&gt;
+  &lt;loc&gt;https://renter.net/ar/blog/author/renter-team/&lt;/loc&gt;
+  &lt;lastmod&gt;2026-11-04T23:03:30.000Z&lt;/lastmod&gt;
+&lt;/url&gt;</code></pre>
+
+      <h2 id="api">API (Jan)</h2>
+      <p>The author endpoint works today, with these gaps for paging.</p>
+      <ul>
+        <li>It returns all posts and ignores <code>page</code>. Add <code>page</code> and <code>per_page=12</code>, and a <code>meta</code> object with <code>total</code>, <code>per_page</code>, <code>current_page</code> and <code>last_page</code>, the same as <code>/api/v1/blog/posts</code>.</li>
+        <li>For posts with the same <code>publish_at</code>, the author list and the hub list use a different order (the 4 posts of Nov 2). Use the same tie order in both.</li>
+        <li>Optional: add the author <code>updated_at</code> for <code>dateModified</code>.</li>
+      </ul>
+
+      <h2 id="done">Done when</h2>
+      <p>Each check below must pass on renter.net, in Arabic and English.</p>
+      <ol>
+        <li><a href="https://renter.net/ar/blog/author/renter-team/">/ar/blog/author/renter-team/</a> and <a href="https://renter.net/en/blog/author/renter-team/">/en/blog/author/renter-team/</a> answer 200, and the server HTML (curl, no JavaScript) has the breadcrumb, one H1 with the author name, the bio and 6 cards.</li>
+        <li>The title, description, robots, canonical, the 3 hreflang lines and the og and twitter tags match the <a href="#head">head tags</a>.</li>
+        <li>The JSON-LD has a ProfilePage with an Organization as <code>mainEntity</code> and a BreadcrumbList, and the <a href="https://search.google.com/test/rich-results">Rich Results Test</a> shows 0 errors.</li>
+        <li>Each card links to the live post and its hub, and looks the same as on the <a href="https://renter.net/ar/blog/">blog home</a>.</li>
+        <li><code>/page/2/</code> answers 404 while the author has 12 posts or fewer, and <code>/page/1/</code> answers 301 to the base URL.</li>
+        <li>An author with 0 posts in a language shows the empty state with <code>noindex, follow</code> and is not in that sitemap. An unknown slug answers 404.</li>
+        <li>Both blog sitemaps list the author page with a <code>lastmod</code>.</li>
+        <li>On all 6 posts, the BlogPosting <code>author</code> has the <code>@id</code> and <code>url</code> of the author page, and the name in the author box under the post links to it.</li>
+        <li>At 375 px the page has no side scroll and shows one card per row.</li>
+      </ol>
+
+      <h2 id="check">How to check</h2>
+      <p>Run these commands after the deploy.</p>
+<pre><code>curl -s -o /dev/null -w '%{http_code}\n' https://renter.net/ar/blog/author/renter-team/
+curl -s https://renter.net/ar/blog/author/renter-team/ | grep -o '&lt;h1[^&lt;]*&lt;[^&gt;]*&gt;[^&lt;]*\|"@type":"ProfilePage"\|rel="canonical"[^&gt;]*'
+curl -s -o /dev/null -w '%{http_code}\n' https://renter.net/ar/blog/author/renter-team/page/2/
+curl -s https://renter.net/sitemap/ar/blog.xml | grep author</code></pre>
+      <a class="backbtn" href="../head-metadata/">&#8592; Back to the dev board</a>
+  </div>
+</div>
+<script>
+document.querySelectorAll('pre').forEach(function(pre){
+  var w=document.createElement('div'); w.className='codewrap'; pre.parentNode.insertBefore(w,pre); w.appendChild(pre);
+  var b=document.createElement('button'); b.className='copybtn'; b.textContent='Copy'; w.appendChild(b);
+  b.addEventListener('click',function(){
+    var t=pre.innerText;
+    function ok(){b.textContent='Copied';setTimeout(function(){b.textContent='Copy'},1500);}
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(ok,function(){fb()});}else{fb()}
+    function fb(){var ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');ok();}catch(e){b.textContent='Failed'}document.body.removeChild(ta);}
+  });
+});
+</script>
+</body>
+</html>
