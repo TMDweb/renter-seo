@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Renter · Duplicate listings: what to keep and what to redirect</title>
+<link rel="stylesheet" href="../assets/ticket.css?v=5">
+</head>
+<body>
+<div class="page">
+  <header class="doc-header">
+    <a class="backbtn" href="../head-metadata/#i15d">&#8592; Back to the dev board</a>
+    <p class="kicker">Renter × TMD · From the Nov 1 meeting · checked live Nov 8, 2026</p>
+  </header>
+  <div class="doc-body">
+      <h1>Duplicate listings: what to keep and what to redirect</h1>
+      <div class="statusbar"><span class="pill open">SHEET READY, FOR PAULO AND JAN</span><span class="txt">Checked live Nov 8, 2026 on all 1,348 products in the Arabic sitemap: <strong>3 groups of exact duplicates, 6 listings, 3 addresses to redirect</strong>, from 3 lessors. Saiaf promised this sheet in the Nov 1 meeting (P9), so the copies are not removed at random.</span></div>
+      <div class="inshort">
+        <h2>In short</h2>
+        <dl>
+          <dt>The sheet</dt><dd><a href="renter-duplicate-listings-2026-11-08.xlsx">renter-duplicate-listings-2026-11-08.xlsx</a>. One row per address to redirect, with the address to keep, the product ids, the lessor id, the title, the match reason and the Search Console clicks and impressions for 90 days.</dd>
+          <dt>What counts as a duplicate</dt><dd>All of these must match: <strong>same lessor</strong>; <strong>same title</strong> after normalizing spaces, punctuation and letter forms; <strong>same lease terms and prices</strong>; and <strong>the same photos or the same description</strong> (identical, or 95% the same text). A lessor who posts the same item twice on purpose, with a different title, price, photos and text, is not flagged. On this check 3 more pairs have the same lessor, title and price but different photos and text (3648 and 3649, 1536 and 1538, 1220 and 1221), so they stay.</dd>
+          <dt>Which address to keep</dt><dd>The listing with the most Search Console clicks in the last 90 days (Aug 10 to Nov 7, 2026, Arabic and English addresses added together). If no listing in the group has clicks, the oldest listing. 0 of the 3 groups keep a listing because of its clicks; the others keep the oldest.</dd>
+          <dt>The fix</dt><dd>1. 301-redirect each redirect address to its keep address, and the English address of the same product id too. 2. Remove or unpublish the redirected listings, and take them out of the sitemaps and the Merchant feed.</dd>
+          <dt>Done when</dt><dd>Every redirect address in the sheet answers 301 to its keep address, and none of them is in the sitemap or the feed. Then tell Saiaf; TMD checks every row live.</dd>
+        </dl>
+      </div>
+      <h2 id="list">The 3 groups</h2>
+      <p>Lessors are shown by user id only. The sheet has the full addresses and the clicks.</p>
+      <div class="tablebox"><table>
+        <thead><tr><th>#</th><th>Keep</th><th>Redirect</th><th>Title</th><th>Lessor id</th><th>Match</th><th>Kept because</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td><a href="https://renter.net/ar/product/3632/syzrlft-18-mtr-llayjarsyzrlft-dyzl-18-mtrtajyr-syzr-lft-18-mtrrafah-mqsyh-dyzl-18-mtriyjar-syzrlft-18mtajyr-rafah-mqsyh-dyzldiesel-scissor-lift-rental18-meter-scissor-lift-for-rent/">3632</a></td><td><a href="https://renter.net/ar/product/3633/syzrlft-18-mtr-llayjarsyzrlft-dyzl-18-mtrtajyr-syzr-lft-18-mtrrafah-mqsyh-dyzl-18-mtriyjar-syzrlft-18mtajyr-rafah-mqsyh-dyzldiesel-scissor-lift-rental18-meter-scissor-lift-for-rent/">3633</a></td><td>سيزرلفت 18 متر للايجارسيزرلفت ديزل 18 مترتأجير سيزر لفت 18 متررافعة مقصية ديزل 18 مترإيجار سيزرلفت 18Mتأجير رافعة مقصية ديزلDiesel Scissor Lift Rental18 Meter Scissor Lift for Rent</td><td>28239</td><td>same description</td><td>oldest</td></tr>
+          <tr><td>2</td><td><a href="https://renter.net/ar/product/1826/bwklynat-liyjar/">1826</a></td><td><a href="https://renter.net/ar/product/1876/bwklynat-liyjar/">1876</a></td><td>بوكلينات لإيجار</td><td>16338</td><td>same photos</td><td>oldest</td></tr>
+          <tr><td>3</td><td><a href="https://renter.net/ar/product/1617/bwbkat/">1617</a></td><td><a href="https://renter.net/ar/product/1624/bwbkat/">1624</a></td><td>بوبكات</td><td>14433</td><td>same photos</td><td>oldest</td></tr>
+        </tbody>
+      </table></div>
+      <p class="note">How it was read: one product page at a time with a 1.5 second pause, so the check did not load the site. 1,348 of 1,348 pages answered 200. Photos were compared only for listings that already matched on lessor, title and price.</p>
+      <p><a class="backbtn" href="../head-metadata/#i15d">&#8592; Back to the dev board</a></p>
+  </div>
+</div>
+</body>
+</html>
