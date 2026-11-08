@@ -11,17 +11,17 @@
 <div class="page">
   <header class="doc-header">
     <a class="backbtn" href="../head-metadata/">&#8592; Back to the dev board</a>
-    <p class="kicker">Renter × TMD · Dev ticket · checked live Nov 5, 2026</p>
+    <p class="kicker">Renter × TMD · Dev ticket · checked live Nov 8, 2026</p>
   </header>
   <div class="doc-body">
       <h1>Product addresses: one official address per product, and "not found" for deleted products</h1>
-      <div class="statusbar"><span class="pill done">DONE</span><span class="txt">Checked Nov 5, 2026: all 4 checks below still pass, in Arabic and English. A wrong slug or no slug answers 308 to the official address, for example <a href="https://renter.net/ar/product/2893/anything-wrong/">/ar/product/2893/anything-wrong/</a> and <a href="https://renter.net/en/product/2894/">/en/product/2894/</a>. Deleted and unknown products answer 404. All 1,321 products in the sitemap answer 200 with a self canonical, so the sitemap lists no deleted product. The sitemap has 109 fewer products than on Nov 1 (1,430).</span></div>
+      <div class="statusbar"><span class="pill done">DONE</span><span class="txt">Checked Nov 8, 2026: all 4 checks below still pass, in Arabic and English. A wrong slug or no slug answers 308 to the official address, for example <a href="https://renter.net/ar/product/2893/anything-wrong/">/ar/product/2893/anything-wrong/</a> and <a href="https://renter.net/en/product/2894/">/en/product/2894/</a>. Deleted and unknown products answer 404. All 1,350 products in the sitemap answer 200 with a self canonical, in Arabic and English, so the sitemap lists no deleted product. The sitemap has 29 more products than on Nov 5 (1,321).</span></div>
 
       <div class="inshort">
         <h2>In short</h2>
         <dl>
           <dt>What is wrong (1)</dt><dd>A product page opens at any address that has its number. <code>/ar/product/2545/kamyra-kanwn-4000d/</code>, <code>/ar/product/2545/4000d/</code> and <code>/ar/product/2545/anything/</code> all show the same page, and each copy tells Google that it is the official address.</dd>
-          <dt>What is wrong (2)</dt><dd>When a product is deleted, its address sends the visitor to the home page. On Oct 11, 99 of the 1,188 product addresses in the sitemap did this (8%). Fixed on Oct 25: on Nov 5, 0 of the 1,321 addresses in the sitemap fail.</dd>
+          <dt>What is wrong (2)</dt><dd>When a product is deleted, its address sends the visitor to the home page. On Oct 11, 99 of the 1,188 product addresses in the sitemap did this (8%). Fixed on Oct 25: on Nov 8, 0 of the 1,350 addresses in the sitemap fail.</dd>
           <dt>Why it matters</dt><dd>(1) Google can index several copies of one product and split its ranking between them. It already indexes two addresses for 11 products, for example <code>/ar/product/1662/120/</code>. (2) Google still lists deleted products as indexed (for example <code>/ar/product/2797/</code>, last crawled Sep 5). A searcher who clicks one lands on the home page with no explanation. Google calls a missing page that does not answer "not found" a soft 404, and the sitemap keeps sending Google to 99 dead addresses.</dd>
           <dt>The fix</dt><dd>In the product page code: a product that does not exist answers 404 ("not found"). An address with any slug other than the official one moves permanently (308) to the official address. The canonical tag is built from the product data, never from the address that was typed. The sitemap lists live products only.</dd>
           <dt>Owner</dt><dd>Dev team. The sitemap change goes to whoever builds <code>/sitemap/ar/products.xml</code>.</dd>
@@ -29,10 +29,10 @@
         </dl>
       </div>
 
-      <h2 id="nov1">Live checks, Nov 5</h2>
-      <p>Every address in this table gave the expected answer on Nov 5:</p>
+      <h2 id="nov1">Live checks, Nov 8</h2>
+      <p>Every address in this table gave the expected answer on Nov 8:</p>
       <div class="tablebox"><table>
-        <thead><tr><th>Address</th><th>Answer Nov 5</th><th>Result</th></tr></thead>
+        <thead><tr><th>Address</th><th>Answer Nov 8</th><th>Result</th></tr></thead>
         <tbody>
           <tr><td><a href="https://renter.net/ar/product/2545/kamyra-kanwn-4000d/">/ar/product/2545/kamyra-kanwn-4000d/</a></td><td>200, canonical = itself</td><td>Pass</td></tr>
           <tr><td><a href="https://renter.net/ar/product/2545/4000d/">/ar/product/2545/4000d/</a></td><td>308 to <code>/ar/product/2545/kamyra-kanwn-4000d/</code></td><td>Pass</td></tr>
@@ -43,9 +43,11 @@
           <tr><td><a href="https://renter.net/ar/product/2545/kamyra-kanwn-4000d">/ar/product/2545/kamyra-kanwn-4000d</a> (no end slash)</td><td>308 to the address with the slash</td><td>Pass</td></tr>
           <tr><td><a href="https://renter.net/ar/product/2797/ntyndw-swytsh/">/ar/product/2797/ntyndw-swytsh/</a> (deleted)</td><td>404</td><td>Pass</td></tr>
           <tr><td><a href="https://renter.net/ar/product/99999999/x/">/ar/product/99999999/x/</a> (never existed)</td><td>404</td><td>Pass</td></tr>
-          <tr><td><a href="https://renter.net/sitemap/ar/products.xml">/sitemap/ar/products.xml</a></td><td>1,321 products, all answer 200, each canonical = itself</td><td>Pass</td></tr>
+          <tr><td><a href="https://renter.net/sitemap/ar/products.xml">/sitemap/ar/products.xml</a></td><td>1,350 products, all answer 200, each canonical = itself. The English sitemap gives the same result.</td><td>Pass</td></tr>
         </tbody>
       </table></div>
+      <p>We also tested 20 random products from the sitemap, each with a wrong slug and with no slug. All 40 addresses answered 308 to the official address.</p>
+      <p class="note">One note from Nov 8: for about 10 minutes, the no-slug address of live products (for example <code>/ar/product/2545/</code>) answered 404 after 60 seconds, and in another test 308 after 30 seconds. Some minutes later, 12 of 12 no-slug tests in Arabic and English answered 308 in less than 1 second. A live product must never answer 404. If the server logs show slow product lookups at about 13:15 UTC on Nov 8, please check them.</p>
 
       <h2 id="proof">Proof, Oct 11</h2>
       <p>On Oct 11 these addresses gave the wrong answers below:</p>

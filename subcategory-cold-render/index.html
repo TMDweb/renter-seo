@@ -133,13 +133,13 @@
 <div class="container">
   <div class="doc">
     <div class="doc-header">
-      <span class="section-kicker"><span class="kicker">Renter × TMD · Dev Ticket · checked live Nov 5, 2026</span></span>
+      <span class="section-kicker"><span class="kicker">Renter × TMD · Dev Ticket · checked live Nov 8, 2026</span></span>
       <h1 class="doc-title">Subcategory pages: the first server render after cache expiry ships polluted HTML (9 H1s, info-page content inlined)</h1>
-      <p class="doc-subtitle">The first build of a subcategory page after its cached copy expires merges the full content of the info pages (Founder's Message, Terms, Cancellation, Privacy, both languages) into the page HTML. The broken copy is then served to every visitor until the next regeneration. Reproduced on Jul 12 on 5 of 5 quiet subcategories. Not reproduced on Nov 1: 87 of 87 subcategories were clean on the first request.</p>
+      <p class="doc-subtitle">The first build of a subcategory page after its cached copy expires merges the full content of the info pages (Founder's Message, Terms, Cancellation, Privacy, both languages) into the page HTML. The broken copy is then served to every visitor until the next regeneration. Reproduced on Jul 12 on 5 of 5 quiet subcategories. Not reproduced on Nov 1, Nov 5 or Nov 8: 87 of 87 subcategories were clean on the first request.</p>
       <div class="pill-row">
         <span class="pill crit">Priority: High (SEO)</span>
         <span class="pill">Area: Next.js SSR / ISR, subcategory routes</span>
-        <span class="pill">Status: Closed Nov 5, clean 87 of 87 twice</span>
+        <span class="pill">Status: Closed Nov 5, clean 87 of 87 three times</span>
         <span class="pill">Reported: Jul 12, 2026</span>
       </div>
     </div>
@@ -147,13 +147,14 @@
     <div class="doc-body">
 
       <section>
-        <h2><span class="num">00</span>Status, checked live Nov 5, 2026</h2>
-        <div class="statusbar"><span class="pill done">CLOSED NOV 5</span><span class="txt">Clean on Nov 1 and Nov 5: the first request to each of the 87 Arabic subcategories gave 200 and exactly 1 H1. Low priority item left: the info-page text still travels in the script data.</span></div>
+        <h2><span class="num">00</span>Status, checked live Nov 8, 2026</h2>
+        <div class="statusbar"><span class="pill done">CLOSED NOV 5</span><span class="txt">Clean on Nov 1, Nov 5 and Nov 8: the first request to each of the 87 Arabic subcategories gave 200 and exactly 1 H1. Low priority item left: the info-page text still travels in the script data.</span></div>
         <div class="callout ok">
-          <h3>Closed: clean on Nov 1 and Nov 5, 87 of 87 subcategories</h3>
+          <h3>Closed: clean on Nov 1, Nov 5 and Nov 8, 87 of 87 subcategories</h3>
+          <p>On Nov 8 we requested each of the 87 Arabic subcategories in <a href="https://renter.net/sitemap/ar/product-subcategories.xml">/sitemap/ar/product-subcategories.xml</a> with a new cache-busting query string (for example <code>?cb=nov8…</code>), so each request was a first hit. Every answer was 200 with exactly <strong>1 <code>&lt;h1&gt;</code></strong>, the subcategory heading. Answer times were 0.8 to 3.5 seconds. No change since Nov 5.</p>
           <p>On Nov 5 we requested each of the 87 Arabic subcategories in <a href="https://renter.net/sitemap/ar/product-subcategories.xml">/sitemap/ar/product-subcategories.xml</a> once, before any other TMD request to them that day. Every first answer was 200 with exactly <strong>1 <code>&lt;h1&gt;</code></strong>, the subcategory heading. This includes the 6 pages in the table below, for example <a href="https://renter.net/ar/courts-and-arenas/volleyball-courts/">/ar/courts-and-arenas/volleyball-courts/</a>. Answer times were 0.7 to 2.0 seconds (3.6 to 7.6 seconds on Nov 1). This is the second clean check in a row, so the ticket closes.</p>
         </div>
-        <p><strong>Still there, but not shown (low priority):</strong> the full text of the info pages (Terms, Privacy and the others) still travels in the page's script data (the Next.js data inside <code>&lt;script&gt;</code> tags). For example, every paragraph of <a href="https://renter.net/ar/privacy-policy/">/ar/privacy-policy/</a> and <a href="https://renter.net/ar/terms-and-conditions/">/ar/terms-and-conditions/</a> is in the script data of the volleyball courts page. It is not printed as headings or text in the HTML, so it is not a duplicate-content or H1 problem. It does add weight to every page. Owner: Dev team.</p>
+        <p><strong>Still there on Nov 8, but not shown (low priority):</strong> the full text of the info pages (Terms, Privacy and the others) still travels in the page's script data (the Next.js data inside <code>&lt;script&gt;</code> tags). For example, every paragraph of <a href="https://renter.net/ar/privacy-policy/">/ar/privacy-policy/</a> and <a href="https://renter.net/ar/terms-and-conditions/">/ar/terms-and-conditions/</a> is in the script data of the volleyball courts page. On Nov 8, 20 of the 21 long paragraphs of the privacy page and 32 of the 33 of the terms page were in that script data, and none was in the visible HTML. It is not printed as headings or text in the HTML, so it is not a duplicate-content or H1 problem. It does add weight to every page. Owner: Dev team.</p>
         <p><strong>Next step:</strong> none for this ticket. If a page shows more than 1 H1 again, TMD reopens it with the new evidence.</p>
       </section>
 
@@ -260,7 +261,7 @@
 
     </div>
   </div>
-  <p class="footer-note">Prepared by TMD · reported Jul 12, 2026 · checked live against renter.net on Nov 5, 2026 · questions in #renter-seo</p>
+  <p class="footer-note">Prepared by TMD · reported Jul 12, 2026 · checked live against renter.net on Nov 8, 2026 · questions in #renter-seo</p>
 </div>
 </body>
 </html>

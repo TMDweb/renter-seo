@@ -11,11 +11,11 @@
 <div class="page">
   <header class="doc-header">
     <a class="backbtn" href="../head-metadata/">&#8592; Back to the dev board</a>
-    <p class="kicker">Renter × TMD · Dev ticket · checked live Nov 5, 2026</p>
+    <p class="kicker">Renter × TMD · Dev ticket · checked live Nov 8, 2026</p>
   </header>
   <div class="doc-body">
       <h1>v2.renter.net: a full copy of the site that Google indexes</h1>
-      <div class="statusbar"><span class="pill done">DONE</span><span class="txt">Jan fixed it. Checked Nov 5, 2026: every v2.renter.net address answers a 301 to the same path on renter.net, including robots.txt over http and https. The certificate now covers v2.renter.net, valid until Feb 3, 2027. The 181 v2 pages should drop out of Google over the next weeks; Saiaf checks Search Console.</span></div>
+      <div class="statusbar"><span class="pill done">DONE</span><span class="txt">Jan fixed it on Nov 5. Checked Nov 8, 2026: every v2.renter.net address still answers a 301 to the same path on renter.net, including robots.txt over http and https. The certificate covers v2.renter.net, valid until Feb 3, 2027. Search Console, Nov 8: v2 pages still show in Google (19 pages on Nov 6 and 7, 22 views on Nov 7). They should drop out over the next weeks; we check again next week.</span></div>
 
       <div class="inshort">
         <h2>In short</h2>
@@ -28,17 +28,23 @@
         </dl>
       </div>
 
-            <h2 id="verified">Verified, Nov 5, 2026</h2>
-      <p>All 4 checks pass:</p>
+            <h2 id="verified">Verified, Nov 8, 2026</h2>
+      <p>All 4 checks pass, as on Nov 5:</p>
       <ol>
         <li><code>https://v2.renter.net/ar/</code> answers <code>301</code> to <code>https://renter.net/ar/</code>.</li>
-        <li><code>https://v2.renter.net/en/product/1876/bwklynat-liyjar/</code> answers <code>301</code> to the same path on renter.net. Query strings are kept.</li>
+        <li><code>https://v2.renter.net/en/product/1876/bwklynat-liyjar/</code> answers <code>301</code> to the same path on renter.net. Query strings are kept. The first blog article and product 1733 (EN) also answer <code>301</code> to their renter.net paths, and <code>http://v2.renter.net/ar/</code> answers <code>301</code> to <code>https://renter.net/ar/</code>.</li>
         <li><code>http://v2.renter.net/robots.txt</code> and the https version answer <code>301</code> to <code>https://renter.net/robots.txt</code>.</li>
-        <li>A strict https request shows no certificate error. The certificate lists renter.net, v2.renter.net and www.renter.net.</li>
+        <li>A strict https request shows no certificate error. The certificate lists renter.net, v2.renter.net and www.renter.net, valid from Nov 5, 2026 to Feb 3, 2027.</li>
       </ol>
+      <p>Search Console on Nov 8 shows how Google sees the v2 pages:</p>
+      <ul>
+        <li>From Aug 1 to Nov 7, 209 v2.renter.net pages had views in results (on Nov 5 we counted 181 pages for Aug 1 to Nov 2).</li>
+        <li>On Nov 6 and 7, after the fix, 19 v2 pages still had views: 23 views on Nov 6 and 22 on Nov 7. Search Console data runs 1 to 2 days behind.</li>
+        <li>Not re-checked Nov 8: URL Inspection for product 1733 (EN), because the inspection tool did not accept the v2 address. Last check Nov 5.</li>
+      </ul>
 
-      <h2 id="proof">Proof, Nov 5</h2>
-      <p>These are the live answers from v2.renter.net today:</p>
+      <h2 id="proof">Before the fix, Nov 5</h2>
+      <p>These were the live answers from v2.renter.net on Nov 5, before Jan's fix:</p>
       <div class="tablebox"><table>
         <thead><tr><th>Check</th><th>Result</th></tr></thead>
         <tbody>

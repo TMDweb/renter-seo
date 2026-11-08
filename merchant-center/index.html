@@ -11,17 +11,17 @@
 <div class="page">
   <header class="doc-header">
     <a class="backbtn" href="../head-metadata/">&#8592; Back to the dev board</a>
-    <p class="kicker">Renter × TMD · Dev ticket · checked live Nov 5, 2026</p>
+    <p class="kicker">Renter × TMD · Dev ticket · checked live Nov 8, 2026</p>
   </header>
   <div class="doc-body">
       <h1>Google Shopping: the return policy is rejected and 264 vehicles are not approved</h1>
-      <div class="statusbar"><span class="pill progress">PAGE FIXED, SETTINGS NEXT</span><span class="txt">Checked Nov 5, 2026. The approved return wording is now live on the <a href="https://renter.net/ar/return-policy/">Arabic</a> and <a href="https://renter.net/en/return-policy/">English</a> return policy pages (Paulo, Nov 1). Next: Saiaf sets the same values in Merchant Center and asks for a new review. The Merchant Center numbers below are old: the last full check was Oct 11 (896 approved, 264 not approved, all vehicles), and the Merchant API answered 403 on Nov 5. The feed holds all 1,321 products; files 25 to 27 still need registering.</span></div>
+      <div class="statusbar"><span class="pill progress">PAGE FIXED, SETTINGS NEXT</span><span class="txt">Checked Nov 8, 2026. The approved return wording is still live on the <a href="https://renter.net/ar/return-policy/">Arabic</a> and <a href="https://renter.net/en/return-policy/">English</a> return policy pages (Paulo, Nov 1). Next: Saiaf sets the same values in Merchant Center and asks for a new review. The Merchant Center numbers below are old: the last full check was Oct 11 (896 approved, 264 not approved, all vehicles). Not re-checked Nov 8: the Merchant API answered 403, as on Nov 5. The feed holds all 1,350 products (29 more than Nov 5); files 25 to 27 (150 products) still need registering.</span></div>
 
       <div class="inshort">
         <h2>In short</h2>
         <dl>
           <dt>Done so far</dt><dd>The price 0, broken photo and missing photo issues are gone from Merchant Center (Oct 11).</dd>
-          <dt>What is wrong</dt><dd>(1) Google rejected the return policy: "Return information provided does not match your online store." The Merchant Center settings say "1 day, customer pays the return"; the page says "end of the rental, no fees". (2) 264 of 1,160 products were not approved on Oct 11, all under Google's vehicle policy. (3) The feed was empty from Oct 5 to Oct 13 and on Oct 18. It is full again since Oct 25 (1,321 products on Nov 5), but files 25 to 27 are not registered yet.</dd>
+          <dt>What is wrong</dt><dd>(1) Google rejected the return policy: "Return information provided does not match your online store." The Merchant Center settings say "1 day, customer pays the return"; the page says "end of the rental, no fees". (2) 264 of 1,160 products were not approved on Oct 11, all under Google's vehicle policy. (3) The feed was empty from Oct 5 to Oct 13 and on Oct 18. It is full again since Oct 25 (1,350 products on Nov 8), but files 25 to 27 are not registered yet.</dd>
           <dt>Why it matters</dt><dd>Google Shopping brought 718 clicks in the 28 days to Oct 11, up 22%. An empty feed loses all of them. A rejected return policy can limit or stop listings: on Aug 25, the missing return policy took all products off Google Shopping.</dd>
           <dt>The fix</dt><dd>Part 0: the feed is restored; Saiaf registers files 25 to 27 (<a href="../merchant-feed/">feed ticket</a>, board issue 14). Part 1: done on the page (Paulo, Nov 1); Saiaf now sets the same values in Merchant Center. Part 3: Ahmed takes the vehicle products out of Google Shopping. Part 2 was done on Oct 11; 16 products at 0 SAR are back in the feed.</dd>
           <dt>Owners</dt><dd>Paulo: the return policy page (done Nov 1). Dev team: the 0 SAR products and the stale feed files 28 and 29. Ahmed: the vehicles. Saiaf: feed files 25 to 27, Merchant Center settings and the resubmission.</dd>
@@ -30,7 +30,7 @@
       </div>
 
       <h2 id="return">Part 1: the return policy</h2>
-      <p>Google compares the Merchant Center settings with the page, field by field: "Confirm that the return policies are consistent in Merchant Center and across your website." (<a href="https://support.google.com/merchants/answer/14011730">Google: set up return policies</a>). On Oct 4 the settings were changed to "1 day" as a test; Google rejected that too, because the page still has no number of days. In the Oct 4 meeting Mr. Mohamed declined "10 days" and "3 days" for legal reasons. On Oct 18 he approved a wording (below). Checked Nov 5: the page now carries it. The settings still say what they said on Oct 11, so the two still differ until Saiaf edits them. The table compares the two, field by field:</p>
+      <p>Google compares the Merchant Center settings with the page, field by field: "Confirm that the return policies are consistent in Merchant Center and across your website." (<a href="https://support.google.com/merchants/answer/14011730">Google: set up return policies</a>). On Oct 4 the settings were changed to "1 day" as a test; Google rejected that too, because the page still has no number of days. In the Oct 4 meeting Mr. Mohamed declined "10 days" and "3 days" for legal reasons. On Oct 18 he approved a wording (below). Checked Nov 8: the page still carries it. The settings were last read on Oct 11; we could not read them on Nov 8 (Merchant API 403). Until Saiaf edits them, the two differ. The table compares the two, field by field:</p>
       <div class="tablebox"><table>
         <thead><tr><th>Field</th><th>Merchant Center today</th><th><a href="https://renter.net/ar/return-policy/">Return policy page</a> today</th></tr></thead>
         <tbody>
@@ -44,7 +44,7 @@
       </table></div>
 
       <h3>Approved by Mr. Mohamed on Oct 18</h3>
-      <p>The renter returns the item at the end of the rental. The return fee is 0 SAR. If the item does not match the listing, the renter may return it within 1 day for a full refund. Saiaf sent this text to Paulo in Slack on Oct 25. Paulo reported it live on Nov 1. Checked Nov 5: both <a href="https://renter.net/ar/return-policy/">/ar/return-policy/</a> and <a href="https://renter.net/en/return-policy/">/en/return-policy/</a> carry the approved text word for word. Details are in the <a href="../return-policy-page/#approved">return policy page ticket</a>.</p>
+      <p>The renter returns the item at the end of the rental. The return fee is 0 SAR. If the item does not match the listing, the renter may return it within 1 day for a full refund. Saiaf sent this text to Paulo in Slack on Oct 25. Paulo reported it live on Nov 1. Checked Nov 8: both <a href="https://renter.net/ar/return-policy/">/ar/return-policy/</a> and <a href="https://renter.net/en/return-policy/">/en/return-policy/</a> still carry the approved text word for word. Details are in the <a href="../return-policy-page/#approved">return policy page ticket</a>.</p>
 
       <p><strong>Next, Saiaf</strong> (the new text is live since Nov 1): Merchant Center, Return policies, "Standard for Saudi Arabia", Edit. Set returns for defective products only (the item does not match the listing), return window 1 day, free returns, and no exchanges. Keep the policy URL <code>https://renter.net/ar/return-policy/</code>. Save. Google's review can take up to 10 days.</p>
 
@@ -54,15 +54,15 @@
         <thead><tr><th>Merchant Center issue</th><th>Products, Oct 11</th><th>Cause</th><th>Fix</th><th>Owner</th></tr></thead>
         <tbody>
           <tr><td>Vehicles</td><td>264 (215 in the priority list)</td><td>Google does not allow vehicles in Shopping (Part 3)</td><td>Task in Part 3</td><td>Ahmed</td></tr>
-          <tr><td>Invalid price</td><td><strong>Done</strong> Oct 11, 0 (was 18). Back in the feed Nov 1 and still there Nov 5: 16 products at 0 SAR, listed in the <a href="../merchant-feed/#f2">feed ticket</a></td><td>The product price is 0</td><td>Feed rule: leave out every product with a price of 0 or less</td><td>Dev team</td></tr>
+          <tr><td>Invalid price</td><td><strong>Done</strong> Oct 11, 0 (was 18). Back in the feed Nov 1 and still there Nov 8: the same 16 products at 0 SAR, listed in the <a href="../merchant-feed/#f2">feed ticket</a></td><td>The product price is 0</td><td>Feed rule: leave out every product with a price of 0 or less</td><td>Dev team</td></tr>
           <tr><td>Unsupported image type</td><td><strong>Done</strong>, 0 (was 17)</td><td>The photo links return "404 Not Found": the files are missing on <code>admin-production.renter.net/storage</code>. All photos of these 18 products are missing, so visitors also see no photos on their pages</td><td>Jan: restore the files from a backup if one exists; if not, ask the lessors to upload new photos. Feed rule: leave out products with no working photo</td><td>Jan, Dev team</td></tr>
           <tr><td>Missing product image</td><td><strong>Done</strong>, 0 (was 15)</td><td>The product has no photo</td><td>Feed rule: leave out products with no photo</td><td>Dev team</td></tr>
         </tbody>
       </table></div>
-      <p>The 18 products with missing photo files, all in one number range: 1252, 1253, 1254, 1255, 1257, 1258, 1259, 1261, 1263, 1264, 1266, 1267, 1268, 1269, 1276, 1279, 1295, 1298. Example: <a href="https://admin-production.renter.net/storage/post_images_17790936669896840623.jpg">the first photo of product 1298</a> answers 404.</p>
+      <p>The 18 products with missing photo files, all in one number range: 1252, 1253, 1254, 1255, 1257, 1258, 1259, 1261, 1263, 1264, 1266, 1267, 1268, 1269, 1276, 1279, 1295, 1298. Example: <a href="https://admin-production.renter.net/storage/post_images_17790936669896840623.jpg">the first photo of product 1298</a> answers 404 (still 404 on Nov 8).</p>
 
       <h2 id="vehicles">Part 3: vehicles in Google Shopping</h2>
-      <p>Merchant Center says: "You are not allowed to display motor or sail-powered vehicles used for public transportation on your website." (<a href="https://support.google.com/merchants/answer/17233951#vehicles">Google: unsupported Shopping content, vehicles</a>). On Oct 11 the feed carried 297 products from the category سيارات ومركبات; on Nov 1 it carried 345, and on Nov 5 it carries 359. The split on Oct 11:</p>
+      <p>Merchant Center says: "You are not allowed to display motor or sail-powered vehicles used for public transportation on your website." (<a href="https://support.google.com/merchants/answer/17233951#vehicles">Google: unsupported Shopping content, vehicles</a>). On Oct 11 the feed carried 297 products from the category سيارات ومركبات; on Nov 1 it carried 345, on Nov 5 359, and on Nov 8 it carries 397. The split on Oct 11:</p>
       <div class="tablebox"><table>
         <thead><tr><th>Subcategory</th><th>Products in the feed</th></tr></thead>
         <tbody>

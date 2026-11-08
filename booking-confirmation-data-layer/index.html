@@ -11,12 +11,12 @@
 <div class="page">
   <header class="doc-header">
     <a class="backbtn" href="../head-metadata/">&#8592; Back to the dev board</a>
-    <p class="kicker">Renter × TMD · Dev ticket · checked live Nov 5, 2026</p>
+    <p class="kicker">Renter × TMD · Dev ticket · checked live Nov 8, 2026</p>
   </header>
   <div class="doc-body">
 
     <h1>Developer action: expose confirmed bookings to GTM</h1>
-      <div class="statusbar"><span class="pill progress">LAST CHECK PENDING</span><span class="txt">Checked Nov 5, 2026: nothing left to build. The live <a href="https://www.googletagmanager.com/gtm.js?id=GTM-WXTFBJCJ">Tag Manager container</a> is still version 19 with the <code>booking_confirmed</code> trigger. The site push sits on the booking pages, which need a login; it passed the simulated payment test and was not re-checked. Google Analytics was not read on Nov 5: the API login has no Analytics access (403). Last step (Saiaf): open Google Analytics and confirm one real paid booking with its booking number.</span></div>
+      <div class="statusbar"><span class="pill progress">LAST CHECK PENDING</span><span class="txt">Checked Nov 8, 2026: nothing left to build. The live <a href="https://www.googletagmanager.com/gtm.js?id=GTM-WXTFBJCJ">Tag Manager container</a> is still version 19 with the <code>booking_confirmed</code> trigger, and renter.net still loads it. Not re-checked Nov 8: the site push, because it sits on the booking pages, which need a login. It passed the simulated payment test on Sep 27. Not re-checked Nov 8: Google Analytics, because the API login has no Analytics access (403). The last try, on Nov 5, also answered 403. Last step (Saiaf): open Google Analytics and confirm one real paid booking with its booking number.</span></div>
     <p class="muted">The current <code>/ar/payment/</code> trigger is invalid; that URL is a 404.</p>
 
     <div class="rule">

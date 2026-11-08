@@ -447,8 +447,8 @@
         <p class="subhead">A concise handoff for Paulo: publish one root sitemap index for renter.net, then split the final URL-list XML files by language and URL type.</p>
         <div class="meta-row" aria-label="handoff metadata">
           <span class="tag">Target: live renter.net sitemap</span>
-          <span class="tag">Status: Done, 1 small gap (3 English hubs)</span>
-          <span class="tag"><span class="kicker">Renter × TMD · Dev ticket · checked live Nov 5, 2026</span></span>
+          <span class="tag">Status: Done, English blog gap closed Nov 8</span>
+          <span class="tag"><span class="kicker">Renter × TMD · Dev ticket · checked live Nov 8, 2026</span></span>
           <span class="tag">Production URL: <a href="https://renter.net/sitemap.xml">https://renter.net/sitemap.xml</a></span>
           <span class="tag">Test URL: <a href="https://v2-staging.renter.net/sitemap.xml">https://v2-staging.renter.net/sitemap.xml</a></span>
         </div>
@@ -457,19 +457,20 @@
 
     <main>
       <section>
-        <h2>Status, checked live Nov 5, 2026</h2>
-        <div class="statusbar"><span class="pill done">DONE, 1 SMALL GAP</span><span class="txt">All 11 sitemap files answer 200 as XML, and every listed address answers 200 with a self canonical. Gap, owner Paulo: 3 English blog hubs are missing from the English blog sitemap.</span></div>
+        <h2>Status, checked live Nov 8, 2026</h2>
+        <div class="statusbar"><span class="pill done">DONE NOV 8</span><span class="txt">All 11 sitemap files answer 200 as XML, and all 2,930 listed addresses answer 200 with a self canonical. The Nov 5 gap is closed: the English blog sitemap now lists the 3 missing English hubs.</span></div>
         <div class="callout success">
-          <p><strong>Done.</strong> <a href="https://renter.net/sitemap.xml">/sitemap.xml</a> is a sitemap index of 10 files: the 8 below plus <a href="https://renter.net/sitemap/ar/blog.xml">/sitemap/ar/blog.xml</a> and <a href="https://renter.net/sitemap/en/blog.xml">/sitemap/en/blog.xml</a>. All 11 files answer 200 as <span class="inline-code">application/xml</span>. <a href="https://renter.net/robots.txt">robots.txt</a> points to the index. No file has hreflang alternates, and every <span class="inline-code">&lt;lastmod&gt;</span> is an ISO 8601 UTC date.</p>
+          <p><strong>Done.</strong> <a href="https://renter.net/sitemap.xml">/sitemap.xml</a> is a sitemap index of 10 files: the 8 below plus <a href="https://renter.net/sitemap/ar/blog.xml">/sitemap/ar/blog.xml</a> and <a href="https://renter.net/sitemap/en/blog.xml">/sitemap/en/blog.xml</a>. All 11 files answer 200 as <span class="inline-code">application/xml</span> (checked Nov 8). <a href="https://renter.net/robots.txt">robots.txt</a> points to the index. No file has hreflang alternates, and every <span class="inline-code">&lt;lastmod&gt;</span> is an ISO 8601 UTC date.</p>
         </div>
         <div class="grid-3">
-          <div class="metric"><strong>1,321</strong><span>products per language (1,430 on Nov 1), the same IDs in both files; all 1,321 Arabic ones answer 200 with a self canonical, no deleted product listed</span></div>
-          <div class="metric"><strong>10 + 87</strong><span>categories and subcategories per language; all 97 Arabic ones answer 200 with a self canonical</span></div>
-          <div class="metric"><strong>7 + 11 + 3</strong><span>pages per language, Arabic blog addresses (5 on Nov 1), English blog addresses; all answer 200 with a self canonical</span></div>
+          <div class="metric"><strong>1,350</strong><span>products per language (1,321 on Nov 5), the same IDs in both files; all 2,700 product addresses (Arabic and English) answer 200 with a self canonical, no deleted product listed</span></div>
+          <div class="metric"><strong>10 + 87</strong><span>categories and subcategories per language; all 194 (Arabic and English) answer 200 with a self canonical</span></div>
+          <div class="metric"><strong>7 + 11 + 11</strong><span>pages per language, Arabic blog addresses, English blog addresses (3 on Nov 5); all answer 200 with a self canonical</span></div>
         </div>
-        <p style="margin-top:18px">The Arabic blog file grew from 5 to 11 addresses: the blog home, 4 hubs and 6 articles. The English file lists the blog home, the cars hub and 1 article.</p>
-        <div class="callout">
-          <p><strong>Small gap, owner Paulo:</strong> 3 English blog hubs answer 200 with <span class="inline-code">index, follow</span> and a self canonical, but are not in <a href="https://renter.net/sitemap/en/blog.xml">/sitemap/en/blog.xml</a>: <a href="https://renter.net/en/blog/guides/">/en/blog/guides/</a>, <a href="https://renter.net/en/blog/properties/">/en/blog/properties/</a> and <a href="https://renter.net/en/blog/occasions-and-entertainment/">/en/blog/occasions-and-entertainment/</a>. The Arabic file lists all 4 Arabic hubs. Add the 3 English hubs, or build the English file from the same rule as the Arabic one. The English versions of the other 5 Arabic articles, for example <a href="https://renter.net/en/blog/guides/how-renting-works-saudi/">/en/blog/guides/how-renting-works-saudi/</a>, answer 404, so they are correctly left out until they are published.</p>
+        <p style="margin-top:18px">Both blog files now list 11 addresses: the blog home, 4 hubs and 6 articles. The English file grew from 3 to 11 addresses since Nov 5.</p>
+        <div class="callout success">
+          <p><strong>Closed Nov 8.</strong> <a href="https://renter.net/sitemap/en/blog.xml">/sitemap/en/blog.xml</a> now lists all 4 English hubs and the English versions of all 6 articles. Each answers 200 with <span class="inline-code">index, follow</span> and a self canonical. No action left.</p>
+          <p><strong>The gap on Nov 5, owner Paulo:</strong> 3 English blog hubs answered 200 with <span class="inline-code">index, follow</span> and a self canonical, but were not in <a href="https://renter.net/sitemap/en/blog.xml">/sitemap/en/blog.xml</a>: <a href="https://renter.net/en/blog/guides/">/en/blog/guides/</a>, <a href="https://renter.net/en/blog/properties/">/en/blog/properties/</a> and <a href="https://renter.net/en/blog/occasions-and-entertainment/">/en/blog/occasions-and-entertainment/</a>. The English versions of 5 Arabic articles, for example <a href="https://renter.net/en/blog/guides/how-renting-works-saudi/">/en/blog/guides/how-renting-works-saudi/</a>, answered 404 then. On Nov 8 they answer 200 and are in the English file.</p>
         </div>
       </section>
 
