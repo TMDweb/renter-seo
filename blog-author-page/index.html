@@ -11,11 +11,11 @@
 <div class="page">
   <header class="doc-header">
     <a class="backbtn" href="../head-metadata/">&#8592; Back to the dev board</a>
-    <p class="kicker">Renter × TMD · Sub-ticket of issue 11 · checked live Nov 8, 2026</p>
+    <p class="kicker">Renter × TMD · Sub-ticket of issue 11 · checked live Nov 9, 2026</p>
   </header>
   <div class="doc-body">
       <h1>Blog author page: build /blog/author/renter-team/</h1>
-      <div class="statusbar"><span class="pill open">NOT BUILT</span><span class="txt"><strong>Checked live Nov 8, 2026: both author pages answer 404.</strong> <a href="https://renter.net/ar/blog/author/renter-team/">/ar/blog/author/renter-team/</a> and <a href="https://renter.net/en/blog/author/renter-team/">/en/blog/author/renter-team/</a> return 404. The data is ready: the <a href="https://admin-production.renter.net/api/v1/blog/authors/renter-team/?locale=ar">author API</a> returns the name, the bio and the 6 live posts in <a href="https://admin-production.renter.net/api/v1/blog/authors/renter-team/?locale=en">both languages</a>. Because the page does not exist, the BlogPosting schema on the 6 posts gives the author a name only, with no <code>url</code>, and the author box under each post does not link anywhere. Neither blog sitemap lists an author page. This ticket gives the mockup, the head tags, the JSON-LD and the sitemap entry.</span></div>
+      <div class="statusbar"><span class="pill progress">READY FOR PRODUCTION</span><span class="txt"><strong>Checked on staging Nov 9, 2026: Paulo's build passes; he can push it to production.</strong> On <a href="https://v2-staging.renter.net/ar/blog/author/renter-team/">Arabic</a> and <a href="https://v2-staging.renter.net/en/blog/author/renter-team/">English</a> staging, the page answers 200 with the breadcrumb, one H1, the bio, the hub cards and the pager. The head tags, ProfilePage and BreadcrumbList match this spec. <code>/page/1/</code> moves to page 1 (308), and <code>/page/2/</code> and an unknown author answer 404. Both blog sitemaps list the page, and the articles now link the author to it in the BlogPosting and in the author box. On renter.net both author pages still answer 404 (checked Nov 9), so this ticket stays open until the production check.</span></div>
       <div class="inshort">
         <h2>In short</h2>
         <dl>
@@ -26,6 +26,22 @@
           <dt>Done when</dt><dd>All checks in <a href="#done">Done when</a> pass on renter.net, in Arabic and English, on desktop and phone.</dd>
         </dl>
       </div>
+
+      <h2 id="staging">Staging check, Nov 9</h2>
+      <p>The list below gives each result from the staging check on Nov 9.</p>
+      <ul>
+        <li><span class="pill done">PASS</span> Status codes: author page 200 in both languages; <code>/page/1/</code> 308 to the base URL; <code>/page/2/</code> and <code>/blog/author/nobody/</code> 404.</li>
+        <li><span class="pill done">PASS</span> Page parts 1 to 4: breadcrumb with the last item as plain text, one H1 with the author name, bio, post count, H2, hub card, pager. No side scroll from the page at 1,200 px or 375 px.</li>
+        <li><span class="pill done">PASS</span> Head: title, description, canonical, 3 hreflang lines in the HTML and in the HTTP <code>Link</code> header, og (type profile) and twitter tags.</li>
+        <li><span class="pill done">PASS</span> JSON-LD: ProfilePage with an Organization as <code>mainEntity</code>, and BreadcrumbList with 3 items. <code>alternateName</code> is missing; it is optional.</li>
+        <li><span class="pill done">PASS</span> Sitemaps: both blog sitemaps list <code>https://renter.net/&lt;ar|en&gt;/blog/author/renter-team/</code> with a <code>lastmod</code>.</li>
+        <li><span class="pill done">PASS</span> Articles: the BlogPosting <code>author</code> has the <code>@id</code> and <code>url</code> of the author page, and the name in the author box links to it.</li>
+        <li><span class="pill progress">STAGING DATA</span> The English page shows <bdi>فريق رينتر</bdi> and an older bio because the staging author record has them. The production API already returns "Renter Team" and the current bio.</li>
+        <li><span class="pill progress">NOT TESTED</span> Empty state and page 2: staging has 1 post and no author without posts.</li>
+        <li><span class="pill progress">NOT THIS PAGE</span> On English pages at 375 px, the shared header "Get Started" button runs 4 px past the screen. Live renter.net has the same issue.</li>
+      </ul>
+      <figure class="shot"><a href="staging-ar-desktop-nov9.webp"><img src="staging-ar-desktop-nov9.webp" alt="Author page on staging in Arabic at 1,200 px" style="max-width:100%;height:auto;border:1px solid #ddd;border-radius:6px"></a><figcaption>Staging, Arabic, 1,200 px, Nov 9</figcaption></figure>
+      <p>After the production deploy, check that the page has <code>index, follow</code> and renter.net canonicals and hreflang, then run the <a href="#done">Done when</a> list on renter.net.</p>
 
       <h2 id="mockup">Mockup</h2>
       <p>The mockup reuses the live blog parts: the Cairo font, the <code>#2049ee</code> blue, the breadcrumb, the author box from the article page, and the hub card and grid with no change. The dark bar at the top of the mockup is not part of the page; it switches between the states.</p>
