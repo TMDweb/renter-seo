@@ -16,11 +16,16 @@
   <div class="doc-body">
       <h1>Lessor onboarding: guide popups and merchant landing page</h1>
       <div class="statusbar"><span class="pill progress">READY FOR PAULO</span><span class="txt"><strong>Checked live Nov 15, 2026.</strong> This ticket is the guide Paulo asked for on Nov 12. It tells you what to build for each web item in the <a href="../signup-ux/">sign-up UX ticket</a>, and it holds the three things Saiaf promised in the Nov 9 call: the text for the first-time popups in add-product (Arabic and English, table and JSON), the prototype of the merchant landing page, and the head tags for that page. Each number and claim on the landing page that Renter must confirm has a yellow mark.</span></div>
+      <div class="callout" id="mockup">
+        <h3>Start here: the landing page mockup</h3>
+        <p><a class="backbtn" href="https://tmd.sa/renter/lessor-landing/d1/2026-11-15/">Open the live mockup &#8594;</a></p>
+        <p>The mockup is a live HTML page in the TMD vault, with a phone view and a desktop view: <a href="https://tmd.sa/renter/lessor-landing/d1/2026-11-15/">tmd.sa/renter/lessor-landing/d1/2026-11-15/</a>. The page itself, full size: <a href="https://tmd.sa/renter/lessor-landing/d1/2026-11-15/mockup.html">mockup.html</a>.</p>
+      </div>
       <div class="inshort">
         <h2>In short</h2>
         <dl>
           <dt>What</dt><dd>A step-by-step build guide for the lessor path on the web: from the landing page to the first published item</dd>
-          <dt>Files</dt><dd><a href="guide-popups.json">guide-popups.json</a> (popup text, ar and en) · <a href="get-started.html">get-started.html</a> (landing page prototype, Arabic)</dd>
+          <dt>Files</dt><dd><a href="guide-popups.json">guide-popups.json</a> (popup text, ar and en) · <a href="https://tmd.sa/renter/lessor-landing/d1/2026-11-15/">landing page mockup</a> (live HTML in the TMD vault, Arabic)</dd>
           <dt>Checked</dt><dd>renter.net/ar/ on Nov 15: the header, the phone step, Renter's <a href="https://renter.net/ar/blog/guides/list-your-item-on-renter/">lessor guide</a> (the 8 add-item steps) and the fee and payout text in Renter's own posts. The Nov 9 call. Not checked: any screen after the code step, because we do not create a test account on production</dd>
           <dt>Owner</dt><dd>Paulo (web). TMD wrote the text. Renter confirms the marked values</dd>
           <dt>Done when</dt><dd>A new lessor who opens <code>renter.net/ar/get-started/</code> registers as a lessor, sees each popup one time, and publishes a first item. The checks are in <a href="#done">Done when</a></dd>
@@ -33,7 +38,7 @@
         <tbody>
           <tr><td>A "start as lessor" option at registration, so the new account opens in lessor mode</td><td>Paulo</td><td><span class="pill progress">TO VERIFY</span> Paulo reported done Nov 12; not seen before the code step on Nov 15, to verify</td></tr>
           <tr><td>First-time popups in add-product. Each one shows once per user, from the category step to publish</td><td>Paulo builds, TMD writes</td><td><span class="pill done">TEXT READY</span> <a href="#popup-spec">Spec</a> and <a href="#popup-text">text</a> below</td></tr>
-          <tr><td>A prototype of a merchant landing page, for WhatsApp outreach and paid ads. A page for renters can follow later</td><td>TMD</td><td><span class="pill done">PROTOTYPE READY</span> <a href="#landing">Prototype</a> below</td></tr>
+          <tr><td>A prototype of a merchant landing page, for WhatsApp outreach and paid ads. A page for renters can follow later</td><td>TMD</td><td><span class="pill done">MOCKUP READY</span> <a href="#mockup">Mockup</a> above</td></tr>
           <tr><td>A short screen-recording tutorial, to embed on the landing page</td><td>TMD</td><td><span class="pill open">NOT STARTED</span> The prototype has the slot for it</td></tr>
           <tr><td>The bank IBAN step</td><td>Mr. Mohamed</td><td>Stays as it is for now (Nov 9). The text below tells the lessor why Renter asks for it</td></tr>
         </tbody>
@@ -68,7 +73,7 @@
         <h3>4. The landing page for merchants</h3>
         <p class="meta">Sign-up UX #4 · prototype ready</p>
         <dl>
-          <dt>Change</dt><dd>Build the page from the <a href="get-started.html">prototype</a> with the site's own components. Every <bdi>«ابدأ كمؤجر»</bdi> button opens registration with the lessor option selected. Keep all <code>utm_*</code> parameters from the page address until sign-up is complete (see item 5). On a computer, the WhatsApp link opens this page, not the App Store.</dd>
+          <dt>Change</dt><dd>Build the page from the <a href="https://tmd.sa/renter/lessor-landing/d1/2026-11-15/">mockup</a> with the site's own components. Every <bdi>«ابدأ كمؤجر»</bdi> button opens registration with the lessor option selected. Keep all <code>utm_*</code> parameters from the page address until sign-up is complete (see item 5). On a computer, the WhatsApp link opens this page, not the App Store.</dd>
           <dt>Where</dt><dd><code>https://renter.net/ar/get-started/</code>. Paulo suggested this address in the call. The English page <code>/en/get-started/</code> can follow with the same structure.</dd>
           <dt>Text</dt><dd>All Arabic text is in the prototype file. Sections, in order: header, hero with the payout card, 3 steps, the video slot, what you can list, trust signs, the merchant FAQ, the last call to action. More detail in <a href="#landing">Landing page prototype</a>.</dd>
           <dt>Done when</dt><dd>The page answers 200 with the <a href="#head">head tags</a> below. At 375 px there is no sideways scroll and the <bdi>«ابدأ كمؤجر»</bdi> button stays in view at the bottom. The button opens the phone step. Renter confirmed each yellow mark, and no yellow mark is on the live page.</dd>
@@ -255,7 +260,7 @@ count.textContent = guide.labels.progress[locale]
   .replace('{n}', step.progress).replace('{total}', guide.total);</code></pre>
 
       <h2 id="landing">Landing page prototype</h2>
-      <p>The prototype is one HTML file with no build step: <a href="get-started.html">get-started.html</a>. It uses the look of renter.net as read on Nov 15: the Cairo font, the button blue <code>#2049EE</code>, the logo blue <code>#1036CE</code> and orange <code>#FF5833</code>, text <code>#333333</code> and 4 px button corners. It is a guide for content and order; build it with the site's own components.</p>
+      <p>The mockup is one live HTML page with no build step: <a href="https://tmd.sa/renter/lessor-landing/d1/2026-11-15/">open the mockup</a>. It uses the look of renter.net as read on Nov 15: the Cairo font, the button blue <code>#2049EE</code>, the logo blue <code>#1036CE</code> and orange <code>#FF5833</code>, text <code>#333333</code> and 4 px button corners. It is a guide for content and order; build it with the site's own components.</p>
       <div class="tablebox"><table>
         <thead><tr><th>Section</th><th>What it does</th></tr></thead>
         <tbody>
@@ -281,8 +286,6 @@ count.textContent = guide.labels.progress[locale]
         </ol>
         <p>The prototype shows a yellow mark next to each one. It has no other numbers.</p>
       </div>
-      <figure class="shot"><a href="landing-375.webp"><img src="landing-375.webp" alt="Landing page prototype at 375 px, full page" style="max-width:360px;width:100%;height:auto;border:1px solid #ddd;border-radius:6px"></a><figcaption>Prototype, 375 px, full page, Nov 15. No sideways scroll.</figcaption></figure>
-      <figure class="shot"><a href="landing-1200.webp"><img src="landing-1200.webp" alt="Landing page prototype at 1,200 px, full page" style="max-width:100%;height:auto;border:1px solid #ddd;border-radius:6px"></a><figcaption>Prototype, 1,200 px, full page, Nov 15</figcaption></figure>
 
       <h2 id="head">Head tags for the landing page</h2>
       <p>Use these tags on <code>https://renter.net/ar/get-started/</code>. The canonical has no <code>utm_*</code> parameters. Add the page to the Arabic sitemap. Add the <code>en</code> and <code>x-default</code> hreflang lines only when <code>/en/get-started/</code> is live.</p>
