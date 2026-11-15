@@ -11,11 +11,11 @@
 <div class="page">
   <header class="doc-header">
     <a class="backbtn" href="../head-metadata/">&#8592; Back to the dev board</a>
-    <p class="kicker">Renter × TMD · Sub-ticket of issue 11 · checked live Nov 9, 2026</p>
+    <p class="kicker">Renter × TMD · Sub-ticket of issue 11 · checked live Nov 15, 2026</p>
   </header>
   <div class="doc-body">
       <h1>Blog author page: build /blog/author/renter-team/</h1>
-      <div class="statusbar"><span class="pill done">LIVE ON RENTER.NET</span><span class="txt"><strong>Checked live Nov 9, 2026: the author page is live and passes every production check.</strong> <a href="https://renter.net/ar/blog/author/renter-team/">/ar/blog/author/renter-team/</a> and <a href="https://renter.net/en/blog/author/renter-team/">/en/blog/author/renter-team/</a> answer 200 with <code>index, follow</code>, renter.net canonicals and hreflang, the ProfilePage and BreadcrumbList, and all 6 posts. All 12 articles now link the author to the page, in the BlogPosting and in the author box, and both blog sitemaps list it. One item is left for Jan, and it is not urgent: the author API still has no paging (<code>page</code>, <code>per_page</code>, <code>meta</code>). This is needed only when the author has more than 12 posts.</span></div>
+      <div class="statusbar"><span class="pill done">LIVE ON RENTER.NET</span><span class="txt"><strong>Checked live Nov 15, 2026: the author page is still live and passes every production check.</strong> <a href="https://renter.net/ar/blog/author/renter-team/">/ar/blog/author/renter-team/</a> and <a href="https://renter.net/en/blog/author/renter-team/">/en/blog/author/renter-team/</a> answer 200 with <code>index, follow, max-image-preview:large</code>, renter.net canonicals, ar, en and x-default hreflang in the HTML and the HTTP <code>Link</code> header, og type profile, the ProfilePage and BreadcrumbList. They now list 8 posts in Arabic and 7 in English, including the 2 new posts. All 15 articles link the author to the page, in the BlogPosting and in the author box. Both blog sitemaps list the page with <code>lastmod</code> Nov 12. <code>/page/2/</code> and an unknown author answer 404, and <code>/page/1/</code> answers 308 to the base URL. One item is left for Jan, and it is not urgent: the <a href="https://admin-production.renter.net/api/v1/blog/authors/renter-team/?locale=ar&amp;page=2&amp;per_page=2">author API</a> still ignores <code>page</code> and <code>per_page</code> and has no <code>meta</code>. This is needed only when the author has more than 12 posts.</span></div>
       <div class="inshort">
         <h2>In short</h2>
         <dl>
@@ -27,18 +27,18 @@
         </dl>
       </div>
 
-      <h2 id="production">Production check, Nov 9</h2>
-      <p>The list below gives each <a href="#done">Done when</a> check with its result on renter.net.</p>
+      <h2 id="production">Production check, Nov 9, rechecked Nov 15</h2>
+      <p>The list below gives each <a href="#done">Done when</a> check with its result on renter.net on Nov 15.</p>
       <ol>
-        <li><span class="pill done">PASS</span> Both author pages answer 200, server-rendered, with the breadcrumb, one H1 (<bdi>فريق رينتر</bdi> / Renter Team), the bio, the post count and 6 cards.</li>
+        <li><span class="pill done">PASS</span> Both author pages answer 200, server-rendered, with the breadcrumb, one H1 (<bdi>فريق رينتر</bdi> / Renter Team), the bio, the post count and 8 cards in Arabic and 7 in English.</li>
         <li><span class="pill done">PASS</span> Head: <bdi>مقالات فريق رينتر | مدونة رينتر</bdi> and "Articles by Renter Team | Renter Blog", the bio as description, <code>index, follow, max-image-preview:large</code>, self canonical, ar, en and x-default hreflang in the HTML and in the HTTP <code>Link</code> header, og (type profile) and twitter tags. No staging addresses.</li>
         <li><span class="pill done">PASS</span> JSON-LD: ProfilePage with an Organization as <code>mainEntity</code> (with <code>alternateName</code>) and a BreadcrumbList with 3 items.</li>
         <li><span class="pill done">PASS</span> Each card links to its live post and hub, with the same card as the blog home.</li>
-        <li><span class="pill done">PASS</span> <code>/page/2/</code> answers 404 (6 posts), and <code>/page/1/</code> answers 308 to the base URL.</li>
-        <li><span class="pill progress">PARTLY TESTED</span> An unknown author slug answers 404. The empty state could not be tested on production, because no author there has 0 posts.</li>
-        <li><span class="pill done">PASS</span> Both blog sitemaps list the author page with a <code>lastmod</code>.</li>
-        <li><span class="pill done">PASS</span> On all 12 articles (6 Arabic, 6 English), the BlogPosting <code>author</code> is an Organization with the author page <code>url</code>, and the name in the author box links to it.</li>
-        <li><span class="pill done">PASS</span> At 375 px the Arabic page shows one card per row with no side scroll. On English pages the shared header "Get Started" button runs 4 px past the screen, on every page of the site. This is not part of this ticket.</li>
+        <li><span class="pill done">PASS</span> <a href="https://renter.net/ar/blog/author/renter-team/page/2/"><code>/page/2/</code></a> answers 404 (8 posts), and <a href="https://renter.net/ar/blog/author/renter-team/page/1/"><code>/page/1/</code></a> answers 308 to the base URL.</li>
+        <li><span class="pill progress">PARTLY TESTED</span> An unknown author slug answers 404, for example <a href="https://renter.net/en/blog/author/nobody/">/en/blog/author/nobody/</a>. The empty state could not be tested on production, because no author there has 0 posts.</li>
+        <li><span class="pill done">PASS</span> Both blog sitemaps list the author page with a <code>lastmod</code> (2026-11-12T23:15, the Dyna post): <a href="https://renter.net/sitemap/ar/blog.xml">ar</a>, <a href="https://renter.net/sitemap/en/blog.xml">en</a>.</li>
+        <li><span class="pill done">PASS</span> On all 15 articles (8 Arabic, 7 English), the BlogPosting <code>author</code> is an Organization with the author page <code>@id</code> and <code>url</code>, and the name in the author box links to it.</li>
+        <li><span class="pill done">PASS</span> Nov 9: at 375 px the Arabic page shows one card per row with no side scroll. Not re-measured Nov 15. On English pages the shared header "Get Started" button runs 4 px past the screen, on every page of the site. This is not part of this ticket.</li>
       </ol>
       <figure class="shot"><a href="live-ar-desktop-nov9.webp"><img src="live-ar-desktop-nov9.webp" alt="Live Arabic author page on renter.net at 1,200 px" style="max-width:100%;height:auto;border:1px solid #ddd;border-radius:6px"></a><figcaption>renter.net, Arabic, 1,200 px, Nov 9</figcaption></figure>
       <figure class="shot"><a href="live-en-desktop-nov9.webp"><img src="live-en-desktop-nov9.webp" alt="Live English author page on renter.net at 1,200 px" style="max-width:100%;height:auto;border:1px solid #ddd;border-radius:6px"></a><figcaption>renter.net, English, 1,200 px, Nov 9</figcaption></figure>
