@@ -1,0 +1,199 @@
+{
+  "version": 1,
+  "storageKey": "renter_lessor_guide_v1:{userId}",
+  "labels": {
+    "start": {
+      "ar": "أضف أول عنصر",
+      "en": "Add your first item"
+    },
+    "next": {
+      "ar": "التالي",
+      "en": "Next"
+    },
+    "got_it": {
+      "ar": "فهمت",
+      "en": "Got it"
+    },
+    "skip": {
+      "ar": "تخطي",
+      "en": "Skip"
+    },
+    "close": {
+      "ar": "إغلاق",
+      "en": "Close"
+    },
+    "tip": {
+      "ar": "نصيحة",
+      "en": "Tip"
+    },
+    "progress": {
+      "ar": "الخطوة {n} من {total}",
+      "en": "Step {n} of {total}"
+    }
+  },
+  "steps": {
+    "welcome": {
+      "order": 0,
+      "screen": "dashboard",
+      "progress": null,
+      "primary": "start",
+      "ar": {
+        "title": "أهلاً بك في حساب المؤجر",
+        "body": "خلنا نضيف أول عنصر لك. نوريك كل خطوة، وتقدر تتخطى الدليل متى ما بغيت."
+      },
+      "en": {
+        "title": "Welcome to your lessor account",
+        "body": "Let's add your first item. We'll show you each step, and you can skip the guide any time."
+      }
+    },
+    "category": {
+      "order": 1,
+      "screen": 1,
+      "progress": 1,
+      "primary": "got_it",
+      "ar": {
+        "title": "اختر الفئة",
+        "body": "اختر القسم الأقرب لغرضك، مثل «سيارات ومركبات» أو «عقارات». الفئة الصحيحة تخلي المستأجر يلقى إعلانك بسرعة."
+      },
+      "en": {
+        "title": "Pick a category",
+        "body": "Choose the section closest to your item, like Cars & Vehicles or Properties. The right category helps renters find your listing fast."
+      }
+    },
+    "subcategory": {
+      "order": 2,
+      "screen": 2,
+      "progress": 2,
+      "primary": "got_it",
+      "ar": {
+        "title": "حدد الفئة الفرعية",
+        "body": "اختر نوع غرضك بالضبط داخل الفئة، مثل «سيارات» أو «نقل ثقيل» أو «سطحة»."
+      },
+      "en": {
+        "title": "Choose the subcategory",
+        "body": "Pick the exact type of your item inside the category, like cars, heavy transport or tow trucks."
+      }
+    },
+    "name_description": {
+      "order": 3,
+      "screen": 3,
+      "progress": 3,
+      "primary": "next",
+      "ar": {
+        "title": "اكتب اسم العنصر ووصفه",
+        "body": "اذكر النوع والموديل في الاسم، مثل «تويوتا هايس 2015». وفي الوصف اكتب حالته ووش يشمل الإيجار.",
+        "tip": "اذكر العيوب إن وجدت. هذا يقلل الخلاف وقت الإرجاع."
+      },
+      "en": {
+        "title": "Name and describe your item",
+        "body": "Put the type and model in the name, like \"Toyota Hiace 2015\". In the description, say its condition and what the rent includes.",
+        "tip": "Mention any defects. It avoids disputes at return."
+      }
+    },
+    "quantity": {
+      "order": 4,
+      "screen": 3,
+      "progress": 4,
+      "primary": "got_it",
+      "ar": {
+        "title": "كم قطعة عندك؟",
+        "body": "إذا عندك أكثر من قطعة من نفس النوع، اكتب العدد هنا بدل ما تضيف كل قطعة لحالها."
+      },
+      "en": {
+        "title": "How many do you have?",
+        "body": "If you have more than one of the same item, enter the number here instead of adding each one separately."
+      }
+    },
+    "photos": {
+      "order": 5,
+      "screen": 4,
+      "progress": 5,
+      "primary": "got_it",
+      "ar": {
+        "title": "أضف صور حقيقية",
+        "body": "صوّر غرضك في ضوء النهار ومن أكثر من زاوية. المستأجرين يحجزون الإعلان اللي صوره واضحة أكثر.",
+        "tip": "حط 4 صور أو أكثر: من قدام، ومن الجنب، وصورة قريبة للتفاصيل، وصورة تبيّن الحالة."
+      },
+      "en": {
+        "title": "Add real photos",
+        "body": "Shoot your item in daylight from more than one angle. Renters book listings with clear photos more often.",
+        "tip": "Add 4 photos or more: front, side, a close-up of the details, and one that shows its condition."
+      }
+    },
+    "price_deposit": {
+      "order": 6,
+      "screen": 5,
+      "progress": 6,
+      "primary": "got_it",
+      "ar": {
+        "title": "حدد السعر والتأمين",
+        "body": "اختر نوع الإيجار واكتب السعر بالريال، ثم اضغط «إضافة». التأمين اختياري، ويرجع للمستأجر إذا رجّع الغرض سليم.",
+        "tip": "تقدر تضيف سعر لليوم وسعر للشهر. خل سعر الشهر أقل من سعر اليوم × 30 عشان يشجع الإيجار الطويل."
+      },
+      "en": {
+        "title": "Set the price and deposit",
+        "body": "Pick the rental type, enter the price in SAR, then tap Add. The deposit is optional; the renter gets it back when the item comes back in good shape.",
+        "tip": "You can add a daily and a monthly price. Keep the monthly price below 30 times the daily price to attract long rentals."
+      }
+    },
+    "extras": {
+      "order": 7,
+      "screen": 6,
+      "progress": 7,
+      "primary": "got_it",
+      "ar": {
+        "title": "خدمات إضافية (اختياري)",
+        "body": "عندك سائق أو توصيل أو تركيب؟ أضف الخدمة بسعرها هنا. ما عندك؟ اضغط «التالي» على طول."
+      },
+      "en": {
+        "title": "Extra services (optional)",
+        "body": "Do you offer a driver, delivery or setup? Add the service with its price here. None? Just tap Next."
+      }
+    },
+    "availability": {
+      "order": 8,
+      "screen": 7,
+      "progress": 8,
+      "primary": "got_it",
+      "ar": {
+        "title": "متى غرضك متاح؟",
+        "body": "اختر الأيام من التقويم، وحدد وقت البداية والنهاية. حدّثها إذا تغيرت مواعيدك عشان ما يجيك حجز في يوم مشغول."
+      },
+      "en": {
+        "title": "When is it available?",
+        "body": "Pick the days on the calendar and set the start and end times. Update them when your plans change, so no one books a busy day."
+      }
+    },
+    "delivery": {
+      "order": 9,
+      "screen": 8,
+      "progress": 9,
+      "primary": "got_it",
+      "ar": {
+        "title": "كيف يستلم المستأجر؟",
+        "body": "«استلام»: المستأجر يجي ويستلم منك، وتحدد الموقع على الخريطة أو تضغط «موقعي الحالي». «تسليم»: أنت توصّل الغرض له."
+      },
+      "en": {
+        "title": "How does the renter get it?",
+        "body": "Pickup: the renter collects it from you; set the spot on the map or tap My current location. Delivery: you bring the item to the renter."
+      }
+    },
+    "review_publish": {
+      "order": 10,
+      "screen": 9,
+      "progress": 10,
+      "primary": "got_it",
+      "ar": {
+        "title": "راجع وانشر",
+        "body": "تأكد من الصور والسعر والموقع، ثم اضغط «نشر العنصر». وبكذا يصير عنصرك جاهز للتأجير.",
+        "tip": "رد على المحادثات بسرعة. المستأجر غالباً يحجز من أول مؤجر يرد عليه."
+      },
+      "en": {
+        "title": "Review and publish",
+        "body": "Check the photos, price and location, then tap Publish item. Your item is then ready to rent.",
+        "tip": "Reply to chats fast. Renters often book with the first lessor who answers."
+      }
+    }
+  },
+  "total": 10
+}
