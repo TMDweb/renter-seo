@@ -447,8 +447,8 @@
         <p class="subhead">A concise handoff for Paulo: publish one root sitemap index for renter.net, then split the final URL-list XML files by language and URL type.</p>
         <div class="meta-row" aria-label="handoff metadata">
           <span class="tag">Target: live renter.net sitemap</span>
-          <span class="tag">Status: Done, still passes Nov 15</span>
-          <span class="tag"><span class="kicker">Renter × TMD · Dev ticket · checked live Nov 15, 2026</span></span>
+          <span class="tag">Status: Done, still passes Nov 22</span>
+          <span class="tag"><span class="kicker">Renter × TMD · Dev ticket · checked live Nov 22, 2026</span></span>
           <span class="tag">Production URL: <a href="https://renter.net/sitemap.xml">https://renter.net/sitemap.xml</a></span>
           <span class="tag">Test URL: <a href="https://v2-staging.renter.net/sitemap.xml">https://v2-staging.renter.net/sitemap.xml</a></span>
         </div>
@@ -457,19 +457,19 @@
 
     <main>
       <section>
-        <h2>Status, checked live Nov 15, 2026</h2>
-        <div class="statusbar"><span class="pill done">DONE NOV 8</span><span class="txt">All 11 sitemap files answer 200 as XML. They list 3,023 addresses (2,930 on Nov 8). We read 1,735 of them on Nov 15: all 1,394 Arabic products, a sample of 106 English products, and all 235 page, category, subcategory and blog addresses. All 1,735 answer 200 with a self canonical and <code>index, follow</code>. No deleted product is listed. No gap is open.</span></div>
+        <h2>Status, checked live Nov 22, 2026</h2>
+        <div class="statusbar"><span class="pill done">DONE NOV 8</span><span class="txt">All 11 sitemap files answer 200 as XML. They list 3,088 addresses (3,023 on Nov 15, 2,930 on Nov 8). We read 1,769 of them on Nov 22: all 1,426 Arabic products, a sample of 107 English products, and all 236 page, category, subcategory and blog addresses. All 1,769 answer 200 with a self canonical and <code>index, follow</code>. No deleted product is listed. No gap is open.</span></div>
         <div class="callout success">
-          <p><strong>Done.</strong> <a href="https://renter.net/sitemap.xml">/sitemap.xml</a> is a sitemap index of 10 files: the 8 below plus <a href="https://renter.net/sitemap/ar/blog.xml">/sitemap/ar/blog.xml</a> and <a href="https://renter.net/sitemap/en/blog.xml">/sitemap/en/blog.xml</a>. All 11 files answer 200 as <span class="inline-code">application/xml</span> (checked Nov 15). <a href="https://renter.net/robots.txt">robots.txt</a> points to the index. No file has hreflang alternates, and every <span class="inline-code">&lt;lastmod&gt;</span> is an ISO 8601 UTC date.</p>
+          <p><strong>Done.</strong> <a href="https://renter.net/sitemap.xml">/sitemap.xml</a> is a sitemap index of 10 files: the 8 below plus <a href="https://renter.net/sitemap/ar/blog.xml">/sitemap/ar/blog.xml</a> and <a href="https://renter.net/sitemap/en/blog.xml">/sitemap/en/blog.xml</a>. All 11 files answer 200 as <span class="inline-code">application/xml</span> (checked Nov 15 and Nov 22). <a href="https://renter.net/robots.txt">robots.txt</a> points to the index. No file has hreflang alternates, and every <span class="inline-code">&lt;lastmod&gt;</span> is an ISO 8601 UTC date.</p>
         </div>
         <div class="grid-3">
-          <div class="metric"><strong>1,394</strong><span>products per language (1,350 on Nov 8), the same IDs in both files; all 1,394 Arabic product addresses and a sample of 106 English ones answer 200 with a self canonical, no deleted product listed</span></div>
-          <div class="metric"><strong>10 + 87</strong><span>categories and subcategories per language; all 194 (Arabic and English) answer 200 with a self canonical</span></div>
-          <div class="metric"><strong>7 + 14 + 13</strong><span>pages per language, Arabic blog addresses, English blog addresses (11 and 11 on Nov 8); all answer 200 with a self canonical</span></div>
+          <div class="metric"><strong>1,426</strong><span>products per language (1,394 on Nov 15, 1,350 on Nov 8), the same IDs in both files; all 1,426 Arabic product addresses and a sample of 107 English ones answer 200 with a self canonical, no deleted product listed. Product 3781, added on Nov 22, was in the Arabic file first and in the English file about 1 hour later.</span></div>
+          <div class="metric"><strong>10 + 87</strong><span>categories and subcategories per language; all 194 (Arabic and English) answer 200 with a self canonical (Nov 22)</span></div>
+          <div class="metric"><strong>7 + 14 + 14</strong><span>pages per language, Arabic blog addresses, English blog addresses (14 and 13 on Nov 15, 11 and 11 on Nov 8); all answer 200 with a self canonical (Nov 22)</span></div>
         </div>
-        <p style="margin-top:18px">On Nov 15 the Arabic blog file lists 14 addresses: the blog home, 4 hubs, the author page and 8 articles. The English file lists 13: the same, with 7 articles. The Arabic article <a href="https://renter.net/ar/blog/cars-and-vehicles/dyna-pickup-rental-daily-monthly/">dyna-pickup-rental-daily-monthly</a> has no English version yet (its English address answers 404), so it is correctly left out of the English file.</p>
+        <p style="margin-top:18px">On Nov 22 both blog files list 14 addresses: the blog home, 4 hubs, the author page and 8 articles. The English <a href="https://renter.net/en/blog/cars-and-vehicles/dyna-pickup-rental-daily-monthly/">dyna-pickup-rental-daily-monthly</a> page is now live (200, <span class="inline-code">index, follow</span>, self canonical) and is in the English file. On Nov 15 the Arabic blog file lists 14 addresses: the blog home, 4 hubs, the author page and 8 articles. The English file lists 13: the same, with 7 articles. The Arabic article <a href="https://renter.net/ar/blog/cars-and-vehicles/dyna-pickup-rental-daily-monthly/">dyna-pickup-rental-daily-monthly</a> has no English version yet (its English address answers 404), so it is correctly left out of the English file.</p>
         <div class="callout success">
-          <p><strong>Closed Nov 8, still correct Nov 15.</strong> <a href="https://renter.net/sitemap/en/blog.xml">/sitemap/en/blog.xml</a> lists all 4 English hubs and every English article that is live. Each answers 200 with <span class="inline-code">index, follow</span> and a self canonical. No action left.</p>
+          <p><strong>Closed Nov 8, still correct Nov 15 and Nov 22.</strong> <a href="https://renter.net/sitemap/en/blog.xml">/sitemap/en/blog.xml</a> lists all 4 English hubs and every English article that is live. Each answers 200 with <span class="inline-code">index, follow</span> and a self canonical. No action left.</p>
           <p><strong>The gap on Nov 5, owner Paulo:</strong> 3 English blog hubs answered 200 with <span class="inline-code">index, follow</span> and a self canonical, but were not in <a href="https://renter.net/sitemap/en/blog.xml">/sitemap/en/blog.xml</a>: <a href="https://renter.net/en/blog/guides/">/en/blog/guides/</a>, <a href="https://renter.net/en/blog/properties/">/en/blog/properties/</a> and <a href="https://renter.net/en/blog/occasions-and-entertainment/">/en/blog/occasions-and-entertainment/</a>. The English versions of 5 Arabic articles, for example <a href="https://renter.net/en/blog/guides/how-renting-works-saudi/">/en/blog/guides/how-renting-works-saudi/</a>, answered 404 then. On Nov 8 they answer 200 and are in the English file.</p>
         </div>
       </section>

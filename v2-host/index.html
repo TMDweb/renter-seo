@@ -11,11 +11,11 @@
 <div class="page">
   <header class="doc-header">
     <a class="backbtn" href="../head-metadata/">&#8592; Back to the dev board</a>
-    <p class="kicker">Renter × TMD · Dev ticket · checked live Nov 15, 2026</p>
+    <p class="kicker">Renter × TMD · Dev ticket · checked live Nov 22, 2026</p>
   </header>
   <div class="doc-body">
       <h1>v2.renter.net: a full copy of the site that Google indexes</h1>
-      <div class="statusbar"><span class="pill done">DONE</span><span class="txt">Jan fixed it on Nov 5. Checked Nov 15, 2026: every v2.renter.net address still answers a 301 to the same path on renter.net, including robots.txt over http and https. The certificate covers v2.renter.net, valid until Feb 3, 2027. Search Console: the v2 pages are leaving Google, but slowly. 53 v2 pages had views from Nov 1 to 7, and 21 from Nov 8 to 14. Views fell from 175 to 81 a week. Not finished: 21 v2 pages still had views in the last week. The first blog article has the most, 38.</span></div>
+      <div class="statusbar"><span class="pill done">DONE</span><span class="txt">Jan fixed it on Nov 5. Checked Nov 22, 2026: every v2.renter.net address still answers a 301 to the same path on renter.net, including robots.txt over http and https. The certificate covers v2.renter.net, valid until Feb 3, 2027. Search Console: the v2 pages keep leaving Google. 21 v2 pages had views from Nov 8 to 14, and 11 from Nov 15 to 21. Views fell from 81 to 43 a week. Not finished: 11 v2 pages still had views in the last week. The first blog article has the most, 19.</span></div>
 
       <div class="inshort">
         <h2>In short</h2>
@@ -28,17 +28,20 @@
         </dl>
       </div>
 
-            <h2 id="verified">Verified, Nov 15, 2026</h2>
-      <p>All 4 checks pass, as on Nov 5 and Nov 8:</p>
+            <h2 id="verified">Verified, Nov 22, 2026</h2>
+      <p>All 4 checks pass, as on Nov 5, Nov 8 and Nov 15:</p>
       <ol>
         <li><code>https://v2.renter.net/ar/</code> answers <code>301</code> to <code>https://renter.net/ar/</code>.</li>
-        <li><code>https://v2.renter.net/en/product/1876/bwklynat-liyjar/</code> answers <code>301</code> to the same path on renter.net. Query strings are kept. The first blog article and product 1733 (EN) also answer <code>301</code> to their renter.net paths (checked Nov 15).</li>
+        <li><code>https://v2.renter.net/en/product/1876/bwklynat-liyjar/</code> answers <code>301</code> to the same path on renter.net. Query strings are kept. The first blog article and product 1733 (EN) also answer <code>301</code> to their renter.net paths, and <code>http://v2.renter.net/ar/</code> answers <code>301</code> to <code>https://renter.net/ar/</code> (checked Nov 22).</li>
         <li><code>http://v2.renter.net/robots.txt</code> and the https version answer <code>301</code> to <code>https://renter.net/robots.txt</code>.</li>
         <li>A strict https request shows no certificate error. The certificate lists renter.net, v2.renter.net and www.renter.net, valid from Nov 5, 2026 to Feb 3, 2027.</li>
       </ol>
-      <p>Search Console (web, sc-domain:renter.net) on Nov 15 shows how Google sees the v2 pages:</p>
+      <p>Search Console (web, sc-domain:renter.net) on Nov 22 shows how Google sees the v2 pages:</p>
       <ul>
-        <li>Oct 18 to Nov 14, 2026 (28 days): 218 v2.renter.net pages had 923 views and 27 clicks. The peak was Oct 23 with 160 views.</li>
+        <li>Nov 15 to 21, 2026: 11 v2.renter.net pages had 43 views and 2 clicks (Nov 8 to 14: 21 pages, 81 views). Each day had 0 to 5 v2 pages with views, against 4 to 8 a day from Nov 8 to 14. Nov 19 shows 0 views.</li>
+        <li>The v2 page with the most views from Nov 15 to 21 is still the first blog article, <code>/ar/blog/cars-and-vehicles/car-rental-monthly-price-riyadh/</code>: 19 views and 1 click (38 views the week before). Next is product 1580 (AR): 13 views and 1 click. The other 9 pages had 1 or 2 views each.</li>
+        <li>Not checked Nov 22: URL Inspection. The inspection API refused the request ("not part of this property").</li>
+        <li>On Nov 15, for Oct 18 to Nov 14, 2026 (28 days): 218 v2.renter.net pages had 923 views and 27 clicks. The peak was Oct 23 with 160 views.</li>
         <li>By week: Oct 25 to 31, 56 pages and 242 views; Nov 1 to 7, 53 pages and 175 views; Nov 8 to 14, 21 pages and 81 views. Each day from Nov 8 to 14 had 4 to 8 v2 pages with views, against 11 to 15 a day from Nov 3 to 7.</li>
         <li>The v2 page with the most views from Nov 8 to 14 is the first blog article, <code>/ar/blog/cars-and-vehicles/car-rental-monthly-price-riyadh/</code>: 38 views and 1 click. Its renter.net address is the one to keep, and the 301 sends visitors there.</li>
         <li>On Nov 8: from Aug 1 to Nov 7, 209 v2.renter.net pages had views in results.</li>

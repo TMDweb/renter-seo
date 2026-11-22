@@ -11,13 +11,13 @@
 <div class="page">
   <header class="doc-header">
     <a class="backbtn" href="../head-metadata/">&#8592; Back to the dev board</a>
-    <p class="kicker">Renter × TMD · Dev ticket · checked live Nov 15, 2026</p>
+    <p class="kicker">Renter × TMD · Dev ticket · checked live Nov 22, 2026</p>
   </header>
   <div class="doc-body">
 
     <h1>Developer action: expose confirmed bookings to GTM</h1>
-      <div class="statusbar"><span class="pill progress">LAST CHECK PENDING</span><span class="txt">Checked Nov 15, 2026: nothing left to build. The live <a href="https://www.googletagmanager.com/gtm.js?id=GTM-WXTFBJCJ">Tag Manager container</a> is still version 19 with the <code>booking_confirmed</code> trigger, and renter.net still loads it. Not re-checked Nov 15: the site push, because it sits on the booking pages, which need a login. It passed the simulated payment test on Sep 27. Not re-checked Nov 15: Google Analytics, because the API login has no Analytics access. The Analytics Admin API answered 403 on Nov 5 and again on Nov 15. Last step (Saiaf): open Google Analytics and confirm one real paid booking with its booking number.</span></div>
-    <p class="muted">The current <code>/ar/payment/</code> trigger is invalid; that URL is a 404.</p>
+      <div class="statusbar"><span class="pill progress">LAST CHECK PENDING</span><span class="txt">Checked Nov 22, 2026: nothing left to build. The live <a href="https://www.googletagmanager.com/gtm.js?id=GTM-WXTFBJCJ">Tag Manager container</a> is now version 21 (19 on Nov 15), and it still has the <code>booking_confirmed</code> trigger. It sends the GA4 event <code>verified_conversion</code> (<code>conversion_type</code> = <code>booking_confirmed</code>) with <code>transaction_id</code>, <code>value</code> and <code>currency</code>. renter.net still loads it: on the home page the container and GA4 load, and the page load pushes no <code>booking_confirmed</code>. Not re-checked Nov 22: the site push, because it sits on the booking pages, which need a login and a real booking. It passed the simulated payment test on Sep 27. Not re-checked Nov 22: the booking event in Google Analytics. The Analytics Admin API answered 403 on Nov 5, Nov 15 and Nov 22. Last step (Saiaf): open Google Analytics and confirm one real paid booking with its booking number.</span></div>
+    <p class="muted">The <code>/ar/payment/</code> trigger is still invalid, because that URL is not a real page (on Nov 22 it answers 307 to the home page). Checked Nov 22 in the GTM workspace: version 21 still has the trigger "PV - Booking Confirmed Payment Page" (Page Path matches <code>^/(ar|en)/payment/?$</code>) on 1 tag. Because that URL redirects to the home page, this trigger never fires. The <code>booking_confirmed</code> custom event trigger is the one that counts.</p>
 
     <div class="rule">
       Push this event only after the backend confirms a successful booking/payment.

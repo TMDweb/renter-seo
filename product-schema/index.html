@@ -11,18 +11,18 @@
 <div class="page">
   <header class="doc-header">
     <a class="backbtn" href="../head-metadata/">&#8592; Back to the dev board</a>
-    <p class="kicker">Renter × TMD · Dev ticket · checked live Nov 15, 2026</p>
+    <p class="kicker">Renter × TMD · Dev ticket · checked live Nov 22, 2026</p>
   </header>
   <div class="doc-body">
       <h1>Product schema: one field left, the main price</h1>
-      <div class="statusbar"><span class="pill progress">1 FIELD LEFT</span><span class="txt">Checked Nov 15, 2026 on all 1,394 Arabic products in the sitemap (44 more than on Nov 8) and 106 English products: <code>url</code>, <code>offers.url</code>, <code>name</code> and <code>sku</code> are correct on all 1,394. <code>description</code> is plain text on 1,393; product 3717 has a new HTML code (<code>&amp;amp;amp;amp;ndash</code>). <code>offers.price</code> (fix 4) is unchanged since Nov 5: it is still the first lease term's price on the same 60 products. No new product has the error. The list is on the <a href="../price-fix-list/">price ticket</a>. The same 3 products with no lease term still print <code>"price": null</code> (fix 5).</span></div>
+      <div class="statusbar"><span class="pill progress">1 FIELD LEFT</span><span class="txt">Checked Nov 22, 2026 on all 1,426 Arabic products in the sitemap (32 more than on Nov 15) and a sample of 110 English products: <code>url</code>, <code>offers.url</code>, <code>name</code> and <code>sku</code> are correct on all 1,426. <code>description</code> is plain text on 1,425; product 3717 still has the HTML code (<code>&amp;amp;amp;amp;ndash</code>). <code>offers.price</code> (fix 4) is unchanged since Nov 5 on the same 60 products: it is still the first lease term's price. 2 products added since Nov 15 have the same error (3745 and 3761), so the total is 62. The list is on the <a href="../price-fix-list/">price ticket</a>. The same 3 products with no lease term still print <code>"price": null</code> (fix 5).</span></div>
 
       <div class="inshort">
         <h2>In short</h2>
         <dl>
           <dt>What it is</dt><dd>Each product page carries a hidden code block (JSON-LD, schema type Product). It gives Google the product name, photos, price and address.</dd>
-          <dt>Done so far</dt><dd>Checked Nov 15 on all 1,394 live products: <code>url</code>, <code>offers.url</code>, <code>sku</code> and <code>name</code> are correct on all 1,394 (<code>name</code> equals the visible product name). Good work.</dd>
-          <dt>What is wrong</dt><dd>One field: <code>offers.price</code>, the single main price Google shows in results. On 60 of the 195 products with more than one lease term it is the first term's price, not the daily price. On 3 products with no lease term it is <code>null</code>.</dd>
+          <dt>Done so far</dt><dd>Checked Nov 22 on all 1,426 live products: <code>url</code>, <code>offers.url</code>, <code>sku</code> and <code>name</code> are correct on all 1,426 (<code>name</code> equals the visible product name). Good work.</dd>
+          <dt>What is wrong</dt><dd>One field: <code>offers.price</code>, the single main price Google shows in results. On 62 of the 203 products with more than one lease term it is the first term's price, not the daily price (Nov 22; 60 of 195 on Nov 15). On 3 products with no lease term it is <code>null</code>.</dd>
           <dt>Why it matters</dt><dd>Google shows this one number as the product price in search results. Product 2852 shows 10,500 (the monthly price) although it rents per day.</dd>
           <dt>The fix</dt><dd>One rule in the template: <code>offers.price</code> = the daily price when a daily term exists, else the lowest price among the terms.</dd>
           <dt>Owner</dt><dd>Dev team. Paulo and Jan decide who takes it.</dd>
@@ -31,15 +31,15 @@
       </div>
 
       <h2 id="fields">The 5 fixes: 2 done, 1 almost done, 2 open</h2>
-      <p>This table gives each fix, what is live on Nov 15, and how many products are still wrong.</p>
+      <p>This table gives each fix, what is live on Nov 22, and how many products are still wrong.</p>
       <div class="tablebox"><table>
-        <thead><tr><th>#</th><th>Field</th><th>Live now (Nov 15)</th><th>Must be</th><th>Wrong on</th></tr></thead>
+        <thead><tr><th>#</th><th>Field</th><th>Live now (Nov 22)</th><th>Must be</th><th>Wrong on</th></tr></thead>
         <tbody>
-          <tr><td>1</td><td><code>url</code> and <code>offers.url</code></td><td><strong>Done.</strong> Equal to the page canonical on 1,394 of 1,394 products.</td><td>The page canonical</td><td>0 of 1,394</td></tr>
-          <tr><td>2</td><td><code>name</code></td><td><strong>Done.</strong> Equal to the visible product name on 1,394 of 1,394.</td><td>The API <code>title</code> field</td><td>0 of 1,394</td></tr>
-          <tr><td>3</td><td><code>description</code></td><td><strong>Almost done.</strong> Plain text on 1,393 products. New since Nov 8: <a href="https://renter.net/ar/product/3717/rafah-shwkyh/">3717</a> prints <code>&amp;amp;amp;amp;ndash</code>, a dash that is HTML-encoded 4 times. Decode until no code is left. 110 products have no description text, and the field is left out there; that is correct.</td><td>Plain text</td><td>1 of 1,394</td></tr>
-          <tr><td>4</td><td><code>offers.price</code></td><td><strong>Open.</strong> Still the price of the first lease term. 311 says 100 (monthly) although it rents for 5 a day. 2852 says 10,500 (monthly).</td><td>The daily price when a daily term exists, else the lowest price</td><td>60 of 1,394 (the ones whose first term is not daily), the same 60 as on Nov 5 and Nov 8</td></tr>
-          <tr><td>5</td><td><code>offers.price</code> with no lease term</td><td><strong>Open.</strong> 3 products have no lease term and print <code>"price": null</code>: <a href="https://renter.net/ar/product/1476/shywl-ktr-blr-938/">1476</a>, <a href="https://renter.net/ar/product/1314/mwldat-khrbaa-generators/">1314</a>, <a href="https://renter.net/ar/product/182/shn-thbyhh/">182</a>.</td><td>Never <code>null</code>. If a product has no price, leave the <code>offers</code> block out, or hide the product until the lessor adds a price</td><td>3 of 1,394, the same 3 as on Nov 5 and Nov 8</td></tr>
+          <tr><td>1</td><td><code>url</code> and <code>offers.url</code></td><td><strong>Done.</strong> Equal to the page canonical on 1,426 of 1,426 products.</td><td>The page canonical</td><td>0 of 1,426</td></tr>
+          <tr><td>2</td><td><code>name</code></td><td><strong>Done.</strong> Equal to the visible product name on 1,426 of 1,426.</td><td>The API <code>title</code> field</td><td>0 of 1,426</td></tr>
+          <tr><td>3</td><td><code>description</code></td><td><strong>Almost done.</strong> Plain text on 1,425 products on Nov 22. Since Nov 8, and still on Nov 22: <a href="https://renter.net/ar/product/3717/rafah-shwkyh/">3717</a> prints <code>&amp;amp;amp;amp;ndash</code>, a dash that is HTML-encoded 4 times. Decode until no code is left. 110 products have no description text. On Nov 22 the block prints an empty <code>"description": ""</code> on these 110. Better: leave the field out when there is no text.</td><td>Plain text</td><td>1 of 1,426</td></tr>
+          <tr><td>4</td><td><code>offers.price</code></td><td><strong>Open.</strong> Still the price of the first lease term. 311 says 100 (monthly) although it rents for 5 a day. 2852 says 10,500 (monthly).</td><td>The daily price when a daily term exists, else the lowest price</td><td>62 of 1,426 (the ones whose first term is not daily): the same 60 as on Nov 5, Nov 8 and Nov 15, plus 3745 and 3761, added since Nov 15</td></tr>
+          <tr><td>5</td><td><code>offers.price</code> with no lease term</td><td><strong>Open.</strong> 3 products have no lease term and print <code>"price": null</code>: <a href="https://renter.net/ar/product/1476/shywl-ktr-blr-938/">1476</a>, <a href="https://renter.net/ar/product/1314/mwldat-khrbaa-generators/">1314</a>, <a href="https://renter.net/ar/product/182/shn-thbyhh/">182</a>.</td><td>Never <code>null</code>. If a product has no price, leave the <code>offers</code> block out, or hide the product until the lessor adds a price</td><td>3 of 1,426, the same 3 as on Nov 5, Nov 8, Nov 15 and Nov 22</td></tr>
         </tbody>
       </table></div>
 
@@ -158,7 +158,7 @@
         <li>View-source on <a href="https://renter.net/ar/product/2545/kamyra-kanwn-4000d/">/ar/product/2545/</a> matches block 1, and on <a href="https://renter.net/ar/product/311/frn-shwyh/">/ar/product/311/</a> matches block 2.</li>
         <li>The <a href="https://search.google.com/test/rich-results?url=https%3A%2F%2Frenter.net%2Far%2Fproduct%2F311%2Ffrn-shwyh%2F">Rich Results Test</a> shows no errors for both pages.</li>
         <li>No <code>null</code> values and no HTML codes such as <code>&amp;nbsp;</code> anywhere in the block.</li>
-        <li>Tell Saiaf after the deploy; TMD re-checks all products in the sitemap (1,394 on Nov 15).</li>
+        <li>Tell Saiaf after the deploy; TMD re-checks all products in the sitemap (1,426 on Nov 22).</li>
       </ol>
 
       <p><a class="backbtn" href="../head-metadata/">&#8592; Back to the dev board</a></p>
