@@ -10,7 +10,7 @@
 <body>
 <div class="page">
   <header class="doc-header">
-    <p class="kicker">Renter × TMD · Dev board · checked live Nov 15, 2026</p>
+    <p class="kicker">Renter × TMD · Dev board · updated Nov 22, 2026</p>
   </header>
   <div class="doc-body">
       <h1>Renter dev board</h1>
@@ -297,10 +297,10 @@
 
       <div class="issue" id="i11">
         <h3>11 · Blog section</h3>
-        <div class="meta"><span class="pill progress">LIVE, 1 OPEN FOR PAULO</span><span>Owners: Paulo and Jan build; Saiaf: blog events, empty hubs</span><span><a href="../blog-section/">Dev ticket</a> · <a href="../blog-staging-round-2/">Fixes before launch</a> · <a href="../blog-production-fixes/">Production fixes (done)</a> · <a href="../blog-article-template/">Article template (done)</a></span></div>
+        <div class="meta"><span class="pill progress">LIVE, 1 OPEN FOR PAULO</span><span>Owners: Paulo and Jan build; Saiaf: empty hubs (blog events live Nov 22)</span><span><a href="../blog-section/">Dev ticket</a> · <a href="../blog-staging-round-2/">Fixes before launch</a> · <a href="../blog-production-fixes/">Production fixes (done)</a> · <a href="../blog-article-template/">Article template (done)</a></span></div>
         <dl>
           <dt>Done</dt><dd>The blog index, category hubs and articles are on <a href="https://v2-staging.renter.net/ar/blog/">v2-staging</a> in Arabic and English. 6 of the 9 fixes from the Oct 6 staging feedback are done.</dd>
-          <dt>Still open</dt><dd>Paulo's list of Oct 9: no metadata or JSON-LD on blog pages (Jan's dashboard must let Saiaf enter it), blog sitemaps answer 500 (<code>/sitemap/ar/blog.xml</code> checked Oct 11), blog events do not reach the data layer. Also: <code>/ar/blog/5/</code> answers 200 although only 12 articles exist; it must answer 404.</dd>
+          <dt>Still open</dt><dd>Paulo's list of Oct 9: no metadata or JSON-LD on blog pages (Jan's dashboard must let Saiaf enter it), blog sitemaps answer 500 (<code>/sitemap/ar/blog.xml</code> checked Oct 11), blog events do not reach the data layer (Nov 22: done, built in GTM only, GTM version 21; see the <a href="../blog-section/#gtm">blog ticket</a>). Also: <code>/ar/blog/5/</code> answers 200 although only 12 articles exist; it must answer 404.</dd>
           <dt>Not live yet</dt><dd><code>renter.net/ar/blog/</code> answers 404 and the home page has no blog link. Agreed Oct 11: the blog link goes in the top navigation and the footer, label "المدونة".</dd>
           <dt>Done when</dt><dd>The 5 blockers of the Oct 13 stress test and the open items of the fixes-before-launch ticket pass on staging, then the blog goes live with the link.</dd>
           <dt>Oct 13 stress test</dt><dd>Saiaf got the dashboard login and tested the website, the API and the dashboard on staging. Five blockers: about 8 blog page views in one minute return 500 on every blog page for up to a minute (the API allows 60 requests a minute and the website keeps no cache); a link in the article body crashes the save; a cover that is not 1600×900 crashes the save; posts with a future date are public at once; metadata, schema and sitemaps are still missing (the API now returns a ready <code>seo</code> object). 28 smaller items follow, among them: one article opens under every category, a renamed slug answers 404 instead of a redirect, wide tables still break phones. Full list with checks: <a href="https://tmd.sa/renter/blog-stress-test/v1/2026-10-13/">stress test</a> (access code from Saiaf). It also covers the <a href="../blog-api-review/">API review</a> Saiaf owed Jan.</dd>
